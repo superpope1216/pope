@@ -2,6 +2,8 @@ package com.pope.contract.dao.system;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.entity.system.Permission;
 import com.pope.contract.entity.system.Role;
 
@@ -20,4 +22,6 @@ public interface PermissionMapper {
     List<Permission> selectAll();
     
     List<Permission> selectPermissionByRoleAsTree(Role role);
+    
+    List<Permission> selectPermissionByRoleId(@Param(value="roleId") String roleId);
 }

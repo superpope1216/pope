@@ -47,6 +47,15 @@
   	)
   	ORDER BY ORDERBY 
   </select>
+  <select id="selectPermissionByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission 
+  		WHERE	ROLEID=#{roleId,jdbcType=VARCHAR}  
+  	)
+  	ORDER BY ORDERBY 
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
   	SELECT <include refid="BaseColumnList"/>
   	FROM t_contract_sys_permission

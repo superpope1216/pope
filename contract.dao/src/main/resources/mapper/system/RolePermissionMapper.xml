@@ -37,4 +37,13 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByRoleId">
+  		DELETE FROM t_contract_sys_role_permission WHERE ROLEID=#{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="bathInsert" parameterType="list">
+  		insert into t_contract_sys_role_permission(wid,PERMISSIONID,RoleId) values
+  		<foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.wid},#{item.permissionid},#{item.roleid})  
+    	</foreach>  
+  </insert>
 </mapper>

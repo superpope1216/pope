@@ -2,6 +2,7 @@ package com.pope.contract.service.system;
 
 import java.util.List;
 
+
 import com.pope.contract.entity.system.Permission;
 import com.pope.contract.entity.system.Role;
 
@@ -20,4 +21,6 @@ public interface PermissionService {
 	    List<Permission> selectAll();
 	    
 	    List<Permission> selectPermissionByRoleAsTree(Role role);
+	    
+	    List<Permission> selectPermissionByRoleId(  String roleId);
 }

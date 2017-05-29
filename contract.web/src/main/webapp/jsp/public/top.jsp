@@ -8,7 +8,8 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/css/zui-theme.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/datatable/zui.datatable.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/style.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/plugins/zTree_v3-master/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/css/demo.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/jquery-paginator/pagination.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/jquery/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/js/zui.min.js"></script>
@@ -18,7 +19,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/jquery-paginator/jquery.pagination.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootbox/bootbox.js"></script>
  <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/js/jquery.ztree.all.js"></script>
 <script language="javascript" type="text/javascript">
 	var basePath="${pageContext.request.contextPath}";
 </script>

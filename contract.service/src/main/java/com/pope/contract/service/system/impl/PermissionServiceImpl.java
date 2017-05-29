@@ -40,5 +40,8 @@ public class PermissionServiceImpl implements PermissionService {
 	 public List<Permission> selectPermissionByRoleAsTree(Role role){
 		 return permissionMapper.selectPermissionByRoleAsTree(role);
 	 }
-
+	 @Override
+	public List<Permission> selectPermissionByRoleId(  String roleId){
+		 return permissionMapper.selectPermissionByRoleId(roleId);
+	 }
 }
