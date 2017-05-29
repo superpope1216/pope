@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.Permission" >
+    <result column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="INTEGER" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="BaseColumnList">
+  	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL
+  </sql>
+  <select id="selectPermissionByRoleAsTree" parameterType="com.pope.contract.entity.system.Role" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	start with WID='0' connect by prior PID = WID
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
+  		<where>
+  			ROLEID=#{wid,jdbcType=VARCHAR}
+  			 
+  		</where> 
+  	)
+  	ORDER BY ORDERBY 
+  </select>
+  
+  <select id="selectPermissionByRoles" parameterType="list" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
+  		<where>
+  			ROLEID IN
+  			<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+  				#{item.wid,jdbcType=VARCHAR}
+  			</foreach>
+  		</where> 
+  	)
+  	ORDER BY ORDERBY 
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	SELECT <include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1
+  	ORDER BY ORDERBY
+  </select>
+  
+  <insert id="insert" parameterType="com.pope.contract.entity.system.Permission" >
+    insert into t_contract_sys_permission (WID, NAME, DESCRIPTION, 
+      PID, LEVEL, CODE, STATUS, 
+      CreateTime, CreateBy, UpdateTime, 
+      UpdateBy, OrderBy,URL)
+    values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=VARCHAR}, #{orderby,jdbcType=INTEGER},#{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.Permission" >
+    insert into t_contract_sys_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="level != null" >
+        LEVEL,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createby != null" >
+        CreateBy,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateby != null" >
+        UpdateBy,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+        <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

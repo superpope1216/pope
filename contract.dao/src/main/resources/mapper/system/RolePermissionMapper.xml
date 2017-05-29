@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.RolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.RolePermission" >
+    <result column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="PERMISSIONID" property="permissionid" jdbcType="VARCHAR" />
+    <result column="RoleId" property="roleid" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.RolePermission" >
+    insert into t_contract_sys_role_permission (WID, PERMISSIONID, RoleId
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{permissionid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.RolePermission" >
+    insert into t_contract_sys_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="permissionid != null" >
+        PERMISSIONID,
+      </if>
+      <if test="roleid != null" >
+        RoleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionid != null" >
+        #{permissionid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

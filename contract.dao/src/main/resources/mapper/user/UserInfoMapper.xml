@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.user.UserInfoMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.user.UserInfo">
+		<result column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="GH" property="gh" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+		<result column="TEAM" property="team" jdbcType="VARCHAR" />
+		<result column="DEGREE" property="degree" jdbcType="VARCHAR" />
+		<result column="JOBCATEGORY" property="jobcategory" jdbcType="VARCHAR" />
+		<result column="JOB" property="job" jdbcType="VARCHAR" />
+		<result column="CONTRACTVALIDITY" property="contractvalidity"
+			jdbcType="VARCHAR" />
+		<result column="CONTRACTTIME" property="contracttime" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+		<result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		WID, NAME,PASSWORD,GH, PHONE, EMAIL, BIRTHDAY, DEPARTMENT, TEAM,
+		DEGREE,JOBCATEGORY
+		JOB,CONTRACTVALIDITY,CONTRACTTIME,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy
+	</sql>
+	<select id="selectListByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.condition.UserInfoCondition">
+		select
+		<include refid="Base_Column_List" />
+		from T_CONTRACT_USER_USERINFO
+		
+		ORDER BY GH
+	</select>
+	
+	<select id="selectByGh" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_CONTRACT_USER_USERINFO
+		where GH = #{gh,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_CONTRACT_USER_USERINFO
+		where WID = #{wid,jdbcType=VARCHAR}
+	</select>
+	<insert id="insert" parameterType="com.pope.contract.entity.user.UserInfo">
+		insert into t_contract_user_userinfo (WID, NAME, GH,PASSWORD,
+		PHONE, EMAIL, BIRTHDAY,
+		DEPARTMENT, TEAM, DEGREE,
+		JOBCATEGORY, JOB, CONTRACTVALIDITY,
+		CONTRACTTIME, STATUS, CreateTime,
+		CreateBy, UpdateTime, UpdateBy
+		)
+		values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{gh,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR},
+		#{department,jdbcType=VARCHAR}, #{team,jdbcType=VARCHAR},
+		#{degree,jdbcType=VARCHAR},
+		#{jobcategory,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{contractvalidity,jdbcType=VARCHAR},
+		#{contracttime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.pope.contract.entity.user.UserInfo">
+		insert into t_contract_user_userinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="wid != null">
+				WID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="gh != null">
+				GH,
+			</if>
+			<if test="password!=null and password.length()!=0">
+				PASSWORD,
+			</if>
+			<if test="phone != null">
+				PHONE,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="birthday != null">
+				BIRTHDAY,
+			</if>
+			<if test="department != null">
+				DEPARTMENT,
+			</if>
+			<if test="team != null">
+				TEAM,
+			</if>
+			<if test="degree != null">
+				DEGREE,
+			</if>
+			<if test="jobcategory != null">
+				JOBCATEGORY,
+			</if>
+			<if test="job != null">
+				JOB,
+			</if>
+			<if test="contractvalidity != null">
+				CONTRACTVALIDITY,
+			</if>
+			<if test="contracttime != null">
+				CONTRACTTIME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="createby != null">
+				CreateBy,
+			</if>
+			<if test="updatetime != null">
+				UpdateTime,
+			</if>
+			<if test="updateby != null">
+				UpdateBy,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="wid != null">
+				#{wid,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gh != null">
+				#{gh,jdbcType=VARCHAR},
+			</if>
+			<if test="password!=null and password.length()!=0">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="team != null">
+				#{team,jdbcType=VARCHAR},
+			</if>
+			<if test="degree != null">
+				#{degree,jdbcType=VARCHAR},
+			</if>
+			<if test="jobcategory != null">
+				#{jobcategory,jdbcType=VARCHAR},
+			</if>
+			<if test="job != null">
+				#{job,jdbcType=VARCHAR},
+			</if>
+			<if test="contractvalidity != null">
+				#{contractvalidity,jdbcType=VARCHAR},
+			</if>
+			<if test="contracttime != null">
+				#{contracttime,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createby != null">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateby != null">
+				#{updateby,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.user.UserInfo">
+		update t_contract_user_userinfo
+		<set>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="wid != null">
+					WID=#{wid,jdbcType=VARCHAR},
+				</if>
+				<if test="name != null">
+					NAME= #{name,jdbcType=VARCHAR},
+				</if>
+				<if test="gh != null">
+					GH=#{gh,jdbcType=VARCHAR},
+				</if>
+				<if test="password!=null and password.length()!=0">
+					PASSWORD=#{password,jdbcType=VARCHAR},
+				</if>
+				<if test="phone != null">
+					PHONE #{phone,jdbcType=VARCHAR},
+				</if>
+				<if test="email != null">
+					EMAIL= #{email,jdbcType=VARCHAR},
+				</if>
+				<if test="birthday != null">
+					birthday= #{birthday,jdbcType=VARCHAR},
+				</if>
+				<if test="department != null">
+					department= #{department,jdbcType=VARCHAR},
+				</if>
+				<if test="team != null">
+					team=#{team,jdbcType=VARCHAR},
+				</if>
+				<if test="degree != null">
+					degree= #{degree,jdbcType=VARCHAR},
+				</if>
+				<if test="jobcategory != null">
+					jobcategory= #{jobcategory,jdbcType=VARCHAR},
+				</if>
+				<if test="job != null">
+					job= #{job,jdbcType=VARCHAR},
+				</if>
+				<if test="contractvalidity != null">
+					contractvalidity= #{contractvalidity,jdbcType=VARCHAR},
+				</if>
+				<if test="contracttime != null">
+					contracttime= #{contracttime,jdbcType=VARCHAR},
+				</if>
+				<if test="status != null">
+					status=#{status,jdbcType=INTEGER},
+				</if>
+				<if test="createtime != null">
+					createtime= #{createtime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="createby != null">
+					createby= #{createby,jdbcType=VARCHAR},
+				</if>
+				<if test="updatetime != null">
+					updatetime= #{updatetime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="updateby != null">
+					updateby=#{updateby,jdbcType=VARCHAR},
+				</if>
+			</trim>
+		</set>
+		where WID = #{wid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.user.UserInfo">
+		update t_contract_sys_role
+		set WID=#{wid,jdbcType=VARCHAR},
+		NAME= #{name,jdbcType=VARCHAR},
+		GH=#{gh,jdbcType=VARCHAR},
+		PASSWORD=#{password,jdbcType=VARCHAR},
+		PHONE #{phone,jdbcType=VARCHAR},
+		EMAIL= #{email,jdbcType=VARCHAR},
+		birthday= #{birthday,jdbcType=VARCHAR},
+		department= #{department,jdbcType=VARCHAR},
+		team=#{team,jdbcType=VARCHAR},
+		degree= #{degree,jdbcType=VARCHAR},
+		jobcategory= #{jobcategory,jdbcType=VARCHAR},
+		job= #{job,jdbcType=VARCHAR},
+		contractvalidity= #{contractvalidity,jdbcType=VARCHAR},
+		contracttime= #{contracttime,jdbcType=VARCHAR},
+		status=#{status,jdbcType=INTEGER},
+		createtime= #{createtime,jdbcType=TIMESTAMP},
+		createby= #{createby,jdbcType=VARCHAR},
+		updatetime= #{updatetime,jdbcType=TIMESTAMP},
+		updateby=#{updateby,jdbcType=VARCHAR}
+		where WID = #{wid,jdbcType=VARCHAR}
+	</update>
+</mapper>
