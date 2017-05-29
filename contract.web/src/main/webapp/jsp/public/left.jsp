@@ -53,6 +53,17 @@
 						}
 						
 						if(findThree){
+							String url=per.getUrl();
+							String href="";
+							if(url.indexOf(",")>=0){
+								String[] urls=url.split(",");
+								for(String s:urls){
+									if(s.indexOf("index")>=0){
+										href=s;
+										break;
+									}
+								}
+							}
 							if(j==0){
 								%>
 								<div class='vertical-menu'>
@@ -64,7 +75,7 @@
 							<%}
 							}
 							%>
-								<a href='${pageContext.request.contextPath}<%=per.getUrl() %>'><%=per.getName()%></a>
+								<a href='${pageContext.request.contextPath}<%=href %>'><%=per.getName()%></a>
 							<%
 							j++;
 						} 
