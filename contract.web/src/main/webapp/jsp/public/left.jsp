@@ -22,6 +22,7 @@
 					int j=0;
 					for (Permission per : permissions) {
 						if(per.getLevel()==MenuLevel.SECOND.getCode()){
+							System.out.println("======="+per.getName());
 							findSecond=true;
 							findThree=false;
 							j=0;
@@ -33,10 +34,14 @@
 							}
 							i++;
 						}
-						if(per.getLevel()==MenuLevel.THREE.getCode()){
+						else if(per.getLevel()==MenuLevel.THREE.getCode()){
+							System.out.println("=======2"+per.getName());
 							findThree=true;
 							findSecond=false;
 							
+						}else{
+							findThree=false;
+							findSecond=false;
 						}
 						if(findSecond){
 							%>
@@ -59,7 +64,7 @@
 							<%}
 							}
 							%>
-							<a href='${pageContext.request.contextPath}<%=per.getUrl() %>'><%=per.getName()%></a>
+								<a href='${pageContext.request.contextPath}<%=per.getUrl() %>'><%=per.getName()%></a>
 							<%
 							j++;
 						} 
