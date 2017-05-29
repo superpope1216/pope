@@ -28,8 +28,6 @@ import com.pope.contract.web.BaseController;
 public class PermissionController extends BaseController{
 
 	@Autowired
-	private RoleService roleService;
-	@Autowired
 	private PermissionService permissionService;
 	@Autowired
 	private RolePermissionService rolePermissionService;
@@ -38,16 +36,7 @@ public class PermissionController extends BaseController{
 		return "system/permission";
 	}
 	
-	@RequestMapping("list")
-	@ResponseBody
-	public Result list(){
-		List<Role> roles=roleService.selectRolesByUserId(this.getUserId());
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("roles", roles);
-		List<Permission> permissions=permissionService.selectAll();
-		map.put("perms", permissions);
-		return Result.success(map);
-	}
+	
 	
 	@RequestMapping("permission")
 	@ResponseBody

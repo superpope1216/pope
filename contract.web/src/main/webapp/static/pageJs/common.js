@@ -1,7 +1,37 @@
 /**
  * 
  */
+function alert(msg,callback){
+	if(callback){
+		bootbox.alert(msg,callback);
+	}else{
+		bootbox.alert(msg);
+	}
+}
 
+
+function confirm(msg,callBackFunc,yes,no){
+	 bootbox.confirm({
+		    message: msg,
+		    buttons: {
+		        confirm: {
+		            label: yes?yes:"确认",
+		            className: 'btn-success'
+		        },
+		        cancel: {
+		            label: no?no:'取消',
+		            className: 'btn-danger'
+		        }
+		    },
+		    callback: function (result) {
+		    	if(result){
+			    	if(callBackFunc){
+			    		callBackFunc();
+			    	}
+		    	}
+		    }
+		});
+}
 
  function doGet(url,params,callback){
 	 $.ajax({

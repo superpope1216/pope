@@ -33,9 +33,16 @@
     ORDER BY ORDERBY
   </select>
   
+  <select id="selectAll" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" />
+    from t_contract_sys_role
+    WHERE STATUS=1
+    ORDER BY ORDERBY
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_contract_sys_role
     where WID = #{wid,jdbcType=VARCHAR}
+    
   </delete>
   <insert id="insert" parameterType="com.pope.contract.entity.system.Role" >
     insert into t_contract_sys_role (WID, NAME, DESCRIPTION, 
