@@ -269,9 +269,16 @@ input.text{
 	width:100px;
 }
 
+.clolor-white{
+	color:#FFF;
+}
 .mb10{
 	margin-bottom:10px;
 }
-.ztreeNew{
-	
+.mt10{
+	margin-top:10px;
+
+}
+.pt10{
+	padding-top:10px;
 }

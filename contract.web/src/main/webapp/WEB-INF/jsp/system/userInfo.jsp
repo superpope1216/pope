@@ -106,23 +106,12 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="birthday" class="col-sm-2 required">出生年月</label>
-									<div class="col-md-4 col-sm-4">
-										<input type="text" class="form-control" name="birthday"
-											placeholder="请输入出生年月">
-									</div>
+									
 									<label for="department" class="col-sm-2 required">部门信息</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="department"
 											placeholder="请输入部门信息">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="birthday" class="col-sm-2 required">出生年月</label>
-									<div class="col-md-4 col-sm-4">
-										<input type="text" class="form-control" name="birthday"
-											placeholder="请输入出生年月">
-									</div>
+									</div> 
 									<label for="team" class="col-sm-2 required">科室小组</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="team"
@@ -130,36 +119,45 @@
 									</div>
 								</div>
 								<div class="form-group">
+								<label for="birthday" class="col-sm-2 required">出生年月</label>
+									<div class="col-md-4 col-sm-4">
+										<input type="text" class="form-control" name="birthday"
+											placeholder="请输入出生年月">
+									</div>
 									<label for="degree" class="col-sm-2 required">学位</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="degree"
 											placeholder="请输入学位">
 									</div>
+								</div>
+								<div class="form-group">
+								
 									<label for="jobcategory" class="col-sm-2 required">职位类别</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="jobcategory"
 											placeholder="请输入职位类别">
 									</div>
-								</div>
-								<div class="form-group">
 									<label for="job" class="col-sm-2 required">职位</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="job"
 											placeholder="请输入职位">
 									</div>
+									
+								</div>
+								<div class="form-group">
 									<label for="contractvalidity" class="col-sm-2 required">合同有效期</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control"
 											name="contractvalidity" placeholder="请输入合同有效期">
 									</div>
-								</div>
-								<div class="form-group">
-
 									<label for="contractvalidity" class="col-sm-2 required">合同签订时间</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control"
 											name="contractvalidity" placeholder="请输入合同签订时间">
 									</div>
+									
+								</div>
+								<div class="form-group">
 									<label for="1" class="col-sm-2 required">权限信息</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="sdf"

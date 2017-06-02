@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.pope.contract.code.ResponseCode;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.LoginInfo;
+import com.pope.contract.exception.BizException;
 import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.StringUtil;
 
@@ -65,7 +66,10 @@ public class BaseController {
             } else if ((exception instanceof MethodArgumentTypeMismatchException)) {
                 result = Result.instance(ResponseCode.param_format_error.getCode(), ResponseCode.param_format_error.getMsg());
                 //ip限制
-            } else if (exception.getCause().getMessage().contains("system.exception.ForbiddenIpException")) {
+            }else if(exception instanceof BizException){
+            	result=Result.instance(ResponseCode.code_already_exist.getCode(), ResponseCode.code_already_exist.getMsg());
+            }
+            else if (exception.getCause().getMessage().contains("system.exception.ForbiddenIpException")) {
                 result = Result.instance(ResponseCode.forbidden_ip.getCode(), ResponseCode.forbidden_ip.getMsg());
                 //其他错误
             }
