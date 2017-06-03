@@ -3,7 +3,7 @@ package com.pope.contract.entity.system;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Department implements Serializable{
+public class Zdbs  implements Serializable{
     /**
 	 * 
 	 */
@@ -11,11 +11,9 @@ public class Department implements Serializable{
 
 	private String wid;
 
-    private String bm;
+    private String code;
 
     private String name;
-
-    private String pid;
 
     private Integer status;
 
@@ -29,8 +27,6 @@ public class Department implements Serializable{
 
     private Integer orderby;
 
-    private Integer type;
-
     public String getWid() {
         return wid;
     }
@@ -39,12 +35,12 @@ public class Department implements Serializable{
         this.wid = wid == null ? null : wid.trim();
     }
 
-    public String getBm() {
-        return bm;
+    public String getCode() {
+        return code;
     }
 
-    public void setBm(String bm) {
-        this.bm = bm == null ? null : bm.trim();
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getName() {
@@ -53,14 +49,6 @@ public class Department implements Serializable{
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid == null ? null : pid.trim();
     }
 
     public Integer getStatus() {
@@ -109,13 +97,5 @@ public class Department implements Serializable{
 
     public void setOrderby(Integer orderby) {
         this.orderby = orderby;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 }

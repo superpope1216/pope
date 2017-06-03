@@ -79,3 +79,29 @@ function confirm(msg,callBackFunc,yes,no){
                  callback: callPage
              }); 
  }
+ 
+
+ /**
+  *大于0
+  */
+ $.validator.addMethod("greaterThanZero",function(value,element,params){
+ 	if(value<=0){
+ 		return false;
+ 	}
+ 	return true;
+ },"请输入大于0的数值");
+
+ $.validator.addMethod("isMobile", function(value, element) { 
+ 	  var length = value.length; 
+ 	  if(!(/^1[34578]\d{9}$/.test(value))){   
+ 	        return false; 
+ 	    } 
+ 	  return true;
+ 	}, "请正确填写您的手机号码"); 
+ $.validator.addMethod("password", function(value, element) { 
+ 	  var length = value.length; 
+ 	  if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(value))){ 
+ 	        return false; 
+ 	    } 
+ 	  return true;
+ 	}, "请填写正确的密码格式"); 

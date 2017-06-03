@@ -2,7 +2,24 @@
  * 
  */
 $(document).ready(function(){
-	
+	var _validater=$("#userForm").validate({
+		errorPlacement: function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			//.append(error);
+			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
+		},
+		rules:{
+			phone:{
+				required:true,
+				isMobile:true
+			},
+			email:{
+				required:true,
+				email:true
+			}
+		}
+	});
 	
 	queryList();
 	function queryList(){
@@ -21,14 +38,16 @@ $(document).ready(function(){
 	
 	
 	$("#btnSaveUserInfo").click(function(){
-		var url=basePath+"/users";
-		if($("#modelEdithUserInfo [name='wid']").val()==""){
-			url+="/insert";
-		}else{
-			url+="/update";
+		if(_validater.form()){
+			var url=basePath+"/users";
+			if($("#modelEdithUserInfo [name='wid']").val()==""){
+				url+="/insert";
+			}else{
+				url+="/update";
+			}
+			doPost(url,$("#modelEdithUserInfo form").serializeArray(),function(data){
+				window.location.reload();
+			});
 		}
-		doPost(url,$("#modelEdithUserInfo form").serializeArray(),function(data){
-			window.location.reload();
-		});
 	});
 })

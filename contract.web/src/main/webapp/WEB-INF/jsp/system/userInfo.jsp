@@ -79,30 +79,30 @@
 							<h4 class="modal-title">编辑</h4>
 						</div>
 						<div class="modal-body">
-							<form class="form-horizontal">
-								<div class="form-group">
+							<form class="form-horizontal" id="userForm">
+								<div class="form-group" >
 									<input type="hidden" name="wid" value=""> <label
 										for="name" class="col-sm-2 required">人员名称</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="name"
-											placeholder="请输入人员名称">
+											placeholder="请输入人员名称" required>
 									</div>
 									<label for="gh" class="col-sm-2 required">员工号</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="gh"
-											placeholder="请输入员工号">
+											placeholder="请输入员工号" required>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="phone" class="col-sm-2 required">手机号</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="phone"
-											placeholder="请输入手机号">
+											placeholder="请输入手机号" required>
 									</div>
 									<label for="email" class="col-sm-2 required">邮箱地址</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="email"
-											placeholder="请输入邮箱地址">
+											placeholder="请输入邮箱地址" required>
 									</div>
 								</div>
 								<div class="form-group">
@@ -110,24 +110,24 @@
 									<label for="department" class="col-sm-2 required">部门信息</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="department"
-											placeholder="请输入部门信息">
+											placeholder="请输入部门信息" required>
 									</div> 
 									<label for="team" class="col-sm-2 required">科室小组</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="team"
-											placeholder="请输入科室小组">
+											placeholder="请输入科室小组" required>
 									</div>
 								</div>
 								<div class="form-group">
 								<label for="birthday" class="col-sm-2 required">出生年月</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="birthday"
-											placeholder="请输入出生年月">
+											placeholder="请输入出生年月" required>
 									</div>
 									<label for="degree" class="col-sm-2 required">学位</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="degree"
-											placeholder="请输入学位">
+											placeholder="请输入学位" required>
 									</div>
 								</div>
 								<div class="form-group">
@@ -135,12 +135,12 @@
 									<label for="jobcategory" class="col-sm-2 required">职位类别</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="jobcategory"
-											placeholder="请输入职位类别">
+											placeholder="请输入职位类别" required>
 									</div>
 									<label for="job" class="col-sm-2 required">职位</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="job"
-											placeholder="请输入职位">
+											placeholder="请输入职位" required>
 									</div>
 									
 								</div>
@@ -148,12 +148,12 @@
 									<label for="contractvalidity" class="col-sm-2 required">合同有效期</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control"
-											name="contractvalidity" placeholder="请输入合同有效期">
+											name="contractvalidity" placeholder="请输入合同有效期" required>
 									</div>
 									<label for="contractvalidity" class="col-sm-2 required">合同签订时间</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control"
-											name="contractvalidity" placeholder="请输入合同签订时间">
+											name="contractvalidity" placeholder="请输入合同签订时间" required>
 									</div>
 									
 								</div>
@@ -161,7 +161,7 @@
 									<label for="1" class="col-sm-2 required">权限信息</label>
 									<div class="col-md-4 col-sm-4">
 										<input type="text" class="form-control" name="sdf"
-											placeholder="请权限信息">
+											placeholder="请权限信息" required>
 									</div>
 								</div>
 							</form>
