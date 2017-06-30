@@ -105,3 +105,55 @@ function confirm(msg,callBackFunc,yes,no){
  	    } 
  	  return true;
  	}, "请填写正确的密码格式"); 
+ 
+ 
+ 
+ function doGetSelect(url,params,obj,data2,callBack){
+	 doGet(url,params,function(data){
+		 var str="<option value=''>--请选择--</option>";
+		 if(data.data && data.data.length>0){
+			 for(var i=0;i<data.data.length;i++){
+				 var checked="";
+				if(data2 && data2==data.data[i].LBDM){
+					checked=" selected='selected' ";
+				}
+				 str+="<option "+checked+" value='"+data.data[i].lbdm+"'>"+data.data[i].lbmc+"</option>"
+			 }
+		 }
+		 $(obj).append(str);
+		 if(callBack){
+				 callBack();
+		}
+	 });
+ }
+ 
+
+ function doGetMulSelect(url,params,obj,data2,callBack){
+	 $.ajax({
+	 		  type: "GET",
+	 		  url: url,
+	 		  data: params,
+	 		  dataType: 'json',  
+	 		  success:function(data){
+	 			 $(obj).empty();
+	 			 var str="";
+	 			 if(data && data.success){
+	 				 
+	 				 if(data.data && data.data.length>0){
+	 					 for(var i=0;i<data.data.length;i++){
+	 						 var checked="";
+	 						if(data2 && data2==data.data[i].LBDM){
+	 							checked=" selected='selected' ";
+	 						}
+	 						 str+="<option "+checked+" value='"+data.data[i].LBDM+"'>"+data.data[i].LBMC+"</option>"
+	 					 }
+	 				 }
+	 				
+	 			 }
+	 			 $(obj).append(str);
+	 			 if(callBack){
+	 				 callBack();
+	 			 }
+	 		  }
+	 		});	
+	 }

@@ -24,12 +24,13 @@ $(document).ready(function(){
 				}
 			}
 		};
+	var treeObj;
 	
 	function queryList(){
 		doGet(basePath+"/roles/list","",function(data){
 			if(data.data){
 				$('#tblRoleInfoTpl').tmpl(data.data.roles).appendTo('#tblRoleInfo');
-				var treeObj=$.fn.zTree.init($("#permissionTree"), setting, data.data.perms);
+				treeObj=$.fn.zTree.init($("#permissionTree"), setting, data.data.perms);
 				 
 				treeObj.expandAll(true); 
 			}
@@ -80,9 +81,9 @@ $(document).ready(function(){
 		 var roleId=$(this).find("[name='wid']").val();
 		 $("#tblRoleInfo tr").removeClass("active");
 		 $(this).addClass("active");
+		 treeObj.checkAllNodes(false);
 		 doGet(basePath+"/permissions/permission","roleId="+roleId,function(data){
 			if(data.data){
-				var treeObj = $.fn.zTree.getZTreeObj("permissionTree");
 				//var nodes = treeObj.getNodes();
 				for(var i=0;i<data.data.length;i++){
 					var _d=data.data[i];
@@ -99,7 +100,6 @@ $(document).ready(function(){
 	 });
 	
 	$("#btnSavePerms").click(function(){
-		var treeObj = $.fn.zTree.getZTreeObj("permissionTree");
 		var nodes = treeObj.getCheckedNodes(true);
 		var nodeKey="";
 		if(nodes){

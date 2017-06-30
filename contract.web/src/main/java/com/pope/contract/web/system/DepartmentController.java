@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pope.contract.code.Result;
 import com.pope.contract.entity.system.Department;
+import com.pope.contract.entity.system.Sjzd;
 import com.pope.contract.service.system.DepartmentService;
 import com.pope.contract.web.BaseController;
 
@@ -62,4 +63,18 @@ public class DepartmentController extends BaseController {
 	public Result select() throws Exception{
 		return null;
 	}
+	@RequestMapping(value="selectDepartment",method=RequestMethod.GET)
+	@ResponseBody
+	public Result selectDepartment() throws Exception{
+		List<Department> departs=departmentService.selectDepartment();
+		return Result.success(departs);
+	}
+	@RequestMapping(value="selectTeamByDepartment",method=RequestMethod.GET)
+	@ResponseBody
+	public Result selectTeamByDepartment(@RequestParam String bm){
+		List<Sjzd> teams=departmentService.selectTeamByDepartment(bm);
+		return Result.success(teams);
+	}
+	
+	
 }

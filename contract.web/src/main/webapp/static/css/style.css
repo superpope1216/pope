@@ -1,8 +1,6 @@
 @media (max-width: 768px) {
 
-    .header {
-        position: absolute;
-    }
+   
 
     /*sidebar*/
 
@@ -138,8 +136,11 @@ ul,li{
     background: #2a3542;
     padding-bottom: 15px;
 }
+.sidebar-image{
+	margin-top:75px;
+}
 .sidebar-menu{
-	margin-top: 75px;
+	margin-top: 105px;
 }
 .sidebar-menu  > .item{
 	line-height: 20px !important;
@@ -177,7 +178,6 @@ ul,li{
 }
 	
 .sidebar-menu  > .item:hover,.sidebar-menu .item.active{
-	background: #35404d;
     color: #fff;
     border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -197,7 +197,6 @@ ul,li{
 .vertical-menu {
 	display: none;
 	border-radius: 4px;
-    background: #35404D;
 }
 .vertical-menu > a{
 	display: block;
