@@ -45,8 +45,18 @@ public class UserInfo implements Serializable{
     private Date updatetime;
 
     private String updateby;
+    
+    private UserInfoRole userInfoRole=new UserInfoRole();
 
-    public String getWid() {
+    public UserInfoRole getUserInfoRole() {
+		return userInfoRole;
+	}
+
+	public void setUserInfoRole(UserInfoRole userInfoRole) {
+		this.userInfoRole = userInfoRole;
+	}
+
+	public String getWid() {
         return wid;
     }
 

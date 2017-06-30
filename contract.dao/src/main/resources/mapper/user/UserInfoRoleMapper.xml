@@ -6,11 +6,23 @@
     <result column="UserId" property="userid" jdbcType="VARCHAR" />
     <result column="RoleId" property="roleid" jdbcType="VARCHAR" />
   </resultMap>
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+  		DELETE FROM t_contract_user_userinfo_role WHERE UserId=#{userId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.pope.contract.entity.user.UserInfoRole" >
     insert into t_contract_user_userinfo_role (WID, UserId, RoleId
       )
     values (#{wid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}
       )
+  </insert>
+  
+  <insert id="insertUserRole" parameterType="java.util.List">
+  		   insert into t_contract_user_userinfo_role (WID, UserId, RoleId
+      )
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.wid},#{item.userid},#{item.roleid})  
+    </foreach>  
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.user.UserInfoRole" >
     insert into t_contract_user_userinfo_role

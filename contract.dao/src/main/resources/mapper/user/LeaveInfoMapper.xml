@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.user.LeaveInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.user.LeaveInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="YHID" property="yhid" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="VARCHAR" />
+    <result column="ENDTIME" property="endtime" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="DOUBLE" />
+    <result column="AUDITORS" property="auditors" jdbcType="VARCHAR" />
+    <result column="TaskStatus" property="taskstatus" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <association property="userInfo" column="YHID" javaType="com.pope.contract.entity.user.UserInfo">
+    	<result column="userName" property="name" jdbcType="VARCHAR"/>
+    	<result column="gh" property="gh" jdbcType="VARCHAR"/>
+    </association>
+    <association property="qjlxSjzd" column="type" javaType="com.pope.contract.entity.system.Sjzd">
+    	<result column="typeDisplayvalue" property="lbmc" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, TYPE, NAME, YHID, STARTTIME, ENDTIME, TIME, AUDITORS, TaskStatus, CONTENT, STATUS, 
+    CreateTime, CreateBy, UpdateTime, UpdateBy
+  </sql>
+  <sql id="Base_Column_List2" >
+    A.WID, A.TYPE, A.NAME, A.YHID, A.STARTTIME, A.ENDTIME, A.TIME, A.AUDITORS, A.TaskStatus, A.CONTENT, A.STATUS, 
+    A.CreateTime, A.CreateBy, A.UpdateTime, A.UpdateBy
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_user_leaveinfo
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByYhid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue
+    from t_contract_user_leaveinfo A
+    LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.STATUS=1
+    LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
+    where A.YHID = #{yhid,jdbcType=VARCHAR}
+    AND A.STATUS=1
+    ORDER BY A.CREATETIME DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_user_leaveinfo
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.user.LeaveInfo" >
+    insert into t_contract_user_leaveinfo (WID, TYPE, NAME, 
+      YHID, STARTTIME, ENDTIME, 
+      TIME, AUDITORS, TaskStatus, 
+      CONTENT, STATUS, CreateTime, 
+      CreateBy, UpdateTime, UpdateBy
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{yhid,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, 
+      #{time,jdbcType=DOUBLE}, #{auditors,jdbcType=VARCHAR}, #{taskstatus,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.user.LeaveInfo" >
+    insert into t_contract_user_leaveinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="yhid != null" >
+        YHID,
+      </if>
+      <if test="starttime != null" >
+        STARTTIME,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="time != null" >
+        TIME,
+      </if>
+      <if test="auditors != null" >
+        AUDITORS,
+      </if>
+      <if test="taskstatus != null" >
+        TaskStatus,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createby != null" >
+        CreateBy,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateby != null" >
+        UpdateBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="yhid != null" >
+        #{yhid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=DOUBLE},
+      </if>
+      <if test="auditors != null" >
+        #{auditors,jdbcType=VARCHAR},
+      </if>
+      <if test="taskstatus != null" >
+        #{taskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.user.LeaveInfo" >
+    update t_contract_user_leaveinfo
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="yhid != null" >
+        YHID = #{yhid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        TIME = #{time,jdbcType=DOUBLE},
+      </if>
+      <if test="auditors != null" >
+        AUDITORS = #{auditors,jdbcType=VARCHAR},
+      </if>
+      <if test="taskstatus != null" >
+        TaskStatus = #{taskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        CreateBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        UpdateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.user.LeaveInfo" >
+    update t_contract_user_leaveinfo
+    set TYPE = #{type,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      YHID = #{yhid,jdbcType=VARCHAR},
+      STARTTIME = #{starttime,jdbcType=VARCHAR},
+      ENDTIME = #{endtime,jdbcType=VARCHAR},
+      TIME = #{time,jdbcType=DOUBLE},
+      AUDITORS = #{auditors,jdbcType=VARCHAR},
+      TaskStatus = #{taskstatus,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateBy = #{createby,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateBy = #{updateby,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

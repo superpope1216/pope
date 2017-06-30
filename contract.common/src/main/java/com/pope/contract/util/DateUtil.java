@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.CalendarDeserializer;
+
 /**
  * 日期工具接口
  * @author mengbin
@@ -282,6 +284,19 @@ public class DateUtil {
     	return daysBetween;
     }
     
+    public static void main(String[] args) throws Exception{
+    	String start="2017-06-05 21:20:00";
+    	String end="2017-06-05 23:50:00";
+    	Date start1 = parseDateTime(start);
+    	Date end1 =  parseDateTime(end);
+    	Calendar c1=Calendar.getInstance();
+    	c1.setTime(start1);
+    	int mint=c1.get(Calendar.MINUTE);
+    	long days=getDaysBetween(start,end);
+    	System.out.println("======="+(end1.getMinutes()-start1.getMinutes()));
+    	
+    	
+    }
     
     public static int getMonthsBetween(String startMonth,String endMonth)throws Exception{
     	startMonth=startMonth+"-01";

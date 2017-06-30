@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.FlowSetMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.FlowSet" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PX" property="px" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SHTYPE" property="shType" jdbcType="VARCHAR" />
+    <association property="sjzdType" column="type" javaType="com.pope.contract.entity.system.Sjzd">
+    	<result column="typeDisplayvalue" property="lbmc" jdbcType="VARCHAR"/>
+    </association>
+     <association property="sjzdName" column="type" javaType="com.pope.contract.entity.system.Role">
+    	<result column="nameDisplayvalue" property="name" jdbcType="VARCHAR"/>
+    </association>
+      <association property="sjzdShType" column="type" javaType="com.pope.contract.entity.system.Sjzd">
+    	<result column="shTypeDisplayvalue" property="lbmc" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, TYPE, PX, NAME,SHTYPE
+  </sql>
+  <sql id="Base_Column_List2" >
+    A.WID, A.TYPE, A.PX, A.NAME,A.SHTYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_flowset
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.system.FlowSet" >
+    select 
+    <include refid="Base_Column_List2" />,B.LBMC AS typeDisplayvalue,C.LBMC AS shTypeDisplayvalue,D.NAME AS nameDisplayvalue
+    from t_contract_sys_flowset A
+    LEFT JOIN T_CONTRACT_SJZD_LCLX B ON A.TYPE=B.LBDM AND B.STATUS='1'
+    LEFT JOIN T_CONTRACT_SJZD_SHTYPE C ON A.SHTYPE=C.LBDM AND C.STATUS='1'
+    LEFT JOIN T_CONTRACT_SYS_ROLE D ON A.NAME=D.WID AND D.STATUS='1'
+    where 1=1
+    <if test='type!=null and type!=""'>
+    	AND A.TYPE=#{type,jdbcType=VARCHAR}
+    </if>
+    ORDER BY A.PX
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sys_flowset
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.FlowSet" >
+    insert into t_contract_sys_flowset (WID, TYPE, PX, 
+      NAME,SHTYPE)
+    values (#{wid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{px,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{shType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.FlowSet" >
+    insert into t_contract_sys_flowset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="px != null" >
+        PX,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+       <if test="shType != null" >
+        SHTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="px != null" >
+        #{px,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shType != null" >
+        #{shType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.FlowSet" >
+    update t_contract_sys_flowset
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="px != null" >
+        PX = #{px,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+       <if test="shType != null" >
+        SHTYPE = #{shType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.FlowSet" >
+    update t_contract_sys_flowset
+    set TYPE = #{type,jdbcType=VARCHAR},
+      PX = #{px,jdbcType=INTEGER},
+      NAME = #{name,jdbcType=VARCHAR},
+       SHTYPE = #{shType,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

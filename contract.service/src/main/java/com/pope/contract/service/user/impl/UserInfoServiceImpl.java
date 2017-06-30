@@ -4,22 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.pope.contract.code.DataStatus;
 import com.pope.contract.condition.UserInfoCondition;
 import com.pope.contract.dao.user.UserInfoMapper;
+import com.pope.contract.dao.user.UserInfoRoleMapper;
 import com.pope.contract.dto.LoginInfo;
 import com.pope.contract.entity.system.Permission;
 import com.pope.contract.entity.system.Role;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.entity.user.UserInfoRole;
 import com.pope.contract.service.system.PermissionService;
 import com.pope.contract.service.system.RoleService;
 import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.util.CommonUtil;
+import com.pope.contract.util.ConstantUtil;
+import com.pope.contract.util.DateUtil;
+import com.pope.contract.util.StringUtil;
 
 @Service("userInfoService")
 public class UserInfoServiceImpl implements UserInfoService {
@@ -29,17 +37,53 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private UserInfoRoleMapper userInfoRoleMapper;
 	@Autowired
 	private PermissionService permissionService;
 
 	@Override
-	public int insert(UserInfo record) {
-		return userInfoMapper.insert(record);
+	@Transactional
+	public int insert(UserInfo userInfo,String userId,String userInfoRoles) throws Exception {
+		userInfo.setWid(StringUtil.getUuId());
+		userInfo.setUpdatetime(DateUtil.getCurrentDate());
+		userInfo.setCreateby(userId);
+		userInfo.setCreatetime(DateUtil.getCurrentDate());
+		userInfo.setUpdateby(userId);
+		userInfo.setStatus(DataStatus.normal.getCode());
+		userInfo.setPassword(StringUtil.createPassword(ConstantUtil.DEFAULT_PASSWORD, ""));
+		int insertCount=userInfoMapper.insert(userInfo);
+		userInfoRoleMapper.deleteByUserId(userId);
+		List<UserInfoRole> listUserInfoRoles=new ArrayList<UserInfoRole>();
+		if(StringUtils.isNotEmpty(userInfoRoles)){
+			String[] roles=userInfoRoles.split(",");
+			for(int i=0;i<roles.length;i++){
+				UserInfoRole userInfoRole=new UserInfoRole();
+				userInfoRole.setWid(StringUtil.getUuId());
+				userInfoRole.setUserid(userId);
+				userInfoRole.setRoleid(roles[i]);
+				listUserInfoRoles.add(userInfoRole);
+			}
+		}
+		
+		if(CommonUtil.isNotEmptyList(listUserInfoRoles)){
+			userInfoRoleMapper.insertUserRole(listUserInfoRoles);
+		}
+		
+		return insertCount;
 	}
 
 	@Override
-	public int insertSelective(UserInfo record) {
-		return userInfoMapper.insertSelective(record);
+	public int insertSelective(UserInfo userInfo,String userId) throws Exception{
+		userInfo.setWid(StringUtil.getUuId());
+		userInfo.setUpdatetime(DateUtil.getCurrentDate());
+		userInfo.setCreateby(userId);
+		userInfo.setCreatetime(DateUtil.getCurrentDate());
+		userInfo.setUpdateby(userId);
+		userInfo.setStatus(DataStatus.normal.getCode());
+		userInfo.setPassword(StringUtil.createPassword(ConstantUtil.DEFAULT_PASSWORD, ""));
+		return userInfoMapper.insertSelective(userInfo);
 	}
 
 	@Override
@@ -69,12 +113,18 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(UserInfo record) {
-		return userInfoMapper.updateByPrimaryKeySelective(record);
+	public int updateByPrimaryKeySelective(UserInfo userInfo,String userId) throws Exception{
+		userInfo.setUpdatetime(DateUtil.getCurrentDate());
+		userInfo.setUpdateby(userId);
+		userInfo.setStatus(DataStatus.normal.getCode());
+		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
 	}
 	@Override
-	public int updateByPrimaryKey(UserInfo record){
-		return userInfoMapper.updateByPrimaryKey(record);
+	public int updateByPrimaryKey(UserInfo userInfo,String userId) throws Exception{
+		userInfo.setUpdatetime(DateUtil.getCurrentDate());
+		userInfo.setUpdateby(userId);
+		userInfo.setStatus(DataStatus.normal.getCode());
+		return userInfoMapper.updateByPrimaryKey(userInfo);
 	}
 	
 	@Override

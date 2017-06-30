@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.dao.system.DepartmentMapper;
 import com.pope.contract.entity.system.Department;
+import com.pope.contract.entity.system.Sjzd;
 import com.pope.contract.exception.BizException;
 import com.pope.contract.service.system.DepartmentService;
 import com.pope.contract.util.DateUtil;
@@ -96,5 +97,13 @@ public class DepartmentServiceImpl implements DepartmentService{
 	public void deleteByWid(String wid){
 		departmentMapper.deleteByPid(wid);
 		departmentMapper.deleteByWid(wid);
+	}
+	@Override
+	public List<Department> selectDepartment(){
+		return departmentMapper.selectDepartment();
+	}
+
+	public List<Sjzd> selectTeamByDepartment(String bm){
+		return departmentMapper.selectTeamByDepartment(bm);
 	}
 }
