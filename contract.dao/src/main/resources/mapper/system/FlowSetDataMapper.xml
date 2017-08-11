@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.FlowSetDataMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.FlowSetData" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="DATA_ID" property="dataId" jdbcType="VARCHAR" />
+    <result column="CURRENT_STEP" property="currentStep" jdbcType="INTEGER" />
+    <result column="CURRENT_STATE" property="currentState" jdbcType="VARCHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="VARCHAR" />
+    <result column="SHID" property="shid" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, TYPE, DATA_ID, CURRENT_STEP, CURRENT_STATE, CJSJ, SHID, CONTENT, ROLEID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_flowset_data
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByDataId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT
+  		<include refid="Base_Column_List"/>
+  			from t_contract_sys_flowset_data
+  		WHERE DATA_ID=#{dataId,jdbcType=VARCHAR}
+  	ORDER BY CJSJ DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sys_flowset_data
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.FlowSetData" >
+    insert into t_contract_sys_flowset_data (WID, TYPE, DATA_ID, 
+      CURRENT_STEP, CURRENT_STATE, CJSJ, 
+      SHID, CONTENT, ROLEID
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{dataId,jdbcType=VARCHAR}, 
+      #{currentStep,jdbcType=INTEGER}, #{currentState,jdbcType=VARCHAR}, #{cjsj,jdbcType=VARCHAR}, 
+      #{shid,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.FlowSetData" >
+    insert into t_contract_sys_flowset_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="dataId != null" >
+        DATA_ID,
+      </if>
+      <if test="currentStep != null" >
+        CURRENT_STEP,
+      </if>
+      <if test="currentState != null" >
+        CURRENT_STATE,
+      </if>
+      <if test="cjsj != null" >
+        CJSJ,
+      </if>
+      <if test="shid != null" >
+        SHID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStep != null" >
+        #{currentStep,jdbcType=INTEGER},
+      </if>
+      <if test="currentState != null" >
+        #{currentState,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        #{cjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="shid != null" >
+        #{shid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.FlowSetData" >
+    update t_contract_sys_flowset_data
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        DATA_ID = #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStep != null" >
+        CURRENT_STEP = #{currentStep,jdbcType=INTEGER},
+      </if>
+      <if test="currentState != null" >
+        CURRENT_STATE = #{currentState,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        CJSJ = #{cjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="shid != null" >
+        SHID = #{shid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.FlowSetData" >
+    update t_contract_sys_flowset_data
+    set TYPE = #{type,jdbcType=VARCHAR},
+      DATA_ID = #{dataId,jdbcType=VARCHAR},
+      CURRENT_STEP = #{currentStep,jdbcType=INTEGER},
+      CURRENT_STATE = #{currentState,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=VARCHAR},
+      SHID = #{shid,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      ROLEID = #{roleid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>
