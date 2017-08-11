@@ -35,7 +35,10 @@
 		
 		ORDER BY GH
 	</select>
-	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_CONTRACT_USER_USERINFO
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
 	<select id="selectByGh" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
@@ -194,7 +197,7 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.user.UserInfo">
 		update t_contract_user_userinfo
 		<set>
-			<trim prefix="values (" suffix=")" suffixOverrides=",">
+			
 				<if test="wid != null">
 					WID=#{wid,jdbcType=VARCHAR},
 				</if>
@@ -208,7 +211,7 @@
 					PASSWORD=#{password,jdbcType=VARCHAR},
 				</if>
 				<if test="phone != null">
-					PHONE #{phone,jdbcType=VARCHAR},
+					PHONE = #{phone,jdbcType=VARCHAR},
 				</if>
 				<if test="email != null">
 					EMAIL= #{email,jdbcType=VARCHAR},
@@ -252,7 +255,7 @@
 				<if test="updateby != null">
 					updateby=#{updateby,jdbcType=VARCHAR},
 				</if>
-			</trim>
+			
 		</set>
 		where WID = #{wid,jdbcType=VARCHAR}
 	</update>

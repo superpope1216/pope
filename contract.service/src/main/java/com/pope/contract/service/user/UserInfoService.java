@@ -16,8 +16,10 @@ public interface UserInfoService {
 	UserInfo selectByGh(String gh);
 
 	LoginInfo login(UserInfo userInfo);
+	
+	int deleteByPrimaryKey(String wid) throws Exception;
 
-	int updateByPrimaryKeySelective(UserInfo record,String userId) throws Exception;
+	int updateByPrimaryKeySelective(UserInfo record,String userId,String userInfoRoles) throws Exception;
 
 	int updateByPrimaryKey(UserInfo record,String userId) throws Exception;
 	

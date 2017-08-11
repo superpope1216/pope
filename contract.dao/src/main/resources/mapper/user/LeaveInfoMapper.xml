@@ -17,6 +17,10 @@
     <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
     <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="CurrentStep" property="currentStep" jdbcType="VARCHAR"/>
+    <association property="taskstatusSjzd" column="TaskStatus" javaType="com.pope.contract.entity.system.Sjzd">
+    	<result column="taskStatusDisplayvalue" property="lbmc" jdbcType="VARCHAR"/>
+    </association>
     <association property="userInfo" column="YHID" javaType="com.pope.contract.entity.user.UserInfo">
     	<result column="userName" property="name" jdbcType="VARCHAR"/>
     	<result column="gh" property="gh" jdbcType="VARCHAR"/>
@@ -27,11 +31,11 @@
   </resultMap>
   <sql id="Base_Column_List" >
     WID, TYPE, NAME, YHID, STARTTIME, ENDTIME, TIME, AUDITORS, TaskStatus, CONTENT, STATUS, 
-    CreateTime, CreateBy, UpdateTime, UpdateBy
+    CreateTime, CreateBy, UpdateTime, UpdateBy,CurrentStep
   </sql>
   <sql id="Base_Column_List2" >
     A.WID, A.TYPE, A.NAME, A.YHID, A.STARTTIME, A.ENDTIME, A.TIME, A.AUDITORS, A.TaskStatus, A.CONTENT, A.STATUS, 
-    A.CreateTime, A.CreateBy, A.UpdateTime, A.UpdateBy
+    A.CreateTime, A.CreateBy, A.UpdateTime, A.UpdateBy,A.CurrentStep
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -41,12 +45,40 @@
   </select>
    <select id="selectByYhid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue
+    <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue,
+    D.NAME AS taskStatusDisplayvalue
     from t_contract_user_leaveinfo A
     LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.STATUS=1
     LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
+    LEFT JOIN T_CONTRACT_SJZD_SHZT D ON A.TASKSTATUS=D.BM AND D.SFSY=1
     where A.YHID = #{yhid,jdbcType=VARCHAR}
     AND A.STATUS=1
+    ORDER BY A.CREATETIME DESC
+  </select>
+  <select id="selectLeaveInfoByStep" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue,
+  	D.NAME AS taskStatusDisplayvalue
+    from T_CONTRACT_USER_USERINFO B,t_contract_user_leaveinfo A
+    LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
+    LEFT JOIN T_CONTRACT_SJZD_SHZT D ON A.TASKSTATUS=D.BM AND D.SFSY=1
+    where 1=1
+    <if test="step!=null">
+    	AND A.CurrentStep=#{step,jdbcType=VARCHAR}	
+    </if>
+    AND A.YHID=B.WID AND B.STATUS=1
+    AND A.STATUS=1
+    <if test="shType='01'">
+    	AND B.TEAM=#{teamId,jdbcType=VARCHAR}	
+    </if>
+    <if test="shType='02'">
+    	AND B.DEPARTMENT=#{departmentId,jdbcType=VARCHAR}
+    </if>
+    <if test="taskStatus!=null">
+     AND A.TaskStatus in 
+    	<foreach collection="taskStatus" item="taskStatu" open="(" separator="," close=")">
+    		 #{taskStatu}
+    	</foreach>
+    </if>
     ORDER BY A.CREATETIME DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -58,13 +90,14 @@
       YHID, STARTTIME, ENDTIME, 
       TIME, AUDITORS, TaskStatus, 
       CONTENT, STATUS, CreateTime, 
-      CreateBy, UpdateTime, UpdateBy
+      CreateBy, UpdateTime, UpdateBy,CurrentStep
       )
     values (#{wid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{yhid,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, 
       #{time,jdbcType=DOUBLE}, #{auditors,jdbcType=VARCHAR}, #{taskstatus,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}
+      #{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR},
+      #{currentStep,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.user.LeaveInfo" >
@@ -115,6 +148,9 @@
       <if test="updateby != null" >
         UpdateBy,
       </if>
+      <if test="currentStep!=null">
+      	CurrentStep,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -161,6 +197,9 @@
       </if>
       <if test="updateby != null" >
         #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStep!=null">
+      	#{currentStep,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -209,6 +248,9 @@
       <if test="updateby != null" >
         UpdateBy = #{updateby,jdbcType=VARCHAR},
       </if>
+      <if test="currentStep!=null">
+      	CurrentStep=#{currentStep,jdbcType=VARCHAR},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -227,7 +269,8 @@
       CreateTime = #{createtime,jdbcType=TIMESTAMP},
       CreateBy = #{createby,jdbcType=VARCHAR},
       UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
-      UpdateBy = #{updateby,jdbcType=VARCHAR}
+      UpdateBy = #{updateby,jdbcType=VARCHAR},
+      CurrentStep=#{currentStep,jdbcType=VARCHAR},
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

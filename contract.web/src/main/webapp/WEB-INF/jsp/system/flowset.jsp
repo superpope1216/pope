@@ -79,7 +79,7 @@
 					<form class="form-horizontal" id="leaveExamineForm">
 						<div class="form-group">
 							<input type="hidden" name="wid" value="">
-							<input type="hidden" name="type" value="1">
+							<input type="hidden" name="type" value="01">
 							 <label 	for="code" class="col-sm-2 required">步骤</label>
 							<div class="col-md-8 col-sm-8">
 								<input type="text" class="form-control" name="px"

@@ -52,15 +52,35 @@ $(document).ready(function(){
 			$("#datatable-mainTable").delegate("[data-option='editUser']","click",function(){
 				$("#userForm")[0].reset();
 				var key=$(this).attr("data-key");
-				alert(key)
 				doGet(basePath+"/users/select","wid="+key,function(data){
-					var da="123";
+					if(data && data.data ){
+						var _userData=data.data;
+						$("#userForm [name='wid']").val(_userData.wid);
+						$("#userForm [name='gh']").val(_userData.gh);
+						$("#userForm [name='phone']").val(_userData.phone);
+						$("#userForm [name='email']").val(_userData.email);
+						$("#userForm [name='department']").val(_userData.department);
+						$("#userForm [name='txtDepartment']").val(_userData.txtDepartment);
+						$("#userForm [name='team']").val(_userData.team);
+						$("#userForm [name='birthday']").val(_userData.birthday);
+						$("#userForm [name='degree']").val(_userData.degree);
+						$("#userForm [name='jobcategory']").val(_userData.jobcategory);
+						$("#userForm [name='job']").val(_userData.job);
+						$("#userForm [name='contractvalidity']").val(_userData.contractvalidity);
+						$("#userForm [name='contracttime']").val(_userData.contracttime);
+						$("#userForm [name='userInfoRole']").val(_userData.userInfoRole);
+					}
 				});
 				$("#modelEdithUserInfo").modal("show");
 			});
 			$("#datatable-mainTable").delegate("[data-option='deleteUser']","click",function(){
 				var key=$(this).attr("data-key");
-				alert("deleteUser");
+				confirm("您确认删除该用户信息吗？",function(e){
+					doPost(basePath+"/users/delete","wid="+key,function(data){
+						alert("用户删除成功！");
+						window.location.reload();
+					});
+				});
 			});
 		})
 	}
@@ -94,7 +114,10 @@ $(document).ready(function(){
 		showMenu();
 		
 	});
-	
+	$("#btnQuery").click(function(){
+		alert("123");
+		return false;
+	});
 	function setTree(){
 		doGet(basePath+"/departments/selectDepartment","",function(data){
 			zTree= $.fn.zTree.init($("#treeDemo"), setting, data.data);
@@ -113,13 +136,14 @@ $(document).ready(function(){
 		if(_id.length>0)  _id = _id.substring(0, _id.length-1);
 		$("#txtDepartment").val(v);
 		$("#department").val(_id);
+		$("#team").empty();
 		doGetSelect(basePath+"/departments/selectTeamByDepartment","bm="+_id,"#team");
 		hideMenu();
 	}
 	function beforeClick(treeId, treeNode) {
-		var check = (treeNode && !treeNode.isParent);
-		if (!check) alert("请选择非文件夹选项！");
-		return check;
+		//var check = (treeNode && !treeNode.isParent);
+		//if (!check) alert("请选择非文件夹选项！");
+		return true;
 	}
 	function showMenu() {
 		var cityObj = $("#txtDepartment");

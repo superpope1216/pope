@@ -33,13 +33,13 @@
   <select id="selectDepartment" resultMap="BaseResultMap">
   	SELECT <include refid="BaseColumnList"/>
   	FROM t_contract_sys_depart
-  	WHERE STATUS=1 AND TYPE!=2
+  	WHERE STATUS=1 AND TYPE=1
   	ORDER BY ORDERBY
   </select>
   <select id="selectTeamByDepartment" resultMap="BaseResultMap2">
   		SELECT BM AS LBDM,NAME AS LBMC 
   	FROM t_contract_sys_depart
-  	WHERE STATUS=1
+  	WHERE STATUS=1 AND TYPE=2
 	and pid IN (SELECT WID FROM t_contract_sys_depart WHERE BM= #{bm,jdbcType=VARCHAR} )  
 	ORDER BY ORDERBY
   </select>

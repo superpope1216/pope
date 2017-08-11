@@ -16,6 +16,9 @@ public interface LeaveInfoMapper {
     LeaveInfo selectByPrimaryKey(String wid);
     
     List<LeaveInfo> selectByYhid(@Param(value="yhid") String yhid);
+    
+    List<LeaveInfo> selectLeaveInfoByStep(@Param(value="step")String step,@Param(value="shType") String shType,@Param(value="teamId") String teamId,
+    		@Param(value="departmentId") String departmentId,@Param(value="taskStatus") List<String> taskStatus);
 
     int updateByPrimaryKeySelective(LeaveInfo record);
 

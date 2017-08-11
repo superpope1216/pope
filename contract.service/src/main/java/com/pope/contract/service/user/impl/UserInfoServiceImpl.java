@@ -113,10 +113,26 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(UserInfo userInfo,String userId) throws Exception{
+	public int updateByPrimaryKeySelective(UserInfo userInfo,String userId,String userInfoRoles) throws Exception{
 		userInfo.setUpdatetime(DateUtil.getCurrentDate());
 		userInfo.setUpdateby(userId);
 		userInfo.setStatus(DataStatus.normal.getCode());
+		userInfoRoleMapper.deleteByUserId(userId);
+		List<UserInfoRole> listUserInfoRoles=new ArrayList<UserInfoRole>();
+		if(StringUtils.isNotEmpty(userInfoRoles)){
+			String[] roles=userInfoRoles.split(",");
+			for(int i=0;i<roles.length;i++){
+				UserInfoRole userInfoRole=new UserInfoRole();
+				userInfoRole.setWid(StringUtil.getUuId());
+				userInfoRole.setUserid(userId);
+				userInfoRole.setRoleid(roles[i]);
+				listUserInfoRoles.add(userInfoRole);
+			}
+		}
+		
+		if(CommonUtil.isNotEmptyList(listUserInfoRoles)){
+			userInfoRoleMapper.insertUserRole(listUserInfoRoles);
+		}
 		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
 	}
 	@Override
@@ -131,4 +147,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	 public List<UserInfo> selectListByCondition(UserInfoCondition condition){
 		 return userInfoMapper.selectListByCondition(condition); 
 	 }
+	@Transactional
+	public int deleteByPrimaryKey(String wid) throws Exception{
+		userInfoRoleMapper.deleteByUserId(wid);
+		return userInfoMapper.deleteByPrimaryKey(wid);
+	}
 }

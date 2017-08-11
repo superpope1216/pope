@@ -4,6 +4,9 @@
 <html>
 <head>
 <%@ include file="/jsp/public/top.jsp"%>
+<script language="javascript">
+	var flowSet="${flowSetType}";
+</script>
 </head>
 <body>
 	<div class="main">
@@ -132,7 +135,11 @@
 					<td class="text-left">{{= starttime}}</td>
 					<td class="text-left">{{= endtime}}</td>
 					<td class="text-left">{{= time}}</td>
-					<td class="text-left">{{= taskstatus}}</td>
+					<td class="text-left">
+						{{if taskstatusSjzd}}
+							{{= taskstatusSjzd.lbmc}}
+						{{/if}}
+					</td>
 					<td class="text-center"><div class="btn-group">
           								<button type="button" data-key='{{= wid}}' data-option='editLeave' class="btn btn-xs btn-primary"><i class="icon icon-edit"></i>编辑</button>
 			

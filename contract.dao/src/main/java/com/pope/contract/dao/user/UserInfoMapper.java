@@ -10,6 +10,7 @@ import com.pope.contract.entity.user.UserInfo;
 public interface UserInfoMapper {
     int insert(UserInfo record);
 
+    int deleteByPrimaryKey(String wid);
     int insertSelective(UserInfo record);
     
     UserInfo selectByPrimaryKey(String wid);

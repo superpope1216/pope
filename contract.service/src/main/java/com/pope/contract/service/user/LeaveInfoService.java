@@ -17,6 +17,15 @@ public interface LeaveInfoService {
 	    int insert(LeaveInfo record,String userId) throws Exception;
 
 	    int insertSelective(LeaveInfo record,String userId) throws Exception;
+	    
+	    /**
+		 * 审核
+		 * @param wid
+		 * @param useId
+		 * @return
+		 * @throws Exception
+		 */
+		int examinePass(String wid,String userId) throws Exception;
 
 	    LeaveInfo selectByPrimaryKey(String wid);
 	    
@@ -25,4 +34,8 @@ public interface LeaveInfoService {
 	    int updateByPrimaryKeySelective(LeaveInfo record,String userId) throws Exception;
 
 	    int updateByPrimaryKey(LeaveInfo record,String userId) throws Exception;
+	    
+	    List<LeaveInfo> selectByRoleId(String roldId,List<String> taskStatus,String departId,String teamId) throws Exception;
+	    List<LeaveInfo> selectByOtherRoleId(String roldId,List<String> taskStatus,String departId,String teamId) throws Exception;
+	    
 }

@@ -48,8 +48,16 @@ public class UserController extends BaseController{
 	}
 	@RequestMapping(value="update",method=RequestMethod.POST)
 	@ResponseBody
-	public Result update(UserInfo userInfo){
-		return null;
+	public Result update(UserInfo userInfo,String userInfoRoles) throws Exception{
+		userInfoService.updateByPrimaryKeySelective(userInfo,this.getUserId(),userInfoRoles);
+		return Result.success();
+	}
+	
+	@RequestMapping(value="delete",method=RequestMethod.POST)
+	@ResponseBody
+	public Result delete (String wid) throws Exception{
+		userInfoService.deleteByPrimaryKey(wid);
+		return Result.success();
 	}
 	@RequestMapping(value="insert",method=RequestMethod.POST)
 	@ResponseBody

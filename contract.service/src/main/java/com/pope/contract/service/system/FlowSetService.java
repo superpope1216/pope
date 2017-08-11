@@ -2,6 +2,8 @@ package com.pope.contract.service.system;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.entity.system.FlowSet;
 
 /**
@@ -17,6 +19,10 @@ public interface FlowSetService {
 	    int insertSelective(FlowSet record)  throws Exception;
 
 	    FlowSet selectByPrimaryKey(String wid)  throws Exception;
+	    
+	    FlowSet selectByRoleAndType(String name,String type) throws Exception;
+	    
+	    FlowSet selectNextStep(String type,int currentStep) throws Exception;
 	    
 	    List<FlowSet> list(FlowSet flowSet) throws Exception;
 

@@ -6,9 +6,11 @@ import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.dao.system.FlowSetMapper;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.service.system.FlowSetService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.StringUtil;
 
 /**
@@ -43,6 +45,10 @@ public class FlowSetServiceImpl implements FlowSetService{
 	}
 
 	@Override
+	public FlowSet selectByRoleAndType(String name,String type) throws Exception{
+		return flowSetMapper.selectByRoleAndType(name, type);
+	}
+	@Override
 	public int updateByPrimaryKeySelective(FlowSet record) throws Exception {
 		return flowSetMapper.updateByPrimaryKeySelective(record);
 	}
@@ -55,5 +61,15 @@ public class FlowSetServiceImpl implements FlowSetService{
 	@Override
 	public List<FlowSet> list(FlowSet flowSet) throws Exception{
 		return flowSetMapper.list(flowSet);
+	}
+
+	@Override
+	public FlowSet selectNextStep(String type, int currentStep) throws Exception {
+		List<FlowSet> list=flowSetMapper.selectNextStep(currentStep,FlowSetCode.LEAVE.getCode());
+		FlowSet flowSet=null;
+		if(CommonUtil.isNotEmptyList(list)){
+			flowSet=list.get(0);
+		}
+		return flowSet;
 	}
 }

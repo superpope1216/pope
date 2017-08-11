@@ -26,7 +26,7 @@
 
 								用户信息： <input type="text" class="text" name="topic"
 									placeholder="可根据工号、姓名搜索" class="queryCondition"> &nbsp;
-								<button class="btn btn-primary btnQuery">查询</button>
+								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
 							</div>
 						</form>
 					</div>
@@ -141,7 +141,7 @@
 
 							<label for="jobcategory" class="col-sm-2 required">职位类别</label>
 							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="jobcategory"
+								<select class="form-control" name="jobcategory"
 									placeholder="请输入职位类别" required>
 							</div>
 							<label for="job" class="col-sm-2 required">职位</label>
@@ -159,7 +159,7 @@
 							</div>
 							<label for="contractvalidity" class="col-sm-2 required">合同签订时间</label>
 							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="contractvalidity"
+								<input type="text" class="form-control" name="contracttime"
 									onClick="WdatePicker()" placeholder="请输入合同签订时间" required>
 							</div>
 

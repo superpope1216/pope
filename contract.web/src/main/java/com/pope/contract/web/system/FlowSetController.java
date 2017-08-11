@@ -47,6 +47,8 @@ public class FlowSetController extends BaseController{
 		List<FlowSet> list=flowSetService.list(flowSet);
 		return Result.success(list);
 	} 
+	
+	
 	@RequestMapping(value="insert",method=RequestMethod.POST)
 	@ResponseBody
 	public Result insert(FlowSet flowSet) throws Exception{

@@ -45,7 +45,29 @@ public class LeaveInfo implements Serializable{
     
     private Sjzd qjlxSjzd;
 
-    public UserInfo getUserInfo() {
+    private Sjzd taskstatusSjzd;
+    
+    
+
+
+	private String currentStep;
+
+    public Sjzd getTaskstatusSjzd() {
+		return taskstatusSjzd;
+	}
+
+	public void setTaskstatusSjzd(Sjzd taskstatusSjzd) {
+		this.taskstatusSjzd = taskstatusSjzd;
+	}
+    public String getCurrentStep() {
+		return currentStep;
+	}
+
+	public void setCurrentStep(String currentStep) {
+		this.currentStep = currentStep;
+	}
+
+	public UserInfo getUserInfo() {
 		return userInfo;
 	}
 

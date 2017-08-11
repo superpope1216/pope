@@ -3,6 +3,8 @@ package com.pope.contract.entity.user;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.pope.contract.entity.system.Department;
+
 public class UserInfo implements Serializable{
     /**
 	 * 
@@ -23,8 +25,12 @@ public class UserInfo implements Serializable{
     private String birthday;
 
     private String department;
+    
+    private Department department_Display;
 
     private String team;
+    
+    private Department team_Display;
 
     private String degree;
 

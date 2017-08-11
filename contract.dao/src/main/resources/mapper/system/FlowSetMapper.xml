@@ -42,6 +42,21 @@
     </if>
     ORDER BY A.PX
   </select>
+  <select id="selectNextStep" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.system.FlowSet" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_flowset
+    where  PX>#{px,jdbcType=INTEGER}
+    AND TYPE=#{type,jdbcType=VARCHAR}
+    ORDER BY PX
+  </select>
+  <select id="selectByRoleAndType" resultMap="BaseResultMap">
+  		select
+  		<include refid="Base_Column_List"/>
+  		FROM T_CONTRACT_SYS_FLOWSET
+  		WHERE NAME=#{name,jdbcType=VARCHAR}
+  		AND TYPE=#{type,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_contract_sys_flowset
     where WID = #{wid,jdbcType=VARCHAR}

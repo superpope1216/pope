@@ -27,7 +27,7 @@ $(document).ready(function(){
 	});
 	
 	function queryList(){
-		doGet(basePath+"/flowset/list","type=1",function(data){
+		doGet(basePath+"/flowset/list","type=01",function(data){
 			if(data.data){
 				$('#tblUserLeaveInfoTpl').tmpl(data.data).appendTo('#tblUserLeaveTable');
 			}
