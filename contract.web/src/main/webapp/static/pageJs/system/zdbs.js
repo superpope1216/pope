@@ -17,16 +17,19 @@ $(document).ready(function(){
 		}
 	});
 	queryList();
-	function queryList(){
-		doGet(basePath+"/zdbs/list","",function(data){
+	function queryList(pageId){
+		$("#tblZdbsInfo").empty();
+		if(pageId==undefined){
+			pageId=0;
+		}
+		var url=basePath+"/zdbs/list";
+		doGet(url,"startPage="+pageId,function(data){
 			if(data.data.data){
 				$('#tblZdbsInfoTpl').tmpl(data.data.data).appendTo('#tblZdbsInfo');
-				$("#mainTable").datatable({sortable: true});
 			}else{
-				$("#mainTable").datatable({sortable: true});
 			}
-			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(){
-				
+			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+				queryList(pageId);
 			});
 			$("#datatable-mainTable").delegate("[data-option='editZdbs']","click",function(){
 				var key=$(this).attr("data-key");

@@ -46,14 +46,25 @@ $(document).ready(
 			queryDetail();
 			
 			queryDetailList();
-			function queryDetailList(){
-				doGet(basePath + "/batch/detail_list", "pcwid=" + wid, function(data) {
+			function queryDetailList(pageId){
+				if(pageId==undefined){
+					pageId=0;
+				}
+				doGet(basePath + "/batch/detail_list", "startPage="+pageId+"&pcwid=" + wid, function(data) {
 					if(data && data.data){
-						$('#tblDetailInfoTpl').tmpl(data.data.data).appendTo('#tblDetailInfo');
-						$("#mainTable").datatable();
-					}else{
-						$("#mainTable").datatable();
+						$('#tblDetailInfoTpl').tmpl(data.data.data).appendTo('#tblDetailInfo'); 
 					}
+					pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+						queryDetailList(pageId);
+					});
+					$("#mainTable").delegate("[data-option='delete']","click",function(){
+						var key=$(this).attr("data-key");
+						if(confirm("您确认删除该样品吗",function(data){
+							doPost(basePath+"/batch/deleteBatchDetail", "wid="+key, function(data) {
+								window.location=basePath+"/batch/detailIndex?wid="+wid;
+							});
+						}));
+					});
 				});
 				
 			}
@@ -83,6 +94,18 @@ $(document).ready(
 						$("#userForm [name='syxmfzr']").val(_details.syxmfzr);
 						$("#userForm [name='shsj']").val(_details.shsj);
 						doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);
+						doGetSelect2("T_CONTRACT_SJZD_FXXM", "#userForm [name='fxxm']", "",function(){
+							$("#userForm [name='fxxm']").multiselect();
+							if(_details.fxxm){
+								var aFxxm=_details.fxxm.split(",");
+								$("#userForm [name='fxxm']").multiselect("select",aFxxm);
+								
+							}else{
+								$("#userForm [name='fxxm']").multiselect();
+							}
+							
+							
+						});
 						$("#userForm [name='hth']").val(_details.hth);
 						$("#userForm [name='bz']").val(_details.bz);
 					}
@@ -96,9 +119,7 @@ $(document).ready(
 							var datas = $("#userForm").serializeArray();
 							doPost(url, datas, function(data) {
 								if (data && data.data) {
-									window.location = basePath
-											+ "/batch/detailIndex?wid="
-											+ data.data.wid;
+									window.location = basePath + "/batch/detailIndex?wid=" + data.data.wid;
 								}
 							});
 						}

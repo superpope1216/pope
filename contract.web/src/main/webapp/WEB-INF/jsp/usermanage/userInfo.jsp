@@ -87,7 +87,7 @@
 							<input type="hidden" name="wid" value=""> <label
 								for="name" class="col-sm-2 required">人员名称</label>
 							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="name"
+								<input type="text" class="form-control" name="name1"
 									placeholder="请输入人员名称" required>
 							</div>
 							<label for="gh" class="col-sm-2 required">员工号</label>
@@ -142,7 +142,7 @@
 							<label for="jobcategory" class="col-sm-2 required">职位类别</label>
 							<div class="col-md-4 col-sm-4">
 								<select class="form-control" name="jobcategory"
-									placeholder="请输入职位类别" required>
+									placeholder="请输入职位类别" required></select>
 							</div>
 							<label for="job" class="col-sm-2 required">职位</label>
 							<div class="col-md-4 col-sm-4">
@@ -192,7 +192,7 @@
 
 	<script id="tblUserInfoTpl" type="text/x-jquery-tmpl">
 				<tr>
-					<td class="text-center">{{= name}}</td>
+					<td class="text-center">{{= name1}}</td>
 					<td class="text-center">{{= gh}}</td>
 					<td class="text-left">{{= department_display}}</td>
 					<td class="text-left">{{= team_display}}</td>

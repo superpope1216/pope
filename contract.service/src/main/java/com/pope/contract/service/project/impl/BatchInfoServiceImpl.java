@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.druid.util.StringUtils;
+import com.pope.contract.code.BatchStateEnum;
 import com.pope.contract.dao.project.BatchInfoDetailMapper;
+import com.pope.contract.dao.project.BatchInfoFxxmMapper;
 import com.pope.contract.dao.project.BatchInfoMapper;
 import com.pope.contract.dao.project.extend.BatchInfoDetailExtendMapper;
 import com.pope.contract.dao.project.extend.BatchInfoExtendMapper;
+import com.pope.contract.dao.project.extend.BatchInfoFxxmExtendMapper;
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
+import com.pope.contract.entity.project.BatchInfoFxxm;
 import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.service.project.BatchInfoService;
@@ -36,6 +41,11 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	private BatchInfoDetailMapper  batchInfoDetailMapper;
 	@Autowired
 	private BatchInfoDetailExtendMapper  batchInfoDetailExtendMapper;
+	
+	@Autowired
+	private BatchInfoFxxmExtendMapper batchInfoFxxmExtendMapper;
+	@Autowired
+	private BatchInfoFxxmMapper batchInfoFxxmMapper;
 	@Override
 	public List<BatchInfo> selectByCondition(BatchInfo batchInfo){
 		return batchInfoExtendMapper.selectByCondition(batchInfo);
@@ -51,6 +61,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	
 	
 	@Override
+	@Transactional
 	public BatchInfo insertBatchInfo(BatchInfo batchInfo) throws Exception{
 		BatchInfo query=new BatchInfo();
 		query.setYpph(batchInfo.getYpph());
@@ -58,12 +69,39 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		if(CommonUtil.isNotEmptyList(list)){
 			throw new Exception("该样品编号已存在，请重新确认！");
 		}
-		batchInfo.setWid(StringUtil.getUuId());
+		String wid=StringUtil.getUuId();
+		batchInfo.setWid(wid);
+		batchInfo.setPczt(StringUtil.toStr(BatchStateEnum.XJ.getCode()));
 		batchInfoMapper.insert(batchInfo);
+		String fxxm=batchInfo.getFxxm();
+		if(!StringUtils.isEmpty(fxxm)){
+			String[] aFxxm=fxxm.split(",");
+			for(String s:aFxxm){
+				BatchInfoFxxm batchInfoFxxm=new BatchInfoFxxm();
+				batchInfoFxxm.setWid(StringUtil.getUuId());
+				batchInfoFxxm.setPwid(wid);
+				batchInfoFxxm.setFxxmbh(s);
+				batchInfoFxxmMapper.insert(batchInfoFxxm);
+			}
+		}
 		return batchInfo;
 	}
 	@Override
 	public int updateBatchInfo(BatchInfo batchInfo) throws Exception{
+		BatchInfoFxxm deleteBatchInfoFxxm=new BatchInfoFxxm();
+		deleteBatchInfoFxxm.setPwid(batchInfo.getWid());
+		batchInfoFxxmExtendMapper.deleteByCondition(deleteBatchInfoFxxm);
+		String fxxm=batchInfo.getFxxm();
+		if(!StringUtils.isEmpty(fxxm)){
+			String[] aFxxm=fxxm.split(",");
+			for(String s:aFxxm){
+				BatchInfoFxxm batchInfoFxxm=new BatchInfoFxxm();
+				batchInfoFxxm.setWid(StringUtil.getUuId());
+				batchInfoFxxm.setPwid(batchInfo.getWid());
+				batchInfoFxxm.setFxxmbh(s);
+				batchInfoFxxmMapper.insert(batchInfoFxxm);
+			}
+		}
 		return batchInfoMapper.updateByPrimaryKeySelective(batchInfo);
 	}
 	@Override

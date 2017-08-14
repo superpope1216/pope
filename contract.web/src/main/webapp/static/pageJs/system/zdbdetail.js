@@ -101,12 +101,12 @@ $(document).ready(function(){
 		doGet(basePath+"/zdbdetail/list","tableName="+tblName,function(data){
 			if(data.data){
 				$('#tblSjzdInfoTpl').tmpl(data.data).appendTo('#tblSjzdInfo');
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}else{
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}
-			$("#mainTable").datatable("load");
-			$("#datatable-mainTable").delegate("[data-option='editSjzd']","click",function(){
+			
+			$("#mainTable").delegate("[data-option='editSjzd']","click",function(){
 				var key=$(this).attr("data-key");
 				$("#zdbsForm")[0].reset();
 				$("#zdbsForm [name='wid']").val(key);
@@ -118,7 +118,7 @@ $(document).ready(function(){
 				});
 				$("#modelEditZdbsInfo").modal("show");
 			});
-			$("#datatable-mainTable").delegate("[data-option='deleteSjzd']","click",function(){
+			$("#mainTable").delegate("[data-option='deleteSjzd']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该数据？",function(){
 					doPost(basePath+"/zdbdetail/delete","wid="+key+"&tableName="+tblName,function(data){

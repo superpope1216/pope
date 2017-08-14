@@ -41,22 +41,22 @@
 		T_CONTRACT_USER_USERINFO.UpdateTime,T_CONTRACT_USER_USERINFO.UpdateBy,
 		T_CONTRACT_SYS_DEPART.NAME AS DEPARTMENT_DISPLAY,T_CONTRACT_SYS_TEAM.NAME AS TEAM_DISPLAY
 	</sql>
-	<select id="selectDisplayByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.user.UserInfo">
+	<select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap" parameterType="com.pope.contract.entity.user.UserInfo">
 		select
 		<include refid="Base_Display_Column_List" />
 		from T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO
-		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_DEPART ON T_CONTRACT_USER_USERINFO.DEPARTMENT=T_CONTRACT_SYS_DEPART.BM AND STATUS=1
-		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_TEAM ON T_CONTRACT_USER_USERINFO.TEAM=T_CONTRACT_SYS_TEAM.BM AND STATUS=1
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_DEPART ON T_CONTRACT_USER_USERINFO.DEPARTMENT=T_CONTRACT_SYS_DEPART.BM AND T_CONTRACT_SYS_DEPART.STATUS=1
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_TEAM ON T_CONTRACT_USER_USERINFO.TEAM=T_CONTRACT_SYS_TEAM.BM AND T_CONTRACT_SYS_TEAM.STATUS=1
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="wid!=null">
 				AND T_CONTRACT_USER_USERINFO.WID=#{wid,jdbcType=VARCHAR}
 			</if>
-			<if test="name!=null  or gh!=null">
-				AND (T_CONTRACT_USER_USERINFO.NAME LIKE  LIKE '%${name}%'
-				or T_CONTRACT_USER_USERINFO.GH LIKE  LIKE '%${gh}%')
+			<if test="(name1!=null and name1!='')  or (gh!=null and gh!='')">
+				AND (T_CONTRACT_USER_USERINFO.NAME1   LIKE '%${name1}%'
+				or T_CONTRACT_USER_USERINFO.GH   LIKE '%${gh}%')
 			</if>
-			<if test="status!=null">
-				AND status=#{status,jdbcType=INTEGER}
+			<if test="datastatus!=null">
+				AND datastatus=#{datastatus,jdbcType=INTEGER}
 			</if>
 		</trim>
 		ORDER BY GH

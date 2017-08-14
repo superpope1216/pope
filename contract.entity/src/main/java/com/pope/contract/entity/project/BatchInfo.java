@@ -1,6 +1,8 @@
 package com.pope.contract.entity.project;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BatchInfo {
     private String wid;
@@ -52,8 +54,18 @@ public class BatchInfo {
     private String hbdw;
 
     private Integer dqbh;
+    
+    private List<BatchInfoFxxm> fxxms=new ArrayList<BatchInfoFxxm>();
 
-    public String getWid() {
+    public List<BatchInfoFxxm> getFxxms() {
+		return fxxms;
+	}
+
+	public void setFxxms(List<BatchInfoFxxm> fxxms) {
+		this.fxxms = fxxms;
+	}
+
+	public String getWid() {
         return wid;
     }
 

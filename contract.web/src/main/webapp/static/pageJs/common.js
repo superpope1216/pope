@@ -85,7 +85,7 @@ function confirm(msg,callBackFunc,yes,no){
 	 $(pageUI).pagination(
 			 totalNum?totalNum:0,
              {
-            	 items_per_page : 20,
+            	 items_per_page : 10,
             	 current_page:currentPage?currentPage:0,
                  num_edge_entries : 2,
                  num_display_entries : 4,

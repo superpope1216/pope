@@ -158,11 +158,21 @@
 											</div>
 
 										</div>
+
+										<div class="form-group">
+											<label for="jobcategory" class="col-sm-2">分析项目</label>
+											<div class="col-md-10 col-sm-10">
+												<select id="fxxm" name="fxxm" class="form-control"
+													multiple="multiple" required>
+													<option value=''>--请选择--</option>
+												</select>
+											</div>
+										</div>
 										<div class="form-group">
 											<label for="jobcategory" class="col-sm-2">备注</label>
 											<div class="col-md-10 col-sm-10">
 												<input type="text" class="form-control" name="bz"
-													placeholder="请输入备注" required>
+													placeholder="请输入备注">
 											</div>
 										</div>
 									</form>
@@ -199,11 +209,15 @@
 												<th class="text-center">样品性质</th>
 												<th class="text-center">样品二维码</th>
 												<th class="text-center">分析项目</th>
+												<th class="text-center" style="width:50px;">操作</th>
 											</tr>
 										</thead>
 										<tbody id="tblDetailInfo">
 										</tbody>
 									</table>
+									<div class="pull-right">
+										<div id='pageInfo' class="pagination"></div>
+									</div>
 								</div>
 
 
@@ -229,11 +243,10 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="batchDetailForm">
 						<div class="form-group">
-							<input type="hidden" name="wid" value="">
-							<input type="hidden" name="pcwid" value="">
-							<input type="hidden" name="dqbh" value="">
-							 <label
-								for="name" class="col-sm-2 required">样品编号</label>
+							<input type="hidden" name="wid" value=""> <input
+								type="hidden" name="pcwid" value=""> <input
+								type="hidden" name="dqbh" value=""> <label for="name"
+								class="col-sm-2 required">样品编号</label>
 							<div class="col-md-8 col-sm-8">
 								<input type="text" readonly class="form-control" name="ypbh"
 									placeholder="请输入样品编号" required>
@@ -280,7 +293,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="btnSaveDetailInfo">保存</button>
+					<button type="button" class="btn btn-primary"
+						id="btnSaveDetailInfo">保存</button>
 				</div>
 			</div>
 		</div>
@@ -297,6 +311,11 @@
 					<td class="text-left">{{= ypxz}}</td>
 					<td class="text-left">{{= ypewm}}</td>
 					<td class="text-left">{{= fxxm_display}}</td>
+					<td class="text-center">
+						<div class="btn-group">
+          					<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="delete" data-key="{{= wid}}"><i class="icon icon-times"></i></button>
+        				</div>
+					</td>
 				</tr>
 			</script>
 	<script type="text/javascript"

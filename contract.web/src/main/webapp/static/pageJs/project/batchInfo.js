@@ -41,14 +41,21 @@ $(document).ready(function(){
 	queryList();
 	queryRole();
 	
-	function queryList(){
-		doGet(basePath+"/batch/list","",function(data){
+	function queryList(pageId){
+		if(pageId==undefined){
+			pageId=0;
+		}
+		doGet(basePath+"/batch/list","startPage="+pageId,function(data){
 			if(data.data.data){
 				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
 				//$("#mainTable").datatable({checkable: true});
 			}else{
 				//$("#mainTable").datatable({checkable: true});
 			}
+			
+			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+				queryList(pageId);
+			});
 			$("#mainTable").delegate("[data-option='copy']","click",function(){
 				var key=$(this).attr("data-key");
 				if(confirm("您确认复制该样品批次吗",function(data){

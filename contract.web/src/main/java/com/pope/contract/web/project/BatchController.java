@@ -154,4 +154,11 @@ public class BatchController extends BaseController{
 		batchInfoService.deleteBatchInfo(wid);
 		return Result.success();
 	}
+	
+	@RequestMapping("deleteBatchDetail")
+	@ResponseBody
+	public Result deleteBatchDetail(String wid) throws Exception{
+		batchInfoService.deleteBatchInfoDetail(wid);
+		return Result.success();
+	}
 }

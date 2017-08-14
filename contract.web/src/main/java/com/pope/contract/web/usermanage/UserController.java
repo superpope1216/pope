@@ -72,7 +72,10 @@ public class UserController extends BaseController{
 	@RequestMapping(value="select",method=RequestMethod.GET)
 	@ResponseBody
 	public Result select(String wid) throws Exception{
-		UserInfo userInfo=userInfoService.selectByPrimaryKey(wid);
-		return Result.success(userInfo);
+		UserInfo queryInfo=new UserInfo();
+		queryInfo.setWid(wid);
+		List<UserInfoExtend> users=userInfoService.selectDisplayByCondition(queryInfo);
+		
+		return Result.success(users.get(0));
 	}
 }

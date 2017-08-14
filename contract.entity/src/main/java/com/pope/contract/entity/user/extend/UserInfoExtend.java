@@ -1,5 +1,7 @@
 package com.pope.contract.entity.user.extend;
 
+import java.io.Serializable;
+
 import com.pope.contract.entity.user.UserInfo;
 
 /**
@@ -7,7 +9,7 @@ import com.pope.contract.entity.user.UserInfo;
 * @version 创建时间：2017年8月14日 下午1:29:37
 * 类说明
 */
-public class UserInfoExtend extends UserInfo{
+public class UserInfoExtend extends UserInfo implements Serializable{
 
 	/**
 	 * 

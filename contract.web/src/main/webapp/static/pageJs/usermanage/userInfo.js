@@ -41,14 +41,24 @@ $(document).ready(function(){
 	queryList();
 	queryRole();
 	
-	function queryList(name){
-		doGet(basePath+"/users/list","queryName="+name,function(data){
+	function queryList(pageId,name){
+		$('#tblUserInfo').empty();
+		if(name==undefined){
+			name="";
+		}
+		if(pageId==undefined){
+			pageId=0;
+		}
+		doGet(basePath+"/users/list","queryName="+name+"&startPage="+pageId,function(data){
 			if(data.data.data){
 				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
 				//$("#mainTable").datatable({sortable: true});
 			}else{
 				//$("#mainTable").datatable({sortable: true});
 			}
+			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+				queryList(pageId,name);
+			});
 			$("#mainTable").delegate("[data-option='editUser']","click",function(){
 				$("#userForm")[0].reset();
 				var key=$(this).attr("data-key");
@@ -57,18 +67,22 @@ $(document).ready(function(){
 						var _userData=data.data;
 						$("#userForm [name='wid']").val(_userData.wid);
 						$("#userForm [name='gh']").val(_userData.gh);
+						$("#userForm [name='name1']").val(_userData.name1);
 						$("#userForm [name='phone']").val(_userData.phone);
 						$("#userForm [name='email']").val(_userData.email);
 						$("#userForm [name='department']").val(_userData.department);
 						$("#userForm [name='txtDepartment']").val(_userData.txtDepartment);
-						$("#userForm [name='team']").val(_userData.team);
+						$("#txtDepartment").val(_userData.department_display);
+						$("#department").val(_userData.department);
+						doGetSelect(basePath+"/departments/selectTeamByDepartment","bm="+_userData.department,"#team",_userData.team);
+						doGetSelect2("T_CONTRACT_SJZD_ZWLB","#userForm [name='jobcategory']",_userData.jobcategory);
 						$("#userForm [name='birthday']").val(_userData.birthday);
 						$("#userForm [name='degree']").val(_userData.degree);
-						$("#userForm [name='jobcategory']").val(_userData.jobcategory);
 						$("#userForm [name='job']").val(_userData.job);
 						$("#userForm [name='contractvalidity']").val(_userData.contractvalidity);
 						$("#userForm [name='contracttime']").val(_userData.contracttime);
 						$("#userForm [name='userInfoRole']").val(_userData.userInfoRole);
+						
 					}
 				});
 				$("#modelEdithUserInfo").modal("show");
@@ -101,6 +115,7 @@ $(document).ready(function(){
 	}
 	$("#btnNew").click(function(){
 		$("#userForm")[0].reset();
+		doGetSelect2("T_CONTRACT_SJZD_ZWLB","#userForm [name='jobcategory']");
 		$("#modelEdithUserInfo").modal("show");
 		
 	})
