@@ -14,6 +14,7 @@ import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.entity.user.extend.UserInfoExtend;
 import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.DateUtil;
@@ -32,15 +33,17 @@ public class UserController extends BaseController{
 	}
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public Result list(Integer startPage) throws Exception{
+	public Result list(String queryName,Integer startPage) throws Exception{
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}
-		
-		PageParam<UserInfo> pageParam = new PageParam<UserInfo>();
+		UserInfo queryInfo=new UserInfo();
+		queryInfo.setGh(queryName);
+		queryInfo.setName1(queryName);
+		PageParam<UserInfoExtend> pageParam = new PageParam<UserInfoExtend>();
 		pageParam.setPage(startPage);
-		Page<UserInfo> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
-		List<UserInfo> users=userInfoService.selectListByCondition(null);
+		Page<UserInfoExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
+		List<UserInfoExtend> users=userInfoService.selectDisplayByCondition(queryInfo);
 		pageParam.setTotal(page.getTotal());
 		pageParam.setTotalPage(pageParam.getTotalPage());
 		pageParam.setData(users);

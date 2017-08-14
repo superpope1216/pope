@@ -65,7 +65,6 @@
 											<th class="text-center">请假结束时间</th>
 											<th class="text-center">请假时长</th>
 											<th class="text-center">任务状态</th>
-											<th data-width="150px" class="text-center">操作</th>
 										</tr>
 									</thead>
 									<tbody id="tblJxzLevelInfo">
@@ -89,7 +88,6 @@
 											<th class="text-center">请假结束时间</th>
 											<th class="text-center">请假时长</th>
 											<th class="text-center">任务状态</th>
-											<th data-width="150px" class="text-center">操作</th>
 										</tr>
 									</thead>
 									<tbody id="tblYwcLevelInfo">
@@ -113,7 +111,6 @@
 											<th class="text-center">请假结束时间</th>
 											<th class="text-center">请假时长</th>
 											<th class="text-center">任务状态</th>
-											<th data-width="150px" class="text-center">操作</th>
 										</tr>
 									</thead>
 									<tbody id="tblBtgLevelInfo">
@@ -161,6 +158,35 @@
 							<button type="button" data-key='{{= wid}}' data-option='examineNotPassLeave' style="margin-left:4px;" class="btn btn-xs btn-danger"><i class="icon icon-times"></i>不通过</button>
         			    </div>
 				   </td>
+				</tr>
+			</script>
+			
+			<script id="tblLevelInfoTpl2" type="text/x-jquery-tmpl">
+				<tr>
+					<td class="text-center">
+						{{if userInfo}}
+							{{= userInfo.name}}
+						{{/if}} 
+					</td>
+					<td class="text-center">
+						{{if userInfo}}
+							{{= userInfo.gh}}
+						{{/if}}
+					</td>
+					<td class="text-left">
+						{{if qjlxSjzd}}
+							{{= qjlxSjzd.lbmc}}
+						{{/if}}
+					</td>
+					<td class="text-left">{{= name}}</td>
+					<td class="text-left">{{= starttime}}</td>
+					<td class="text-left">{{= endtime}}</td>
+					<td class="text-left">{{= time}}</td>
+					<td class="text-left">
+						{{if taskstatusSjzd}}
+							{{= taskstatusSjzd.lbmc}}
+						{{/if}}
+					</td>
 				</tr>
 			</script>
 		<script type="text/javascript"

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.project.BatchInfoDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfoDetail" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="YPBH" property="ypbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="YPYYBH" property="ypyybh" jdbcType="VARCHAR" />
+    <result column="YPXZ" property="ypxz" jdbcType="VARCHAR" />
+    <result column="YPEWM" property="ypewm" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, YPBH, YPPH, YPYYBH, YPXZ, YPEWM, FXXM, PCWID, DQBH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_pcgl_detail
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_pcgl_detail
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    insert into t_contract_pcgl_detail (WID, YPBH, YPPH, 
+      YPYYBH, YPXZ, YPEWM, 
+      FXXM, PCWID, DQBH)
+    values (#{wid,jdbcType=VARCHAR}, #{ypbh,jdbcType=VARCHAR}, #{ypph,jdbcType=VARCHAR}, 
+      #{ypyybh,jdbcType=VARCHAR}, #{ypxz,jdbcType=VARCHAR}, #{ypewm,jdbcType=VARCHAR}, 
+      #{fxxm,jdbcType=VARCHAR}, #{pcwid,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    insert into t_contract_pcgl_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="ypbh != null" >
+        YPBH,
+      </if>
+      <if test="ypph != null" >
+        YPPH,
+      </if>
+      <if test="ypyybh != null" >
+        YPYYBH,
+      </if>
+      <if test="ypxz != null" >
+        YPXZ,
+      </if>
+      <if test="ypewm != null" >
+        YPEWM,
+      </if>
+      <if test="fxxm != null" >
+        FXXM,
+      </if>
+      <if test="pcwid != null" >
+        PCWID,
+      </if>
+      <if test="dqbh != null" >
+        DQBH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="ypbh != null" >
+        #{ypbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypph != null" >
+        #{ypph,jdbcType=VARCHAR},
+      </if>
+      <if test="ypyybh != null" >
+        #{ypyybh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypxz != null" >
+        #{ypxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ypewm != null" >
+        #{ypewm,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        #{dqbh,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    update t_contract_pcgl_detail
+    <set >
+      <if test="ypbh != null" >
+        YPBH = #{ypbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypph != null" >
+        YPPH = #{ypph,jdbcType=VARCHAR},
+      </if>
+      <if test="ypyybh != null" >
+        YPYYBH = #{ypyybh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypxz != null" >
+        YPXZ = #{ypxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ypewm != null" >
+        YPEWM = #{ypewm,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        FXXM = #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        PCWID = #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        DQBH = #{dqbh,jdbcType=INTEGER},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    update t_contract_pcgl_detail
+    set YPBH = #{ypbh,jdbcType=VARCHAR},
+      YPPH = #{ypph,jdbcType=VARCHAR},
+      YPYYBH = #{ypyybh,jdbcType=VARCHAR},
+      YPXZ = #{ypxz,jdbcType=VARCHAR},
+      YPEWM = #{ypewm,jdbcType=VARCHAR},
+      FXXM = #{fxxm,jdbcType=VARCHAR},
+      PCWID = #{pcwid,jdbcType=VARCHAR},
+      DQBH = #{dqbh,jdbcType=INTEGER}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

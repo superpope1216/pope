@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.task.extend.TaskInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.task.TaskInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="RWLX" property="rwlx" jdbcType="VARCHAR" />
+    <result column="RWMC" property="rwmc" jdbcType="VARCHAR" />
+    <result column="RWBH" property="rwbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="RWFPR" property="rwfpr" jdbcType="VARCHAR" />
+    <result column="JHKSSJ" property="jhkssj" jdbcType="VARCHAR" />
+    <result column="JHJSSJ" property="jhjssj" jdbcType="VARCHAR" />
+    <result column="SJKSSJ" property="sjkssj" jdbcType="VARCHAR" />
+    <result column="SJJSSJ" property="sjjssj" jdbcType="VARCHAR" />
+    <result column="RWSHR" property="rwshr" jdbcType="VARCHAR" />
+    <result column="SHWCSJ" property="shwcsj" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="FJ" property="fj" jdbcType="VARCHAR" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+    <result column="CurrentStep" property="currentstep" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, RWLX, RWMC, RWBH, YPPH, FXXM, RWFPR, JHKSSJ, JHJSSJ, SJKSSJ, SJJSSJ, RWSHR, 
+    SHWCSJ, RWZT, FJ, BZ, DQBH, PCWID, DATASTATUS, CurrentStep
+  </sql>
+
+	<resultMap id="BaseResultDispalyMap"
+		type="com.pope.contract.entity.task.extend.TaskInfoExtend" extends="BaseResultMap">
+
+		<result column="FXXM_DISPLAY" property="fxxm_display" jdbcType="VARCHAR" />
+		<result column="RWFPR_DISPLAY" property="rwfpr_display"
+			jdbcType="VARCHAR" />
+		<result column="RWSHR_DISPLAY" property="rwshr_display"
+			jdbcType="VARCHAR" />
+		<result column="RWZT_DISPLAY" property="rwzt_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Display_Column_List">
+		t_contract_task_main.WID,t_contract_task_main.RWMC,t_contract_task_main.RWLX, t_contract_task_main.RWBH,
+		t_contract_task_main.YPPH,
+		t_contract_task_main.FXXM, t_contract_task_main.RWFPR, t_contract_task_main.JHKSSJ,
+		t_contract_task_main.JHJSSJ, t_contract_task_main.SJKSSJ,
+		t_contract_task_main.SJJSSJ,
+		t_contract_task_main.RWSHR, t_contract_task_main.SHWCSJ,t_contract_task_main.RWZT,
+		t_contract_task_main.FJ, t_contract_task_main.BZ,
+		t_contract_task_main.DQBH,
+		t_contract_task_main.PCWID, t_contract_task_main.DATASTATUS, t_contract_task_main.CurrentStep,
+		T_CONTRACT_SJZD_FXXM.lbmc as FXXM_DISPLAY,T_CONTRACT_USER_USERINFO.NAME
+		AS RWFPR_DISPLAY,
+		T_CONTRACT_USER_USERINFO2.NAME as RWSHR_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS.lbmc as RWZT_DISPLAY
+	</sql>
+	<select id="selectMaxXh" resultType="java.lang.Integer">
+		SELECT MAX(DQBH) FROM t_contract_task_main
+	</select>
+	<select id="selectDispalyTaskInfoByCondition" resultMap="BaseResultDispalyMap" parameterType="com.pope.contract.entity.task.TaskInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		from t_contract_task_main t_contract_task_main
+		left join T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM on
+		t_contract_task_main.fxxm=T_CONTRACT_SJZD_FXXM.lbdm
+		left join T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO on
+		t_contract_task_main.RWFPR=T_CONTRACT_USER_USERINFO.wid
+		left join T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO2 on
+		t_contract_task_main.RWSHR=T_CONTRACT_USER_USERINFO2.wid
+		left join T_CONTRACT_SJZD_TASKSTATUS T_CONTRACT_SJZD_TASKSTATUS on
+		t_contract_task_main.RWZT=T_CONTRACT_SJZD_TASKSTATUS.lbdm
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="wid!=null">
+				AND WID=#{wid,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</select>
+</mapper>

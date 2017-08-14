@@ -9,9 +9,17 @@ $(document).ready(function(){
 			$(error).insertAfter($(element));
 		}
 	});
+	var _task_validater=$("#taskExamineForm").validate({
+		errorPlacement: function(error, element) {
+			$(error).insertAfter($(element));
+		}
+	});
 	queryList();
 	$("#btnNewLeave").click(function(){
 		$("#modelEditLeaveInfo").modal("show");
+	});
+	$("#btnNewTask").click(function(){
+		$("#modelEditTaskInfo").modal("show");
 	});
 	setSelectList("");
 	doGet(basePath+"/roles/list","",function(data){ 
@@ -23,6 +31,7 @@ $(document).ready(function(){
 					
 				}
 				$("#leaveExamineForm [name='name']").append(str);
+				$("#taskExamineForm [name='name']").append(str);
 			}
 	});
 	
@@ -33,9 +42,36 @@ $(document).ready(function(){
 			}
 		})
 	}
+	
+	function queryList(){
+		doGet(basePath+"/flowset/list","type=02",function(data){
+			if(data.data){
+				$('#tblTaskInfoTpl').tmpl(data.data).appendTo('#tblUserTaskTable');
+			}
+		})
+	}
 	function setSelectList(value){
 		doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_SHTYPE","#leaveExamineForm [name='shType']",value);
 	}
+	
+	$("#btnSaveTaskInfo").click(function(){
+		var url=basePath+"/flowset";
+		var wid=$("#taskExamineForm [name='wid']").val();
+		var flag="update";
+		if(wid){
+			url+="/update";
+			flag="update";
+		}else{
+			url+="/insert";
+			flag="insert";
+		}
+		if(_task_validater.form()){
+			doPost(url,$("#taskExamineForm").serializeArray(),function(data){
+				alert(data.msg);
+				window.location.reload();
+			});
+		}
+	});
 	$("#btnSaveLeaveInfo").click(function(){
 		var url=basePath+"/flowset";
 		var wid=$("#leaveExamineForm [name='wid']").val();

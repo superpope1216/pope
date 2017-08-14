@@ -45,6 +45,19 @@ function confirm(msg,callBackFunc,yes,no){
 	 		});	
 	 }
  
+ function doSyncGet(url,params,callback){
+	 $.ajax({
+	 		  type: "GET",
+	 		  url: url,
+	 		  async:false,
+	 		  data: params,
+	 		  dataType: 'json',  
+	 		  success:function(data){
+	 			 ajaxBack(data,callback);
+	 		  }
+	 		});	
+	 }
+ 
  function ajaxBack(data,callBack){
 	 if (data.code == 10000) {
         	if(callBack){
@@ -114,7 +127,7 @@ function confirm(msg,callBackFunc,yes,no){
 		 if(data.data && data.data.length>0){
 			 for(var i=0;i<data.data.length;i++){
 				 var checked="";
-				if(data2 && data2==data.data[i].LBDM){
+				if(data2 && data2==data.data[i].lbdm){
 					checked=" selected='selected' ";
 				}
 				 str+="<option "+checked+" value='"+data.data[i].lbdm+"'>"+data.data[i].lbmc+"</option>"
@@ -126,7 +139,25 @@ function confirm(msg,callBackFunc,yes,no){
 		}
 	 });
  }
- 
+ function doGetSelect2(tblName,obj,data2,callBack){
+	 doGet(basePath+"/zdbdetail/list","tableName="+tblName,function(data){
+		 $(obj).empty();
+		 var str="<option value=''>--请选择--</option>";
+		 if(data.data && data.data.length>0){
+			 for(var i=0;i<data.data.length;i++){
+				 var checked="";
+				if(data2 && data2==data.data[i].lbdm){
+					checked=" selected='selected' ";
+				}
+				 str+="<option "+checked+" value='"+data.data[i].lbdm+"'>"+data.data[i].lbmc+"</option>"
+			 }
+		 }
+		 $(obj).append(str);
+		 if(callBack){
+				 callBack();
+		}
+	 });
+ }
 
  function doGetMulSelect(url,params,obj,data2,callBack){
 	 $.ajax({

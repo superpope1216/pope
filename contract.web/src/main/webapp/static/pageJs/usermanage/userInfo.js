@@ -41,15 +41,15 @@ $(document).ready(function(){
 	queryList();
 	queryRole();
 	
-	function queryList(){
-		doGet(basePath+"/users/list","",function(data){
+	function queryList(name){
+		doGet(basePath+"/users/list","queryName="+name,function(data){
 			if(data.data.data){
 				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}else{
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}
-			$("#datatable-mainTable").delegate("[data-option='editUser']","click",function(){
+			$("#mainTable").delegate("[data-option='editUser']","click",function(){
 				$("#userForm")[0].reset();
 				var key=$(this).attr("data-key");
 				doGet(basePath+"/users/select","wid="+key,function(data){
@@ -73,7 +73,7 @@ $(document).ready(function(){
 				});
 				$("#modelEdithUserInfo").modal("show");
 			});
-			$("#datatable-mainTable").delegate("[data-option='deleteUser']","click",function(){
+			$("#mainTable").delegate("[data-option='deleteUser']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该用户信息吗？",function(e){
 					doPost(basePath+"/users/delete","wid="+key,function(data){
@@ -115,7 +115,9 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		alert("123");
+		if($.trim($("#queryCondition").val())!=""){
+			queryList($.trim($("#queryCondition").val()));
+		}
 		return false;
 	});
 	function setTree(){

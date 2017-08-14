@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.task.extend.TaskInfoDetailExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.task.TaskInfoDetail" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="RWLX" property="rwlx" jdbcType="VARCHAR" />
+    <result column="YPBH" property="ypbh" jdbcType="VARCHAR" />
+    <result column="FRWBH" property="frwbh" jdbcType="VARCHAR" />
+    <result column="RWBH" property="rwbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="YPYYBH" property="ypyybh" jdbcType="VARCHAR" />
+    <result column="YPXZ" property="ypxz" jdbcType="VARCHAR" />
+    <result column="YPEWM" property="ypewm" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="RWFPR" property="rwfpr" jdbcType="VARCHAR" />
+    <result column="JSSJ" property="jssj" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+    <result column="FRWID" property="frwid" jdbcType="VARCHAR" />
+    <result column="PCXQID" property="pcxqid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.task.extend.TaskInfoDetailExtend" extends="BaseResultMap">
+  	<result column="FXXM_DISPLAY" property="fxxm_display" jdbcType="VARCHAR" />
+  	<result column="RWZT_DISPLAY" property="rwzt_display" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WID, RWLX, YPBH, FRWBH, RWBH, YPPH, YPYYBH, YPXZ, YPEWM, FXXM, PCWID, DQBH, RWFPR, 
+    JSSJ, RWZT, DATASTATUS, FRWID, PCXQID
+  </sql>
+  <sql id="Base_Display_Column_List">
+    t_contract_task_detail.WID, t_contract_task_detail.RWLX, t_contract_task_detail.YPBH, 
+    t_contract_task_detail.FRWBH, t_contract_task_detail.RWBH, t_contract_task_detail.YPPH, 
+    t_contract_task_detail.YPYYBH, t_contract_task_detail.YPXZ, t_contract_task_detail.YPEWM, 
+    t_contract_task_detail.FXXM, t_contract_task_detail.PCWID, t_contract_task_detail.DQBH, 
+    t_contract_task_detail.RWFPR,t_contract_task_detail.JSSJ, t_contract_task_detail.RWZT, 
+    t_contract_task_detail.DATASTATUS, t_contract_task_detail.FRWID, t_contract_task_detail.PCXQID,
+    T_CONTRACT_SJZD_FXXM.lbmc as FXXM_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS.lbmc as rwzt_display
+  </sql>
+  <select id="selectMaxXh" resultType="java.lang.Integer">
+  		SELECT MAX(DQBH) FROM t_contract_task_detail
+  </select>
+  <select id="selectDispalyTaskInfoByCondition" resultMap="BaseResultDisplayMap">
+  		SELECT 
+  		<include refid="Base_Display_Column_List"/>
+  		from 
+  		t_contract_task_detail t_contract_task_detail
+  		LEFT JOIN T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM ON T_CONTRACT_SJZD_FXXM.LBDM =t_contract_task_detail.fxxm
+  		left join T_CONTRACT_SJZD_TASKSTATUS T_CONTRACT_SJZD_TASKSTATUS on T_CONTRACT_SJZD_TASKSTATUS.lbdm=t_contract_task_detail.rwzt
+  		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="wid!=null">
+				AND WID=#{wid,jdbcType=VARCHAR}
+			</if>
+			<if test="frwid!=null">
+				AND FRWID=#{frwid,jdbcType=VARCHAR}
+			</if>
+			<if test="datastatus!=null">
+				AND datastatus=#{datastatus,jdbcType=VARCHAR}
+			</if>
+		</trim>
+  </select>
+</mapper>

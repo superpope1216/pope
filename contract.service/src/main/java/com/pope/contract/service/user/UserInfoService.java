@@ -5,6 +5,7 @@ import java.util.List;
 import com.pope.contract.condition.UserInfoCondition;
 import com.pope.contract.dto.LoginInfo;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.entity.user.extend.UserInfoExtend;
 
 public interface UserInfoService {
 	int insert(UserInfo record,String userId,String userInfoRoles) throws Exception;
@@ -23,6 +24,7 @@ public interface UserInfoService {
 
 	int updateByPrimaryKey(UserInfo record,String userId) throws Exception;
 	
-	 List<UserInfo> selectListByCondition(UserInfoCondition condition);
+	 
+	 List<UserInfoExtend> selectDisplayByCondition(UserInfo userInfo) throws Exception;
 
 }

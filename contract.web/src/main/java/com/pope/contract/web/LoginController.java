@@ -24,7 +24,8 @@ import com.pope.contract.entity.system.Role;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.util.CommonUtil;
-import com.pope.contract.util.ConstantUtil; 
+import com.pope.contract.util.ConstantUtil;
+import com.pope.contract.util.StringEncrypt; 
 
 
 @Controller
@@ -53,33 +54,36 @@ public class LoginController extends BaseController{
 	        if (user == null) {
 	            return Result.instance(ResponseCode.unknown_account.getCode(), ResponseCode.unknown_account.getMsg());
 	        }
-	        if (user.getStatus() == 3) {
+	        if (user.getDatastatus() == 3) {
 	            return Result.instance(ResponseCode.forbidden_account.getCode(), ResponseCode.forbidden_account.getMsg());
 	        }
-	        Subject subject = SecurityUtils.getSubject();
-	        subject.login(new UsernamePasswordToken(loginName, password));
-	        LoginInfo loginInfo = userInfoService.login(user);
-	        subject.getSession().setAttribute(ConstantUtil.USER_SESSION_NAME, loginInfo);
-	        if(loginInfo!=null){
-	        	if(CommonUtil.isNotEmptyList(loginInfo.getRoles())){
-	        		subject.getSession().setAttribute(ConstantUtil.USER_CURRENT_ROLE, loginInfo.getRoles().get(0));
-	        	}
-	        }
-	        
+
 	        LOG.debug("登录成功");
-	        return Result.success(loginInfo);
+	        //if(user.getPassword().equals(StringEncrypt.encrypt(password))){
+	        if(user.getPassword().equals(password)){
+	        	LoginInfo loginInfo = userInfoService.login(user);
+	        	request.getSession(true).setAttribute(ConstantUtil.USER_SESSION_NAME, loginInfo);
+		        if(loginInfo!=null){
+		        	if(CommonUtil.isNotEmptyList(loginInfo.getRoles())){
+		        		request.getSession().setAttribute(ConstantUtil.USER_CURRENT_ROLE, loginInfo.getRoles().get(0));
+		        	}
+		        }
+	        	return Result.success(loginInfo);
+	        }else{
+	        	return Result.error();
+	        }
 	    }
 	@RequestMapping(value="changeRole",method=RequestMethod.GET)
-	public String changeRole(@RequestParam String wid){
+	public String changeRole(@RequestParam String wid,HttpServletRequest request){
 		
-		Subject subject = SecurityUtils.getSubject();
-		LoginInfo loginInfo =(LoginInfo) subject.getSession().getAttribute(ConstantUtil.USER_SESSION_NAME);
+		//Subject subject = SecurityUtils.getSubject();
+		LoginInfo loginInfo =(LoginInfo) request.getSession(false).getAttribute(ConstantUtil.USER_SESSION_NAME);
 		if(loginInfo!=null){
 			List<Role> roles=loginInfo.getRoles();
 			if(CommonUtil.isNotEmptyList(roles)){
 				for(Role role:roles){
 					if(role.getWid().equals(wid)){
-						subject.getSession().setAttribute(ConstantUtil.USER_CURRENT_ROLE, role);
+						request.getSession(false).setAttribute(ConstantUtil.USER_CURRENT_ROLE, role);
 					}
 				}
 			}

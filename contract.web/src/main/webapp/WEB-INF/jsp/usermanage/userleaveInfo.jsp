@@ -65,7 +65,9 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="levelForm">
 						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
+							<input type="hidden" name="wid" value=""> 
+							<input type="hidden" name="taskstatus" value="">
+							<label
 								for="type" class="col-sm-2 required">请假类型</label>
 							<div class="col-md-8 col-sm-8">
 								<select name="type" class="form-control" required placeholder="请选择请假类型">
@@ -95,7 +97,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="content" class="col-sm-2 required">备注</label>
+							<label for="content" class="col-sm-2">备注</label>
 							<div class="col-md-8 col-sm-8">
 								<textarea name="content" class="form-control" placeholder="请输入备注信息">
 								</textarea>
@@ -107,7 +109,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="btnSaveLeaveInfo">保存</button>
+					<button type="button" class="btn btn-primary" id="btnSaveLeaveInfo">保存草稿</button>
+					<button type="button" class="btn btn-primary" id="btnShLeaveInfo">提交审核</button>
 				</div>
 			</div>
 		</div>
@@ -141,10 +144,13 @@
 						{{/if}}
 					</td>
 					<td class="text-center"><div class="btn-group">
+							{{if taskstatus=="01"}}
+
           								<button type="button" data-key='{{= wid}}' data-option='editLeave' class="btn btn-xs btn-primary"><i class="icon icon-edit"></i>编辑</button>
 			
           								<button type="button" data-key='{{= wid}}' data-option='deleteLeave' style="margin-left:4px;" class="btn btn-xs btn-danger"><i class="icon icon-times"></i>删除</button>
-        							</div></td>
+							{{/if}}
+        			</div></td>
 				</tr>
 			</script>
 	<script type="text/javascript"

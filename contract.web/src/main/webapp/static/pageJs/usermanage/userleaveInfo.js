@@ -64,8 +64,23 @@ $(document).ready(function(){
 		$("#modelEdithLevelInfo").modal("show");
 	}); 
 	
+	$("#btnShLeaveInfo").click(function(){
+		if(_validater.form()){
+			$("#levelForm [name='taskstatus']").val("02");
+			var url=basePath+"/userleaves";
+			if($("#levelForm [name='wid']").val()==""){
+				url+="/insert";
+			}else{
+				url+="/update";
+			}
+			doPost(url,$("#levelForm").serializeArray(),function(data){
+				window.location.reload();
+			});
+		}
+	});
 	$("#btnSaveLeaveInfo").click(function(){
 		if(_validater.form()){
+			$("#levelForm [name='taskstatus']").val("01");
 			var url=basePath+"/userleaves";
 			if($("#levelForm [name='wid']").val()==""){
 				url+="/insert";

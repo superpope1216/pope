@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.project.extend.BatchInfoDetailExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfoDetail" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="YPBH" property="ypbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="YPYYBH" property="ypyybh" jdbcType="VARCHAR" />
+    <result column="YPXZ" property="ypxz" jdbcType="VARCHAR" />
+    <result column="YPEWM" property="ypewm" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.project.extend.BatchInfoDetailExtend" extends="BaseResultMap" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="YPBH" property="ypbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="YPYYBH" property="ypyybh" jdbcType="VARCHAR" />
+    <result column="YPXZ" property="ypxz" jdbcType="VARCHAR" />
+    <result column="YPEWM" property="ypewm" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="FXXM_DISPLAY" property="fxxm_display" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    WID, YPBH, YPPH, YPYYBH, YPXZ, YPEWM, FXXM, PCWID, DQBH
+  </sql>
+   <sql id="Base_Display_Column_List" >
+    t_contract_pcgl_detail.WID, t_contract_pcgl_detail.YPBH, t_contract_pcgl_detail.YPPH, 
+    t_contract_pcgl_detail.YPYYBH, t_contract_pcgl_detail.YPXZ, t_contract_pcgl_detail.YPEWM,
+     t_contract_pcgl_detail.FXXM, t_contract_pcgl_detail.PCWID,
+     T_CONTRACT_SJZD_FXXM.LBMC AS FXXM_DISPLAY
+    
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_pcgl_detail 
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="wid!=null">
+    		AND WID=#{wid,jdbcType=VARCHAR}
+    	</if>
+    	<if test="ypbh">
+    		AND ypbh=#{ypbh,jdbcType=VARCHAR}
+    	</if>
+    </trim>
+  </select>
+  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap" parameterType="com.pope.contract.entity.project.BatchInfoDetail" >
+    select 
+    <include refid="Base_Display_Column_List" />
+    from t_contract_pcgl_detail t_contract_pcgl_detail
+    LEFT JOIN T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM ON t_contract_pcgl_detail.FXXM=T_CONTRACT_SJZD_FXXM.LBDM
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="wid!=null">
+    		AND t_contract_pcgl_detail.WID=#{wid,jdbcType=VARCHAR}
+    	</if>
+    	<if test="ypbh">
+    		AND t_contract_pcgl_detail.ypbh=#{ypbh,jdbcType=VARCHAR}
+    	</if>
+    </trim>
+  </select>
+  <delete id="deleteByPcid" parameterType="java.lang.String">
+  	DELETE FROM t_contract_pcgl_detail WHERE PCWID=#{pcid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectMaxDqbh" resultType="java.lang.Integer">
+  	SELECT MAX(DQBH) FROM t_contract_pcgl_detail
+  </select>
+</mapper>

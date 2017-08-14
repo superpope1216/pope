@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.task.TaskInfoDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.task.TaskInfoDetail" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="RWLX" property="rwlx" jdbcType="VARCHAR" />
+    <result column="YPBH" property="ypbh" jdbcType="VARCHAR" />
+    <result column="FRWBH" property="frwbh" jdbcType="VARCHAR" />
+    <result column="RWBH" property="rwbh" jdbcType="VARCHAR" />
+    <result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+    <result column="YPYYBH" property="ypyybh" jdbcType="VARCHAR" />
+    <result column="YPXZ" property="ypxz" jdbcType="VARCHAR" />
+    <result column="YPEWM" property="ypewm" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="RWFPR" property="rwfpr" jdbcType="VARCHAR" />
+    <result column="JSSJ" property="jssj" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+    <result column="FRWID" property="frwid" jdbcType="VARCHAR" />
+    <result column="PCXQID" property="pcxqid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, RWLX, YPBH, FRWBH, RWBH, YPPH, YPYYBH, YPXZ, YPEWM, FXXM, PCWID, DQBH, RWFPR, 
+    JSSJ, RWZT, DATASTATUS, FRWID, PCXQID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_task_detail
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_task_detail
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.task.TaskInfoDetail" >
+    insert into t_contract_task_detail (WID, RWLX, YPBH, 
+      FRWBH, RWBH, YPPH, 
+      YPYYBH, YPXZ, YPEWM, 
+      FXXM, PCWID, DQBH, 
+      RWFPR, JSSJ, RWZT, 
+      DATASTATUS, FRWID, PCXQID
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{rwlx,jdbcType=VARCHAR}, #{ypbh,jdbcType=VARCHAR}, 
+      #{frwbh,jdbcType=VARCHAR}, #{rwbh,jdbcType=VARCHAR}, #{ypph,jdbcType=VARCHAR}, 
+      #{ypyybh,jdbcType=VARCHAR}, #{ypxz,jdbcType=VARCHAR}, #{ypewm,jdbcType=VARCHAR}, 
+      #{fxxm,jdbcType=VARCHAR}, #{pcwid,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
+      #{rwfpr,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{rwzt,jdbcType=VARCHAR}, 
+      #{datastatus,jdbcType=VARCHAR}, #{frwid,jdbcType=VARCHAR}, #{pcxqid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.task.TaskInfoDetail" >
+    insert into t_contract_task_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="rwlx != null" >
+        RWLX,
+      </if>
+      <if test="ypbh != null" >
+        YPBH,
+      </if>
+      <if test="frwbh != null" >
+        FRWBH,
+      </if>
+      <if test="rwbh != null" >
+        RWBH,
+      </if>
+      <if test="ypph != null" >
+        YPPH,
+      </if>
+      <if test="ypyybh != null" >
+        YPYYBH,
+      </if>
+      <if test="ypxz != null" >
+        YPXZ,
+      </if>
+      <if test="ypewm != null" >
+        YPEWM,
+      </if>
+      <if test="fxxm != null" >
+        FXXM,
+      </if>
+      <if test="pcwid != null" >
+        PCWID,
+      </if>
+      <if test="dqbh != null" >
+        DQBH,
+      </if>
+      <if test="rwfpr != null" >
+        RWFPR,
+      </if>
+      <if test="jssj != null" >
+        JSSJ,
+      </if>
+      <if test="rwzt != null" >
+        RWZT,
+      </if>
+      <if test="datastatus != null" >
+        DATASTATUS,
+      </if>
+      <if test="frwid != null" >
+        FRWID,
+      </if>
+      <if test="pcxqid != null" >
+        PCXQID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="rwlx != null" >
+        #{rwlx,jdbcType=VARCHAR},
+      </if>
+      <if test="ypbh != null" >
+        #{ypbh,jdbcType=VARCHAR},
+      </if>
+      <if test="frwbh != null" >
+        #{frwbh,jdbcType=VARCHAR},
+      </if>
+      <if test="rwbh != null" >
+        #{rwbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypph != null" >
+        #{ypph,jdbcType=VARCHAR},
+      </if>
+      <if test="ypyybh != null" >
+        #{ypyybh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypxz != null" >
+        #{ypxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ypewm != null" >
+        #{ypewm,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        #{dqbh,jdbcType=INTEGER},
+      </if>
+      <if test="rwfpr != null" >
+        #{rwfpr,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="rwzt != null" >
+        #{rwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        #{datastatus,jdbcType=VARCHAR},
+      </if>
+      <if test="frwid != null" >
+        #{frwid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcxqid != null" >
+        #{pcxqid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.task.TaskInfoDetail" >
+    update t_contract_task_detail
+    <set >
+      <if test="rwlx != null" >
+        RWLX = #{rwlx,jdbcType=VARCHAR},
+      </if>
+      <if test="ypbh != null" >
+        YPBH = #{ypbh,jdbcType=VARCHAR},
+      </if>
+      <if test="frwbh != null" >
+        FRWBH = #{frwbh,jdbcType=VARCHAR},
+      </if>
+      <if test="rwbh != null" >
+        RWBH = #{rwbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypph != null" >
+        YPPH = #{ypph,jdbcType=VARCHAR},
+      </if>
+      <if test="ypyybh != null" >
+        YPYYBH = #{ypyybh,jdbcType=VARCHAR},
+      </if>
+      <if test="ypxz != null" >
+        YPXZ = #{ypxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ypewm != null" >
+        YPEWM = #{ypewm,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        FXXM = #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        PCWID = #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        DQBH = #{dqbh,jdbcType=INTEGER},
+      </if>
+      <if test="rwfpr != null" >
+        RWFPR = #{rwfpr,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        JSSJ = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="rwzt != null" >
+        RWZT = #{rwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        DATASTATUS = #{datastatus,jdbcType=VARCHAR},
+      </if>
+      <if test="frwid != null" >
+        FRWID = #{frwid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcxqid != null" >
+        PCXQID = #{pcxqid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.task.TaskInfoDetail" >
+    update t_contract_task_detail
+    set RWLX = #{rwlx,jdbcType=VARCHAR},
+      YPBH = #{ypbh,jdbcType=VARCHAR},
+      FRWBH = #{frwbh,jdbcType=VARCHAR},
+      RWBH = #{rwbh,jdbcType=VARCHAR},
+      YPPH = #{ypph,jdbcType=VARCHAR},
+      YPYYBH = #{ypyybh,jdbcType=VARCHAR},
+      YPXZ = #{ypxz,jdbcType=VARCHAR},
+      YPEWM = #{ypewm,jdbcType=VARCHAR},
+      FXXM = #{fxxm,jdbcType=VARCHAR},
+      PCWID = #{pcwid,jdbcType=VARCHAR},
+      DQBH = #{dqbh,jdbcType=INTEGER},
+      RWFPR = #{rwfpr,jdbcType=VARCHAR},
+      JSSJ = #{jssj,jdbcType=VARCHAR},
+      RWZT = #{rwzt,jdbcType=VARCHAR},
+      DATASTATUS = #{datastatus,jdbcType=VARCHAR},
+      FRWID = #{frwid,jdbcType=VARCHAR},
+      PCXQID = #{pcxqid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

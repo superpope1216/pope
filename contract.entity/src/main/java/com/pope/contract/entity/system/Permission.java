@@ -1,7 +1,9 @@
 package com.pope.contract.entity.system;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Permission implements Serializable{
     /**
@@ -36,8 +38,18 @@ public class Permission implements Serializable{
     private String updateby;
 
     private Integer orderby;
+    
+    private List<Permission> list=new ArrayList<Permission>();
 
-    public String getWid() {
+    public List<Permission> getList() {
+		return list;
+	}
+
+	public void setList(List<Permission> list) {
+		this.list = list;
+	}
+
+	public String getWid() {
         return wid;
     }
 

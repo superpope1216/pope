@@ -43,5 +43,17 @@
 
 	<!--全局异常捕捉 -->
 	<!-- <bean class="com.wisedu.crowd.web.exception.GlobalExceptionResolver" /> -->
-	
+		<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.pope.contract.interceptor.LoginInterceptor" >
+				 <property name="excludedUrls">
+	                <list>
+	                    <value>/jsp/</value>
+	                    <value>/static/</value>
+	                </list>
+           		 </property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

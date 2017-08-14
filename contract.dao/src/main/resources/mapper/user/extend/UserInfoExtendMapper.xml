@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.user.extend.UserInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.user.UserInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME1" property="name1" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="GH" property="gh" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+    <result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+    <result column="TEAM" property="team" jdbcType="VARCHAR" />
+    <result column="DEGREE" property="degree" jdbcType="VARCHAR" />
+    <result column="JOBCATEGORY" property="jobcategory" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="CONTRACTVALIDITY" property="contractvalidity" jdbcType="VARCHAR" />
+    <result column="CONTRACTTIME" property="contracttime" jdbcType="VARCHAR" />
+    <result column="DATASTATUS" property="datastatus" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, NAME1, PASSWORD, GH, PHONE, EMAIL, BIRTHDAY, DEPARTMENT, TEAM, DEGREE, JOBCATEGORY, 
+    JOB, CONTRACTVALIDITY, CONTRACTTIME, DATASTATUS, CreateTime, CreateBy, UpdateTime, 
+    UpdateBy
+  </sql>
+	<resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.user.extend.UserInfoExtend" extends="BaseResultMap">
+		<result column="DEPARTMENT_DISPLAY" property="department_display" jdbcType="VARCHAR" />
+		<result column="TEAM_DISPLAY" property="team_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Display_Column_List">
+		T_CONTRACT_USER_USERINFO.WID, T_CONTRACT_USER_USERINFO.NAME1,T_CONTRACT_USER_USERINFO.PASSWORD,
+		T_CONTRACT_USER_USERINFO.GH, T_CONTRACT_USER_USERINFO.PHONE, T_CONTRACT_USER_USERINFO.EMAIL, 
+		T_CONTRACT_USER_USERINFO.BIRTHDAY, T_CONTRACT_USER_USERINFO.DEPARTMENT, T_CONTRACT_USER_USERINFO.TEAM,
+		T_CONTRACT_USER_USERINFO.DEGREE,T_CONTRACT_USER_USERINFO.JOBCATEGORY,T_CONTRACT_USER_USERINFO.JOB,
+		T_CONTRACT_USER_USERINFO.CONTRACTVALIDITY,T_CONTRACT_USER_USERINFO.CONTRACTTIME,
+		T_CONTRACT_USER_USERINFO.DATASTATUS,T_CONTRACT_USER_USERINFO.CreateTime,T_CONTRACT_USER_USERINFO.CreateBy,
+		T_CONTRACT_USER_USERINFO.UpdateTime,T_CONTRACT_USER_USERINFO.UpdateBy,
+		T_CONTRACT_SYS_DEPART.NAME AS DEPARTMENT_DISPLAY,T_CONTRACT_SYS_TEAM.NAME AS TEAM_DISPLAY
+	</sql>
+	<select id="selectDisplayByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.user.UserInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		from T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_DEPART ON T_CONTRACT_USER_USERINFO.DEPARTMENT=T_CONTRACT_SYS_DEPART.BM AND STATUS=1
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_TEAM ON T_CONTRACT_USER_USERINFO.TEAM=T_CONTRACT_SYS_TEAM.BM AND STATUS=1
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="wid!=null">
+				AND T_CONTRACT_USER_USERINFO.WID=#{wid,jdbcType=VARCHAR}
+			</if>
+			<if test="name!=null  or gh!=null">
+				AND (T_CONTRACT_USER_USERINFO.NAME LIKE  LIKE '%${name}%'
+				or T_CONTRACT_USER_USERINFO.GH LIKE  LIKE '%${gh}%')
+			</if>
+			<if test="status!=null">
+				AND status=#{status,jdbcType=INTEGER}
+			</if>
+		</trim>
+		ORDER BY GH
+	</select>
+	
+	<select id="selectByGh" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_CONTRACT_USER_USERINFO
+		where GH = #{gh,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

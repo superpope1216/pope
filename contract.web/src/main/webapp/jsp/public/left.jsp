@@ -25,70 +25,36 @@
 			Role role = currentRole;
 			List<Permission> permissions = role.getPermissions();
 			boolean findSecond = false, findThree = false;
+
 			if (CommonUtil.isNotEmptyList(permissions)) {
-				int i = 0;
-				int j = 0;
+				StringBuilder secondMenu = new StringBuilder();
+				StringBuilder threeMenu = new StringBuilder();
+				String secondUrl = "", secondName = "";
 				for (Permission per : permissions) {
-					if (per.getLevel() == MenuLevel.SECOND.getCode()) {
-						System.out.println("=======" + per.getName());
-						findSecond = true;
-						findThree = false;
-						j = 0;
-						if (i != 0) {
+					if (CommonUtil.isNotEmptyList(per.getList())) {
 		%>
-		</div>
-	<%
-		}
-						i++;	
-				} else if (per.getLevel() == MenuLevel.THREE.getCode()) {
-					System.out.println("=======2" + per.getName());
-					findThree = true;
-					findSecond = false;
-				} else {
-					findThree = false;
-					findSecond = false;
-				}
-				if (findSecond) {
-	%>
-	<div class='item vertical open active'>
-		<a href='#'> <i class='icon icon-cogs'></i> <span><%=per.getName()%></span>
-			<span class='arrow'></span></a>
-		<%
-			}
-					if (findThree) {
-						String url = per.getUrl();
-						String href = "";
-						if (url.indexOf(",") >= 0) {
-							String[] urls = url.split(",");
-							for (String s : urls) {
-								if (s.indexOf("index") >= 0) {
-									href = s;
-									break;
-								}
-							}
-						}
-						if (j == 0) {
-		%>
-		<div class='vertical-menu'>
+		<div class='item vertical open active'>
+			<a href='#'> <i class='icon icon-cogs'></i> <span><%=per.getName()%></span>
+				<span class='arrow'></span></a>
 			<%
-				} else {
-								if (findSecond) {
+						for (Permission per2 : per.getList()) {
+			%>
+			<div class='vertical-menu'>
+				<a href='${pageContext.request.contextPath}<%=per2.getUrl() %>'><%=per2.getName()%></a>
+			</div>
+			<%
+							}
+					} else {
+			%>
+			<div class='item vertical  '>
+				<a href='${pageContext.request.contextPath}<%=per.getUrl() %>'>
+					<i class='icon icon-cogs'></i> <span><%=per.getName()%></span>
+				</a>
+			</div>
+			<%
+				  }
+				}
+			}
 			%>
 		</div>
-		<%
-			}
-						}
-		%>
-		<a href='${pageContext.request.contextPath}<%=href %>'><%=per.getName()%></a>
-		<%
-			j++;
-					}
-
-				}
-		%>
-	</div>
-	<%
-		}
-	%>
-	</div>
 </aside>

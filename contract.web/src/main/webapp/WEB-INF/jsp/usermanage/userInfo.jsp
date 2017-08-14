@@ -24,7 +24,7 @@
 							<div class="search">
 
 
-								用户信息： <input type="text" class="text" name="topic"
+								用户信息： <input type="text" class="text" id="queryCondition"
 									placeholder="可根据工号、姓名搜索" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
 							</div>
@@ -194,16 +194,17 @@
 				<tr>
 					<td class="text-center">{{= name}}</td>
 					<td class="text-center">{{= gh}}</td>
-					<td class="text-left">{{= department}}</td>
-					<td class="text-left">{{= team}}</td>
+					<td class="text-left">{{= department_display}}</td>
+					<td class="text-left">{{= team_display}}</td>
 					<td class="text-left">{{= degree}}</td>
 					<td class="text-left">{{= jobcategory}}</td>
 					<td class="text-left">{{= job}}</td>
-					<td class="text-center"><div class="btn-group">
-          								<button type="button" class="btn btn-xs btn-primary" data-option="editUser" data-key="{{= wid}}"><i class="icon icon-edit"></i>编辑</button>
-			
-          								<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="deleteUser" data-key="{{= wid}}"><i class="icon icon-times"></i>删除</button>
-        							</div></td>
+					<td class="text-center">
+						<div class="btn-group">
+          					<button type="button" class="btn btn-xs btn-primary" data-option="editUser" data-key="{{= wid}}"><i class="icon icon-edit"></i>编辑</button>
+							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="deleteUser" data-key="{{= wid}}"><i class="icon icon-times"></i>删除</button>
+        				</div>
+				    </td>
 				</tr>
 			</script>
 	<script type="text/javascript"

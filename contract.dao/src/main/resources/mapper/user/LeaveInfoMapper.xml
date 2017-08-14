@@ -67,10 +67,10 @@
     </if>
     AND A.YHID=B.WID AND B.STATUS=1
     AND A.STATUS=1
-    <if test="shType='01'">
+    <if test="shType=='01'">
     	AND B.TEAM=#{teamId,jdbcType=VARCHAR}	
     </if>
-    <if test="shType='02'">
+    <if test="shType=='02'">
     	AND B.DEPARTMENT=#{departmentId,jdbcType=VARCHAR}
     </if>
     <if test="taskStatus!=null">

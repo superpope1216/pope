@@ -3,9 +3,7 @@ package com.pope.contract.entity.user;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.pope.contract.entity.system.Department;
-
-public class UserInfo implements Serializable{
+public class UserInfo implements Serializable {
     /**
 	 * 
 	 */
@@ -13,10 +11,11 @@ public class UserInfo implements Serializable{
 
 	private String wid;
 
-    private String name;
-    
-    private String password; 
-	private String gh;
+    private String name1;
+
+    private String password;
+
+    private String gh;
 
     private String phone;
 
@@ -25,12 +24,8 @@ public class UserInfo implements Serializable{
     private String birthday;
 
     private String department;
-    
-    private Department department_Display;
 
     private String team;
-    
-    private Department team_Display;
 
     private String degree;
 
@@ -42,7 +37,7 @@ public class UserInfo implements Serializable{
 
     private String contracttime;
 
-    private Integer status;
+    private Integer datastatus;
 
     private Date createtime;
 
@@ -51,18 +46,8 @@ public class UserInfo implements Serializable{
     private Date updatetime;
 
     private String updateby;
-    
-    private UserInfoRole userInfoRole=new UserInfoRole();
 
-    public UserInfoRole getUserInfoRole() {
-		return userInfoRole;
-	}
-
-	public void setUserInfoRole(UserInfoRole userInfoRole) {
-		this.userInfoRole = userInfoRole;
-	}
-
-	public String getWid() {
+    public String getWid() {
         return wid;
     }
 
@@ -70,12 +55,20 @@ public class UserInfo implements Serializable{
         this.wid = wid == null ? null : wid.trim();
     }
 
-    public String getName() {
-        return name;
+    public String getName1() {
+        return name1;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setName1(String name1) {
+        this.name1 = name1 == null ? null : name1.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public String getGh() {
@@ -86,13 +79,6 @@ public class UserInfo implements Serializable{
         this.gh = gh == null ? null : gh.trim();
     }
 
-    public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
     public String getPhone() {
         return phone;
     }
@@ -173,12 +159,12 @@ public class UserInfo implements Serializable{
         this.contracttime = contracttime == null ? null : contracttime.trim();
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getDatastatus() {
+        return datastatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setDatastatus(Integer datastatus) {
+        this.datastatus = datastatus;
     }
 
     public Date getCreatetime() {

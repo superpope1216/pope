@@ -14,7 +14,7 @@ $(document).ready(function(){
 	function queryListJxz(){
 		doGet(basePath+"/userleavesexamine/listOther","taskStatu=03",function(data){
 			if(data.data.data){
-				$('#tblLevelInfoTpl').tmpl(data.data.data).appendTo('#tblJxzLevelInfo');
+				$('#tblLevelInfoTpl2').tmpl(data.data.data).appendTo('#tblJxzLevelInfo');
 				$("#jxzTable").datatable({sortable: true});
 			}else{
 				$("#jxzTable").datatable({sortable: true});
@@ -25,7 +25,7 @@ $(document).ready(function(){
 	function queryListYwc(){
 		doGet(basePath+"/userleavesexamine/listOther","taskStatu=04",function(data){
 			if(data.data.data){
-				$('#tblLevelInfoTpl').tmpl(data.data.data).appendTo('#tblYwcLevelInfo');
+				$('#tblLevelInfoTpl2').tmpl(data.data.data).appendTo('#tblYwcLevelInfo');
 				$("#ywcTable").datatable({sortable: true});
 			}else{
 				$("#ywcTable").datatable({sortable: true});
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	function queryListBtg(){
 		doGet(basePath+"/userleavesexamine/listOther","taskStatu=-99",function(data){
 			if(data.data.data){
-				$('#tblLevelInfoTpl').tmpl(data.data.data).appendTo('#tblBtgLevelInfo');
+				$('#tblLevelInfoTpl2').tmpl(data.data.data).appendTo('#tblBtgLevelInfo');
 				$("#btgTable").datatable({sortable: true});
 			}else{
 				$("#btgTable").datatable({sortable: true});

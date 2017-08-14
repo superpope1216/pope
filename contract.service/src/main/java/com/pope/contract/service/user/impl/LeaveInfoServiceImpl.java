@@ -97,7 +97,7 @@ public class LeaveInfoServiceImpl implements LeaveInfoService {
 		flowSetData.setWid(StringUtil.getUuId());
 		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
 		flowSetData.setCurrentStep(flowSet.getPx());
-		flowSetData.setCurrentState(FlowStateCode.DSH.getCode());
+		flowSetData.setCurrentState(record.getTaskstatus());
 		flowSetData.setDataId(userLevelId);
 		flowSetData.setType(FlowSetCode.LEAVE.getCode());
 		flowSetData.setShid(userId);
