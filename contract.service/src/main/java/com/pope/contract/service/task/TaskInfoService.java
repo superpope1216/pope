@@ -1,6 +1,7 @@
 package com.pope.contract.service.task;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
@@ -17,4 +18,31 @@ public interface TaskInfoService {
 	List<TaskInfo> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception;
 	
 	List<TaskInfoDetail> selectDispalyTaskInfoDetailByCondition(TaskInfoDetail taskInfo) throws Exception;
+	
+	void submitTaskInfoDetail(String pid,List<Map> datas,String userId) throws Exception;
+	
+	void submitTaskInfo(List<Map> datas,String userId) throws Exception;
+	/**
+	 * 根据当前的审核步骤获取任务信息
+	 * @param taskInfo
+	 * @return
+	 * @throws Exception
+	 */
+	List<TaskInfo> selectWaitTaskInfoByStep(String roleId) throws Exception;
+	/**
+	 * 审核通过
+	 * @param wid
+	 * @param userid
+	 * @throws Exception
+	 */
+	void examinePass(String wid,String userid) throws Exception;
+	
+	/**
+	 * 审核通过
+	 * @param wid
+	 * @param userid
+	 * @throws Exception
+	 */
+	void examineNotPass(String wid,String userid) throws Exception;
+	
 }

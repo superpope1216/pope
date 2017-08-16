@@ -15,7 +15,7 @@
     <result column="SJJSSJ" property="sjjssj" jdbcType="VARCHAR" />
     <result column="RWSHR" property="rwshr" jdbcType="VARCHAR" />
     <result column="SHWCSJ" property="shwcsj" jdbcType="VARCHAR" />
-    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="INTEGER" />
     <result column="FJ" property="fj" jdbcType="VARCHAR" />
     <result column="BZ" property="bz" jdbcType="VARCHAR" />
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
@@ -49,7 +49,7 @@
       #{rwbh,jdbcType=VARCHAR}, #{ypph,jdbcType=VARCHAR}, #{fxxm,jdbcType=VARCHAR}, #{rwfpr,jdbcType=VARCHAR}, 
       #{jhkssj,jdbcType=VARCHAR}, #{jhjssj,jdbcType=VARCHAR}, #{sjkssj,jdbcType=VARCHAR}, 
       #{sjjssj,jdbcType=VARCHAR}, #{rwshr,jdbcType=VARCHAR}, #{shwcsj,jdbcType=VARCHAR}, 
-      #{rwzt,jdbcType=VARCHAR}, #{fj,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
+      #{rwzt,jdbcType=INTEGER}, #{fj,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
       #{pcwid,jdbcType=VARCHAR}, #{datastatus,jdbcType=VARCHAR}, #{currentstep,jdbcType=INTEGER}
       )
   </insert>
@@ -158,7 +158,7 @@
         #{shwcsj,jdbcType=VARCHAR},
       </if>
       <if test="rwzt != null" >
-        #{rwzt,jdbcType=VARCHAR},
+        #{rwzt,jdbcType=INTEGER},
       </if>
       <if test="fj != null" >
         #{fj,jdbcType=VARCHAR},
@@ -220,7 +220,7 @@
         SHWCSJ = #{shwcsj,jdbcType=VARCHAR},
       </if>
       <if test="rwzt != null" >
-        RWZT = #{rwzt,jdbcType=VARCHAR},
+        RWZT = #{rwzt,jdbcType=INTEGER},
       </if>
       <if test="fj != null" >
         FJ = #{fj,jdbcType=VARCHAR},
@@ -257,7 +257,7 @@
       SJJSSJ = #{sjjssj,jdbcType=VARCHAR},
       RWSHR = #{rwshr,jdbcType=VARCHAR},
       SHWCSJ = #{shwcsj,jdbcType=VARCHAR},
-      RWZT = #{rwzt,jdbcType=VARCHAR},
+      RWZT = #{rwzt,jdbcType=INTEGER},
       FJ = #{fj,jdbcType=VARCHAR},
       BZ = #{bz,jdbcType=VARCHAR},
       DQBH = #{dqbh,jdbcType=INTEGER},

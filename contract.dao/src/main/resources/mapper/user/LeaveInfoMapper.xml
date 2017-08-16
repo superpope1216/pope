@@ -22,7 +22,7 @@
     	<result column="taskStatusDisplayvalue" property="lbmc" jdbcType="VARCHAR"/>
     </association>
     <association property="userInfo" column="YHID" javaType="com.pope.contract.entity.user.UserInfo">
-    	<result column="userName" property="name" jdbcType="VARCHAR"/>
+    	<result column="userName" property="name1" jdbcType="VARCHAR"/>
     	<result column="gh" property="gh" jdbcType="VARCHAR"/>
     </association>
     <association property="qjlxSjzd" column="type" javaType="com.pope.contract.entity.system.Sjzd">
@@ -45,7 +45,7 @@
   </select>
    <select id="selectByYhid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue,
+    <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,
     D.NAME AS taskStatusDisplayvalue
     from t_contract_user_leaveinfo A
     LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.STATUS=1
@@ -56,7 +56,7 @@
     ORDER BY A.CREATETIME DESC
   </select>
   <select id="selectLeaveInfoByStep" resultMap="BaseResultMap">
-  	SELECT <include refid="Base_Column_List2" />,B.NAME AS USERNAME,C.LBMC AS typeDisplayvalue,
+  	SELECT <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,
   	D.NAME AS taskStatusDisplayvalue
     from T_CONTRACT_USER_USERINFO B,t_contract_user_leaveinfo A
     LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1

@@ -33,11 +33,16 @@
 				</div>
 				<div class="panel">
 					<div class="panel-body">
+					<div class="pull-right">
+							<button class="btn btn-primary btnQuery" id="btnSubmitSh">提交审核</button>
+					</div>
 						<br> <br>
 						<table class="table table-bordered datatable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
+								<th class="text-center" style="width: 80px;"><input
+										type="checkbox" name="selAll" /></th>
 									<th class="text-center">任务分类</th>
 									<th class="text-center">任务名称</th>
 									<th class="text-center">责任人</th>
@@ -64,6 +69,7 @@
 	
 	<script id="tblUserInfoTpl" type="text/x-jquery-tmpl">
 				<tr>
+					<td class="text-center"><input type="checkbox" name="chkSingle" value="{{= wid}}" data-rwzt="{{= rwzt}}"></td>
 					<td class="text-center">{{= rwlx}}</td>
 					<td class="text-center">{{= rwmc}}</td>
 					<td class="text-center">{{= rwfpr_display}}</td>

@@ -18,10 +18,6 @@ public class BatchInfoExtend extends BatchInfo implements Serializable{
 	
 	private String pclb_display;
 	
-	private String pp_display;
-	
-	private String sldw_display;
-	
 	private String hbdw_display;
 	
 	private String pczt_display;
@@ -34,21 +30,6 @@ public class BatchInfoExtend extends BatchInfo implements Serializable{
 		this.pclb_display = pclb_display;
 	}
 
-	public String getPp_display() {
-		return pp_display;
-	}
-
-	public void setPp_display(String pp_display) {
-		this.pp_display = pp_display;
-	}
-
-	public String getSldw_display() {
-		return sldw_display;
-	}
-
-	public void setSldw_display(String sldw_display) {
-		this.sldw_display = sldw_display;
-	}
 
 	public String getHbdw_display() {
 		return hbdw_display;

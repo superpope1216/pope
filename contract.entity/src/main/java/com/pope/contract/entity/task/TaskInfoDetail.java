@@ -2,12 +2,11 @@ package com.pope.contract.entity.task;
 
 import java.io.Serializable;
 
-public class TaskInfoDetail implements Serializable{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class TaskInfoDetail implements Serializable {
+	 /**
+		 * 
+		 */
+	 private static final long serialVersionUID = 1L;
 	private String wid;
 
     private String rwlx;
@@ -36,7 +35,7 @@ public class TaskInfoDetail implements Serializable{
 
     private String jssj;
 
-    private String rwzt;
+    private Integer rwzt;
 
     private String datastatus;
 
@@ -156,12 +155,12 @@ public class TaskInfoDetail implements Serializable{
         this.jssj = jssj == null ? null : jssj.trim();
     }
 
-    public String getRwzt() {
+    public Integer getRwzt() {
         return rwzt;
     }
 
-    public void setRwzt(String rwzt) {
-        this.rwzt = rwzt == null ? null : rwzt.trim();
+    public void setRwzt(Integer rwzt) {
+        this.rwzt = rwzt;
     }
 
     public String getDatastatus() {

@@ -65,7 +65,7 @@ public class FlowSetServiceImpl implements FlowSetService{
 
 	@Override
 	public FlowSet selectNextStep(String type, int currentStep) throws Exception {
-		List<FlowSet> list=flowSetMapper.selectNextStep(currentStep,FlowSetCode.LEAVE.getCode());
+		List<FlowSet> list=flowSetMapper.selectNextStep(currentStep,type);
 		FlowSet flowSet=null;
 		if(CommonUtil.isNotEmptyList(list)){
 			flowSet=list.get(0);

@@ -44,8 +44,8 @@ public class UserLeaveExamineController extends BaseController{
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
 	public Result listDsh(Integer startPage,HttpServletRequest request) throws Exception{
-		LoginInfo loginInfo = (LoginInfo) request.getSession().getAttribute(ConstantUtil.USER_SESSION_NAME);
-		Role currentRole = (Role) request.getSession().getAttribute(ConstantUtil.USER_CURRENT_ROLE);
+		LoginInfo loginInfo =this.getLoginInfo();
+		Role currentRole = this.getRole();
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}
@@ -65,8 +65,8 @@ public class UserLeaveExamineController extends BaseController{
 	@RequestMapping(value="listOther",method=RequestMethod.GET)
 	@ResponseBody
 	public Result listOther(String taskStatu,Integer startPage,HttpServletRequest request) throws Exception{
-		LoginInfo loginInfo = (LoginInfo) request.getSession().getAttribute(ConstantUtil.USER_SESSION_NAME);
-		Role currentRole = (Role) request.getSession().getAttribute(ConstantUtil.USER_CURRENT_ROLE);
+		LoginInfo loginInfo = this.getLoginInfo();
+		Role currentRole = this.getRole();
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}

@@ -13,8 +13,8 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">系统管理</a></li>
-					<li class="active">用户管理</li>
+					<li><a href="#">耗材管理</a></li>
+					<li class="active">公共仓库</li>
 				</ol>
 			</div>
 			<div class="wrapper">
@@ -25,7 +25,7 @@
 
 
 								<input type="text" class="text" name="topic"
-									placeholder="送样人/样品批次号/样品编号" class="queryCondition"> &nbsp;
+									placeholder="品名/消耗品批次号" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
 							</div>
 						</form>
@@ -34,11 +34,9 @@
 				<div class="panel">
 					<div class="panel-body">
 						<div class="pull-left">
-							<button class="btn btn-primary btnQuery" id="btnQcht">起草合同</button>
-							<button class="btn btn-primary btnQuery" id="btnFqrw">发起任务</button>
+							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
 						</div>
 						<div class="pull-right">
-							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
 							<button class="btn btn-primary" style="width: 100px; margin-left: 10px;">导入</button>
 							<button class="btn btn-primary btnQuery">导出</button>
 						</div>
@@ -51,15 +49,12 @@
 									<th style="width:80px;" class="text-center">
 										<input type="checkbox" name="selAll">
 									</th>
-									<th class="text-center">样品批次</th>
+									<th class="text-center">消耗品名</th>
+									<th class="text-center">消耗品编号</th>
 									<th class="text-center">类别</th>
-									<th class="text-center">送样人</th>
+									<th class="text-center">有效期</th>
 									<th class="text-center">数量</th>
-									<th class="text-center">单位</th>
-									<th class="text-center">存放地</th>
-									<th class="text-center">对方单位</th>
-									<th class="text-center">批次状态</th>
-									<th class="text-center">送样时间</th>
+									<th class="text-center">供应商</th>
 									<th style="width:160px;" class="text-center">操作</th>
 								</tr>
 							</thead>
@@ -201,9 +196,6 @@
 					<td class="text-left">{{= sl}}</td>
 					<td class="text-left">{{= sldw}}</td>
 					<td class="text-left">{{= cfd}}</td>
-					<td class="text-left">{{= gys}}</td>
-					<td class="text-left">{{= pczt_display}}</td>
-					<td class="text-left">{{= pczt_sysj}}</td>
 					<td class="text-center">
 						<div class="btn-group">
           					<button type="button" class="btn btn-xs btn-primary" data-option="copy" data-key="{{= wid}}">复</button>
@@ -216,6 +208,6 @@
 				</tr>
 			</script>
 	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/static/pageJs/project/batchInfo.js"></script>
+		src="${pageContext.request.contextPath}/static/pageJs/supply/supplyInfo.js"></script>
 </body>
 </html>

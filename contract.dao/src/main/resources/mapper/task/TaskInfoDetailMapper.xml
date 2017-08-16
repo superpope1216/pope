@@ -16,7 +16,7 @@
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
     <result column="RWFPR" property="rwfpr" jdbcType="VARCHAR" />
     <result column="JSSJ" property="jssj" jdbcType="VARCHAR" />
-    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="INTEGER" />
     <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
     <result column="FRWID" property="frwid" jdbcType="VARCHAR" />
     <result column="PCXQID" property="pcxqid" jdbcType="VARCHAR" />
@@ -47,7 +47,7 @@
       #{frwbh,jdbcType=VARCHAR}, #{rwbh,jdbcType=VARCHAR}, #{ypph,jdbcType=VARCHAR}, 
       #{ypyybh,jdbcType=VARCHAR}, #{ypxz,jdbcType=VARCHAR}, #{ypewm,jdbcType=VARCHAR}, 
       #{fxxm,jdbcType=VARCHAR}, #{pcwid,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
-      #{rwfpr,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{rwzt,jdbcType=VARCHAR}, 
+      #{rwfpr,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{rwzt,jdbcType=INTEGER}, 
       #{datastatus,jdbcType=VARCHAR}, #{frwid,jdbcType=VARCHAR}, #{pcxqid,jdbcType=VARCHAR}
       )
   </insert>
@@ -153,7 +153,7 @@
         #{jssj,jdbcType=VARCHAR},
       </if>
       <if test="rwzt != null" >
-        #{rwzt,jdbcType=VARCHAR},
+        #{rwzt,jdbcType=INTEGER},
       </if>
       <if test="datastatus != null" >
         #{datastatus,jdbcType=VARCHAR},
@@ -209,7 +209,7 @@
         JSSJ = #{jssj,jdbcType=VARCHAR},
       </if>
       <if test="rwzt != null" >
-        RWZT = #{rwzt,jdbcType=VARCHAR},
+        RWZT = #{rwzt,jdbcType=INTEGER},
       </if>
       <if test="datastatus != null" >
         DATASTATUS = #{datastatus,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
       DQBH = #{dqbh,jdbcType=INTEGER},
       RWFPR = #{rwfpr,jdbcType=VARCHAR},
       JSSJ = #{jssj,jdbcType=VARCHAR},
-      RWZT = #{rwzt,jdbcType=VARCHAR},
+      RWZT = #{rwzt,jdbcType=INTEGER},
       DATASTATUS = #{datastatus,jdbcType=VARCHAR},
       FRWID = #{frwid,jdbcType=VARCHAR},
       PCXQID = #{pcxqid,jdbcType=VARCHAR}

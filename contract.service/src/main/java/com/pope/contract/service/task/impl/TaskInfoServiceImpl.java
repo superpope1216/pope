@@ -1,25 +1,32 @@
 package com.pope.contract.service.task.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pope.contract.code.BatchStateEnum;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.code.FlowStateCode;
+import com.pope.contract.code.TaskSonStatusEnum;
 import com.pope.contract.code.TaskStatusEnum;
+import com.pope.contract.dao.project.BatchInfoMapper;
 import com.pope.contract.dao.project.extend.BatchInfoDetailExtendMapper;
 import com.pope.contract.dao.task.TaskInfoDetailMapper;
 import com.pope.contract.dao.task.TaskInfoMapper;
 import com.pope.contract.dao.task.extend.TaskInfoDetailExtendMapper;
 import com.pope.contract.dao.task.extend.TaskInfoExtendMapper;
+import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
+import com.pope.contract.entity.user.LeaveInfo;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.service.task.TaskInfoService;
@@ -46,6 +53,9 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 	private TaskInfoExtendMapper taskInfoExtendMapper; 
 	@Autowired
 	private BatchInfoDetailExtendMapper batchInfoDetailExtendMapper;
+	
+	@Autowired
+	private BatchInfoMapper batchInfoMapper;
 	@Autowired
 	private FlowSetDataService flowSetDataService;
 	@Autowired
@@ -64,9 +74,9 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 		taskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		taskInfo.setDqbh(max);
 		taskInfo.setRwbh(sMax);
-		taskInfo.setRwzt(TaskStatusEnum.JC.getCode());
-		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.LEAVE.getCode(), 0);
-		taskInfo.setCurrentstep(flowSet.getPx());
+		taskInfo.setRwzt(TaskStatusEnum.QCL.getCode());
+		//FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.LEAVE.getCode(), 0);
+		//taskInfo.setCurrentstep(flowSet.getPx());
 		BatchInfoDetail batchInfoDetail=new BatchInfoDetail();
 		batchInfoDetail.setPcwid(taskInfo.getPcwid());
 		List<BatchInfoDetail> listBatchInfoDetail=batchInfoDetailExtendMapper.selectByCondition(batchInfoDetail);
@@ -92,7 +102,7 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 				taskInfoDetail.setRwbh(sMaxDetail);
 				taskInfoDetail.setRwfpr(taskInfo.getRwfpr());
 				taskInfoDetail.setRwlx(taskInfo.getRwlx());
-				taskInfoDetail.setRwzt(TaskStatusEnum.JC.getCode());
+				taskInfoDetail.setRwzt(TaskStatusEnum.QCL.getCode());
 				taskInfoDetail.setWid(StringUtil.getUuId());
 				taskInfoDetail.setYpbh(detail.getYpbh());
 				taskInfoDetail.setYpewm(detail.getYpewm());
@@ -104,16 +114,16 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 			}
 		}
 		taskInfoMapper.insert(taskInfo);
-		FlowSetData flowSetData=new FlowSetData();
-		flowSetData.setWid(StringUtil.getUuId());
-		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
-		flowSetData.setCurrentStep(flowSet.getPx());
-		flowSetData.setCurrentState(FlowStateCode.DSH.getCode());
-		flowSetData.setDataId(wid);
-		flowSetData.setType(FlowSetCode.TASK.getCode());
-		flowSetData.setShid(userId);
-		flowSetData.setContent("提交检测");
-		flowSetDataService.insert(flowSetData);
+//		FlowSetData flowSetData=new FlowSetData();
+//		flowSetData.setWid(StringUtil.getUuId());
+//		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
+//		flowSetData.setCurrentStep(flowSet.getPx());
+//		flowSetData.setCurrentState(FlowStateCode.DSH.getCode());
+//		flowSetData.setDataId(wid);
+//		flowSetData.setType(FlowSetCode.TASK.getCode());
+//		flowSetData.setShid(userId);
+//		flowSetData.setContent("提交检测");
+//		flowSetDataService.insert(flowSetData);
 		
 	}
 
@@ -125,6 +135,156 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 	@Override
 	public List<TaskInfoDetail> selectDispalyTaskInfoDetailByCondition(TaskInfoDetail taskInfo) throws Exception {
 		return taskInfoDetailExtendMapper.selectDispalyTaskInfoByCondition(taskInfo);
+	}
+
+	@Override
+	@Transactional
+	public void submitTaskInfoDetail(String pid,List<Map> datas,String userId) throws Exception {
+		TaskInfo taskInfo=taskInfoMapper.selectByPrimaryKey(pid);
+		int minValue=Integer.MAX_VALUE;
+		List<String> existRecord=new ArrayList<String>(); 
+		if(CommonUtil.isNotEmptyList(datas)){
+			for(Map map:datas){
+				String wid=StringUtil.toStr(map.get("wid"));
+				int value=StringUtil.toInt(map.get("value"));
+				if(value<taskInfo.getRwzt()){
+					throw new Exception("存在任务子项状态小于主任务状态，请重新确认！");
+				}
+				if(value<minValue){
+					minValue=value;
+				}
+				existRecord.add(wid);
+				TaskInfoDetail taskInfDetail=new TaskInfoDetail();
+				taskInfDetail.setWid(wid);
+				taskInfDetail.setRwzt(value);
+				taskInfoDetailMapper.updateByPrimaryKeySelective(taskInfDetail);
+			}
+		}
+		Integer databaseMinValue=taskInfoDetailExtendMapper.selectMinZtByPid(pid,existRecord);
+		databaseMinValue=(databaseMinValue==null)?minValue:databaseMinValue;
+		if(databaseMinValue<minValue){
+			minValue=databaseMinValue;
+		}
+		
+		taskInfo.setRwzt(minValue);
+		taskInfo.setRwfpr(userId);
+		if(minValue==TaskStatusEnum.QCL.getCode()){
+			taskInfo.setSjkssj(DateUtil.getCurrentDateStr());
+		}else if(minValue==TaskStatusEnum.SJBG.getCode()){
+			taskInfo.setSjjssj(DateUtil.getCurrentDateStr());
+		}
+		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+		BatchStateEnum batchStateEnum;
+		if(minValue==TaskStatusEnum.JC.getCode() ||minValue==TaskStatusEnum.SJCL.getCode() ||minValue==TaskStatusEnum.SJBG.getCode()){
+			batchStateEnum=BatchStateEnum.JCZ;
+		}else {
+			batchStateEnum=BatchStateEnum.XJ;
+		}
+		BatchInfo batchInfo=new BatchInfo();
+		batchInfo.setWid(taskInfo.getPcwid());
+		batchInfo.setPczt(StringUtil.toStr(batchStateEnum.getCode()));
+		
+		batchInfoMapper.updateByPrimaryKeySelective(batchInfo);
+		
+	}
+
+	@Override
+	@Transactional
+	public void submitTaskInfo(List<Map> datas,String userId) throws Exception {
+		if(CommonUtil.isNotEmptyList(datas)){
+			for(Map map:datas){
+				String wid=StringUtil.toStr(map.get("wid"));
+				TaskInfo taskInfo=new TaskInfo();
+				taskInfo.setWid(wid);
+				taskInfo.setRwzt(TaskStatusEnum.SH.getCode());
+				
+				FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.TASK.getCode(), 0);
+				taskInfo.setCurrentstep(flowSet.getPx());
+				FlowSetData flowSetData=new FlowSetData();
+				flowSetData.setWid(StringUtil.getUuId());
+				flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
+				flowSetData.setCurrentStep(flowSet.getPx());
+				flowSetData.setCurrentState(FlowStateCode.DSH.getCode());
+				flowSetData.setDataId(wid);
+				flowSetData.setType(FlowSetCode.TASK.getCode());
+				flowSetData.setShid(userId);
+				flowSetData.setContent("提交审核");
+				taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+				flowSetDataService.insert(flowSetData);
+			}
+		}
+		
+	}
+
+	@Override
+	/**
+	 * 获取待审核的任务信息
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TaskInfo> selectWaitTaskInfoByStep(String roleId) throws Exception {
+		FlowSet flowSet=flowSetService.selectByRoleAndType(roleId, FlowSetCode.TASK.getCode());
+		List<Integer> taskStatus=new ArrayList<Integer>();
+		taskStatus.add(TaskStatusEnum.SH.getCode());
+		taskStatus.add(TaskStatusEnum.SHJXZ.getCode());
+		return taskInfoExtendMapper.selectDispalyTaskInfoByStep(flowSet.getPx(), taskStatus);
+	}
+
+	@Override
+	public void examinePass(String wid, String userid) throws Exception {
+		// TODO Auto-generated method stub
+		TaskInfo taskInfo=this.taskInfoMapper.selectByPrimaryKey(wid);;
+		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.TASK.getCode(), taskInfo.getCurrentstep());
+		FlowSetData flowSetData=new FlowSetData();
+		Integer currentStep=-1;
+		if(flowSet==null || flowSet.getPx()==null){
+			taskInfo.setRwzt(TaskStatusEnum.SHTG.getCode());
+			flowSetData.setCurrentState(FlowStateCode.YJS.getCode());
+			flowSetData.setContent(FlowStateCode.YJS.getMsg());
+		}else{
+			currentStep=flowSet.getPx();
+			taskInfo.setRwzt(TaskStatusEnum.SHJXZ.getCode());
+			flowSetData.setCurrentState(FlowStateCode.JXZ.getCode());
+			flowSetData.setContent(FlowStateCode.JXZ.getMsg());
+		}
+		taskInfo.setRwshr(userid);
+		taskInfo.setShwcsj(DateUtil.getCurrentDateStr());
+		//leaveInfo.setCurrentStep(currentStep.toString());
+		flowSetData.setWid(StringUtil.getUuId());
+		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
+		flowSetData.setCurrentStep(currentStep);
+		flowSetData.setDataId(wid);
+		flowSetData.setType(FlowSetCode.TASK.getCode());
+		flowSetData.setShid(userid);
+		flowSetDataService.insert(flowSetData);
+		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+	}
+
+	@Override
+	/**
+	 * 审核不通过
+	 * @param wid
+	 * @param userid
+	 * @throws Exception
+	 */
+	public void examineNotPass(String wid, String userid) throws Exception {
+		TaskInfo taskInfo=this.taskInfoMapper.selectByPrimaryKey(wid); 
+		Integer currentStep=taskInfo.getCurrentstep();
+		taskInfo.setRwzt(TaskStatusEnum.SHBTG.getCode());
+		taskInfo.setRwshr(userid);
+		taskInfo.setShwcsj(DateUtil.getCurrentDateStr());
+		FlowSetData flowSetData=new FlowSetData(); 
+		flowSetData.setCurrentState(FlowStateCode.BTG.getCode());
+		flowSetData.setContent(FlowStateCode.BTG.getMsg());
+		flowSetData.setWid(StringUtil.getUuId());
+		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
+		flowSetData.setCurrentStep(currentStep);
+		flowSetData.setDataId(wid);
+		flowSetData.setType(FlowSetCode.TASK.getCode());
+		flowSetData.setShid(userid);
+		flowSetDataService.insert(flowSetData);
+		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
 	}
 
 }

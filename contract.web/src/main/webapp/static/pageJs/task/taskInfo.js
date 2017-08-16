@@ -7,9 +7,9 @@ $(document).ready(function(){
 		doGet(basePath+"/task/listTaskInfo","",function(data){
 			if(data.data.data){
 				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
-				//$("#mainTable").datatable({checkable: true});
+				// $("#mainTable").datatable({checkable: true});
 			}else{
-				//$("#mainTable").datatable({checkable: true});
+				// $("#mainTable").datatable({checkable: true});
 			}
 			$("#mainTable").delegate("[data-option='copy']","click",function(){
 				var key=$(this).attr("data-key");
@@ -42,4 +42,36 @@ $(document).ready(function(){
 			});
 		})
 	}
+	
+	$("#btnSubmitSh").click(function(){
+		var selectData=$("#mainTable [name='chkSingle']:checked");
+		
+		if(!selectData ||selectData.length<=0){
+			alert("请至少选择一条任务！");
+			return;
+		}
+		var saveData=new Array();
+		for(var i=0;i<selectData.length;i++){
+			var c_wid=$(selectData[i]).val();
+			var c_rwzt=$($(selectData[i])).attr("data-rwzt");
+			if(c_rwzt!=4){
+				alert("选中的任务存在不为数据报告的任务，请重新选择");
+				return false;
+			}
+			saveData.push({wid:c_wid,value:c_rwzt});
+		}
+		doPost(basePath+"/task/submitTaskInfo", "datas="+JSON.stringify(saveData), function(data) {
+			alert("提交成功");
+			window.location.reload();
+		});
+	});
+	
+	
+	$("#mainTable [name='selAll']").click(function(){
+		if($(this)[0].checked){
+			$("#mainTable [name='chkSingle']").prop("checked",true);
+		}else{
+			$("#mainTable [name='chkSingle']").prop("checked",false);
+		}
+	});
 });

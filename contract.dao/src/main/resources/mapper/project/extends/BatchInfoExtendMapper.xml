@@ -30,8 +30,6 @@
   </resultMap>
   <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.project.extend.BatchInfoExtend">
   	<result column="PCLB_DISPLAY" jdbcType="VARCHAR" property="pclb_display" />
-  	<result column="PP_DISPLAY" jdbcType="VARCHAR" property="pp_display" />
-  	<result column="SLDW_DISPLAY" jdbcType="VARCHAR" property="sldw_display" />
   	<result column="HBDW_DISPLAY" jdbcType="VARCHAR" property="hbdw_display" />
   	<result column="PCZT_DISPLAY" jdbcType="VARCHAR" property="pczt_display" />
   </resultMap>
@@ -48,8 +46,7 @@
     t_contract_pcgl_main.SYXMFZR, t_contract_pcgl_main.SYDW, t_contract_pcgl_main.FXXM,
     t_contract_pcgl_main.HTH, t_contract_pcgl_main.PCZT, t_contract_pcgl_main.SHSJ, 
     t_contract_pcgl_main.BZ, t_contract_pcgl_main.DJ, t_contract_pcgl_main.HBDW, t_contract_pcgl_main.DQBH,
-    T_CONTRACT_SJZD_PCLB.LBMC AS PCLB_DISPLAY,T_CONTRACT_SJZD_PP.LBMC AS PP_DISPLAY,
-    T_CONTRACT_SJZD_SLDW.LBMC AS SLDW_DISPLAY,T_CONTRACT_SJZD_PCZT.LBMC AS PCZT_DISPLAY
+    T_CONTRACT_SJZD_PCLB.LBMC AS PCLB_DISPLAY,T_CONTRACT_SJZD_PCZT.LBMC AS PCZT_DISPLAY
     
   </sql>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.project.BatchInfo" >
@@ -70,8 +67,6 @@
     <include refid="Base_Display_Column_List" />
     from t_contract_pcgl_main t_contract_pcgl_main
     LEFT JOIN T_CONTRACT_SJZD_PCLB T_CONTRACT_SJZD_PCLB ON t_contract_pcgl_main.PCLB=T_CONTRACT_SJZD_PCLB.LBDM and T_CONTRACT_SJZD_PCLB.status=1
-    LEFT JOIN T_CONTRACT_SJZD_PP T_CONTRACT_SJZD_PP ON t_contract_pcgl_main.PCLB=T_CONTRACT_SJZD_PP.LBDM and T_CONTRACT_SJZD_PP.status=1
-    LEFT JOIN T_CONTRACT_SJZD_SLDW T_CONTRACT_SJZD_SLDW ON t_contract_pcgl_main.SLDW=T_CONTRACT_SJZD_SLDW.LBDM and T_CONTRACT_SJZD_SLDW.status=1
     LEFT JOIN T_CONTRACT_SJZD_PCZT T_CONTRACT_SJZD_PCZT ON t_contract_pcgl_main.PCZT=T_CONTRACT_SJZD_PCZT.LBDM and T_CONTRACT_SJZD_PCZT.status=1
     <trim prefix="WHERE" prefixOverrides="AND|OR">
     	<if test="wid!=null">

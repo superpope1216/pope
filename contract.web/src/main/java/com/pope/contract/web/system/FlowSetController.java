@@ -48,6 +48,17 @@ public class FlowSetController extends BaseController{
 		return Result.success(list);
 	} 
 	
+	@RequestMapping(value="view",method=RequestMethod.GET)
+	@ResponseBody
+	public Result view(String wid) throws Exception{
+		FlowSet flowSet=new FlowSet();
+		if(StringUtil.isEmpty(wid)){
+			return Result.success(flowSet);
+		}
+		
+		flowSet=flowSetService.selectByPrimaryKey(wid);
+		return Result.success(flowSet);
+	}
 	
 	@RequestMapping(value="insert",method=RequestMethod.POST)
 	@ResponseBody
