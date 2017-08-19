@@ -9,6 +9,24 @@ function alert(msg,callback){
 	}
 }
 
+function setButtonsDisplay(buttonsPermission){
+	if(buttonsPermission){
+		var _b=buttonsPermission.split(",");
+		for(var i=0;i<_b.length;i++){
+			if(_b[i]){
+				$("#"+_b[i]).show();
+			}
+			
+		}
+	}
+}
+
+function toStr(value){
+	if(value){
+		return value;
+	}
+	return "";
+}
 
 function confirm(msg,callBackFunc,yes,no){
 	 bootbox.confirm({
@@ -122,6 +140,7 @@ function confirm(msg,callBackFunc,yes,no){
  
  
  function doGetSelect(url,params,obj,data2,callBack){
+	 $(obj).empty();
 	 doGet(url,params,function(data){
 		 var str="<option value=''>--请选择--</option>";
 		 if(data.data && data.data.length>0){

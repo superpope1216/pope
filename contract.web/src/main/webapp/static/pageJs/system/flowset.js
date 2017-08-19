@@ -9,13 +9,16 @@ $(document).ready(function(){
 			$(error).insertAfter($(element));
 		}
 	});
+	var _supply_validater=$("#supplyExamineForm").validate({
+		errorPlacement: function(error, element) {
+			$(error).insertAfter($(element));
+		}
+	});
 	var _task_validater=$("#taskExamineForm").validate({
 		errorPlacement: function(error, element) {
 			$(error).insertAfter($(element));
 		}
 	});
-	queryList();
-	queryTaskList();
 	$("#btnNewLeave").click(function(){
 		view("leaveExamineForm","");
 		$("#modelEditLeaveInfo").modal("show");
@@ -23,6 +26,10 @@ $(document).ready(function(){
 	$("#btnNewTask").click(function(){
 		view("taskExamineForm","");
 		$("#modelEditTaskInfo").modal("show");
+	});
+	$("#btnNewSupply").click(function(){
+		view("taskSupplyForm","");
+		$("#modelSupplyInfo").modal("show");
 	});
 	doGet(basePath+"/roles/list","",function(data){ 
 			if(data && data.data && data.data.roles){
@@ -34,6 +41,7 @@ $(document).ready(function(){
 				}
 				$("#leaveExamineForm [name='name']").append(str);
 				$("#taskExamineForm [name='name']").append(str);
+				$("#supplyExamineForm [name='name']").append(str);
 			}
 	});
 	
@@ -49,19 +57,22 @@ $(document).ready(function(){
 			}
 		});
 	}
-	function queryList(){
-		doGet(basePath+"/flowset/list","type=01",function(data){
+	queryList("01","tblUserLeaveInfoTpl","tblUserLeaveTable","leaveExamineForm","modelEditLeaveInfo");
+	queryList("02","tblTaskInfoTpl","tblUserTaskTable","taskExamineForm","modelEditTaskInfo");
+	queryList("03","tblTaskInfoTpl","tblSupplyTable","supplyExamineForm","modelSupplyInfo");
+	function queryList(type,tblTpl,tbl,form,model){
+		doGet(basePath+"/flowset/list","type="+type,function(data){
 			if(data.data){
-				$('#tblUserLeaveInfoTpl').tmpl(data.data).appendTo('#tblUserLeaveTable');
+				$('#'+tblTpl).tmpl(data.data).appendTo('#'+tbl);
 			}
 		});
 		//编辑
-		$("#tblUserLeaveInfoTpl").delegate("[data-option='editZdbs']","click",function(){
+		$("#"+tbl).delegate("[data-option='editZdbs']","click",function(){
 			var key=$(this).attr("data-key");
-			view("leaveExamineForm",key);
-			$("#modelEditLeaveInfo").modal("show");
+			view(form,key);
+			$("#"+model).modal("show");
 		});
-		$("#tblUserLeaveInfoTpl").delegate("[data-option='deleteZdbs']","click",function(){
+		$("#"+tbl).delegate("[data-option='deleteZdbs']","click",function(){
 			var key=$(this).attr("data-key");
 			confirm("您确认删除该记录？",function(){
 				doPost(basePath+"/flowset/delete","wid="+key,function(data){
@@ -72,52 +83,23 @@ $(document).ready(function(){
 		});
 	}
 	
-	function queryTaskList(){
-		doGet(basePath+"/flowset/list","type=02",function(data){
-			if(data.data){
-				$('#tblTaskInfoTpl').tmpl(data.data).appendTo('#tblUserTaskTable');
-			}
-		});
-		//编辑
-		$("#tblUserTaskTable").delegate("[data-option='editZdbs']","click",function(){
-			var key=$(this).attr("data-key");
-			view("taskExamineForm",key);
-			$("#modelEditTaskInfo").modal("show");
-		});
-		$("#tblUserTaskTable").delegate("[data-option='deleteZdbs']","click",function(){
-			var key=$(this).attr("data-key");
-			confirm("您确认删除该记录？",function(){
-				doPost(basePath+"/flowset/delete","wid="+key,function(data){
-					window.location.reload();
-				});
-			});
-		});
-	}
 	function setSelectList(value){
 		doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_SHTYPE","#leaveExamineForm [name='shType']",value);
 	}
 	
 	$("#btnSaveTaskInfo").click(function(){
-		var url=basePath+"/flowset";
-		var wid=$("#taskExamineForm [name='wid']").val();
-		var flag="update";
-		if(wid){
-			url+="/update";
-			flag="update";
-		}else{
-			url+="/insert";
-			flag="insert";
-		}
-		if(_task_validater.form()){
-			doPost(url,$("#taskExamineForm").serializeArray(),function(data){
-				alert(data.msg);
-				window.location.reload();
-			});
-		}
+		save("taskExamineForm",_task_validater);
+	});
+	$("#btnSaveSupplyInfo").click(function(){
+		save("supplyExamineForm",_supply_validater);
 	});
 	$("#btnSaveLeaveInfo").click(function(){
+		save("leaveExamineForm",_validater);
+	});
+	
+	function save(formId,validate){
 		var url=basePath+"/flowset";
-		var wid=$("#leaveExamineForm [name='wid']").val();
+		var wid=$("#"+formId+" [name='wid']").val();
 		var flag="update";
 		if(wid){
 			url+="/update";
@@ -126,11 +108,11 @@ $(document).ready(function(){
 			url+="/insert";
 			flag="insert";
 		}
-		if(_validater.form()){
-			doPost(url,$("#leaveExamineForm").serializeArray(),function(data){
+		if(validate.form()){
+			doPost(url,$("#"+formId).serializeArray(),function(data){
 				alert(data.msg);
 				window.location.reload();
 			});
 		}
-	});
+	}
 });

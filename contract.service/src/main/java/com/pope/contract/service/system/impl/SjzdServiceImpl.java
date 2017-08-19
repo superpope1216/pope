@@ -1,7 +1,9 @@
 package com.pope.contract.service.system.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,8 +54,17 @@ public class SjzdServiceImpl implements SjzdService {
 		return sjzdMapper.selectByPrimaryKey(tableName, wid);
 	}
 
-	public List<Sjzd> selectAll(String tableName){
-		return sjzdMapper.selectAll(tableName);
+	public List<Sjzd> selectAll(String tableName,String lbdms){
+		List<String> lstLbdm=null;
+		
+		if(StringUtils.isNotEmpty(lbdms)){
+			lstLbdm=new ArrayList<String>();
+			String[] sLbdms=lbdms.split(",");
+			for(String s:sLbdms){
+				lstLbdm.add(s);
+			}
+		}
+		return sjzdMapper.selectAll(tableName,lstLbdm);
 	}
 	@Override
 	public int updateByPrimaryKeySelective(Sjzd record ) throws Exception {  

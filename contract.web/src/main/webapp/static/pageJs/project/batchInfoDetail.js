@@ -20,6 +20,13 @@ $(document).ready(
 					email : {
 						required : true,
 						email : true
+					},
+					sl:{
+						digits:true
+					},
+					dj:{
+						number:true,
+						min:0
 					}
 				}
 			});
@@ -73,6 +80,7 @@ $(document).ready(
 					if (data && data.data) {
 						var _details = data.data;
 						$("#userForm [name='wid']").val(_details.wid);
+						$("#userForm [name='dqbh']").val(_details.dqbh);
 						doGetSelect2("T_CONTRACT_SJZD_PCLB", "#userForm [name='pclb']", _details.pclb);
 						$("#userForm [name='ejfl']").val(_details.ejfl);
 						$("#userForm [name='pcmc']").val(_details.pcmc);
@@ -90,7 +98,7 @@ $(document).ready(
 						$("#userForm [name='sysj']").val(_details.sysj);
 						$("#userForm [name='gys']").val(_details.gys);
 						$("#userForm [name='syr']").val(_details.syr);
-						$("#userForm [name='sydw']").val(_details.sydw);
+						doGetSelect2("T_CONTRACT_SJZD_SYDW", "#userForm [name='sydw']", _details.sydw);
 						$("#userForm [name='syxmfzr']").val(_details.syxmfzr);
 						$("#userForm [name='shsj']").val(_details.shsj);
 						doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);
@@ -119,7 +127,8 @@ $(document).ready(
 							var datas = $("#userForm").serializeArray();
 							doPost(url, datas, function(data) {
 								if (data && data.data) {
-									window.location = basePath + "/batch/detailIndex?wid=" + data.data.wid;
+									alert(data.msg);
+									window.location.href=basePath+"/batch/detailIndex?wid="+data.data.wid;
 								}
 							});
 						}
@@ -129,9 +138,8 @@ $(document).ready(
 					var url = basePath + "/batch/saveDetail";
 					var datas = $("#batchDetailForm").serializeArray();
 					doPost(url, datas, function(data) {
-						window.location = basePath
-						+ "/batch/detailIndex?wid="
-						+ wid;
+						alert(data.msg);
+						window.location.href=basePath+"/batch/detailIndex?wid="+data.data.pcwid;
 					});
 				}
 			});
@@ -147,7 +155,16 @@ $(document).ready(
 						$("#batchDetailForm [name='ypbh']").val(_details.ypbh);
 						$("#batchDetailForm [name='ypph']").val(_details.ypph);
 						$("#batchDetailForm [name='dqbh']").val(_details.dqbh);
-						doGetSelect2("T_CONTRACT_SJZD_FXXM", "#batchDetailForm [name='fxxm']", _details.fxxm);
+						doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_FXXM&lbdms="+toStr(_details.fxxm),
+								"#batchDetailForm [name='fxxm']","",function(){
+							if(_details.fxxm){
+								var aFxxm=_details.fxxm.split(",");
+								$("#batchDetailForm [name='fxxm']").multiselect("select",aFxxm);
+								
+							}else{
+								$("#batchDetailForm [name='fxxm']").multiselect();
+							}
+						});
 						$("#batchDetailForm [name='pcwid']").val(_details.pcwid);
 						
 					}

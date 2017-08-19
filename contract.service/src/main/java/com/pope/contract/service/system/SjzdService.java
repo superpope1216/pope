@@ -21,7 +21,7 @@ public interface SjzdService {
 
 	    Sjzd selectByPrimaryKey(String tableName,String wid) ;
 	    
-	    List<Sjzd> selectAll(String tableName);
+	    List<Sjzd> selectAll(String tableName,String lbdms);
 
 	    int updateByPrimaryKeySelective(Sjzd record ) throws Exception;
 

@@ -46,8 +46,8 @@ public class ZdbDetailController extends BaseController{
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public Result list(@RequestParam String tableName){
-		List<Sjzd> datas=sjzdService.selectAll(tableName);
+	public Result list(@RequestParam String tableName,String lbdms){
+		List<Sjzd> datas=sjzdService.selectAll(tableName,lbdms);
 		return Result.success(datas);
 	}
 	

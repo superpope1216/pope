@@ -13,4 +13,8 @@ public class ConstantUtil {
 	 */
 	public static final String DEFAULT_PASSWORD="123456";
 	
+	public static final String FXRY_ROLE_NAME="样品检测人员";
+	
+	public static final String SHRY_ROLE_NAME="样品审核";
+	
 }

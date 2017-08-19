@@ -17,9 +17,11 @@ $(document).ready(function(){
 			email:{
 				required:true,
 				email:true
-			}
+			},
+			
 		}
 	});
+	
 	var setting = {
 			view: {
 				dblClickExpand: false
@@ -38,6 +40,7 @@ $(document).ready(function(){
 			}
 		};
 	var zTree;
+	setButtonsDisplay(buttonsPermission);
 	queryList();
 	queryRole();
 	
@@ -48,16 +51,50 @@ $(document).ready(function(){
 		}
 		doGet(basePath+"/batch/list","startPage="+pageId,function(data){
 			if(data.data.data){
-				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
-				//$("#mainTable").datatable({checkable: true});
-			}else{
-				//$("#mainTable").datatable({checkable: true});
+				var _data=data.data.data;
+				var _tr="";
+				for(var i=0;i<_data.length;i++){
+					_tr+='<tr>';
+					_tr+='<td class="text-center"><input type="checkbox" name="chkSingle" value="'+_data[i].wid+'"></td>';
+					_tr+='<td class="text-center">'+toStr(_data[i].pcmc)+'</td>';
+					_tr+='<td class="text-center">'+toStr(_data[i].pclb_display)+'</td>';
+					_tr+='<td class="text-center">'+toStr(_data[i].syr)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].sl)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].sldw)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].cfd)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].gys)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].pczt_display)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].sysj)+'</td>';
+					_tr+='<td class="text-center">';
+					_tr+='<div class="btn-group">';
+					if(buttonsPermission){
+						if(buttonsPermission.indexOf(",btnCopyBatch,")>=0){
+							_tr+='<button type="button" class="btn btn-xs btn-primary" data-option="btnCopyBatch" data-key="'+_data[i].wid+'">复</button>';
+						}
+						if(buttonsPermission.indexOf(",btnViewDetail,")>=0){
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnViewDetail" data-key="'+_data[i].wid+'">详</button>';
+						}
+						if(buttonsPermission.indexOf(",btnModifyBatch,")>=0){
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModifyBatch" data-key="'+_data[i].wid+'">录</button>';
+						}
+						if(buttonsPermission.indexOf(",btnFileBatch,")>=0){
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnFileBatch" data-key="'+_data[i].wid+'">归</button>';
+						}
+						if(buttonsPermission.indexOf(",btnDeletebatch,")>=0){
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDeletebatch" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+						}
+					}
+					_tr+='</div>';
+					_tr+='</td>';
+					_tr+='</tr>';
+				};
+				$("#tblUserInfo").html(_tr);
 			}
 			
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId);
 			});
-			$("#mainTable").delegate("[data-option='copy']","click",function(){
+			$("#mainTable").delegate("[data-option='btnCopyBatch']","click",function(){
 				var key=$(this).attr("data-key");
 				if(confirm("您确认复制该样品批次吗",function(data){
 					doPost(basePath+"/batch/copyBatch", "wid="+key, function(data) {
@@ -65,19 +102,19 @@ $(document).ready(function(){
 					});
 				}));
 			});
-			$("#mainTable").delegate("[data-option='detail']","click",function(){
+			$("#mainTable").delegate("[data-option='btnViewDetail']","click",function(){
 				var key=$(this).attr("data-key");
 				window.location=basePath+"/batch/detailIndex?wid="+key;
 			});
-			$("#mainTable").delegate("[data-option='lu']","click",function(){
+			$("#mainTable").delegate("[data-option='btnModifyBatch']","click",function(){
 				var key=$(this).attr("data-key");
 				window.location=basePath+"/batch/detailIndex?wid="+key;
 			});
-			$("#mainTable").delegate("[data-option='gui']","click",function(){
+			$("#mainTable").delegate("[data-option='btnFileBatch']","click",function(){
 				var key=$(this).attr("data-key");
 				
 			});
-			$("#mainTable").delegate("[data-option='delete']","click",function(){
+			$("#mainTable").delegate("[data-option='btnDeletebatch']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该样品批次信息吗？",function(e){
 					doPost(basePath+"/batch/deleteBatch","wid="+key,function(data){
@@ -103,7 +140,7 @@ $(document).ready(function(){
 			}
 		})
 	}
-	$("#btnNew").click(function(){
+	$("#btnAddBatch").click(function(){
 		window.location=basePath+"/batch/detailIndex?wid=";
 		
 	});
@@ -117,7 +154,7 @@ $(document).ready(function(){
 	});
 	
 	//发起任务
-	$("#btnFqrw").click(function(){
+	$("#btnAddTask").click(function(){
 		var selectRows=$("#mainTable [name='chkSingle']:checked");
 		if(selectRows.size()<=0){
 			alert("请选择一条样品批次！");
@@ -127,8 +164,11 @@ $(document).ready(function(){
 			alert("每次只能选择一条任务，请重新选择！");
 			return false;
 		}
+		doGet(basePath+"/batch/checkBatchInfo","wid="+selectRows[0].value,function(data){
+			window.location=basePath+"/task/taskadd?wid="+selectRows[0].value;
+		});
 		
-		window.location=basePath+"/task/taskadd?wid="+selectRows[0].value;
+		
 	});
 	
 	
@@ -206,6 +246,7 @@ $(document).ready(function(){
 			}
 			datas.push({"name":"userInfoRoles","value":userInfoRoles});
 			doPost(url,datas,function(data){
+				alert(data.msg);
 				window.location.reload();
 			});
 		}

@@ -62,6 +62,12 @@
 		ORDER BY GH
 	</select>
 	
+	<select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String">
+			SELECT 
+			<include refid="Base_Column_List"/>
+			from T_CONTRACT_USER_USERINFO
+			where WID IN (SELECT USERID FROM t_contract_user_userinfo_role WHERE ROLEID IN (SELECT WID FROM t_contract_sys_role WHERE NAME=#{name}))
+	</select>
 	<select id="selectByGh" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />

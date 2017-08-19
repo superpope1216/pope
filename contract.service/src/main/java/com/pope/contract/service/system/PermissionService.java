@@ -23,4 +23,6 @@ public interface PermissionService {
 	    List<Permission> selectPermissionByRoleAsTree(Role role);
 	    
 	    List<Permission> selectPermissionByRoleId(  String roleId);
+	    
+	    List<Permission> selectChildByUrl( String url,String roleId);
 }

@@ -5,7 +5,7 @@ package com.pope.contract.code;
  * @version 创建时间：2017年6月25日 下午8:29:09 类说明:流程标志
  */
 public enum FlowSetCode {
-	LEAVE("01", "请假流程"), TASK("02", "项目任务流程");
+	LEAVE("01", "请假流程"), TASK("02", "项目任务流程"),SUPPLY("03","耗材审核");
 	private String code;
 	private String msg;
 

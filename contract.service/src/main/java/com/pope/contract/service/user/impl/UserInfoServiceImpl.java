@@ -115,6 +115,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 				List<Permission> newPermission = new ArrayList<Permission>();
 				if (CommonUtil.isNotEmptyList(permissions)) {
 					List<Permission> threePermission=null;
+					List<Permission> fourPermission=null;
 					for (Permission per : permissions) {
 
 						if (per.getLevel() == MenuLevel.SECOND.getCode()) {
@@ -122,8 +123,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 							per.setList(threePermission);
 							newPermission.add(per);
 						} else if (per.getLevel() == MenuLevel.THREE.getCode()) {
+							fourPermission=new ArrayList<Permission>();
+							per.setList(fourPermission);
 							if (threePermission != null) {
 								threePermission.add(per);
+							}
+						}else if(per.getLevel()==MenuLevel.FOUR.getCode()){
+							if(fourPermission!=null){
+								fourPermission.add(per);
 							}
 						}
 					}
@@ -177,5 +184,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<UserInfoExtend> selectDisplayByCondition(UserInfo userInfo) throws Exception {
 		return userInfoExtendMapper.selectDisplayByCondition(userInfo);
+	}
+	@Override
+	public List<UserInfo> selectByRoleName(String name){
+		return userInfoExtendMapper.selectByRoleName(name);
 	}
 }

@@ -19,49 +19,6 @@
   <sql id="BaseColumnList">
   	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL
   </sql>
-  <select id="selectPermissionByRoleAsTree" parameterType="com.pope.contract.entity.system.Role" resultMap="BaseResultMap">
-  	SELECT 
-  	<include refid="BaseColumnList"/>
-  	FROM t_contract_sys_permission
-  	start with WID='0' connect by prior PID = WID
-  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
-  		<where>
-  			ROLEID=#{wid,jdbcType=VARCHAR}
-  			 
-  		</where> 
-  	)
-  	ORDER BY ORDERBY 
-  </select>
-  
-  <select id="selectPermissionByRoles" parameterType="list" resultMap="BaseResultMap">
-  	SELECT 
-  	<include refid="BaseColumnList"/>
-  	FROM t_contract_sys_permission
-  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
-  		<where>
-  			ROLEID IN
-  			<foreach item="item" collection="list" separator="," open="(" close=")" index="">
-  				#{item.wid,jdbcType=VARCHAR}
-  			</foreach>
-  		</where> 
-  	)
-  	ORDER BY ORDERBY 
-  </select>
-  <select id="selectPermissionByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	SELECT 
-  	<include refid="BaseColumnList"/>
-  	FROM t_contract_sys_permission
-  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission 
-  		WHERE	ROLEID=#{roleId,jdbcType=VARCHAR}  
-  	)
-  	ORDER BY ORDERBY 
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-  	SELECT <include refid="BaseColumnList"/>
-  	FROM t_contract_sys_permission
-  	WHERE STATUS=1
-  	ORDER BY ORDERBY
-  </select>
   
   <insert id="insert" parameterType="com.pope.contract.entity.system.Permission" >
     insert into t_contract_sys_permission (WID, NAME, DESCRIPTION, 

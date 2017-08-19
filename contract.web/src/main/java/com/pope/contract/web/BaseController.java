@@ -1,6 +1,7 @@
 package com.pope.contract.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,9 @@ import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,19 +26,25 @@ import org.springframework.web.util.WebUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
+import com.pope.contract.code.MenuLevel;
 import com.pope.contract.code.ResponseCode;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.LoginInfo;
 import com.pope.contract.dto.PageParam;
+import com.pope.contract.entity.system.Permission;
 import com.pope.contract.entity.system.Role;
-import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.exception.BizException;
+import com.pope.contract.exception.ServiceException;
+import com.pope.contract.service.system.PermissionService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.StringUtil;
 
 public class BaseController {
 	private static final Logger log = LoggerFactory.getLogger(BaseController.class);
 
+	@Autowired
+	protected PermissionService permissionService;
 	public <T> Page<T> begPage(Integer startPage,PageParam<T> pageParam){
 		
 		if(startPage==null ||startPage<0){
@@ -63,6 +72,24 @@ public class BaseController {
 			return (LoginInfo) request.getSession().getAttribute(ConstantUtil.USER_SESSION_NAME);
 		}
 		return null;
+	}
+	
+	protected String getButtonPermission(String url){ 
+		List<Permission> listPers=permissionService.selectChildByUrl(url,this.getRole().getWid());
+		StringBuilder buttons=new StringBuilder();
+		if(CommonUtil.isNotEmptyList(listPers)){
+			for(Permission per:listPers){
+				if(per.getLevel()==MenuLevel.FOUR.getCode()){
+					buttons.append(per.getUrl()+",");
+					
+				}
+			}
+		}
+		String value=buttons.toString();
+		if(!StringUtils.isEmpty(value)){
+			value=","+value;
+		}
+		return value;
 	}
 
 	public Role getRole() {
@@ -112,7 +139,10 @@ public class BaseController {
 			} else if (exception instanceof BizException) {
 				result = Result.instance(ResponseCode.code_already_exist.getCode(),
 						ResponseCode.code_already_exist.getMsg());
-			} else if (exception.getCause().getMessage().contains("system.exception.ForbiddenIpException")) {
+			}else if(exception instanceof ServiceException){
+				result=Result.error(exception.getMessage());
+			}
+			else if (exception.getCause().getMessage().contains("system.exception.ForbiddenIpException")) {
 				result = Result.instance(ResponseCode.forbidden_ip.getCode(), ResponseCode.forbidden_ip.getMsg());
 				// 其他错误
 			}

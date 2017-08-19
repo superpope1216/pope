@@ -17,11 +17,20 @@
     from ${tableName}
     where WID = #{wid,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="selectAll" resultMap="BaseResultMap" >
   	SELECT
   	<include refid="Base_Column_List" /> 
   	 from ${tableName}
-  	 WHERE STATUS=1
+  	 
+   	 WHERE STATUS=1
+   	 <if test="lbdm!=null">
+   	 AND    LBDM IN
+   	 
+   	 <foreach index="index" item="item" collection="lbdm"   separator="," close=")" open="(">
+  	 		#{item}
+  	 		
+  	 </foreach>
+  	 </if>
   	 ORDER BY ORDERBY
   </select>
   <insert id="insert" parameterType="com.pope.contract.entity.system.Sjzd" >

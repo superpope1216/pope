@@ -2,7 +2,7 @@
  * 
  */
 $(document).ready(function(){
-	var _validater=$("#userForm").validate({
+	var _validater=$("#supplyForm").validate({
 		errorPlacement: function(error, element) {
 			// Append error within linked label
 			$(error).insertAfter($(element));
@@ -20,35 +20,16 @@ $(document).ready(function(){
 			}
 		}
 	});
-	var setting = {
-			view: {
-				dblClickExpand: false
-			},
-			data: {
-				simpleData: {
-					enable: true,
-					idKey:"wid",
-					pIdKey:"pid",
-					rootPId:"-1"
-				}
-			},
-			callback: {
-				beforeClick: beforeClick,
-				onClick: onClick
-			}
-		};
-	var zTree;
 	queryList();
-	queryRole();
 	
 	function queryList(pageId){
-		$("#tblUserInfo").empty();
+		$("#tblSupplyInfo").empty();
 		if(pageId==undefined){
 			pageId=0;
 		}
-		doGet(basePath+"/batch/list","startPage="+pageId,function(data){
+		doGet(basePath+"/supply/list","startPage="+pageId,function(data){
 			if(data.data.data){
-				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
+				$('#tblSupplyInfoTpl').tmpl(data.data.data).appendTo('#tblSupplyInfo');
 				//$("#mainTable").datatable({checkable: true});
 			}else{
 				//$("#mainTable").datatable({checkable: true});
@@ -57,30 +38,66 @@ $(document).ready(function(){
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId);
 			});
-			$("#mainTable").delegate("[data-option='copy']","click",function(){
+			$("#mainTable").delegate("[data-option='btnLing']","click",function(){
 				var key=$(this).attr("data-key");
-				if(confirm("您确认复制该样品批次吗",function(data){
-					doPost(basePath+"/batch/copyBatch", "wid="+key, function(data) {
-						window.location=basePath+"/batch/detailIndex?wid="+data.data;
-					});
-				}));
-			});
-			$("#mainTable").delegate("[data-option='detail']","click",function(){
-				var key=$(this).attr("data-key");
-				window.location=basePath+"/batch/detailIndex?wid="+key;
-			});
-			$("#mainTable").delegate("[data-option='lu']","click",function(){
-				var key=$(this).attr("data-key");
-				window.location=basePath+"/batch/detailIndex?wid="+key;
-			});
-			$("#mainTable").delegate("[data-option='gui']","click",function(){
-				var key=$(this).attr("data-key");
+				doGet(basePath+"/supply/toShb","wid="+key,function(data){
+					$("#slbForm [name='hcfl']").html(data.data.hcfl_display);
+					$("#slbForm [name='pm']").html(data.data.pm);
+					$("#slbForm [name='kc']").html(data.data.kc);
+					$("#slbForm [name='hcid']").val(data.data.wid);
+					$("#modelSlbSupplyInfo").modal("show");
+				});
 				
 			});
-			$("#mainTable").delegate("[data-option='delete']","click",function(){
+			$("#mainTable").delegate("[data-option='btnMai']","click",function(){
+				var key=$(this).attr("data-key");
+					doGet(basePath+"/supply/toGmb","wid="+key,function(data){
+						$("#gbForm [name='hcfl']").html(data.data.hcfl_display);
+						$("#gbForm [name='pm']").html(data.data.pm);
+						$("#gbForm [name='kc']").html(data.data.kc);
+						$("#gbForm [name='hcid']").val(data.data.wid);
+						$("#modelGmbSupplyInfo").modal("show");
+					});
+			});
+			$("#mainTable").delegate("[data-option='btnSun']","click",function(){
+				var key=$(this).attr("data-key");
+				doGet(basePath+"/supply/toGmb","wid="+key,function(data){
+					$("#shbForm [name='hcfl']").html(data.data.hcfl_display);
+					$("#shbForm [name='pm']").html(data.data.pm);
+					$("#shbForm [name='kc']").html(data.data.kc);
+					$("#shbForm [name='hcid']").val(data.data.wid);
+					$("#modelShbSupplyInfo").modal("show");
+				});
+			});
+			$("#mainTable").delegate("[data-option='btnEdit']","click",function(){
+				var key=$(this).attr("data-key");
+				setEdit(key);
+				$("#modelEdithSupplyInfo").modal("show");
+			});
+			$("#mainTable").delegate("[data-option='btnView']","click",function(){
+				var key=$(this).attr("data-key");
+					doGet(basePath+"/supply/viewDetail", "wid="+key, function(data) {
+						$("#supplyViewForm [name='hcfl']").html(data.data.hcfl_display);
+						$("#supplyViewForm [name='pm']").html(data.data.pm);
+						$("#supplyViewForm [name='xhppch']").html(data.data.xhppch);
+						$("#supplyViewForm [name='xhplrsj']").html(data.data.xhplrsj);
+						$("#supplyViewForm [name='sldw']").html(data.data.sldw_display);
+						$("#supplyViewForm [name='dj']").html(data.data.dj);
+						$("#supplyViewForm [name='hbdw']").html(data.data.hbdw_display);
+						$("#supplyViewForm [name='yxq']").html(data.data.yxq);
+						$("#supplyViewForm [name='kc']").html(data.data.kc);
+						$("#supplyViewForm [name='yjsl']").html(data.data.yjsl);
+						$("#supplyViewForm [name='gys']").html(data.data.gys);
+						$("#supplyViewForm [name='bz']").html(data.data.bz);
+					});
+					$("#modelViewSupplyInfo").modal("show");
+			});
+			
+			
+			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该样品批次信息吗？",function(e){
-					doPost(basePath+"/batch/deleteBatch","wid="+key,function(data){
+					doPost(basePath+"/supply/deleteSupply","wid="+key,function(data){
 						alert("样品批次删除成功！");
 						window.location.reload();
 					});
@@ -89,24 +106,35 @@ $(document).ready(function(){
 		})
 	}
 	
-	function queryRole(){
-		doGet(basePath+"/roles/list","",function(data){
-			if(data && data.data && data.data.roles){
-				var _d=data.data.roles;
-				var str="";
-				for(var i=0;i<_d.length;i++){
-					str+="<option value='"+_d[i].wid+"'>"+_d[i].name+"</option>";
-					
-				}
-				$("#userInfoRole").append(str);
-				$("#userInfoRole").multiselect();
-			}
-		})
-	}
 	$("#btnNew").click(function(){
-		window.location=basePath+"/batch/detailIndex?wid=";
-		
+		setEdit("");
+		$("#modelEdithSupplyInfo").modal("show");
 	});
+	
+	function setEdit(_wid){
+		doGet(basePath+"/supply/view","wid="+_wid,function(data){
+			if(data && data.data){
+				var _d=data.data;
+				$("#supplyForm [name='wid']").val(_d.wid);
+				doGetSelect2("T_CONTRACT_SJZD_HCFL","#supplyForm [name='hcfl']",_d.hcfl);
+				$("#supplyForm [name='pm']").val(_d.pm);
+				$("#supplyForm [name='xhppch']").val(_d.xhppch);
+				$("#supplyForm [name='xhplrsj']").val(_d.xhplrsj);
+				$("#supplyForm [name='kc']").val(_d.kc);
+				doGetSelect2("T_CONTRACT_SJZD_SLDW","#supplyForm [name='sldw']",_d.sldw);
+				
+				$("#supplyForm [name='dj']").val(_d.dj);
+				doGetSelect2("T_CONTRACT_SJZD_HBDW","#supplyForm [name='hbdw']",_d.hbdw);
+				
+				$("#supplyForm [name='yxq']").val(_d.yxq);
+				$("#supplyForm [name='yjsl']").val(_d.yjsl);
+				$("#supplyForm [name='gys']").val(_d.gys);
+				$("#supplyForm [name='bz']").val(_d.bz);
+				
+				
+			}
+		});
+	}
 	
 	$("#mainTable [name='selAll']").click(function(){
 		if($(this)[0].checked){
@@ -117,20 +145,27 @@ $(document).ready(function(){
 	});
 	
 	//发起任务
-	$("#btnFqrw").click(function(){
-		var selectRows=$("#mainTable [name='chkSingle']:checked");
-		if(selectRows.size()<=0){
-			alert("请选择一条样品批次！");
-			return false;
-		}
-		if(selectRows.size()>1){
-			alert("每次只能选择一条任务，请重新选择！");
-			return false;
-		}
-		
-		window.location=basePath+"/task/taskadd?wid="+selectRows[0].value;
+	$("#btnSaveSlbSupplyInfo").click(function(){
+		doPost(basePath+"/supply/saveSlb",$("#slbForm").serializeArray(),function(data){
+			alert(data.msg);
+			window.location.reload();
+		});
+	});
+	//发起任务
+	$("#btnSaveGmbSupplyInfo").click(function(){
+		doPost(basePath+"/supply/saveGmb",$("#gbForm").serializeArray(),function(data){
+			alert(data.msg);
+			window.location.reload();
+		});
 	});
 	
+	//发起任务
+	$("#btnSaveShbSupplyInfo").click(function(){
+		doPost(basePath+"/supply/saveShb",$("#shbForm").serializeArray(),function(data){
+			alert(data.msg);
+			window.location.reload();
+		});
+	});
 	
 	$("#btnSelectBm").click(function(){
 		if(!zTree){
@@ -143,68 +178,11 @@ $(document).ready(function(){
 		alert("123");
 		return false;
 	});
-	function setTree(){
-		doGet(basePath+"/departments/selectDepartment","",function(data){
-			zTree= $.fn.zTree.init($("#treeDemo"), setting, data.data);
-		});
-	}
-	function onClick(e, treeId, treeNode) {
-		nodes = zTree.getSelectedNodes(),
-		v = "";
-		var _id="";
-		nodes.sort(function compare(a,b){return a.id-b.id;});
-		for (var i=0, l=nodes.length; i<l; i++) {
-			v += nodes[i].name + ",";
-			_id+=nodes[i].bm + ",";
-		}
-		if (v.length > 0 ) v = v.substring(0, v.length-1);
-		if(_id.length>0)  _id = _id.substring(0, _id.length-1);
-		$("#txtDepartment").val(v);
-		$("#department").val(_id);
-		$("#team").empty();
-		doGetSelect(basePath+"/departments/selectTeamByDepartment","bm="+_id,"#team");
-		hideMenu();
-	}
-	function beforeClick(treeId, treeNode) {
-		//var check = (treeNode && !treeNode.isParent);
-		//if (!check) alert("请选择非文件夹选项！");
-		return true;
-	}
-	function showMenu() {
-		var cityObj = $("#txtDepartment");
-		var cityOffset = $("#txtDepartment").offset();
-		$("#menuContent").css({width:cityObj.width()+"px",left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast"); 
-		$("body").bind("mousedown", onBodyDown);
-	}
-	function hideMenu() {
-		$("#menuContent").fadeOut("fast");
-		$("body").unbind("mousedown", onBodyDown);
-	}
-	function onBodyDown(event) {
-		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-			hideMenu();
-		}
-	}
-	$("#btnSaveUserInfo").click(function(){
+	
+	$("#btnSaveSupplyInfo").click(function(){
 		if(_validater.form()){
-			var url=basePath+"/users";
-			if($("#modelEdithUserInfo [name='wid']").val()==""){
-				url+="/insert";
-			}else{
-				url+="/update";
-			}
-			var datas=$("#modelEdithUserInfo form").serializeArray();
-			var userInfoRoles="";
-			for(var i=datas.length-1;i>=0;i--){
-				if(datas[i].name=="userInfoRole"){
-					userInfoRoles+=","+datas[i].value;
-					datas.splice(i,1);
-				}
-			}
-			if(userInfoRoles){
-				userInfoRoles=userInfoRoles.substr(1);
-			}
-			datas.push({"name":"userInfoRoles","value":userInfoRoles});
+			var url=basePath+"/supply/save";
+			var datas=$("#supplyForm").serializeArray();
 			doPost(url,datas,function(data){
 				window.location.reload();
 			});

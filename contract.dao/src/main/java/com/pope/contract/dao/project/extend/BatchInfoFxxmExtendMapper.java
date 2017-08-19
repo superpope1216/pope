@@ -9,5 +9,6 @@ public interface BatchInfoFxxmExtendMapper extends BatchInfoExtendMapper{
 	List<BatchInfoFxxm> selectByCondition(BatchInfoFxxm batchInfoFxxm);
 	
 	void deleteByCondition(BatchInfoFxxm batchInfoFxxm);
+	
     
 }

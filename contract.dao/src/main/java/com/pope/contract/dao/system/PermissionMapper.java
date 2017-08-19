@@ -12,16 +12,5 @@ public interface PermissionMapper {
 
     int insertSelective(Permission record);
     
-    /**
-     * 根据角色获取权限
-     * @param roles
-     * @return
-     */
-    List<Permission> selectPermissionByRoles(List<Role> roles);
-    
-    List<Permission> selectAll();
-    
-    List<Permission> selectPermissionByRoleAsTree(Role role);
-    
-    List<Permission> selectPermissionByRoleId(@Param(value="roleId") String roleId);
+   
 }

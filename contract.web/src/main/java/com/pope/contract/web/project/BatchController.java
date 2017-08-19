@@ -1,19 +1,22 @@
 package com.pope.contract.web.project;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.StringUtil;
+import com.pope.contract.code.BatchStateEnum;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.project.BatchInfo;
@@ -23,6 +26,7 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.util.DateUtil;
+import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 
 /**
@@ -36,9 +40,23 @@ public class BatchController extends BaseController{
 	@Autowired
 	private BatchInfoService batchInfoService;
 	@RequestMapping("index")
-	public String index() {
-		return "project/batchInfo";
+	public ModelAndView index() {
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("buttons",this.getButtonPermission("/batch/index"));
+		mv.setViewName("project/batchInfo");
+		return mv;
 	}
+	
+	@RequestMapping("checkBatchInfo")
+	@ResponseBody
+	public Result checkBatchInfo(@RequestParam String wid){
+		BatchInfo batchInfo=batchInfoService.selectByPrimaryKey(wid);
+		if(BatchStateEnum.DC.getCode()!=StringUtil.toInt(batchInfo.getPczt())){
+			return Result.error("当前样品批次状态不是【待测】，请重新确认！");
+		}
+		return Result.success();
+	}
+	
 	
 	@RequestMapping("detailIndex")
 	public ModelAndView detailIndex(String wid,String type) {
@@ -74,12 +92,12 @@ public class BatchController extends BaseController{
 	@RequestMapping("detail")
 	@ResponseBody
 	public Result details(String wid) throws Exception{
-		if(StringUtil.isEmpty(wid)){
+		if(StringUtils.isEmpty(wid)){
 			BatchInfo batch=new BatchInfo();
 			String max=batchInfoService.selectMax();
 			String month=DateUtil.format(DateUtil.getCurrentDate(),"yyyyMM");
 			batch.setDqbh(Integer.valueOf(max));
-			batch.setYpph(month+max.toString());
+			batch.setYpph("SN"+month+max.toString());
 			return Result.success(batch);
 		}else{
 			return Result.success(batchInfoService.selectByPrimaryKey(wid));
@@ -89,7 +107,7 @@ public class BatchController extends BaseController{
 	@RequestMapping("saveBatchInfo")
 	@ResponseBody
 	public Result saveBatchInfo(BatchInfo batchInfo) throws Exception{
-		if(StringUtil.isEmpty(batchInfo.getWid())){
+		if(StringUtils.isEmpty(batchInfo.getWid())){
 			batchInfo=batchInfoService.insertBatchInfo(batchInfo);
 		}else{
 			batchInfoService.updateBatchInfo(batchInfo);
@@ -115,12 +133,12 @@ public class BatchController extends BaseController{
 	@RequestMapping("saveDetail")
 	@ResponseBody
 	public Result saveDetail(BatchInfoDetail batchInfoDetail) throws Exception{
-		if(StringUtil.isEmpty(batchInfoDetail.getWid())){
+		if(StringUtils.isEmpty(batchInfoDetail.getWid())){
 			batchInfoService.insertBatchInfoDetail(batchInfoDetail);
 		}else{
 			batchInfoService.updateBatchInfoDetail(batchInfoDetail);
 		}
-		return Result.success();
+		return Result.success(batchInfoDetail);
 	}
 	
 	
@@ -133,13 +151,23 @@ public class BatchController extends BaseController{
 		
 		PageParam<BatchInfoDetailExtend> pageParam = new PageParam<BatchInfoDetailExtend>();
 		pageParam.setPage(startPage);
-		Page<BatchInfoDetailExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
-		BatchInfoDetail batchInfoDetail=new BatchInfoDetail();
-		batchInfoDetail.setPcwid(pcwid);
-		List<BatchInfoDetailExtend> users=batchInfoService.selectDetailDisplayByCondition(batchInfoDetail);
-		pageParam.setTotal(page.getTotal());
-		pageParam.setTotalPage(pageParam.getTotalPage());
+		
+		List<BatchInfoDetailExtend> users=null;
+		if(StringUtils.isEmpty(pcwid)){
+			users=new ArrayList<BatchInfoDetailExtend>();
+			pageParam.setTotal(0L);
+			pageParam.setTotalPage(0);
+			
+		}else{
+			Page<BatchInfoDetailExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
+			BatchInfoDetail batchInfoDetail=new BatchInfoDetail();
+			batchInfoDetail.setPcwid(pcwid);
+			users=batchInfoService.selectDetailDisplayByCondition(batchInfoDetail);
+			pageParam.setTotal(page.getTotal());
+			pageParam.setTotalPage(pageParam.getTotalPage());
+		}
 		pageParam.setData(users);
+		
 		return Result.success(pageParam);
 	}
 	@RequestMapping("copyBatch")

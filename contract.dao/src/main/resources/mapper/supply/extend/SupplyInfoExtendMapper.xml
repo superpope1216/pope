@@ -51,11 +51,14 @@
   </select>
   <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap">
   		SELECT
-  		<include refid="Base_Column_List"/>
+  		<include refid="Base_Display_Column_List"/>
   		from t_contract_supplies_main t_contract_supplies_main
-  		left join T_CONTRACT_SJZD_HCFL T_CONTRACT_SJZD_HCFL on T_CONTRACT_SJZD_HCFL.lbdm=t_contract_supplies_main.hcfl and T_CONTRACT_SJZD_HCFL.sfsy=1
-  		left join T_CONTRACT_SJZD_SLDW T_CONTRACT_SJZD_SLDW on T_CONTRACT_SJZD_SLDW.lbdm=T_CONTRACT_SJZD_SLDW.sldw and T_CONTRACT_SJZD_SLDW.sfsy=1
-  		left join T_CONTRACT_SJZD_HBDW T_CONTRACT_SJZD_HBDW on T_CONTRACT_SJZD_HBDW.lbdm=t_contract_supplies_main.hbdw and T_CONTRACT_SJZD_HBDW.sfsy=1
+  		left join T_CONTRACT_SJZD_HCFL T_CONTRACT_SJZD_HCFL on T_CONTRACT_SJZD_HCFL.lbdm=t_contract_supplies_main.hcfl and T_CONTRACT_SJZD_HCFL.STATUS=1
+  		left join T_CONTRACT_SJZD_SLDW T_CONTRACT_SJZD_SLDW on T_CONTRACT_SJZD_SLDW.lbdm=t_contract_supplies_main.sldw and T_CONTRACT_SJZD_SLDW.STATUS=1
+  		left join T_CONTRACT_SJZD_HBDW T_CONTRACT_SJZD_HBDW on T_CONTRACT_SJZD_HBDW.lbdm=t_contract_supplies_main.hbdw and T_CONTRACT_SJZD_HBDW.STATUS=1
   		<include refid="sqlWhere"/>
+  </select>
+  <select id="selectMaxBh" resultType="java.lang.Integer">
+  	SELECT MAX(DQBH) FROM t_contract_supplies_main
   </select>
 </mapper>

@@ -27,6 +27,7 @@ import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
 import com.pope.contract.entity.user.LeaveInfo;
+import com.pope.contract.service.BaseService;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.service.task.TaskInfoService;
@@ -40,7 +41,7 @@ import com.pope.contract.util.StringUtil;
 * 类说明
 */
 @Service("taskInfoService")
-public class TaskInfoServiceImpl implements TaskInfoService{
+public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 
 	@Autowired
 	private TaskInfoMapper taskInfoMapper;
@@ -200,20 +201,12 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 				
 				FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.TASK.getCode(), 0);
 				taskInfo.setCurrentstep(flowSet.getPx());
-				FlowSetData flowSetData=new FlowSetData();
-				flowSetData.setWid(StringUtil.getUuId());
-				flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
-				flowSetData.setCurrentStep(flowSet.getPx());
-				flowSetData.setCurrentState(FlowStateCode.DSH.getCode());
-				flowSetData.setDataId(wid);
-				flowSetData.setType(FlowSetCode.TASK.getCode());
-				flowSetData.setShid(userId);
-				flowSetData.setContent("提交审核");
+				
+				saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.TASK, userId,"提交审核");
+				
 				taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
-				flowSetDataService.insert(flowSetData);
 			}
 		}
-		
 	}
 
 	@Override
@@ -234,30 +227,24 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 	@Override
 	public void examinePass(String wid, String userid) throws Exception {
 		// TODO Auto-generated method stub
-		TaskInfo taskInfo=this.taskInfoMapper.selectByPrimaryKey(wid);;
+		TaskInfo taskInfo=this.taskInfoMapper.selectByPrimaryKey(wid);
+		
 		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.TASK.getCode(), taskInfo.getCurrentstep());
-		FlowSetData flowSetData=new FlowSetData();
+		
 		Integer currentStep=-1;
 		if(flowSet==null || flowSet.getPx()==null){
 			taskInfo.setRwzt(TaskStatusEnum.SHTG.getCode());
-			flowSetData.setCurrentState(FlowStateCode.YJS.getCode());
-			flowSetData.setContent(FlowStateCode.YJS.getMsg());
+			
+			saveFlowSetData(currentStep, wid, FlowStateCode.YJS, FlowSetCode.TASK, userid,FlowStateCode.YJS.getMsg());
 		}else{
 			currentStep=flowSet.getPx();
 			taskInfo.setRwzt(TaskStatusEnum.SHJXZ.getCode());
-			flowSetData.setCurrentState(FlowStateCode.JXZ.getCode());
-			flowSetData.setContent(FlowStateCode.JXZ.getMsg());
+			
+			saveFlowSetData(currentStep, wid, FlowStateCode.JXZ, FlowSetCode.TASK, userid,FlowStateCode.JXZ.getMsg());
 		}
 		taskInfo.setRwshr(userid);
+		taskInfo.setCurrentstep(currentStep);
 		taskInfo.setShwcsj(DateUtil.getCurrentDateStr());
-		//leaveInfo.setCurrentStep(currentStep.toString());
-		flowSetData.setWid(StringUtil.getUuId());
-		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
-		flowSetData.setCurrentStep(currentStep);
-		flowSetData.setDataId(wid);
-		flowSetData.setType(FlowSetCode.TASK.getCode());
-		flowSetData.setShid(userid);
-		flowSetDataService.insert(flowSetData);
 		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
 	}
 
@@ -273,17 +260,9 @@ public class TaskInfoServiceImpl implements TaskInfoService{
 		Integer currentStep=taskInfo.getCurrentstep();
 		taskInfo.setRwzt(TaskStatusEnum.SHBTG.getCode());
 		taskInfo.setRwshr(userid);
+		taskInfo.setCurrentstep(-1);
 		taskInfo.setShwcsj(DateUtil.getCurrentDateStr());
-		FlowSetData flowSetData=new FlowSetData(); 
-		flowSetData.setCurrentState(FlowStateCode.BTG.getCode());
-		flowSetData.setContent(FlowStateCode.BTG.getMsg());
-		flowSetData.setWid(StringUtil.getUuId());
-		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
-		flowSetData.setCurrentStep(currentStep);
-		flowSetData.setDataId(wid);
-		flowSetData.setType(FlowSetCode.TASK.getCode());
-		flowSetData.setShid(userid);
-		flowSetDataService.insert(flowSetData);
+		saveFlowSetData(currentStep, wid, FlowStateCode.BTG, FlowSetCode.TASK, userid,FlowStateCode.BTG.getMsg());
 		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
 	}
 

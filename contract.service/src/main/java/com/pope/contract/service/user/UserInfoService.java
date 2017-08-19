@@ -2,6 +2,8 @@ package com.pope.contract.service.user;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.condition.UserInfoCondition;
 import com.pope.contract.dto.LoginInfo;
 import com.pope.contract.entity.user.UserInfo;
@@ -26,5 +28,7 @@ public interface UserInfoService {
 	
 	 
 	 List<UserInfoExtend> selectDisplayByCondition(UserInfo userInfo) throws Exception;
+	 
+	 List<UserInfo> selectByRoleName(String name);
 
 }

@@ -4,6 +4,9 @@
 <html>
 <head>
 <%@ include file="/jsp/public/top.jsp"%>
+<script type="text/javascript" >
+    	var buttonsPermission="${buttons}";
+    </script>
 </head>
 <body>
 	<div class="main">
@@ -13,8 +16,7 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">系统管理</a></li>
-					<li class="active">用户管理</li>
+					<li class="active">批次管理</li>
 				</ol>
 			</div>
 			<div class="wrapper">
@@ -22,8 +24,6 @@
 					<div class="panel-body">
 						<form action="#" method="post">
 							<div class="search">
-
-
 								<input type="text" class="text" name="topic"
 									placeholder="送样人/样品批次号/样品编号" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
@@ -34,13 +34,13 @@
 				<div class="panel">
 					<div class="panel-body">
 						<div class="pull-left">
-							<button class="btn btn-primary btnQuery" id="btnQcht">起草合同</button>
-							<button class="btn btn-primary btnQuery" id="btnFqrw">发起任务</button>
+							<button class="btn btn-primary btnQuery" id="btnDraftContract" style="display:none;">起草合同</button>
+							<button class="btn btn-primary btnQuery" id="btnAddTask" style="display:none;">发起任务</button>
 						</div>
 						<div class="pull-right">
-							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
-							<button class="btn btn-primary" style="width: 100px; margin-left: 10px;">导入</button>
-							<button class="btn btn-primary btnQuery">导出</button>
+							<button class="btn btn-primary btnQuery" id="btnAddBatch" style="display:none;">新 建</button>
+							<button class="btn btn-primary" style="width: 100px; margin-left: 10px;display:none;"  id="btnImport">导入</button>
+							<button class="btn btn-primary btnQuery" id="btnExport" style="display:none;">导出</button>
 						</div>
 						
 						<br> <br>
@@ -193,29 +193,9 @@
 	</div>
 
 	<script id="tblUserInfoTpl" type="text/x-jquery-tmpl">
-				<tr>
-					<td class="text-center"><input type="checkbox" name="chkSingle" value="{{= wid}}"></td>
-				    <td class="text-center">{{= pcmc}}</td>
-					<td class="text-center">{{= pclb_display}}</td>
-					<td class="text-center">{{= syr}}</td>
-					<td class="text-left">{{= sl}}</td>
-					<td class="text-left">{{= sldw}}</td>
-					<td class="text-left">{{= cfd}}</td>
-					<td class="text-left">{{= gys}}</td>
-					<td class="text-left">{{= pczt_display}}</td>
-					<td class="text-left">{{= pczt_sysj}}</td>
-					<td class="text-center">
-						<div class="btn-group">
-          					<button type="button" class="btn btn-xs btn-primary" data-option="copy" data-key="{{= wid}}">复</button>
-						    <button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="detail" data-key="{{= wid}}">详</button>
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="lu" data-key="{{= wid}}">录</button>
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="gui" data-key="{{= wid}}">归</button>
-          					<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="delete" data-key="{{= wid}}"><i class="icon icon-times"></i></button>
-        				</div>
-					</td>
-				</tr>
+				
 			</script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/static/pageJs/project/batchInfo.js"></script>
+    
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/pageJs/project/batchInfo.js"></script>
 </body>
 </html>

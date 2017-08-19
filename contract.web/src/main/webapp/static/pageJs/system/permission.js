@@ -87,13 +87,19 @@ $(document).ready(function(){
 				//var nodes = treeObj.getNodes();
 				for(var i=0;i<data.data.length;i++){
 					var _d=data.data[i];
-					if(_d.level=="4"){
-						 var node=treeObj.getNodeByParam("wid",_d.wid,null);
-						 if(node){
+					var node=treeObj.getNodeByParam("wid",_d.wid,null);
+					
+					if(node.isParent==false){
 							 node.checked=true;
-							 treeObj.updateNode(node,true)
-						 }
+							 treeObj.updateNode(node,true);
+					}else{
+						if(_d.level=="4"){ 
+								 node.checked=true;
+								 treeObj.updateNode(node,true);
+						}
 					}
+					
+					
 				}
 			}
 		 });

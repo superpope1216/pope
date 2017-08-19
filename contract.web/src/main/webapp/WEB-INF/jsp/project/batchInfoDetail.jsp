@@ -34,7 +34,8 @@
 										style="margin-top: 10px;">
 
 										<div class="form-group">
-											<input type="hidden" name="wid" value=""> <label
+											<input type="hidden" name="wid" value="">  <input
+								type="hidden" name="dqbh" value=""><label
 												for="name" class="col-sm-2 required">类别</label>
 											<div class="col-md-4 col-sm-4">
 												<select name="pclb" class="form-control" required>
@@ -126,8 +127,9 @@
 											</div>
 											<label for="phone" class="col-sm-2 required">送样单位</label>
 											<div class="col-md-4 col-sm-4">
-												<input type="text" class="form-control" name="sydw"
-													placeholder="请输入送样单位" required>
+											<select name="sydw" class="form-control" required>
+													<option value=''>--请选择--</option>
+												</select>
 											</div>
 
 										</div>
@@ -140,7 +142,7 @@
 											<label for="phone" class="col-sm-2 required">审核时间</label>
 											<div class="col-md-4 col-sm-4">
 												<input type="text" class="form-control" name="shsj"
-													placeholder="" onClick="WdatePicker()" required>
+													placeholder="请输入审核时间" onClick="WdatePicker()" required>
 											</div>
 
 										</div>
@@ -160,7 +162,7 @@
 										</div>
 
 										<div class="form-group">
-											<label for="jobcategory" class="col-sm-2">分析项目</label>
+											<label for="jobcategory" class="col-sm-2 required">分析项目</label>
 											<div class="col-md-10 col-sm-10">
 												<select id="fxxm" name="fxxm" class="form-control"
 													multiple="multiple" required>
@@ -283,7 +285,7 @@
 						<div class="form-group">
 							<label for="department" class="col-sm-2 required">分析项目</label>
 							<div class="col-md-8 col-sm-8">
-								<select name="fxxm" class="form-control" required>
+								<select name="fxxm" multiple="multiple" class="form-control" required>
 									<option value=''>--请选择--</option>
 								</select>
 							</div>

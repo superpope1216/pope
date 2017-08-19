@@ -14,7 +14,7 @@ public interface SjzdMapper {
 
     Sjzd selectByPrimaryKey(@Param(value="tableName") String tableName,@Param(value="wid") String wid);
     
-    List<Sjzd> selectAll(@Param(value="tableName") String tableName);
+    List<Sjzd> selectAll(@Param(value="tableName") String tableName,@Param(value="lbdm") List<String> lbdm);
 
     int updateByPrimaryKeySelective(Sjzd record);
 

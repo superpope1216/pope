@@ -3,8 +3,11 @@
  */
 $(document).ready(function(){
 	queryList();
-	function queryList(){
-		doGet(basePath+"/task/listTaskInfo","",function(data){
+	function queryList(pageId){
+		if(pageId==undefined || pageId<0){
+			pageId=0;
+		}
+		doGet(basePath+"/task/listTaskInfo","startPage="+pageId,function(data){
 			if(data.data.data){
 				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
 				// $("#mainTable").datatable({checkable: true});

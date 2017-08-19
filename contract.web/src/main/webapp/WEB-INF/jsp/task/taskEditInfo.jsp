@@ -23,20 +23,6 @@
 						<form class="form-horizontal" id="taskForm"
 							style="margin-top: 10px;">
 							<div class="form-group">
-								<input type="hidden" name="wid" value="">
-								<input type="hidden" name="pcwid" value=""> <label
-									for="name" class="col-sm-2 required">任务类型</label>
-								<div class="col-md-4 col-sm-4">
-									<input type="text" class="form-control" name="rwlx"  required>
-								</div>
-							</div>
-							<div class="form-group"> <label
-									for="name" class="col-sm-2 required">任务名称</label>
-								<div class="col-md-4 col-sm-4">
-									<input type="text" class="form-control" name="rwmc"  required>
-								</div>
-							</div>
-							<div class="form-group">
 								<label for="name" class="col-sm-2 required">样品批号</label>
 								<div class="col-md-4 col-sm-4">
 									<input type="text" class="form-control" name="ypph" readonly required>
