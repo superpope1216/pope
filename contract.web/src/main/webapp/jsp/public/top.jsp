@@ -20,6 +20,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/jquery-paginator/jquery.pagination.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootstrap-suggest.js"></script>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootbox/bootbox.js"></script>
  <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/js/jquery.ztree.all.js"></script>

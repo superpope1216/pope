@@ -1,6 +1,7 @@
 package com.pope.contract.service.supply;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
@@ -12,14 +13,18 @@ import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
 public interface SupplyInfoService {
 	void deleteByPrimaryKey(String wid);
 
-	SupplyInfo insert(SupplyInfo record);
+	SupplyInfo insert(SupplyInfo record) throws Exception;
 
-	void updateByPrimaryKeySelective(SupplyInfo record);
+	void updateByPrimaryKeySelective(SupplyInfo record) throws Exception;
 
 	SupplyInfo selectByPrimaryKey(String wid);
 
 	List<SupplyInfo> selectByCondition(SupplyInfo supplyInfo);
+	
+	SupplyInfo selectSingleByCondition(SupplyInfo supplyInfo) throws Exception;
 
 	List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfo supplyInfo);
+	
+	List<Map<String,Object>> selectPmByCondition(String hcfl) throws Exception;
 	
 }

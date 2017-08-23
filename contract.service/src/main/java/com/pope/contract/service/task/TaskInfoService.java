@@ -3,8 +3,10 @@ package com.pope.contract.service.task;
 import java.util.List;
 import java.util.Map;
 
+import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
+import com.pope.contract.entity.task.extend.TaskInfoExtend;
 
 /**
 * @author zhanglingyun E-mail:
@@ -15,7 +17,15 @@ public interface TaskInfoService {
 
 	void insertTaskInfo(TaskInfo taskInfo,String userId) throws Exception;
 	
-	List<TaskInfo> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception;
+	List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception;
+	
+	/**
+	 * 根据分析人员获取对应的审核权限
+	 * @param fxxr
+	 * @return
+	 * @throws Exception
+	 */
+	List<TaskInfoExtend> selectDispalyTaskInfoByPermission(String roleName,String  userId,TaskStatusEnum taskStatus) throws Exception;
 	
 	List<TaskInfoDetail> selectDispalyTaskInfoDetailByCondition(TaskInfoDetail taskInfo) throws Exception;
 	
@@ -44,5 +54,7 @@ public interface TaskInfoService {
 	 * @throws Exception
 	 */
 	void examineNotPass(String wid,String userid) throws Exception;
+	
+	List<TaskInfo> selectTaskInfoByCondition(TaskInfo taskInfo);
 	
 }

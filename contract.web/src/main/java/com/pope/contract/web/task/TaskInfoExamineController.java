@@ -13,7 +13,9 @@ import com.pope.contract.code.Result;
 import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.task.TaskInfo;
+import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.service.task.TaskInfoService;
+import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 import com.pope.contract.web.util.PageUtil;
 
@@ -38,9 +40,10 @@ public class TaskInfoExamineController extends BaseController{
 	@RequestMapping("listDsh")
 	@ResponseBody
 	public Result listDsh(Integer startPage) throws Exception{
-		PageUtil<TaskInfo> pageUtil=new PageUtil<TaskInfo>(startPage);
-		List<TaskInfo> datas=taskInfoService.selectWaitTaskInfoByStep(this.getRole().getWid());
-		PageParam<TaskInfo> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
+		//List<TaskInfo> datas=taskInfoService.selectWaitTaskInfoByStep(this.getRole().getWid());
+		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SH);
+		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
 	
@@ -49,9 +52,10 @@ public class TaskInfoExamineController extends BaseController{
 	public Result listJxz(Integer startPage) throws Exception{
 		TaskInfo taskInfo=new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHJXZ.getCode());
-		PageUtil<TaskInfo> pageUtil=new PageUtil<TaskInfo>(startPage);
-		List<TaskInfo> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		PageParam<TaskInfo> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
+		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHJXZ);
+		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
 	
@@ -60,9 +64,10 @@ public class TaskInfoExamineController extends BaseController{
 	public Result listShtg(Integer startPage) throws Exception{
 		TaskInfo taskInfo=new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHTG.getCode());
-		PageUtil<TaskInfo> pageUtil=new PageUtil<TaskInfo>(startPage);
-		List<TaskInfo> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		PageParam<TaskInfo> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
+		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHTG);
+		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
 	
@@ -71,9 +76,10 @@ public class TaskInfoExamineController extends BaseController{
 	public Result listShbtg(Integer startPage) throws Exception{ 
 		TaskInfo taskInfo=new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHBTG.getCode());
-		PageUtil<TaskInfo> pageUtil=new PageUtil<TaskInfo>(startPage);
-		List<TaskInfo> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		PageParam<TaskInfo> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
+		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHBTG);
+		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
 	@RequestMapping(value="examinePass",method=RequestMethod.POST)

@@ -23,6 +23,7 @@
 						<form class="form-horizontal" id="taskForm"
 							style="margin-top: 10px;">
 							<div class="form-group">
+								<input type="hidden"  name="pcwid" value="">
 								<label for="name" class="col-sm-2 required">样品批号</label>
 								<div class="col-md-4 col-sm-4">
 									<input type="text" class="form-control" name="ypph" readonly required>

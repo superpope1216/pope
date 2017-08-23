@@ -1,15 +1,22 @@
 package com.pope.contract.service.supply.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pope.contract.dao.supply.SupplyInfoMapper;
+import com.pope.contract.dao.supply.SupplyTotalInfoMapper;
 import com.pope.contract.dao.supply.extend.SupplyInfoExtendMapper;
+import com.pope.contract.dao.supply.extend.SupplyTotalInfoExtendMapper;
 import com.pope.contract.entity.supply.SupplyInfo;
+import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.supply.SupplyInfoService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.StringUtil;
 
 /**
@@ -24,6 +31,11 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 	private SupplyInfoMapper supplyInfoMapper;
 	@Autowired
 	private SupplyInfoExtendMapper supplyInfoExtendMapper;
+	
+	@Autowired
+	private SupplyTotalInfoMapper supplyTotalInfoMapper;
+	@Autowired
+	private SupplyTotalInfoExtendMapper supplyTotalInfoExtendMapper;
 	@Override
 	public List<SupplyInfo> selectByCondition(SupplyInfo supplyInfo) {
 		return supplyInfoExtendMapper.selectByCondition(supplyInfo);
@@ -40,7 +52,8 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 	}
 
 	@Override
-	public SupplyInfo insert(SupplyInfo record) {
+	@Transactional
+	public SupplyInfo insert(SupplyInfo record) throws Exception{
 		record.setWid(StringUtil.getUuId());
 		Integer max=this.supplyInfoExtendMapper.selectMaxBh();
 		if(max==null){
@@ -48,12 +61,58 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		}
 		max++;
 		record.setDqbh(max);
+		SupplyInfo querySupplyInfo=new SupplyInfo();
+		querySupplyInfo.setHcfl(record.getHcfl());
+		querySupplyInfo.setPm(record.getPm());
+		SupplyInfo oldSupplyInfo=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
+		SupplyTotalInfo supplyTotalInfo=null;
+		if(oldSupplyInfo!=null){
+			if(!record.getSldw().equals(oldSupplyInfo.getSldw()) ){
+				throw new ServiceException("同一分类同一品名的数量单位不一致，请重新确认！");
+			}
+			record.setFid(oldSupplyInfo.getFid());
+			supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(oldSupplyInfo.getFid());
+			supplyTotalInfo.setKc(supplyTotalInfo.getKc()+record.getKc());
+			supplyTotalInfo.setYjsl(supplyTotalInfo.getYjsl()+record.getYjsl());
+			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
+			
+		}else{
+			supplyTotalInfo=new SupplyTotalInfo();
+			String pid=StringUtil.getUuId();
+			record.setFid(pid);
+			supplyTotalInfo.setWid(pid);
+			supplyTotalInfo.setHcfl(record.getHcfl());
+			supplyTotalInfo.setPm(record.getPm());
+			supplyTotalInfo.setSldw(record.getSldw());
+			supplyTotalInfo.setKc(record.getKc());
+			supplyTotalInfo.setYjsl(record.getYjsl());
+			supplyTotalInfoMapper.insert(supplyTotalInfo);
+		}
 		supplyInfoMapper.insert(record);
 		return record;
 	}
-
+	
+	
 	@Override
+	@Transactional
 	public void updateByPrimaryKeySelective(SupplyInfo record) {
+//		SupplyInfo querySupplyInfo=new SupplyInfo();
+//		querySupplyInfo.setHcfl(record.getHcfl());
+//		querySupplyInfo.setPm(record.getPm());
+//		List<SupplyInfo> lst=supplyInfoExtendMapper.selectByCondition(querySupplyInfo);
+//		SupplyInfo oldSupplyInfo=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
+//		SupplyTotalInfo supplyTotalInfo=null;
+//		if(CommonUtil.isNotEmptyList(lst) && lst.size()>1){
+//			if(!record.getSldw().equals(oldSupplyInfo.getSldw()) ){
+//				throw new ServiceException("同一分类同一品名的数量单位不一致，请重新确认！");
+//			}
+//			record.setFid(oldSupplyInfo.getFid());
+//			supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(oldSupplyInfo.getWid());
+//			supplyTotalInfo.setKc(supplyTotalInfo.getKc()+record.getKc()-);
+//			supplyTotalInfo.setYjsl(supplyTotalInfo.getYjsl()+record.getYjsl());
+//			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
+//			
+//		}
 		supplyInfoMapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -62,4 +121,12 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		return supplyInfoMapper.selectByPrimaryKey(wid);
 	}
 
+	
+	public List<Map<String,Object>> selectPmByCondition(String hcpl) throws Exception{
+		return supplyInfoExtendMapper.selectPmByCondition(hcpl);
+	}
+	
+	public SupplyInfo selectSingleByCondition(SupplyInfo supplyInfo) throws Exception{
+		return supplyInfoExtendMapper.selectSingleByCondition(supplyInfo);
+	}
 }

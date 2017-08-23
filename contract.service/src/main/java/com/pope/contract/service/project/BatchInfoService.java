@@ -20,7 +20,7 @@ public interface BatchInfoService {
 	BatchInfo selectByPrimaryKey(String wid);
 	
 	
-	BatchInfo insertBatchInfo(BatchInfo batchInfo) throws Exception;
+	BatchInfo insertBatchInfo(BatchInfo batchInfo,String userId) throws Exception;
 	
 	int updateBatchInfo(BatchInfo batchInfo) throws Exception;
 	
@@ -40,4 +40,12 @@ public interface BatchInfoService {
 	void deleteBatchInfoDetail(String wid) throws Exception;
 	
 	String copyBatchInfo(String wid) throws Exception;
+	
+	/**
+	 * 通过样品批次ID集成判断是否可生成合同信息，并返回最新创建的那个
+	 * @param wids
+	 * @return
+	 * @throws Exception
+	 */
+	BatchInfo checkCreateContract(String wids) throws Exception;
 }

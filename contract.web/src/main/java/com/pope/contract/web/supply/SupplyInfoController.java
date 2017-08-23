@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -46,8 +47,11 @@ public class SupplyInfoController extends BaseController{
 	@Autowired
 	private GmbInfoService gmbInfoService;
 	@RequestMapping("index")
-	public String index(){
-		return "supply/supplyInfo";
+	public ModelAndView index(){
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("supply/supplyInfo");
+		mv.addObject("buttons",this.getButtonPermission("/supply/index"));
+		return mv;
 	}
 	@RequestMapping("view")
 	@ResponseBody
@@ -60,7 +64,22 @@ public class SupplyInfoController extends BaseController{
 		return Result.success(supplyInfo);
 		
 	}
-	
+	@RequestMapping("searchPm")
+	@ResponseBody
+	public Result searchPm(String hcfl) throws Exception{
+		if(StringUtil.isEmpty(hcfl)){
+			return Result.success(null);
+		}
+		return Result.success(supplyInfoService.selectPmByCondition(hcfl));
+	}
+	@RequestMapping("selectByHcflAndPm")
+	@ResponseBody
+	public Result selectByHcflAndPm(String hcfl,String pm) throws Exception{
+		SupplyInfo supplyInfo=new SupplyInfo();
+		supplyInfo.setHcfl(hcfl);
+		supplyInfo.setPm(pm);
+		return Result.success(supplyInfoService.selectSingleByCondition(supplyInfo));
+	}
 	@RequestMapping("viewDetail")
 	@ResponseBody
 	public Result viewDetail(String wid){

@@ -2,6 +2,8 @@ package com.pope.contract.dao.project.extend;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.dao.project.BatchInfoMapper;
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
@@ -16,6 +18,7 @@ public interface BatchInfoExtendMapper extends BatchInfoMapper{
 
 	List<BatchInfo> selectByCondition(BatchInfo batchInfo);
 	
+	List<BatchInfo> selectByWids(@Param("wids") List<String> wids);
 	List<BatchInfoExtend> selectDisplayByCondition(BatchInfo batchInfo);
 	Integer selectMaxDqbh();
 }

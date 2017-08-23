@@ -3,7 +3,7 @@
  */
 $(document).ready(function(){
 	queryList();
-	queryJxz();
+	//queryJxz();
 	queryShtg();
 	queryShbtg();
 	function queryList(){

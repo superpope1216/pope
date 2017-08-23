@@ -10,16 +10,22 @@ $(document).ready(function(){
 			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
 		},
 		rules:{
-			phone:{
+			kc:{
 				required:true,
-				isMobile:true
+				digits:true
 			},
-			email:{
+			dj:{
 				required:true,
-				email:true
+				number:true,
+				min:0
+			},
+			yjsl:{
+				required:true,
+				digits:true
 			}
 		}
 	});
+	setButtonsDisplay(buttonsPermission);
 	queryList();
 	
 	function queryList(pageId){
@@ -104,6 +110,51 @@ $(document).ready(function(){
 				});
 			});
 		})
+	}
+	
+	$("#supplyForm [name='hcfl']").on("change",function(){
+		var _v=$(this).val();
+		if(_v){
+		doGet(basePath+"/supply/searchPm?hcfl="+_v,"",function(data){
+			var dataList = {value: []}
+			if(data.data){
+				var _d=data.data;
+				
+				for(var i=0;i<_d.length;i++){
+					dataList.value.push({
+						"pm":_d[i].PM
+					});
+				}
+			}
+			$("#supplyForm [name='pm']").bsSuggest('destroy');
+			$("#supplyForm [name='pm']").bsSuggest({
+		        ignorecase: true,
+		        showHeader: false,
+		        autoSelect: true,
+		        showBtn: false,     //不显示下拉按钮
+		        data: dataList,
+		        idField: "pm",
+		        keyField: "pm",
+		        clearable: true
+		 }).on('onDataRequestSuccess', function (e, result) {
+		        console.log('从 json.data 参数中获取，不会触发 onDataRequestSuccess 事件', result);
+		    }).on('onSetSelectValue', function (e, keyword, data) {
+		    	setByHcflAndPm($("#supplyForm [name='hcfl']").val(),$("#supplyForm [name='pm']").val());
+		    }).on('onUnsetSelectValue', function () {
+		    	setByHcflAndPm($("#supplyForm [name='hcfl']").val(),$("#supplyForm [name='pm']").val());
+		    });
+		});
+		}
+		 
+	});
+	
+	function setByHcflAndPm(hcfl,pm){
+		doGet(basePath+"/supply/selectByHcflAndPm","hcfl="+hcfl+"&pm="+pm,function(data){
+        	if(data.data){
+        		//$("#supplyForm [name='hbdw']").val(data.data.hbdw);
+        		$("#supplyForm [name='sldw']").val(data.data.sldw);
+        	}
+        });
 	}
 	
 	$("#btnNew").click(function(){

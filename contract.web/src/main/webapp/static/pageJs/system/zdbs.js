@@ -31,7 +31,7 @@ $(document).ready(function(){
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId);
 			});
-			$("#datatable-mainTable").delegate("[data-option='editZdbs']","click",function(){
+			$("#mainTable").delegate("[data-option='editZdbs']","click",function(){
 				var key=$(this).attr("data-key");
 				$("#zdbsForm")[0].reset();
 				$("#zdbsForm [name='wid']").val(key);
@@ -42,7 +42,7 @@ $(document).ready(function(){
 				});
 				$("#modelEditZdbsInfo").modal("show");
 			});
-			$("#datatable-mainTable").delegate("[data-option='deleteZdbs']","click",function(){
+			$("#mainTable").delegate("[data-option='deleteZdbs']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该字典表？",function(){
 					doPost(basePath+"/zdbs/delete","wid="+key,function(data){

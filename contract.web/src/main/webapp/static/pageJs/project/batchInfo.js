@@ -167,8 +167,24 @@ $(document).ready(function(){
 		doGet(basePath+"/batch/checkBatchInfo","wid="+selectRows[0].value,function(data){
 			window.location=basePath+"/task/taskadd?wid="+selectRows[0].value;
 		});
-		
-		
+	});
+	//发起合同
+	$("#btnDraftContract").click(function(){
+		var selectRows=$("#mainTable [name='chkSingle']:checked");
+		if(selectRows.size()<=0){
+			alert("请选择一条样品批次！");
+			return false;
+		}
+		var strSelectedId="";
+		for(var i=0;i<selectRows.size();i++){
+			strSelectedId+=","+selectRows[i].value;
+		}
+		if(strSelectedId){
+			strSelectedId=strSelectedId.substr(1);
+		}
+		doPost(basePath+"/batch/checkContractInfo","wids="+strSelectedId,function(data){
+			window.location=basePath+"/contractEditInfo/taskadd?pcids="+strSelectedId+"&firstPcid="+data.data.wid;
+		});
 	});
 	
 	

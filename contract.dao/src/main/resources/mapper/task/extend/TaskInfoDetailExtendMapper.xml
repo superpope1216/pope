@@ -36,7 +36,7 @@
     t_contract_task_detail.FXXM, t_contract_task_detail.PCWID, t_contract_task_detail.DQBH, 
     t_contract_task_detail.RWFPR,t_contract_task_detail.JSSJ, t_contract_task_detail.RWZT, 
     t_contract_task_detail.DATASTATUS, t_contract_task_detail.FRWID, t_contract_task_detail.PCXQID,
-    T_CONTRACT_SJZD_FXXM.lbmc as FXXM_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS.lbmc as rwzt_display
+    T_CONTRACT_SJZD_FXXM.lbmc as FXXM_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS_DETAIL.lbmc as rwzt_display
   </sql>
   <select id="selectMaxXh" resultType="java.lang.Integer">
   		SELECT MAX(DQBH) FROM t_contract_task_detail
@@ -47,7 +47,7 @@
   		from 
   		t_contract_task_detail t_contract_task_detail
   		LEFT JOIN T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM ON T_CONTRACT_SJZD_FXXM.LBDM =t_contract_task_detail.fxxm
-  		left join T_CONTRACT_SJZD_TASKSTATUS T_CONTRACT_SJZD_TASKSTATUS on T_CONTRACT_SJZD_TASKSTATUS.lbdm=t_contract_task_detail.rwzt
+  		left join T_CONTRACT_SJZD_TASKSTATUS_DETAIL T_CONTRACT_SJZD_TASKSTATUS_DETAIL on T_CONTRACT_SJZD_TASKSTATUS_DETAIL.lbdm=t_contract_task_detail.rwzt
   		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="wid!=null">
 				AND WID=#{wid,jdbcType=VARCHAR}

@@ -15,7 +15,9 @@ $(document).ready(function(){
 				var _detail=data.data;
 				$("#taskForm [name='pcwid']").val(_detail.wid);
 				$("#taskForm [name='ypph']").val(_detail.ypph);
-				doGetSelect2("T_CONTRACT_SJZD_FXXM", "#taskForm [name='fxxm']", _detail.fxxm);
+				$("#taskForm [name='pcwid']").val(pcid);
+				doGetSelect(basePath+"/task/selectFxxm","pcid="+pcid,"#taskForm [name='fxxm']")
+				//doGetSelect2("T_CONTRACT_SJZD_FXXM", "#taskForm [name='fxxm']", _detail.fxxm);
 			}
 		});
 	}

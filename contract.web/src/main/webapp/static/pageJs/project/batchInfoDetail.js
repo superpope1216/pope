@@ -98,7 +98,24 @@ $(document).ready(
 						$("#userForm [name='sysj']").val(_details.sysj);
 						$("#userForm [name='gys']").val(_details.gys);
 						$("#userForm [name='syr']").val(_details.syr);
-						doGetSelect2("T_CONTRACT_SJZD_SYDW", "#userForm [name='sydw']", _details.sydw);
+						//doGetSelect2("T_CONTRACT_SJZD_SYDW", "#userForm [name='sydw']", _details.sydw);
+						doGet(basePath+"/batch/selectCustomInfos","",function(data){
+							if(data.data){
+								var _d=data.data;
+								var _dSelect="";
+								 var str="<option value=''>--请选择--</option>";
+								 if(data.data && data.data.length>0){
+									 for(var i=0;i<data.data.length;i++){
+										 var checked="";
+										if(_details.sydw && _details.sydw==data.data[i].customNumber){
+											checked=" selected='selected' ";
+										}
+										 str+="<option "+checked+" value='"+data.data[i].customNumber+"'>"+data.data[i].customName+"</option>"
+									 }
+								 }
+								 $("#userForm [name='sydw']").html(str);
+							}
+						});
 						$("#userForm [name='syxmfzr']").val(_details.syxmfzr);
 						$("#userForm [name='shsj']").val(_details.shsj);
 						doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);

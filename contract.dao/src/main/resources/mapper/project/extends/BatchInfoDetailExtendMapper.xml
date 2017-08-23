@@ -52,6 +52,9 @@
     	<if test="ypbh">
     		AND t_contract_pcgl_detail.ypbh=#{ypbh,jdbcType=VARCHAR}
     	</if>
+    	<if test="pcwid!=null">
+    		AND t_contract_pcgl_detail.pcwid=#{pcwid,jdbcType=VARCHAR}
+    	</if>
     </trim>
   </select>
   <delete id="deleteByPcid" parameterType="java.lang.String">

@@ -262,8 +262,18 @@
 							</div>
 							<label for="gh" class="col-sm-2 required">品名</label>
 							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="pm"
-									placeholder="请输入品名" required>
+								<div class="input-group">
+									<input type="text" class="form-control" name="pm">
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default dropdown-toggle"
+											data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										</ul>
+									</div>
+									<!-- /btn-group -->
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -330,7 +340,7 @@
 							<label for="contractvalidity" class="col-sm-2">备注</label>
 							<div class="col-md-10 col-sm-10">
 								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" required>
+									placeholder="请输入备注" >
 							</div>
 						</div>
 
@@ -365,28 +375,28 @@
 							</div>
 							<label for="gh" class="col-sm-2 required">品名</label>
 							<div class="col-md-4 col-sm-4">
-							<p class="form-control-static" name="pm"></p>
+								<p class="form-control-static" name="pm"></p>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="phone" class="col-sm-2">消耗品批次号</label>
 							<div class="col-md-4 col-sm-4">
-									<p class="form-control-static" name="xhppch"></p>
+								<p class="form-control-static" name="xhppch"></p>
 							</div>
 							<label for="email" class="col-sm-2 required">消耗品录入时间</label>
 							<div class="col-md-4 col-sm-4">
-									<p class="form-control-static" name="xhplrsj"></p>
+								<p class="form-control-static" name="xhplrsj"></p>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="team" class="col-sm-2 required">库存</label>
 							<div class="col-md-4 col-sm-4">
-							<p class="form-control-static" name="kc"></p>
+								<p class="form-control-static" name="kc"></p>
 							</div>
 							<label for="birthday" class="col-sm-2 required">数量单位</label>
 							<div class="col-md-4 col-sm-4">
-							<p class="form-control-static" name="sldw"></p>
+								<p class="form-control-static" name="sldw"></p>
 							</div>
 
 						</div>
@@ -397,7 +407,7 @@
 							</div>
 							<label for="jobcategory" class="col-sm-2 required">货币单位</label>
 							<div class="col-md-4 col-sm-4">
-							<p class="form-control-static" name="hbdw"></p>
+								<p class="form-control-static" name="hbdw"></p>
 							</div>
 
 
@@ -430,7 +440,7 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				</div>
 			</div>
 		</div>
@@ -447,16 +457,15 @@
 					<td class="text-left">{{= gys}}</td>
 					<td class="text-center">
 						<div class="btn-group">
-          					<button type="button" class="btn btn-xs btn-primary" data-option="btnLing" data-key="{{= wid}}">领</button>
-						    <button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnMai" data-key="{{= wid}}">买</button>
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnSun" data-key="{{= wid}}">损</button>
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnEdit" data-key="{{= wid}}">录</button>
 							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnView" data-key="{{= wid}}">详</button>
-          					<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="{{= wid}}"><i class="icon icon-times"></i></button>
+          					
         				</div>
 					</td>
 				</tr>
 			</script>
+			<script type="text/javascript" >
+    	var buttonsPermission="${buttons}";
+    </script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/supply/supplyInfo.js"></script>
 </body>

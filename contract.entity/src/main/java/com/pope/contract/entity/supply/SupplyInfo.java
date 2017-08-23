@@ -8,8 +8,7 @@ public class SupplyInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private String wid;
+    private String wid;
 
     private String hcfl;
 
@@ -36,6 +35,8 @@ public class SupplyInfo implements Serializable{
     private String bz;
 
     private Integer dqbh;
+
+    private String fid;
 
     public String getWid() {
         return wid;
@@ -147,5 +148,13 @@ public class SupplyInfo implements Serializable{
 
     public void setDqbh(Integer dqbh) {
         this.dqbh = dqbh;
+    }
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid == null ? null : fid.trim();
     }
 }

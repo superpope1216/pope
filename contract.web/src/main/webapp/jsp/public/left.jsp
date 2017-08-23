@@ -37,14 +37,14 @@
 			<a href='#'> <i class='icon icon-cogs'></i> <span><%=per.getName()%></span>
 				<span class='arrow'></span></a>
 			<%
-						for (Permission per2 : per.getList()) {
+				for (Permission per2 : per.getList()) {
 			%>
 			<div class='vertical-menu'>
 				<a href='${pageContext.request.contextPath}<%=per2.getUrl() %>'><%=per2.getName()%></a>
 			</div>
 			<%
-							}
-					} else {
+				}
+						} else {
 			%>
 			<div class='item vertical  '>
 				<a href='${pageContext.request.contextPath}<%=per.getUrl() %>'>
@@ -52,9 +52,9 @@
 				</a>
 			</div>
 			<%
-				  }
 				}
-			}
+					}
+				}
 			%>
 		</div>
 </aside>

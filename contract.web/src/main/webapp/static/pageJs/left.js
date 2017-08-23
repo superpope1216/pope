@@ -1,6 +1,6 @@
 var Script = function () {
 
-	jQuery('.sidebar .item.vertical > a').click(function () {
+	jQuery('.item.vertical a').click(function () {
         var ver = jQuery(this).next();
         if (ver.is(":visible")) {
             jQuery(this).parent().removeClass("open");

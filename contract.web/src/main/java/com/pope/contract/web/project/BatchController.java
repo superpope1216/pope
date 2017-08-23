@@ -17,13 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pope.contract.code.BatchStateEnum;
+import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
+import com.pope.contract.entity.custom.CustomInfo;
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.service.custom.CustomInfoService;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.StringUtil;
@@ -39,6 +42,9 @@ import com.pope.contract.web.BaseController;
 public class BatchController extends BaseController{
 	@Autowired
 	private BatchInfoService batchInfoService;
+	
+	@Autowired
+	private CustomInfoService customInfoService;
 	@RequestMapping("index")
 	public ModelAndView index() {
 		ModelAndView mv=new ModelAndView();
@@ -55,6 +61,13 @@ public class BatchController extends BaseController{
 			return Result.error("当前样品批次状态不是【待测】，请重新确认！");
 		}
 		return Result.success();
+	}
+	@RequestMapping("checkContractInfo")
+	@ResponseBody
+	public Result checkContractInfo(@RequestParam String wids) throws Exception{
+		BatchInfo batchInfo=batchInfoService.checkCreateContract(wids);
+		return Result.success(batchInfo);
+		
 	}
 	
 	
@@ -108,7 +121,7 @@ public class BatchController extends BaseController{
 	@ResponseBody
 	public Result saveBatchInfo(BatchInfo batchInfo) throws Exception{
 		if(StringUtils.isEmpty(batchInfo.getWid())){
-			batchInfo=batchInfoService.insertBatchInfo(batchInfo);
+			batchInfo=batchInfoService.insertBatchInfo(batchInfo,this.getUserId());
 		}else{
 			batchInfoService.updateBatchInfo(batchInfo);
 		}
@@ -188,5 +201,13 @@ public class BatchController extends BaseController{
 	public Result deleteBatchDetail(String wid) throws Exception{
 		batchInfoService.deleteBatchInfoDetail(wid);
 		return Result.success();
+	}
+	@RequestMapping("selectCustomInfos")
+	@ResponseBody
+	public Result selectCustomInfos() throws Exception{
+		CustomInfo customInfo=new CustomInfo();
+		customInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		List<CustomInfo> datas=customInfoService.selectByCondition(customInfo);
+		return Result.success(datas);
 	}
 }

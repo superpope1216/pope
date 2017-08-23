@@ -22,7 +22,6 @@
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a data-tab href="#dshContent">待审核</a></li>
-							<li><a data-tab href="#jxzContent">进行中</a></li>
 							<li><a data-tab href="#ywcContent">已完成</a></li>
 							<li><a data-tab href="#shbtgContent">审核不通过</a></li>
 						</ul>
@@ -33,7 +32,6 @@
 									id="mainTable">
 									<thead>
 										<tr>
-											<th class="text-center">任务分类</th>
 											<th class="text-center">任务名称</th>
 											<th class="text-center">责任人</th>
 											<th class="text-center">计划开始时间</th>
@@ -52,37 +50,12 @@
 									<div id='pageInfo' class="pagination"></div>
 								</div>
 							</div>
-							<div class="tab-pane" id="jxzContent">
-								<br>
-								<table class="table table-bordered datatable table-hover"
-									id="jxzTable">
-									<thead>
-										<tr>
-											<th class="text-center">任务分类</th>
-											<th class="text-center">任务名称</th>
-											<th class="text-center">责任人</th>
-											<th class="text-center">计划开始时间</th>
-											<th class="text-center">计划结束时间</th>
-											<th class="text-center">实际开始时间</th>
-											<th class="text-center">实际结束时间</th>
-											<th class="text-center">任务审核人</th>
-											<th class="text-center">任务状态</th>
-										</tr>
-									</thead>
-									<tbody id="tblJxzTaskInfo">
-									</tbody>
-								</table>
-								<div class="pull-right">
-									<div id='jxzPageInfo' class="pagination"></div>
-								</div>
-							</div>
 							<div class="tab-pane" id="ywcContent">
 								<br>
 								<table class="table table-bordered datatable table-hover"
 									id="ywcTable">
 									<thead>
 										<tr>
-											<th class="text-center">任务分类</th>
 											<th class="text-center">任务名称</th>
 											<th class="text-center">责任人</th>
 											<th class="text-center">计划开始时间</th>
@@ -106,7 +79,6 @@
 									id="btgTable">
 									<thead>
 										<tr>
-											<th class="text-center">任务分类</th>
 											<th class="text-center">任务名称</th>
 											<th class="text-center">责任人</th>
 											<th class="text-center">计划开始时间</th>
@@ -132,7 +104,6 @@
 
 		<script id="tblTaskInfoTpl" type="text/x-jquery-tmpl">
 				<tr>
-					<td class="text-center">{{= rwlx}}</td>
 					<td class="text-center">{{= rwmc}}</td>
 					<td class="text-center">{{= rwfpr_display}}</td>
 					<td class="text-center">{{= jhkssj}}</td>
@@ -152,8 +123,6 @@
 
 		<script id="tblTaskInfoTpl2" type="text/x-jquery-tmpl">
 				<tr>
-					
-					<td class="text-center">{{= rwlx}}</td>
 					<td class="text-center">{{= rwmc}}</td>
 					<td class="text-center">{{= rwfpr_display}}</td>
 					<td class="text-center">{{= jhkssj}}</td>

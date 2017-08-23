@@ -16,6 +16,7 @@
     <result column="YJSL" property="yjsl" jdbcType="INTEGER" />
     <result column="BZ" property="bz" jdbcType="VARCHAR" />
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="FID" property="fid" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.supply.extend.SupplyInfoExtend"  extends="BaseResultMap">
    
@@ -24,22 +25,30 @@
     <result column="HBDW_DISPLAY" property="hbdw_display" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    t_contract_supplies_main.WID, t_contract_supplies_main.HCFL, t_contract_supplies_main.PM, 
-    t_contract_supplies_main.XHPPCH, t_contract_supplies_main.XHPLRSJ, t_contract_supplies_main.YXQ, 
-    t_contract_supplies_main.KC, t_contract_supplies_main.SLDW, t_contract_supplies_main.DJ, 
-    t_contract_supplies_main.HBDW, t_contract_supplies_main.GYS, t_contract_supplies_main.YJSL, 
-    t_contract_supplies_main.BZ, t_contract_supplies_main.DQBH
+    t_contract_supplies_main.WID, t_contract_supplies_main.HCFL, 
+    t_contract_supplies_main.PM, t_contract_supplies_main.XHPPCH, 
+    t_contract_supplies_main.XHPLRSJ, t_contract_supplies_main.YXQ, 
+    t_contract_supplies_main.KC, t_contract_supplies_main.SLDW, 
+    t_contract_supplies_main.DJ, t_contract_supplies_main.HBDW, 
+    t_contract_supplies_main.GYS, t_contract_supplies_main.YJSL, 
+    t_contract_supplies_main.BZ, t_contract_supplies_main.DQBH, 
+    t_contract_supplies_main.FID
   </sql>
   <sql id="Base_Display_Column_List">
   	<include refid="Base_Column_List"></include>
   	,T_CONTRACT_SJZD_HCFL.LBMC AS HCFL_DISPLAY,
   	T_CONTRACT_SJZD_SLDW.lbmc as SLDW_DISPLAY,T_CONTRACT_SJZD_HBDW.lbmc as HBDW_DISPLAY
-  	
   </sql>
   <sql id="sqlWhere">
   	<where>
   			<if	test="wid!=null">
   				AND t_contract_supplies_main.wid=#{wid,jdbcType=VARCHAR}
+  			</if>
+  			<if test="hcfl!=null and hcfl!=''">
+  				AND t_contract_supplies_main.hcfl=#{hcfl,jdbcType=VARCHAR}
+  			</if>
+  			<if test="pm!=null and pm!=''">
+  				AND t_contract_supplies_main.pm=#{pm,jdbcType=VARCHAR}
   			</if>
   		</where>
   </sql>
@@ -49,6 +58,14 @@
   		from t_contract_supplies_main t_contract_supplies_main
   		<include refid="sqlWhere"/>
   </select>
+  <select id="selectSingleByCondition" resultMap="BaseResultMap">
+  		SELECT
+  		<include refid="Base_Column_List"/>
+  		from t_contract_supplies_main t_contract_supplies_main
+  		<include refid="sqlWhere"/>
+  		limit 1
+  </select>
+  
   <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap">
   		SELECT
   		<include refid="Base_Display_Column_List"/>
@@ -60,5 +77,8 @@
   </select>
   <select id="selectMaxBh" resultType="java.lang.Integer">
   	SELECT MAX(DQBH) FROM t_contract_supplies_main
+  </select>
+  <select id="selectPmByCondition" resultType="map">
+  		SELECT DISTINCT PM FROM t_contract_supplies_main where hcfl=#{hcfl}
   </select>
 </mapper>

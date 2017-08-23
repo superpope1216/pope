@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.util.StringUtils;
 import com.pope.contract.code.BatchStateEnum;
+import com.pope.contract.code.Result;
 import com.pope.contract.dao.project.BatchInfoDetailFxxmMapper;
 import com.pope.contract.dao.project.BatchInfoDetailMapper;
 import com.pope.contract.dao.project.BatchInfoFxxmMapper;
@@ -27,6 +28,7 @@ import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.entity.system.Sjzd;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.service.system.SjzdService;
 import com.pope.contract.util.CommonUtil;
@@ -58,7 +60,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	private BatchInfoDetailFxxmExtendMapper batchInfoDetailFxxmExtendMapper;
 	@Autowired
 	private BatchInfoFxxmMapper batchInfoFxxmMapper;
-	
+
 	@Autowired
 	private SjzdService sjzdService;
 
@@ -78,13 +80,15 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 
 	@Override
 	@Transactional
-	public BatchInfo insertBatchInfo(BatchInfo batchInfo) throws Exception {
+	public BatchInfo insertBatchInfo(BatchInfo batchInfo, String userId) throws Exception {
 		BatchInfo query = new BatchInfo();
 		query.setYpph(batchInfo.getYpph());
 		List<BatchInfo> list = batchInfoExtendMapper.selectByCondition(query);
 		if (CommonUtil.isNotEmptyList(list)) {
 			throw new Exception("该样品编号已存在，请重新确认！");
 		}
+		batchInfo.setCreateMan(userId);
+		batchInfo.setCreateTime(DateUtil.getCurrentDateTimeStr());
 		String wid = StringUtil.getUuId();
 		batchInfo.setWid(wid);
 		batchInfo.setPczt(StringUtil.toStr(BatchStateEnum.XJ.getCode()));
@@ -223,25 +227,25 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	@Override
 	public List<BatchInfoDetailExtend> selectDetailDisplayByCondition(BatchInfoDetail batchInfoDetail)
 			throws Exception {
-		List<Sjzd> listFxxmInfo=sjzdService.selectAll("T_CONTRACT_SJZD_FXXM", null);
-		Map<String,Object> mapFxxmInfo=new HashMap<String,Object>();
-		if(CommonUtil.isNotEmptyList(listFxxmInfo)){
-			for(Sjzd sjzd:listFxxmInfo){
+		List<Sjzd> listFxxmInfo = sjzdService.selectAll("T_CONTRACT_SJZD_FXXM", null);
+		Map<String, Object> mapFxxmInfo = new HashMap<String, Object>();
+		if (CommonUtil.isNotEmptyList(listFxxmInfo)) {
+			for (Sjzd sjzd : listFxxmInfo) {
 				mapFxxmInfo.put(sjzd.getLbdm(), sjzd.getLbmc());
 			}
 		}
-		List<BatchInfoDetailExtend> list=batchInfoDetailExtendMapper.selectDisplayByCondition(batchInfoDetail);
-		if(CommonUtil.isNotEmptyList(list)){
-			for(BatchInfoDetailExtend batchInfoDetailExtend:list){
-				String fxxm=batchInfoDetailExtend.getFxxm();
-				if(StringUtils.isEmpty(fxxm)){
-					String[] arrayFxxm=fxxm.split(",");
-					String fxxm_display="";
-					for(String s:arrayFxxm){
-						fxxm_display+=","+StringUtil.toStr(mapFxxmInfo.get(s));
+		List<BatchInfoDetailExtend> list = batchInfoDetailExtendMapper.selectDisplayByCondition(batchInfoDetail);
+		if (CommonUtil.isNotEmptyList(list)) {
+			for (BatchInfoDetailExtend batchInfoDetailExtend : list) {
+				String fxxm = batchInfoDetailExtend.getFxxm();
+				if (!StringUtils.isEmpty(fxxm)) {
+					String[] arrayFxxm = fxxm.split(",");
+					String fxxm_display = "";
+					for (String s : arrayFxxm) {
+						fxxm_display += "," + StringUtil.toStr(mapFxxmInfo.get(s));
 					}
-					if(!StringUtils.isEmpty(fxxm_display)){
-						fxxm_display=fxxm_display.substring(1);
+					if (!StringUtils.isEmpty(fxxm_display)) {
+						fxxm_display = fxxm_display.substring(1);
 					}
 					batchInfoDetailExtend.setFxxm_display(fxxm_display);
 				}
@@ -268,5 +272,25 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 			batchInfoDetail.setPcwid(wid);
 		}
 		return newWid;
+	}
+
+	@Override
+	public BatchInfo checkCreateContract(String wids) throws Exception {
+		if (StringUtils.isEmpty(wids)) {
+			throw new ServiceException("请至少选择一条样品批次！");
+		}
+		List<BatchInfo> datas = batchInfoExtendMapper.selectByWids(StringUtil.str2List(wids));
+		if(CommonUtil.isNotEmptyList(datas)){
+			String sydw=datas.get(0).getSydw();
+			for(BatchInfo batchInfo:datas){
+				if(BatchStateEnum.DC.getCode()!=StringUtil.toInt(batchInfo.getPczt())){
+					throw new ServiceException("存在样品批次状态不是【待测】的记录，无法创建合同，请重新确认！");
+				}
+				if(!batchInfo.getSydw().equals(sydw)){
+					throw new ServiceException("存在样品批次的送样单位不一致的情况，无法创建合同，请重新确认！");
+				}
+			}
+		}
+		return datas.get(0);
 	}
 }

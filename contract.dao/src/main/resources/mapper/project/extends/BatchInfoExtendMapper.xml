@@ -1,83 +1,129 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pope.contract.dao.project.extend.BatchInfoExtendMapper" >
- <resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfo">
-    <id column="WID" jdbcType="VARCHAR" property="wid" />
-    <result column="PCLB" jdbcType="VARCHAR" property="pclb" />
-    <result column="EJFL" jdbcType="VARCHAR" property="ejfl" />
-    <result column="PCMC" jdbcType="VARCHAR" property="pcmc" />
-    <result column="YPPH" jdbcType="VARCHAR" property="ypph" />
-    <result column="SL" jdbcType="INTEGER" property="sl" />
-    <result column="PP" jdbcType="VARCHAR" property="pp" />
-    <result column="SLDW" jdbcType="VARCHAR" property="sldw" />
-    <result column="CFD" jdbcType="VARCHAR" property="cfd" />
-    <result column="GG" jdbcType="VARCHAR" property="gg" />
-    <result column="KZSJD" jdbcType="VARCHAR" property="kzsjd" />
-    <result column="GYS" jdbcType="VARCHAR" property="gys" />
-    <result column="SYSJ" jdbcType="VARCHAR" property="sysj" />
-    <result column="YPSX" jdbcType="VARCHAR" property="ypsx" />
-    <result column="SYR" jdbcType="VARCHAR" property="syr" />
-    <result column="SYXMFZR" jdbcType="VARCHAR" property="syxmfzr" />
-    <result column="SYDW" jdbcType="VARCHAR" property="sydw" />
-    <result column="FXXM" jdbcType="VARCHAR" property="fxxm" />
-    <result column="HTH" jdbcType="VARCHAR" property="hth" />
-    <result column="PCZT" jdbcType="VARCHAR" property="pczt" />
-    <result column="SHSJ" jdbcType="VARCHAR" property="shsj" />
-    <result column="BZ" jdbcType="VARCHAR" property="bz" />
-    <result column="DJ" jdbcType="DECIMAL" property="dj" />
-    <result column="HBDW" jdbcType="VARCHAR" property="hbdw" />
-    <result column="DQBH" jdbcType="INTEGER" property="dqbh" />
-  </resultMap>
-  <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.project.extend.BatchInfoExtend">
-  	<result column="PCLB_DISPLAY" jdbcType="VARCHAR" property="pclb_display" />
-  	<result column="HBDW_DISPLAY" jdbcType="VARCHAR" property="hbdw_display" />
-  	<result column="PCZT_DISPLAY" jdbcType="VARCHAR" property="pczt_display" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    WID, PCLB, EJFL, PCMC, YPPH, SL, PP, SLDW, CFD, GG, KZSJD, GYS, SYSJ, YPSX, SYR, 
-    SYXMFZR, SYDW, FXXM, HTH, PCZT, SHSJ, BZ, DJ, HBDW, DQBH
-  </sql>
-   <sql id="Base_Display_Column_List">
-    t_contract_pcgl_main.WID, t_contract_pcgl_main.PCLB, t_contract_pcgl_main.EJFL, 
-    t_contract_pcgl_main.PCMC, t_contract_pcgl_main.YPPH, t_contract_pcgl_main.SL, 
-    t_contract_pcgl_main.PP, t_contract_pcgl_main.SLDW, t_contract_pcgl_main.CFD, 
-    t_contract_pcgl_main.GG, t_contract_pcgl_main.KZSJD, t_contract_pcgl_main.GYS, 
-    t_contract_pcgl_main.SYSJ, t_contract_pcgl_main.YPSX, t_contract_pcgl_main.SYR,
-    t_contract_pcgl_main.SYXMFZR, t_contract_pcgl_main.SYDW, t_contract_pcgl_main.FXXM,
-    t_contract_pcgl_main.HTH, t_contract_pcgl_main.PCZT, t_contract_pcgl_main.SHSJ, 
-    t_contract_pcgl_main.BZ, t_contract_pcgl_main.DJ, t_contract_pcgl_main.HBDW, t_contract_pcgl_main.DQBH,
-    T_CONTRACT_SJZD_PCLB.LBMC AS PCLB_DISPLAY,T_CONTRACT_SJZD_PCZT.LBMC AS PCZT_DISPLAY
-    
-  </sql>
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.project.BatchInfo" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_contract_pcgl_main
-    <trim prefix="WHERE" prefixOverrides="AND|OR">
-    	<if test="wid!=null">
-    		AND WID=#{wid,jdbcType=VARCHAR}
-    	</if>
-    	<if test="ypph!=null">
-    		AND ypph=#{ypph,jdbcType=VARCHAR}
-    	</if>
-    </trim>
-  </select>
-  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap" parameterType="com.pope.contract.entity.project.BatchInfo" >
-    select 
-    <include refid="Base_Display_Column_List" />
-    from t_contract_pcgl_main t_contract_pcgl_main
-    LEFT JOIN T_CONTRACT_SJZD_PCLB T_CONTRACT_SJZD_PCLB ON t_contract_pcgl_main.PCLB=T_CONTRACT_SJZD_PCLB.LBDM and T_CONTRACT_SJZD_PCLB.status=1
-    LEFT JOIN T_CONTRACT_SJZD_PCZT T_CONTRACT_SJZD_PCZT ON t_contract_pcgl_main.PCZT=T_CONTRACT_SJZD_PCZT.LBDM and T_CONTRACT_SJZD_PCZT.status=1
-    <trim prefix="WHERE" prefixOverrides="AND|OR">
-    	<if test="wid!=null">
-    		AND WID=#{wid,jdbcType=VARCHAR}
-    	</if>
-    	<if test="ypph!=null">
-    		AND ypph=#{ypph,jdbcType=VARCHAR}
-    	</if>
-    </trim>
-  </select>
-  <select id="selectMaxDqbh" resultType="java.lang.Integer">
-  	SELECT MAX(DQBH) FROM t_contract_pcgl_main
-  </select>
+<mapper namespace="com.pope.contract.dao.project.extend.BatchInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfo">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="PCLB" property="pclb" jdbcType="VARCHAR" />
+		<result column="EJFL" property="ejfl" jdbcType="VARCHAR" />
+		<result column="PCMC" property="pcmc" jdbcType="VARCHAR" />
+		<result column="YPPH" property="ypph" jdbcType="VARCHAR" />
+		<result column="SL" property="sl" jdbcType="INTEGER" />
+		<result column="PP" property="pp" jdbcType="VARCHAR" />
+		<result column="SLDW" property="sldw" jdbcType="VARCHAR" />
+		<result column="CFD" property="cfd" jdbcType="VARCHAR" />
+		<result column="GG" property="gg" jdbcType="VARCHAR" />
+		<result column="KZSJD" property="kzsjd" jdbcType="VARCHAR" />
+		<result column="GYS" property="gys" jdbcType="VARCHAR" />
+		<result column="SYSJ" property="sysj" jdbcType="VARCHAR" />
+		<result column="YPSX" property="ypsx" jdbcType="VARCHAR" />
+		<result column="SYR" property="syr" jdbcType="VARCHAR" />
+		<result column="SYXMFZR" property="syxmfzr" jdbcType="VARCHAR" />
+		<result column="SYDW" property="sydw" jdbcType="VARCHAR" />
+		<result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+		<result column="HTH" property="hth" jdbcType="VARCHAR" />
+		<result column="PCZT" property="pczt" jdbcType="VARCHAR" />
+		<result column="SHSJ" property="shsj" jdbcType="VARCHAR" />
+		<result column="BZ" property="bz" jdbcType="VARCHAR" />
+		<result column="DJ" property="dj" jdbcType="DECIMAL" />
+		<result column="HBDW" property="hbdw" jdbcType="VARCHAR" />
+		<result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+		<result column="BY10" property="by10" jdbcType="VARCHAR" />
+		<result column="BY9" property="by9" jdbcType="VARCHAR" />
+		<result column="BY8" property="by8" jdbcType="VARCHAR" />
+		<result column="BY7" property="by7" jdbcType="VARCHAR" />
+		<result column="BY6" property="by6" jdbcType="VARCHAR" />
+		<result column="BY5" property="by5" jdbcType="VARCHAR" />
+		<result column="BY4" property="by4" jdbcType="VARCHAR" />
+		<result column="BY3" property="by3" jdbcType="VARCHAR" />
+		<result column="BY1" property="by1" jdbcType="VARCHAR" />
+		<result column="BY2" property="by2" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="BaseResultDisplayMap"
+		type="com.pope.contract.entity.project.extend.BatchInfoExtend">
+		<result column="PCLB_DISPLAY" jdbcType="VARCHAR" property="pclb_display" />
+		<result column="HBDW_DISPLAY" jdbcType="VARCHAR" property="hbdw_display" />
+		<result column="PCZT_DISPLAY" jdbcType="VARCHAR" property="pczt_display" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_pcgl_main.WID, t_contract_pcgl_main.PCLB,
+		t_contract_pcgl_main.EJFL, t_contract_pcgl_main.PCMC,
+		t_contract_pcgl_main.YPPH, t_contract_pcgl_main.SL,
+		t_contract_pcgl_main.PP, t_contract_pcgl_main.SLDW,
+		t_contract_pcgl_main.CFD, t_contract_pcgl_main.GG,
+		t_contract_pcgl_main.KZSJD, t_contract_pcgl_main.GYS,
+		t_contract_pcgl_main.SYSJ, t_contract_pcgl_main.YPSX,
+		t_contract_pcgl_main.SYR,t_contract_pcgl_main.SYXMFZR,
+		t_contract_pcgl_main.SYDW, t_contract_pcgl_main.FXXM,
+		t_contract_pcgl_main.HTH, t_contract_pcgl_main.PCZT,
+		t_contract_pcgl_main.SHSJ, t_contract_pcgl_main.BZ,
+		t_contract_pcgl_main.DJ, t_contract_pcgl_main.HBDW,
+		t_contract_pcgl_main.DQBH, t_contract_pcgl_main.CREATE_TIME,
+		t_contract_pcgl_main.CREATE_MAN,t_contract_pcgl_main.BY10,
+		t_contract_pcgl_main.BY9, t_contract_pcgl_main.BY8,
+		t_contract_pcgl_main.BY7, t_contract_pcgl_main.BY6,
+		t_contract_pcgl_main.BY5, t_contract_pcgl_main.BY4,
+		t_contract_pcgl_main.BY3, t_contract_pcgl_main.BY1,
+		t_contract_pcgl_main.BY2
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List" />
+		T_CONTRACT_SJZD_PCLB.LBMC AS PCLB_DISPLAY,T_CONTRACT_SJZD_PCZT.LBMC AS
+		PCZT_DISPLAY
+	</sql>
+	<sql id="sqlFrom">
+		from t_contract_pcgl_main t_contract_pcgl_main
+		LEFT JOIN T_CONTRACT_SJZD_PCLB T_CONTRACT_SJZD_PCLB ON
+		t_contract_pcgl_main.PCLB=T_CONTRACT_SJZD_PCLB.LBDM and
+		T_CONTRACT_SJZD_PCLB.status=1
+		LEFT JOIN T_CONTRACT_SJZD_PCZT T_CONTRACT_SJZD_PCZT ON
+		t_contract_pcgl_main.PCZT=T_CONTRACT_SJZD_PCZT.LBDM and
+		T_CONTRACT_SJZD_PCZT.status=1
+	</sql>
+	<sql id="sqlWhere">
+		<where>
+			<if test="wid!=null">
+				AND t_contract_pcgl_main.WID=#{wid,jdbcType=VARCHAR}
+			</if>
+			<if test="ypph!=null">
+				AND t_contract_pcgl_main.ypph=#{ypph,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_pcgl_main.CREATE_TIME desc
+	</sql>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.project.BatchInfo">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_pcgl_main t_contract_pcgl_main
+		<include refid="sqlWhere" />
+		<include refid="sqlOrder"/>
+	</select>
+	<select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap"
+		parameterType="com.pope.contract.entity.project.BatchInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom"/>
+		<include refid="sqlWhere" />
+		<include refid="sqlOrder"/>
+	</select>
+	<select id="selectByWids" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from t_contract_pcgl_main t_contract_pcgl_main
+		<where>
+			<if test="wids!=null">
+				AND t_contract_pcgl_main.WID IN 
+				<foreach collection="wids" item="item" index="index" open="(" close=")" separator=",">
+						#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<select id="selectMaxDqbh" resultType="java.lang.Integer">
+		SELECT MAX(DQBH) FROM t_contract_pcgl_main
+	</select>
 </mapper>
