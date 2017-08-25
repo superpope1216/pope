@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.project.BatchInfoDetailFxxmMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="FXXMBH" property="fxxmbh" jdbcType="VARCHAR" />
+    <result column="PWID" property="pwid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, FXXMBH, PWID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_pcgl_detail_fxxm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_pcgl_detail_fxxm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    insert into t_contract_pcgl_detail_fxxm (WID, FXXMBH, PWID
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{fxxmbh,jdbcType=VARCHAR}, #{pwid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    insert into t_contract_pcgl_detail_fxxm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="fxxmbh != null" >
+        FXXMBH,
+      </if>
+      <if test="pwid != null" >
+        PWID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxmbh != null" >
+        #{fxxmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="pwid != null" >
+        #{pwid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    update t_contract_pcgl_detail_fxxm
+    <set >
+      <if test="fxxmbh != null" >
+        FXXMBH = #{fxxmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="pwid != null" >
+        PWID = #{pwid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    update t_contract_pcgl_detail_fxxm
+    set FXXMBH = #{fxxmbh,jdbcType=VARCHAR},
+      PWID = #{pwid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

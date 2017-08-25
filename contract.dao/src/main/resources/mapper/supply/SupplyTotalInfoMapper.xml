@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.supply.SupplyTotalInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="HCFL" property="hcfl" jdbcType="VARCHAR" />
+    <result column="PM" property="pm" jdbcType="VARCHAR" />
+    <result column="XHPLRSJ" property="xhplrsj" jdbcType="VARCHAR" />
+    <result column="KC" property="kc" jdbcType="INTEGER" />
+    <result column="SLDW" property="sldw" jdbcType="VARCHAR" />
+    <result column="DJ" property="dj" jdbcType="DECIMAL" />
+    <result column="HBDW" property="hbdw" jdbcType="VARCHAR" />
+    <result column="GYS" property="gys" jdbcType="VARCHAR" />
+    <result column="YJSL" property="yjsl" jdbcType="INTEGER" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, HCFL, PM, XHPLRSJ, KC, SLDW, DJ, HBDW, GYS, YJSL, BZ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_supplies_total
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_supplies_total
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    insert into t_contract_supplies_total (WID, HCFL, PM, 
+      XHPLRSJ, KC, SLDW, 
+      DJ, HBDW, GYS, YJSL, 
+      BZ)
+    values (#{wid,jdbcType=VARCHAR}, #{hcfl,jdbcType=VARCHAR}, #{pm,jdbcType=VARCHAR}, 
+      #{xhplrsj,jdbcType=VARCHAR}, #{kc,jdbcType=INTEGER}, #{sldw,jdbcType=VARCHAR}, 
+      #{dj,jdbcType=DECIMAL}, #{hbdw,jdbcType=VARCHAR}, #{gys,jdbcType=VARCHAR}, #{yjsl,jdbcType=INTEGER}, 
+      #{bz,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    insert into t_contract_supplies_total
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="hcfl != null" >
+        HCFL,
+      </if>
+      <if test="pm != null" >
+        PM,
+      </if>
+      <if test="xhplrsj != null" >
+        XHPLRSJ,
+      </if>
+      <if test="kc != null" >
+        KC,
+      </if>
+      <if test="sldw != null" >
+        SLDW,
+      </if>
+      <if test="dj != null" >
+        DJ,
+      </if>
+      <if test="hbdw != null" >
+        HBDW,
+      </if>
+      <if test="gys != null" >
+        GYS,
+      </if>
+      <if test="yjsl != null" >
+        YJSL,
+      </if>
+      <if test="bz != null" >
+        BZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="hcfl != null" >
+        #{hcfl,jdbcType=VARCHAR},
+      </if>
+      <if test="pm != null" >
+        #{pm,jdbcType=VARCHAR},
+      </if>
+      <if test="xhplrsj != null" >
+        #{xhplrsj,jdbcType=VARCHAR},
+      </if>
+      <if test="kc != null" >
+        #{kc,jdbcType=INTEGER},
+      </if>
+      <if test="sldw != null" >
+        #{sldw,jdbcType=VARCHAR},
+      </if>
+      <if test="dj != null" >
+        #{dj,jdbcType=DECIMAL},
+      </if>
+      <if test="hbdw != null" >
+        #{hbdw,jdbcType=VARCHAR},
+      </if>
+      <if test="gys != null" >
+        #{gys,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsl != null" >
+        #{yjsl,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    update t_contract_supplies_total
+    <set >
+      <if test="hcfl != null" >
+        HCFL = #{hcfl,jdbcType=VARCHAR},
+      </if>
+      <if test="pm != null" >
+        PM = #{pm,jdbcType=VARCHAR},
+      </if>
+      <if test="xhplrsj != null" >
+        XHPLRSJ = #{xhplrsj,jdbcType=VARCHAR},
+      </if>
+      <if test="kc != null" >
+        KC = #{kc,jdbcType=INTEGER},
+      </if>
+      <if test="sldw != null" >
+        SLDW = #{sldw,jdbcType=VARCHAR},
+      </if>
+      <if test="dj != null" >
+        DJ = #{dj,jdbcType=DECIMAL},
+      </if>
+      <if test="hbdw != null" >
+        HBDW = #{hbdw,jdbcType=VARCHAR},
+      </if>
+      <if test="gys != null" >
+        GYS = #{gys,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsl != null" >
+        YJSL = #{yjsl,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    update t_contract_supplies_total
+    set HCFL = #{hcfl,jdbcType=VARCHAR},
+      PM = #{pm,jdbcType=VARCHAR},
+      XHPLRSJ = #{xhplrsj,jdbcType=VARCHAR},
+      KC = #{kc,jdbcType=INTEGER},
+      SLDW = #{sldw,jdbcType=VARCHAR},
+      DJ = #{dj,jdbcType=DECIMAL},
+      HBDW = #{hbdw,jdbcType=VARCHAR},
+      GYS = #{gys,jdbcType=VARCHAR},
+      YJSL = #{yjsl,jdbcType=INTEGER},
+      BZ = #{bz,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

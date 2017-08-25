@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.ZdbsExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.Zdbs" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="CAN_DELETE" property="canDelete" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    WID, CODE, NAME, STATUS, CreateTime, CreateBy, UpdateTime, UpdateBy, OrderBy, CAN_DELETE
+  </sql>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_zdbs
+    WHERE STATUS=1
+    ORDER BY ORDERBY
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+  		select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_zdbs
+    WHERE STATUS=1
+    <if test="code!=null and code!=''">
+    	AND CODE=#{code,jdbcType=VARCHAR}
+    </if>
+    <if test="wid!=null and wid!=''">
+    	AND WID=#{wid,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	AND status=#{status,jdbcType=INTEGER}
+    </if>
+    ORDER BY ORDERBY
+  </select>
+</mapper>

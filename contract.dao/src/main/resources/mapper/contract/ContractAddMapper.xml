@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.ContractAddMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractAdd" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="HTID" property="htid" jdbcType="VARCHAR" />
+    <result column="PCID" property="pcid" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, HTID, PCID, FXXM, CREATE_TIME, CREATE_MAN
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_add
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_contract_add
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.contract.ContractAdd" >
+    insert into t_contract_contract_add (WID, HTID, PCID, 
+      FXXM, CREATE_TIME, CREATE_MAN
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{htid,jdbcType=VARCHAR}, #{pcid,jdbcType=VARCHAR}, 
+      #{fxxm,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.ContractAdd" >
+    insert into t_contract_contract_add
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="htid != null" >
+        HTID,
+      </if>
+      <if test="pcid != null" >
+        PCID,
+      </if>
+      <if test="fxxm != null" >
+        FXXM,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="htid != null" >
+        #{htid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcid != null" >
+        #{pcid,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        #{createMan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.contract.ContractAdd" >
+    update t_contract_contract_add
+    <set >
+      <if test="htid != null" >
+        HTID = #{htid,jdbcType=VARCHAR},
+      </if>
+      <if test="pcid != null" >
+        PCID = #{pcid,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        FXXM = #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.contract.ContractAdd" >
+    update t_contract_contract_add
+    set HTID = #{htid,jdbcType=VARCHAR},
+      PCID = #{pcid,jdbcType=VARCHAR},
+      FXXM = #{fxxm,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

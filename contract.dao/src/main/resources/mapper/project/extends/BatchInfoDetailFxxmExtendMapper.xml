@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.project.extend.BatchInfoDetailFxxmExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="FXXMBH" property="fxxmbh" jdbcType="VARCHAR" />
+    <result column="PWID" property="pwid" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="BaseDisplayResultMap" type="com.pope.contract.entity.project.extend.BatchInfoDetailFxxmExtend" extends="BaseResultMap">
+    <result column="fxxm_display" property="fxxm_display" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_CONTRACT_PCGL_DETAIL_FXXM.WID, T_CONTRACT_PCGL_DETAIL_FXXM.FXXMBH, T_CONTRACT_PCGL_DETAIL_FXXM.PWID
+  </sql>
+   <sql id="Base_Display_Column_List" >
+   	<include refid="Base_Column_List"/>
+    ,T_CONTRACT_SJZD_FXXM.LBMC  AS FXXM_DISPLAY
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CONTRACT_PCGL_DETAIL_FXXM T_CONTRACT_PCGL_DETAIL_FXXM
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="wid!=null">
+    		AND T_CONTRACT_PCGL_DETAIL_FXXM.WID=#{wid,jdbcType=VARCHAR}
+    	</if>
+    	<if test="pwid!=null">
+    		AND T_CONTRACT_PCGL_DETAIL_FXXM.pwid=#{pwid,jdbcType=VARCHAR}
+    	</if>
+    </trim>
+  </select>
+  <delete id="deleteByCondition"  parameterType="com.pope.contract.entity.project.BatchInfoDetailFxxm">
+  	delete from T_CONTRACT_PCGL_DETAIL_FXXM
+  	 <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="wid!=null">
+    		AND WID=#{wid,jdbcType=VARCHAR}
+    	</if>
+    	<if test="pwid!=null">
+    		AND pwid=#{pwid,jdbcType=VARCHAR}
+    	</if>
+    </trim>
+  </delete>
+  
+  <select id="selectFxxmCountByPcid" resultType="java.lang.Integer">
+  		SELECT COUNT(0) FROM T_CONTRACT_PCGL_DETAIL_FXXM T_CONTRACT_PCGL_DETAIL_FXXM
+  		WHERE T_CONTRACT_PCGL_DETAIL_FXXM.PWID IN (SELECT T_CONTRACT_PCGL_DETAIL.WID FROM T_CONTRACT_PCGL_DETAIL  T_CONTRACT_PCGL_DETAIL
+  		WHERE T_CONTRACT_PCGL_DETAIL.PCWID=#{pcid,jdbcType=VARCHAR})
+  		AND  T_CONTRACT_PCGL_DETAIL_FXXM.FXXMBH=#{fxxm,jdbcType=VARCHAR}
+  </select>
+  <select id="selectFxxmDisplayByPcid" resultMap="BaseDisplayResultMap">
+  		SELECT
+  		<include refid="Base_Display_Column_List"/>
+  		 FROM T_CONTRACT_PCGL_DETAIL_FXXM T_CONTRACT_PCGL_DETAIL_FXXM
+  		 LEFT JOIN T_CONTRACT_SJZD_FXXM.LBDM=T_CONTRACT_PCGL_DETAIL_FXXM.FXXM AND T_CONTRACT_SJZD_FXXM.STATUS=1
+  		WHERE T_CONTRACT_PCGL_DETAIL_FXXM.PWID IN (SELECT T_CONTRACT_PCGL_DETAIL.WID FROM T_CONTRACT_PCGL_DETAIL  T_CONTRACT_PCGL_DETAIL
+  		WHERE T_CONTRACT_PCGL_DETAIL.PCWID=#{pcid,jdbcType=VARCHAR})
+  		AND  T_CONTRACT_PCGL_DETAIL_FXXM.FXXMBH=#{fxxm,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.PermissionExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.Permission" >
+    <result column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="INTEGER" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="BaseColumnList">
+  	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL
+  </sql>
+  <select id="selectPermissionByRoleAsTree" parameterType="com.pope.contract.entity.system.Role" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	start with WID='0' connect by prior PID = WID
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
+  		<where>
+  			ROLEID=#{wid,jdbcType=VARCHAR}
+  			 
+  		</where> 
+  	)
+  	ORDER BY ORDERBY 
+  </select>
+  
+  <select id="selectPermissionByRoles" parameterType="list" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission
+  		<where>
+  			ROLEID IN
+  			<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+  				#{item.wid,jdbcType=VARCHAR}
+  			</foreach>
+  		</where> 
+  	)
+  	ORDER BY ORDERBY 
+  </select>
+  
+  <select id="selectChildByUrl" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission WHERE PID IN (SELECT  WID   FROM t_contract_sys_permission WHERE URL=#{url,jdbcType=VARCHAR})
+  	and wid in   (select PERMISSIONID from  t_contract_sys_role_permission 
+  	WHERE    ROLEID=#{roleId,jdbcType=VARCHAR})
+  			  
+  </select>
+  <select id="selectPermissionByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1 and wid in   (select PERMISSIONID from  t_contract_sys_role_permission 
+  		WHERE	ROLEID=#{roleId,jdbcType=VARCHAR}  
+  	)
+  	ORDER BY ORDERBY 
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	SELECT <include refid="BaseColumnList"/>
+  	FROM t_contract_sys_permission
+  	WHERE STATUS=1
+  	ORDER BY ORDERBY
+  </select>
+</mapper>

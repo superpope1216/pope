@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.custom.extend.CustomInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.custom.CustomInfo">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="CUSTOM_NAME" property="customName" jdbcType="VARCHAR" />
+		<result column="CUSTOM_NUMBER" property="customNumber"
+			jdbcType="VARCHAR" />
+		<result column="CUSTOM_TYPE" property="customType" jdbcType="VARCHAR" />
+		<result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+		<result column="CONTRACT_WAY" property="contractWay" jdbcType="VARCHAR" />
+		<result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+		<result column="COMPANY_ADDRESS" property="companyAddress"
+			jdbcType="VARCHAR" />
+		<result column="COMPANY_ACCOUNT" property="companyAccount"
+			jdbcType="VARCHAR" />
+		<result column="COMPANY_PRE_ACCOUNT" property="companyPreAccount"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+		<result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+		<result column="BY10" property="by10" jdbcType="VARCHAR" />
+		<result column="BY9" property="by9" jdbcType="VARCHAR" />
+		<result column="BY8" property="by8" jdbcType="VARCHAR" />
+		<result column="BY7" property="by7" jdbcType="VARCHAR" />
+		<result column="BY6" property="by6" jdbcType="VARCHAR" />
+		<result column="BY5" property="by5" jdbcType="VARCHAR" />
+		<result column="BY4" property="by4" jdbcType="VARCHAR" />
+		<result column="BY3" property="by3" jdbcType="VARCHAR" />
+		<result column="BY1" property="by1" jdbcType="VARCHAR" />
+		<result column="BY2" property="by2" jdbcType="VARCHAR" />
+		 <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.custom.extend.CustomInfoExtend"
+		extends="BaseResultMap">
+		<result column="CUSTOM_TYPE_DISPLAY" property="customType_display"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_custom_main.WID, t_contract_custom_main.CUSTOM_NAME,
+		t_contract_custom_main.CUSTOM_NUMBER,
+		t_contract_custom_main.CUSTOM_TYPE,
+		t_contract_custom_main.LINK_MAN, t_contract_custom_main.CONTRACT_WAY,
+		t_contract_custom_main.COMPANY_NAME,t_contract_custom_main.COMPANY_ADDRESS,
+		t_contract_custom_main.COMPANY_ACCOUNT,
+		t_contract_custom_main.COMPANY_PRE_ACCOUNT,
+		t_contract_custom_main.DATASTATUS,
+		t_contract_custom_main.DQBH,
+		t_contract_custom_main.CREATE_TIME, t_contract_custom_main.CREATE_MAN,
+		t_contract_custom_main.BY10,t_contract_custom_main.BY9,
+		t_contract_custom_main.BY8, t_contract_custom_main.BY7,
+		t_contract_custom_main.BY6, t_contract_custom_main.BY5,
+		t_contract_custom_main.BY4, t_contract_custom_main.BY3,
+		t_contract_custom_main.BY1, t_contract_custom_main.BY2
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List" />
+		,T_CONTRACT_SJZD_CUSTOM_TYPE.lbmc as customType_display
+	</sql>
+	<sql id="sqlFrom">
+		from t_contract_custom_main t_contract_custom_main
+		left join T_CONTRACT_SJZD_CUSTOM_TYPE T_CONTRACT_SJZD_CUSTOM_TYPE on T_CONTRACT_SJZD_CUSTOM_TYPE.lbdm=t_contract_custom_main.CUSTOM_TYPE and T_CONTRACT_SJZD_CUSTOM_TYPE.STATUS=1
+	</sql>
+	<sql id="sqlWhere">
+		<where>
+			<if test="wid!=null">
+				AND t_contract_custom_main.WID=#{wid,jdbcType=VARCHAR}
+			</if>
+			<if test="dqbh!=null and dqbh!=''">
+				AND t_contract_custom_main.DQBH=#{dqbh}
+			</if>
+			<if test="datastatus!=null and datastatus!=''">	
+				AND t_contract_custom_main.datastatus=#{datastatus}
+			</if>
+		</where>
+	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_custom_main.CREATE_TIME desc
+	</sql>
+	<select id="selectSingleByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.custom.CustomInfo">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_custom_main t_contract_custom_main
+		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
+		limit 1
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.custom.CustomInfo">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_custom_main t_contract_custom_main
+		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
+	</select>
+	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.custom.CustomInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom"/>
+		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
+		limit 1
+	</select>
+	<select id="selectDisplayByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.custom.CustomInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom"/>
+		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
+	</select>
+	<select id="selectMaxBh" resultType="java.lang.Integer">
+		SELECT MAX(DQBH) FROM t_contract_custom_main
+	</select>
+</mapper>

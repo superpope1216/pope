@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.pope.contract.dao.contract.extend.ContractMoneyExtendMapper">
+	<resultMap id="BaseResultMap"
+		type="com.pope.contract.entity.contract.ContractMoney">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="HTID" property="htid" jdbcType="VARCHAR" />
+		<result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+		<result column="DJ" property="dj" jdbcType="DECIMAL" />
+		<result column="SL" property="sl" jdbcType="INTEGER" />
+		<result column="ZKJG" property="zkjg" jdbcType="DECIMAL" />
+		<result column="ZJ" property="zj" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.contract.extend.ContractMoneyExtend" extends="BaseResultMap">
+		<result column="fxxm_display" property="fxxm_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_contract_money.WID, t_contract_contract_money.HTID,
+		t_contract_contract_money.FXXM, t_contract_contract_money.DJ,
+		t_contract_contract_money.SL, t_contract_contract_money.ZKJG,
+		t_contract_contract_money.ZJ, t_contract_contract_money.CREATE_TIME,
+		t_contract_contract_money.CREATE_MAN
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List"/>
+		,T_CONTRACT_SJZD_FXXM.LBMC AS fxxm_display
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_contract_money.WID = #{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="htid!=null and htid!=''">
+			AND t_contract_contract_money.HTID = #{htid,jdbcType=VARCHAR}
+		</if>
+		<if test="fxxm!=null and fxxm!=''">
+			AND t_contract_contract_money.FXXM = #{fxxm,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_contract_money.CREATE_TIME DESC
+	</sql>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.contract.ContractMoney">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_contract_money t_contract_contract_money
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+	</select>
+	<select id="selectSingleByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.contract.ContractMoney">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_contract_money t_contract_contract_money
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+		LIMIT 1
+	</select>
+	<sql id="sqlFrom">
+		from t_contract_contract_money t_contract_contract_money
+		LEFT JOIN T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM ON T_CONTRACT_SJZD_FXXM.LBDM= t_contract_contract_money.FXXM
+		AND T_CONTRACT_SJZD_FXXM.STATUS=1
+	</sql>
+	<select id="selectDispalyByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.contract.ContractMoney">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom"/>
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+	</select>
+	<select id="selectSingleDispalyByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.contract.ContractMoney">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom"/>
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+		LIMIT 1
+	</select>
+</mapper>

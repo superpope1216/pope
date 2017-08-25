@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.supply.extend.SupplyTotalInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.supply.SupplyTotalInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="HCFL" property="hcfl" jdbcType="VARCHAR" />
+    <result column="PM" property="pm" jdbcType="VARCHAR" />
+    <result column="XHPLRSJ" property="xhplrsj" jdbcType="VARCHAR" />
+    <result column="KC" property="kc" jdbcType="INTEGER" />
+    <result column="SLDW" property="sldw" jdbcType="VARCHAR" />
+    <result column="DJ" property="dj" jdbcType="DECIMAL" />
+    <result column="HBDW" property="hbdw" jdbcType="VARCHAR" />
+    <result column="GYS" property="gys" jdbcType="VARCHAR" />
+    <result column="YJSL" property="yjsl" jdbcType="INTEGER" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend"  extends="BaseResultMap">
+    <result column="HCFL_DISPLAY" property="hcfl_display" jdbcType="VARCHAR" />
+    <result column="SLDW_DISPLAY" property="sldw_display" jdbcType="VARCHAR" />
+    <result column="HBDW_DISPLAY" property="hbdw_display" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_contract_supplies_total.WID, t_contract_supplies_total.HCFL, 
+    t_contract_supplies_total.PM, t_contract_supplies_total.XHPLRSJ, 
+    t_contract_supplies_total.KC, t_contract_supplies_total.SLDW, 
+    t_contract_supplies_total.DJ, t_contract_supplies_total.HBDW, 
+    t_contract_supplies_total.GYS, t_contract_supplies_total.YJSL, 
+    t_contract_supplies_total.BZ
+  </sql>
+<sql id="Base_Display_Column_List">
+  	<include refid="Base_Column_List"></include>
+  	,T_CONTRACT_SJZD_HCFL.LBMC AS HCFL_DISPLAY,
+  	
+  	T_CONTRACT_SJZD_SLDW.lbmc as SLDW_DISPLAY,T_CONTRACT_SJZD_HBDW.lbmc as HBDW_DISPLAY
+  	
+  </sql>
+  <sql id="sqlWhere">
+  	<where>
+  			<if	test="wid!=null">
+  				AND t_contract_supplies_total.wid=#{wid,jdbcType=VARCHAR}
+  			</if>
+  		</where>
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+  		SELECT
+  		<include refid="Base_Column_List"/>
+  		from t_contract_supplies_total t_contract_supplies_total
+  		<include refid="sqlWhere"/>
+  </select>
+  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap">
+  		SELECT
+  		<include refid="Base_Display_Column_List"/>
+  		from t_contract_supplies_total t_contract_supplies_total
+  		left join T_CONTRACT_SJZD_HCFL T_CONTRACT_SJZD_HCFL on T_CONTRACT_SJZD_HCFL.lbdm=t_contract_supplies_total.hcfl and T_CONTRACT_SJZD_HCFL.STATUS=1
+  		left join T_CONTRACT_SJZD_SLDW T_CONTRACT_SJZD_SLDW on T_CONTRACT_SJZD_SLDW.lbdm=t_contract_supplies_total.sldw and T_CONTRACT_SJZD_SLDW.STATUS=1
+  		left join T_CONTRACT_SJZD_HBDW T_CONTRACT_SJZD_HBDW on T_CONTRACT_SJZD_HBDW.lbdm=t_contract_supplies_total.hbdw and T_CONTRACT_SJZD_HBDW.STATUS=1
+  		<include refid="sqlWhere"/>
+  </select>
+</mapper>

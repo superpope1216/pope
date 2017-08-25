@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.FxxmInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.system.FxxmInfo">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="LBDM" property="lbdm" jdbcType="VARCHAR" />
+		<result column="LBMC" property="lbmc" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="FXDJ" property="fxdj" jdbcType="DECIMAL" />
+		<result column="FXYJ" property="fxyj" jdbcType="VARCHAR" />
+		<result column="FXXLB" property="fxxlb" jdbcType="VARCHAR" />
+		<result column="BZ" property="bz" jdbcType="VARCHAR" />
+		<result column="FXRY" property="fxry" jdbcType="VARCHAR" />
+		<result column="SHRY" property="shry" jdbcType="VARCHAR" />
+		<result column="ZK" property="zk" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.system.extend.FxxmExtendInfo" extends="BaseResultMap">
+		<result column="FXRY_DISPLAY" property="fxry_display" jdbcType="VARCHAR" />
+		<result column="SHRY_DISPLAY" property="shry_display" jdbcType="VARCHAR" />
+		<result column="ZK_DISPLAY" property="zk_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_sjzd_fxxm.WID, t_contract_sjzd_fxxm.LBDM,
+		t_contract_sjzd_fxxm.LBMC, t_contract_sjzd_fxxm.STATUS,
+		t_contract_sjzd_fxxm.OrderBy,
+		t_contract_sjzd_fxxm.FXDJ,
+		t_contract_sjzd_fxxm.FXYJ,
+		t_contract_sjzd_fxxm.FXXLB,
+		t_contract_sjzd_fxxm.BZ, t_contract_sjzd_fxxm.FXRY,
+		t_contract_sjzd_fxxm.SHRY,
+		t_contract_sjzd_fxxm.ZK
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List" />
+		,FXRY.NAME1 AS FXRY_DISPLAY,SHRY.NAME1 AS
+		SHRY_DISPLAY,T_CONTRACT_SJZD_HTZK.LBMC AS ZK_DISPLAY
+
+	</sql>
+	<sql id="sqlFrom">
+		from t_contract_sjzd_fxxm t_contract_sjzd_fxxm
+		LEFT JOIN
+		t_contract_user_userinfo FXRY ON t_contract_sjzd_fxxm.FXRY=
+		FXRY.WID
+		AND FXRY.DATASTATUS=1
+		LEFT JOIN t_contract_user_userinfo SHRY ON
+		t_contract_sjzd_fxxm.FXRY=
+		FXRY.WID AND SHRY.DATASTATUS=1
+		LEFT JOIN
+		T_CONTRACT_SJZD_HTZK T_CONTRACT_SJZD_HTZK ON
+		t_contract_sjzd_fxxm.ZK=
+		T_CONTRACT_SJZD_HTZK.LBDM AND
+		T_CONTRACT_SJZD_HTZK.STATUS=1
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_sjzd_fxxm.WID = #{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="lbdm!=null and lbdm!=''">
+			AND t_contract_sjzd_fxxm.LBDM = #{lbdm,jdbcType=VARCHAR}
+		</if>
+		<if test="status!=null ">
+			AND t_contract_sjzd_fxxm.STATUS =
+			#{status,jdbcType=INTEGER}
+		</if>
+	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_sjzd_fxxm.OrderBy
+	</sql>
+	<select id="selectDisplayByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.system.FxxmInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+	</select>
+	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.system.FxxmInfo">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+	</select>
+
+	<select id="selectByBatchId" resultMap="BaseDisplayResultMap">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom" />
+		WHERE t_contract_sjzd_fxxm.STATUS=1
+		<if test="batchId!=null and batchId!=''">
+			AND t_contract_sjzd_fxxm.LBDM IN (SELECT FXXMBH FROM
+			T_CONTRACT_PCGL_MAIN_FXXM WHERE PWID=#{batchId,jdbcType=VARCHAR})
+		</if>
+		<include refid="sqlOrder" />
+	</select>
+
+	<select id="selectByBatchDetail" resultMap="BaseDisplayResultMap">
+		SELECT
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom" />
+		WHERE t_contract_sjzd_fxxm.STATUS=1
+		<if test="batchId!=null and batchId!=''">
+			AND t_contract_sjzd_fxxm.LBDM IN (
+			SELECT
+			T_CONTRACT_PCGL_DETAIL_FXXM.FXXMBH FROM T_CONTRACT_PCGL_DETAIL_FXXM
+			WHERE T_CONTRACT_PCGL_DETAIL_FXXM.PWID IN (SELECT
+			T_CONTRACT_PCGL_DETAIL.WID FROM T_CONTRACT_PCGL_DETAIL
+			T_CONTRACT_PCGL_DETAIL
+			WHERE
+			T_CONTRACT_PCGL_DETAIL.PCWID=#{batchId,jdbcType=VARCHAR})
+			)
+			<if test="htid!=null and htid!=''">
+			AND t_contract_sjzd_fxxm.LBDM NOT IN (
+				SELECT T_CONTRACT_CONTRACT_ADD.FXXM FROM T_CONTRACT_CONTRACT_ADD T_CONTRACT_CONTRACT_ADD
+				WHERE T_CONTRACT_CONTRACT_ADD.HTID=#{htid,jdbcType=VARCHAR}
+				AND T_CONTRACT_CONTRACT_ADD.PCID=#{batchId,jdbcType=VARCHAR}
+			)
+			</if>
+		</if>
+	</select>
+
+</mapper>

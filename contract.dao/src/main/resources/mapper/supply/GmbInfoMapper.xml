@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.supply.GmbInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.supply.GmbInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="LYSL" property="lysl" jdbcType="INTEGER" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="SQSJ" property="sqsj" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="CURENTSTEP" property="curentstep" jdbcType="INTEGER" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="HCID" property="hcid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, LYSL, USERID, SQSJ, RWZT, CURENTSTEP, BZ, HCID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_supplies_gmb
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_supplies_gmb
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.supply.GmbInfo" >
+    insert into t_contract_supplies_gmb (WID, LYSL, USERID, 
+      SQSJ, RWZT, CURENTSTEP, 
+      BZ, HCID)
+    values (#{wid,jdbcType=VARCHAR}, #{lysl,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, 
+      #{sqsj,jdbcType=VARCHAR}, #{rwzt,jdbcType=VARCHAR}, #{curentstep,jdbcType=INTEGER}, 
+      #{bz,jdbcType=VARCHAR}, #{hcid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.supply.GmbInfo" >
+    insert into t_contract_supplies_gmb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="lysl != null" >
+        LYSL,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="sqsj != null" >
+        SQSJ,
+      </if>
+      <if test="rwzt != null" >
+        RWZT,
+      </if>
+      <if test="curentstep != null" >
+        CURENTSTEP,
+      </if>
+      <if test="bz != null" >
+        BZ,
+      </if>
+      <if test="hcid != null" >
+        HCID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="lysl != null" >
+        #{lysl,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sqsj != null" >
+        #{sqsj,jdbcType=VARCHAR},
+      </if>
+      <if test="rwzt != null" >
+        #{rwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="curentstep != null" >
+        #{curentstep,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="hcid != null" >
+        #{hcid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.supply.GmbInfo" >
+    update t_contract_supplies_gmb
+    <set >
+      <if test="lysl != null" >
+        LYSL = #{lysl,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sqsj != null" >
+        SQSJ = #{sqsj,jdbcType=VARCHAR},
+      </if>
+      <if test="rwzt != null" >
+        RWZT = #{rwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="curentstep != null" >
+        CURENTSTEP = #{curentstep,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="hcid != null" >
+        HCID = #{hcid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.supply.GmbInfo" >
+    update t_contract_supplies_gmb
+    set LYSL = #{lysl,jdbcType=INTEGER},
+      USERID = #{userid,jdbcType=VARCHAR},
+      SQSJ = #{sqsj,jdbcType=VARCHAR},
+      RWZT = #{rwzt,jdbcType=VARCHAR},
+      CURENTSTEP = #{curentstep,jdbcType=INTEGER},
+      BZ = #{bz,jdbcType=VARCHAR},
+      HCID = #{hcid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.extend.ContractInfoRelExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractInfoRel" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="HTID" property="htid" jdbcType="VARCHAR" />
+    <result column="PCID" property="pcid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_contract_contract_batch_rel.WID, t_contract_contract_batch_rel.HTID, t_contract_contract_batch_rel.PCID
+  </sql>
+  <sql id="sqlWhere">
+  		<if test="htid!=null and htid!=''">
+  			t_contract_contract_batch_rel.htid=#{htid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="pcid!=null and pcid!=''">
+  			t_contract_contract_batch_rel.pcid=#{pcid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="wid!=null and wid!=''">
+  			t_contract_contract_batch_rel.wid=#{wid,jdbcType=VARCHAR}
+  		</if>
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.contract.ContractInfoRel" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_batch_rel
+    
+  </select>
+</mapper>

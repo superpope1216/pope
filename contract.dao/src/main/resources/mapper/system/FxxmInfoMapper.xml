@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.FxxmInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.FxxmInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="LBDM" property="lbdm" jdbcType="VARCHAR" />
+    <result column="LBMC" property="lbmc" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="FXDJ" property="fxdj" jdbcType="DECIMAL" />
+    <result column="ZK" property="zk" jdbcType="DECIMAL" />
+    <result column="FXYJ" property="fxyj" jdbcType="VARCHAR" />
+    <result column="FXXLB" property="fxxlb" jdbcType="VARCHAR" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="FXRY" property="fxry" jdbcType="VARCHAR" />
+    <result column="SHRY" property="shry" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, LBDM, LBMC, STATUS, OrderBy, FXDJ, FXYJ, FXXLB, BZ, FXRY, SHRY,ZK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sjzd_fxxm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sjzd_fxxm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.FxxmInfo" >
+    insert into t_contract_sjzd_fxxm (WID, LBDM, LBMC, 
+      STATUS, OrderBy, FXDJ, 
+      FXYJ, FXXLB, BZ, FXRY, 
+      SHRY,ZK)
+    values (#{wid,jdbcType=VARCHAR}, #{lbdm,jdbcType=VARCHAR}, #{lbmc,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{orderby,jdbcType=INTEGER}, #{fxdj,jdbcType=DECIMAL}, 
+      #{fxyj,jdbcType=VARCHAR}, #{fxxlb,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{fxry,jdbcType=VARCHAR}, 
+      #{shry,jdbcType=VARCHAR}, #{zk,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.FxxmInfo" >
+    insert into t_contract_sjzd_fxxm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="lbdm != null" >
+        LBDM,
+      </if>
+      <if test="lbmc != null" >
+        LBMC,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="fxdj != null" >
+        FXDJ,
+      </if>
+      <if test="fxyj != null" >
+        FXYJ,
+      </if>
+      <if test="fxxlb != null" >
+        FXXLB,
+      </if>
+      <if test="bz != null" >
+        BZ,
+      </if>
+      <if test="fxry != null" >
+        FXRY,
+      </if>
+      <if test="shry != null" >
+        SHRY,
+      </if>
+       <if test="zk != null" >
+        ZK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="lbdm != null" >
+        #{lbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lbmc != null" >
+        #{lbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="fxdj != null" >
+        #{fxdj,jdbcType=DECIMAL},
+      </if>
+      <if test="fxyj != null" >
+        #{fxyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxlb != null" >
+        #{fxxlb,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="fxry != null" >
+        #{fxry,jdbcType=VARCHAR},
+      </if>
+      <if test="shry != null" >
+        #{shry,jdbcType=VARCHAR},
+      </if>
+      <if test="zk != null" >
+        #{zk,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.FxxmInfo" >
+    update t_contract_sjzd_fxxm
+    <set >
+      <if test="lbdm != null" >
+        LBDM = #{lbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lbmc != null" >
+        LBMC = #{lbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="fxdj != null" >
+        FXDJ = #{fxdj,jdbcType=DECIMAL},
+      </if>
+      <if test="fxyj != null" >
+        FXYJ = #{fxyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxlb != null" >
+        FXXLB = #{fxxlb,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null" >
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="fxry != null" >
+        FXRY = #{fxry,jdbcType=VARCHAR},
+      </if>
+      <if test="shry != null" >
+        SHRY = #{shry,jdbcType=VARCHAR},
+      </if>
+       <if test="zk != null" >
+        ZK = #{zk,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.FxxmInfo" >
+    update t_contract_sjzd_fxxm
+    set LBDM = #{lbdm,jdbcType=VARCHAR},
+      LBMC = #{lbmc,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      FXDJ = #{fxdj,jdbcType=DECIMAL},
+      ZK = #{zk,jdbcType=DECIMAL},
+      FXYJ = #{fxyj,jdbcType=VARCHAR},
+      FXXLB = #{fxxlb,jdbcType=VARCHAR},
+      BZ = #{bz,jdbcType=VARCHAR},
+      FXRY = #{fxry,jdbcType=VARCHAR},
+      SHRY = #{shry,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

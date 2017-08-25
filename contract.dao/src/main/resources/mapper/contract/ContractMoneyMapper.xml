@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.ContractMoneyMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractMoney" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="HTID" property="htid" jdbcType="VARCHAR" />
+    <result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+    <result column="DJ" property="dj" jdbcType="DECIMAL" />
+    <result column="SL" property="sl" jdbcType="INTEGER" />
+    <result column="ZKJG" property="zkjg" jdbcType="DECIMAL" />
+    <result column="ZJ" property="zj" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, HTID, FXXM, DJ, SL, ZKJG, ZJ, CREATE_TIME, CREATE_MAN
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_money
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_contract_money
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.contract.ContractMoney" >
+    insert into t_contract_contract_money (WID, HTID, FXXM, 
+      DJ, SL, ZKJG, ZJ, 
+      CREATE_TIME, CREATE_MAN)
+    values (#{wid,jdbcType=VARCHAR}, #{htid,jdbcType=VARCHAR}, #{fxxm,jdbcType=VARCHAR}, 
+      #{dj,jdbcType=DECIMAL}, #{sl,jdbcType=INTEGER}, #{zkjg,jdbcType=DECIMAL}, #{zj,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.ContractMoney" >
+    insert into t_contract_contract_money
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="htid != null" >
+        HTID,
+      </if>
+      <if test="fxxm != null" >
+        FXXM,
+      </if>
+      <if test="dj != null" >
+        DJ,
+      </if>
+      <if test="sl != null" >
+        SL,
+      </if>
+      <if test="zkjg != null" >
+        ZKJG,
+      </if>
+      <if test="zj != null" >
+        ZJ,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="htid != null" >
+        #{htid,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="dj != null" >
+        #{dj,jdbcType=DECIMAL},
+      </if>
+      <if test="sl != null" >
+        #{sl,jdbcType=INTEGER},
+      </if>
+      <if test="zkjg != null" >
+        #{zkjg,jdbcType=DECIMAL},
+      </if>
+      <if test="zj != null" >
+        #{zj,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        #{createMan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.contract.ContractMoney" >
+    update t_contract_contract_money
+    <set >
+      <if test="htid != null" >
+        HTID = #{htid,jdbcType=VARCHAR},
+      </if>
+      <if test="fxxm != null" >
+        FXXM = #{fxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="dj != null" >
+        DJ = #{dj,jdbcType=DECIMAL},
+      </if>
+      <if test="sl != null" >
+        SL = #{sl,jdbcType=INTEGER},
+      </if>
+      <if test="zkjg != null" >
+        ZKJG = #{zkjg,jdbcType=DECIMAL},
+      </if>
+      <if test="zj != null" >
+        ZJ = #{zj,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.contract.ContractMoney" >
+    update t_contract_contract_money
+    set HTID = #{htid,jdbcType=VARCHAR},
+      FXXM = #{fxxm,jdbcType=VARCHAR},
+      DJ = #{dj,jdbcType=DECIMAL},
+      SL = #{sl,jdbcType=INTEGER},
+      ZKJG = #{zkjg,jdbcType=DECIMAL},
+      ZJ = #{zj,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

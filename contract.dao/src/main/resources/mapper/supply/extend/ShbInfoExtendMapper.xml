@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.supply.extend.ShbInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.supply.ShbInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="LYSL" property="lysl" jdbcType="INTEGER" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="SQSJ" property="sqsj" jdbcType="VARCHAR" />
+    <result column="RWZT" property="rwzt" jdbcType="VARCHAR" />
+    <result column="CURENTSTEP" property="curentstep" jdbcType="INTEGER" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="HCID" property="hcid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseDisplayResultMap" type="com.pope.contract.entity.supply.extend.ShbInfoExtend" extends="BaseResultMap">
+    <id column="rwzt_display" property="rwzt_display" jdbcType="VARCHAR" />
+    <result column="hcfl_display" property="hcfl_display" jdbcType="VARCHAR" />
+    <result column="hcfl" property="hcfl" jdbcType="VARCHAR" />
+    <result column="pm" property="pm" jdbcType="VARCHAR" />
+    <result column="userid_display" property="userid_display" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, LYSL, USERID, SQSJ, RWZT, CURENTSTEP, BZ, HCID
+  </sql>
+  <sql id="Base_Display_Column_List" >
+    t_contract_supplies_shb.WID, t_contract_supplies_shb.LYSL,
+    t_contract_supplies_shb.USERID, t_contract_supplies_shb.SQSJ, t_contract_supplies_shb.RWZT, 
+    t_contract_supplies_shb.CURENTSTEP, t_contract_supplies_shb.BZ, t_contract_supplies_shb.HCID,
+    t.hcfl,t.pm,
+    t_contract_user_userinfo.NAME1 AS userid_display,t_contract_sjzd_shzt.name AS rwzt_display,
+    t.LBMC AS hcfl_display
+  </sql>
+  <sql id="displayWhere">
+		from (select t_contract_supplies_total.WID,t_contract_supplies_total.hcfl,t_contract_supplies_total.pm,t_contract_sjzd_hcfl.LBMC 
+		 from t_contract_supplies_total left join t_contract_sjzd_hcfl t_contract_sjzd_hcfl on
+		t_contract_supplies_total.hcfl=t_contract_sjzd_hcfl.lbdm and t_contract_sjzd_hcfl.status=1 
+		 ) T, 
+		t_contract_supplies_shb t_contract_supplies_shb
+		left join t_contract_user_userinfo t_contract_user_userinfo on t_contract_user_userinfo.wid=t_contract_supplies_shb.userid
+		and t_contract_user_userinfo.datastatus=1
+		left join t_contract_sjzd_shzt t_contract_sjzd_shzt
+		on t_contract_sjzd_shzt.bm=t_contract_supplies_shb.rwzt and t_contract_sjzd_shzt.sfsy=1 
+		WHERE T.wid=t_contract_supplies_shb.hcid
+	</sql>
+ <select id="selectDispalyInfoByStep" resultMap="BaseDisplayResultMap" >
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="displayWhere" />
+		 
+		<if test="step!=null">
+			AND t_contract_supplies_shb.CURENTSTEP=#{step,jdbcType=VARCHAR}
+		</if>
+		<if test="taskStatus!=null">
+			AND t_contract_supplies_shb.RWZT in
+			<foreach collection="taskStatus" item="taskStatu" open="("	separator="," close=")">
+				#{taskStatu}
+			</foreach>
+		</if>
+	</select>
+	 <select id="selectDispalyTaskInfoByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.dao.supply.LqbInfoMapper">
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="displayWhere" />
+		
+		<if test="rwzt!=null">
+			AND t_contract_supplies_shb.RWZT =#{rwzt}
+					</if>
+		
+	</select>
+</mapper>
