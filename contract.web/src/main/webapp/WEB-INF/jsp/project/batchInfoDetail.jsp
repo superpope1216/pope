@@ -30,6 +30,7 @@
 											</td>
 										</tr>
 									</table>
+									
 									<form class="form-horizontal" id="userForm"
 										style="margin-top: 10px;">
 
@@ -153,10 +154,10 @@
 													<option value=''>--请选择--</option>
 												</select>
 											</div>
-											<label for="phone" class="col-sm-2 required">合同号</label>
+											<label for="phone" class="col-sm-2 ">合同号</label>
 											<div class="col-md-4 col-sm-4">
-												<input type="text" class="form-control" name="hth"
-													placeholder="请输入合同号" required>
+												<input type="text" readonly class="form-control" name="hth"
+													placeholder="" >
 											</div>
 
 										</div>

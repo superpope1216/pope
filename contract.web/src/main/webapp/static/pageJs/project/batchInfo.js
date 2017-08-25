@@ -41,15 +41,15 @@ $(document).ready(function(){
 		};
 	var zTree;
 	setButtonsDisplay(buttonsPermission);
-	queryList();
+	queryList(0,"");
 	queryRole();
 	
-	function queryList(pageId){
+	function queryList(pageId,queryCondition){
 		$("#tblUserInfo").empty();
 		if(pageId==undefined){
 			pageId=0;
 		}
-		doGet(basePath+"/batch/list","startPage="+pageId,function(data){
+		doGet(basePath+"/batch/list","startPage="+pageId+"&queryCondition="+queryCondition,function(data){
 			if(data.data.data){
 				var _data=data.data.data;
 				var _tr="";
@@ -72,16 +72,22 @@ $(document).ready(function(){
 							_tr+='<button type="button" class="btn btn-xs btn-primary" data-option="btnCopyBatch" data-key="'+_data[i].wid+'">复</button>';
 						}
 						if(buttonsPermission.indexOf(",btnViewDetail,")>=0){
+							
 							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnViewDetail" data-key="'+_data[i].wid+'">详</button>';
+							
 						}
 						if(buttonsPermission.indexOf(",btnModifyBatch,")>=0){
-							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModifyBatch" data-key="'+_data[i].wid+'">录</button>';
+							if(_data[i].pczt=="1"){
+								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModifyBatch" data-key="'+_data[i].wid+'">录</button>';
+							}
 						}
 						if(buttonsPermission.indexOf(",btnFileBatch,")>=0){
-							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnFileBatch" data-key="'+_data[i].wid+'">归</button>';
+								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnFileBatch" data-key="'+_data[i].wid+'">归</button>';
 						}
 						if(buttonsPermission.indexOf(",btnDeletebatch,")>=0){
-							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDeletebatch" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+							if(_data[i].pczt=="1"){
+								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDeletebatch" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+							}
 						}
 					}
 					_tr+='</div>';
@@ -104,7 +110,7 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnViewDetail']","click",function(){
 				var key=$(this).attr("data-key");
-				window.location=basePath+"/batch/detailIndex?wid="+key;
+				window.location=basePath+"/batch/detailIndexView?wid="+key;
 			});
 			$("#mainTable").delegate("[data-option='btnModifyBatch']","click",function(){
 				var key=$(this).attr("data-key");
@@ -112,6 +118,12 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnFileBatch']","click",function(){
 				var key=$(this).attr("data-key");
+				confirm("您确认该样品批次归档吗？",function(e){
+						doPost(basePath+"/batch/guidang","wid="+key,function(){
+							alert("归档成功！");
+							window.location.reload();
+						})
+				});
 				
 			});
 			$("#mainTable").delegate("[data-option='btnDeletebatch']","click",function(){
@@ -196,8 +208,13 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		alert("123");
+		var queryCondition=$.trim($("#queryCondition").val());
+		queryList(0,queryCondition);
 		return false;
+	});
+	
+	$("#btnExport").click(function(){
+		window.open(basePath+"/batch/export");
 	});
 	function setTree(){
 		doGet(basePath+"/departments/selectDepartment","",function(data){

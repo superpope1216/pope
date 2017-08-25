@@ -97,6 +97,11 @@
 			<if test="ypph!=null">
 				AND t_contract_pcgl_main.ypph=#{ypph,jdbcType=VARCHAR}
 			</if>
+			<if test="queryCondition!=null and queryCondition!=''">
+				AND ((syr LIKE CONCAT('%', #{queryCondition}, '%')) or 
+				(YPPH LIKE CONCAT('%', #{queryCondition}, '%'))
+				or (PCMC LIKE CONCAT('%', #{queryCondition}, '%')))
+			</if>
 		</where>
 	</sql>
 	<sql id="sqlOrder">
@@ -111,7 +116,7 @@
 		<include refid="sqlOrder" />
 	</select>
 	<select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap"
-		parameterType="com.pope.contract.entity.project.BatchInfo">
+		parameterType="com.pope.contract.entity.project.extend.BatchInfoExtend">
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="sqlFrom" />

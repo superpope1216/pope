@@ -10,7 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.util.StringUtils;
 import com.pope.contract.code.BatchStateEnum;
+import com.pope.contract.code.ContractStateEnum;
 import com.pope.contract.code.Result;
+import com.pope.contract.code.TaskStatusEnum;
+import com.pope.contract.dao.contract.extend.ContractInfoExtendMapper;
+import com.pope.contract.dao.contract.extend.ContractInfoRelExtendMapper;
 import com.pope.contract.dao.project.BatchInfoDetailFxxmMapper;
 import com.pope.contract.dao.project.BatchInfoDetailMapper;
 import com.pope.contract.dao.project.BatchInfoFxxmMapper;
@@ -20,6 +24,9 @@ import com.pope.contract.dao.project.extend.BatchInfoDetailFxxmExtendMapper;
 import com.pope.contract.dao.project.extend.BatchInfoExtendMapper;
 import com.pope.contract.dao.project.extend.BatchInfoFxxmExtendMapper;
 import com.pope.contract.dao.system.FxxmInfoMapper;
+import com.pope.contract.dao.task.extend.TaskInfoExtendMapper;
+import com.pope.contract.entity.contract.ContractInfo;
+import com.pope.contract.entity.contract.ContractInfoRel;
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.project.BatchInfoDetailFxxm;
@@ -28,6 +35,7 @@ import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.entity.system.Sjzd;
+import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.service.system.SjzdService;
@@ -60,6 +68,13 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	private BatchInfoDetailFxxmExtendMapper batchInfoDetailFxxmExtendMapper;
 	@Autowired
 	private BatchInfoFxxmMapper batchInfoFxxmMapper;
+	
+	@Autowired
+	private TaskInfoExtendMapper taskInfoExtendMapper;
+	@Autowired
+	private ContractInfoExtendMapper contractInfoExtendMapper;
+	@Autowired
+	private ContractInfoRelExtendMapper contractInfoRelExtendMapper;
 
 	@Autowired
 	private SjzdService sjzdService;
@@ -69,8 +84,32 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		return batchInfoExtendMapper.selectByCondition(batchInfo);
 	}
 
-	public List<BatchInfoExtend> selectDisplayByCondition(BatchInfo batchInfo) {
-		return batchInfoExtendMapper.selectDisplayByCondition(batchInfo);
+	public List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo) {
+		List<Sjzd> listFxxmInfo = sjzdService.selectAll("T_CONTRACT_SJZD_FXXM", null);
+		Map<String, Object> mapFxxmInfo = new HashMap<String, Object>();
+		if (CommonUtil.isNotEmptyList(listFxxmInfo)) {
+			for (Sjzd sjzd : listFxxmInfo) {
+				mapFxxmInfo.put(sjzd.getLbdm(), sjzd.getLbmc());
+			}
+		}
+		List<BatchInfoExtend> list = batchInfoExtendMapper.selectDisplayByCondition(batchInfo);
+		if (CommonUtil.isNotEmptyList(list)) {
+			for (BatchInfoExtend batchInfoDetailExtend : list) {
+				String fxxm = batchInfoDetailExtend.getFxxm();
+				if (!StringUtils.isEmpty(fxxm)) {
+					String[] arrayFxxm = fxxm.split(",");
+					String fxxm_display = "";
+					for (String s : arrayFxxm) {
+						fxxm_display += "," + StringUtil.toStr(mapFxxmInfo.get(s));
+					}
+					if (!StringUtils.isEmpty(fxxm_display)) {
+						fxxm_display = fxxm_display.substring(1);
+					}
+					batchInfoDetailExtend.setFxxm_display(fxxm_display);
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -296,5 +335,48 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 			}
 		}
 		return datas.get(0);
+	}
+
+	@Override
+	public void guidang(String wid) throws Exception {
+		BatchInfo batchInfo=batchInfoMapper.selectByPrimaryKey(wid);
+		if(batchInfo.getPczt().equals(StringUtil.toStr(BatchStateEnum.XJ.getCode()))){
+			throw new ServiceException("该样品批次状态为新建，无法进行归档！");
+		}
+		if(batchInfo.getPczt().equals(StringUtil.toStr(BatchStateEnum.DC.getCode()))){
+			throw new ServiceException("该样品批次状态为待测，无法进行归档！");
+		}
+		TaskInfo taskInfo=new TaskInfo();
+		taskInfo.setPcwid(wid);
+		List<TaskInfo> listTask=	taskInfoExtendMapper.selectTaskInfoByCondition(taskInfo);
+		if(CommonUtil.isNotEmptyList(listTask))
+		for(TaskInfo t:listTask){
+			if(t.getRwzt()!=TaskStatusEnum.SHTG.getCode() || t.getRwzt()!=TaskStatusEnum.SHBTG.getCode()){
+				throw new ServiceException("该样品批次下的任务还没有审核结束，无法进行归档！");
+			}
+		}
+		ContractInfoRel queryContractInfoRel=new ContractInfoRel();
+		queryContractInfoRel.setPcid(wid);
+		
+		List<ContractInfoRel> listContractInfoRel=contractInfoRelExtendMapper.selectByCondition(queryContractInfoRel);
+		if(CommonUtil.isNotEmptyList(listContractInfoRel)){
+			ContractInfoRel contractInfoRel=listContractInfoRel.get(0);
+			ContractInfo queryContractInfo=new ContractInfo();
+			queryContractInfo.setWid(contractInfoRel.getHtid());
+			List<ContractInfo> listContractInfo=contractInfoExtendMapper.selectByCondition(queryContractInfo);
+			if(CommonUtil.isNotEmptyList(listContractInfo)){
+				for(ContractInfo contractInfo:listContractInfo){
+					if(contractInfo.getRwzt()!=ContractStateEnum.SHTG.getCode() ||contractInfo.getRwzt()!=ContractStateEnum.SHBTG.getCode()){
+						throw new ServiceException("该样品批次下的合同还没有审核结束，无法进行归档！");
+					}
+				}
+			}
+			
+		}
+		batchInfo.setPczt(StringUtil.toStr(BatchStateEnum.YGD.getCode()));
+		batchInfoMapper.updateByPrimaryKeySelective(batchInfo);
+		
+		
+		
 	}
 }

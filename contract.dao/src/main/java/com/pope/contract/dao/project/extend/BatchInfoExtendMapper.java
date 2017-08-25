@@ -14,11 +14,11 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 * @version 创建时间：2017年8月13日 下午2:00:53
 * 类说明
 */
-public interface BatchInfoExtendMapper extends BatchInfoMapper{
+public interface BatchInfoExtendMapper {
 
 	List<BatchInfo> selectByCondition(BatchInfo batchInfo);
 	
 	List<BatchInfoExtend> selectByWids(@Param("wids") List<String> wids);
-	List<BatchInfoExtend> selectDisplayByCondition(BatchInfo batchInfo);
+	List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo);
 	Integer selectMaxDqbh();
 }

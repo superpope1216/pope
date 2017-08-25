@@ -3,7 +3,7 @@ package com.pope.contract.entity.system;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Zdbs  implements Serializable{
+public class Zdbs implements Serializable{
     /**
 	 * 
 	 */
@@ -26,6 +26,8 @@ public class Zdbs  implements Serializable{
     private String updateby;
 
     private Integer orderby;
+
+    private Integer canDelete;
 
     public String getWid() {
         return wid;
@@ -97,5 +99,13 @@ public class Zdbs  implements Serializable{
 
     public void setOrderby(Integer orderby) {
         this.orderby = orderby;
+    }
+
+    public Integer getCanDelete() {
+        return canDelete;
+    }
+
+    public void setCanDelete(Integer canDelete) {
+        this.canDelete = canDelete;
     }
 }

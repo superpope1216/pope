@@ -9,7 +9,7 @@ import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 
-public interface BatchInfoDetailExtendMapper extends BatchInfoDetailMapper {
+public interface BatchInfoDetailExtendMapper  {
 	List<BatchInfoDetail> selectByCondition(BatchInfoDetail batchInfo);
 	
 	List<BatchInfoDetailExtend> selectDisplayByCondition(BatchInfoDetail batchInfo);

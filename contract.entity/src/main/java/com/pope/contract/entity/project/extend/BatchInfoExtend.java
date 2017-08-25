@@ -24,7 +24,27 @@ public class BatchInfoExtend extends BatchInfo implements Serializable{
 
 	private String sydw_display;
 	
+	private String fxxm_display;
 	
+	private String queryCondition;
+	
+	
+	public String getQueryCondition() {
+		return queryCondition;
+	}
+
+	public void setQueryCondition(String queryCondition) {
+		this.queryCondition = queryCondition;
+	}
+
+	public String getFxxm_display() {
+		return fxxm_display;
+	}
+
+	public void setFxxm_display(String fxxm_display) {
+		this.fxxm_display = fxxm_display;
+	}
+
 	public String getSydw_display() {
 		return sydw_display;
 	}

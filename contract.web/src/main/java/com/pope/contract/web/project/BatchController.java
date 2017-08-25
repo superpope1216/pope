@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pope.contract.code.BatchStateEnum;
@@ -28,7 +33,9 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.service.custom.CustomInfoService;
 import com.pope.contract.service.project.BatchInfoService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.DateUtil;
+import com.pope.contract.util.ExportExcel;
 import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 
@@ -85,18 +92,38 @@ public class BatchController extends BaseController{
 		mv.setViewName("project/batchInfoDetail");;
 		return mv;
 	}
+	
+	@RequestMapping("detailIndexView")
+	public ModelAndView detailIndexView(String wid,String type) {
+		if(wid==null){
+			wid="";
+		}
+		if(type==null){
+			type="";
+		}
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("wid", wid);
+		mv.addObject("type", type);
+		mv.setViewName("project/batchInfoDetailView");;
+		return mv;
+	}
 
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public Result list(Integer startPage) throws Exception{
+	public Result list(Integer startPage,String queryCondition) throws Exception{
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}
 		PageParam<BatchInfoExtend> pageParam = new PageParam<BatchInfoExtend>();
 		pageParam.setPage(startPage);
 		Page<BatchInfoExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
-		List<BatchInfoExtend> users=batchInfoService.selectDisplayByCondition(null);
+		BatchInfoExtend queryInfoExtend=new BatchInfoExtend();
+		if(!StringUtils.isEmpty(queryCondition)){
+			queryInfoExtend.setQueryCondition(queryCondition.trim());
+		}
+		queryInfoExtend.setQueryCondition(queryCondition);
+		List<BatchInfoExtend> users=batchInfoService.selectDisplayByCondition(queryInfoExtend);
 		pageParam.setTotal(page.getTotal());
 		pageParam.setTotalPage(pageParam.getTotalPage());
 		pageParam.setData(users);
@@ -115,6 +142,16 @@ public class BatchController extends BaseController{
 		}else{
 			return Result.success(batchInfoService.selectByPrimaryKey(wid));
 		}
+	}
+	
+	@RequestMapping("detailView")
+	@ResponseBody
+	public Result detailView(String wid) throws Exception{
+			BatchInfoExtend batchInfo=new BatchInfoExtend();
+			batchInfo.setWid(wid);
+			List<BatchInfoExtend> datas=batchInfoService.selectDisplayByCondition(batchInfo);
+			return Result.success(datas.get(0));
+		
 	}
 	
 	@RequestMapping("saveBatchInfo")
@@ -209,5 +246,73 @@ public class BatchController extends BaseController{
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		List<CustomInfo> datas=customInfoService.selectByCondition(customInfo);
 		return Result.success(datas);
+	}
+	
+	/**
+	 * 
+	 * @param wid
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("guidang")
+	@ResponseBody
+	public Result guidang(String wid) throws Exception{
+		batchInfoService.guidang(wid);
+		return Result.success();
+	}
+	@RequestMapping("export")
+	public void export(HttpServletResponse response) throws Exception{
+		List<BatchInfoExtend> users=batchInfoService.selectDisplayByCondition(null);
+		String[] headers=new String[20];
+		headers[0]="类别";
+		headers[1]="二级分类";
+		headers[2]="批次名称";
+		headers[3]="样品批号";
+		headers[4]="数量";
+		headers[5]="品牌";
+		headers[6]="数量单位";
+		headers[7]="存放地";
+		headers[8]="单价";
+		headers[9]="货币单位";
+		headers[10]="控制时间点";
+		headers[11]="送样时间点";
+		headers[12]="对方单位";
+		headers[13]="送样人";
+		headers[14]="送样单位";
+		headers[15]="送样负责人";
+		headers[16]="审核时间";
+		headers[17]="样品监控状态";
+		headers[18]="合同号";
+		headers[19]="分析项目";
+		List<List<String>> list=new ArrayList<List<String>>();
+		if(CommonUtil.isNotEmptyList(users)){
+			
+			for(BatchInfoExtend extend:users){
+				List<String> data=new ArrayList<String>();
+				list.add(data);
+				data.add(StringUtil.toStr(extend.getPclb_display()));
+				data.add(StringUtil.toStr(extend.getEjfl()));
+				data.add(StringUtil.toStr(extend.getPcmc()));
+				data.add(StringUtil.toStr(extend.getYpph()));
+				data.add(StringUtil.toStr(extend.getSl()));
+				data.add(StringUtil.toStr(extend.getPp()));
+				data.add(StringUtil.toStr(extend.getSldw()));
+				data.add(StringUtil.toStr(extend.getCfd()));
+				data.add(StringUtil.toStr(extend.getDj()));
+				data.add(StringUtil.toStr(extend.getHbdw_display()));
+				data.add(StringUtil.toStr(extend.getKzsjd()));
+				data.add(StringUtil.toStr(extend.getSysj()));
+				data.add(StringUtil.toStr(extend.getGys()));
+				data.add(StringUtil.toStr(extend.getSyr()));
+				data.add(StringUtil.toStr(extend.getSydw_display()));
+				data.add(StringUtil.toStr(extend.getSyxmfzr()));
+				data.add(StringUtil.toStr(extend.getShsj()));
+				data.add(StringUtil.toStr(extend.getPczt_display()));
+				data.add(StringUtil.toStr(extend.getHth()));
+				data.add(StringUtil.toStr(extend.getFxxm()));
+				
+			}
+		}
+		ExportExcel.doExportExcel2("样品批次信息","样品批次信息",  headers, list,response);
 	}
 }

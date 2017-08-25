@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pope.contract.entity.project.BatchInfoFxxm;
 
-public interface BatchInfoFxxmExtendMapper extends BatchInfoExtendMapper{
+public interface BatchInfoFxxmExtendMapper{
     
 	List<BatchInfoFxxm> selectByCondition(BatchInfoFxxm batchInfoFxxm);
 	

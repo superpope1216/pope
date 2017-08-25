@@ -24,10 +24,27 @@ $(document).ready(function(){
 		}
 		var url=basePath+"/zdbs/list";
 		doGet(url,"startPage="+pageId,function(data){
+			var tbl="";
 			if(data.data.data){
-				$('#tblZdbsInfoTpl').tmpl(data.data.data).appendTo('#tblZdbsInfo');
+				
+				for(var i=0;i<data.data.data.length;i++){
+					var _d=data.data.data[i];
+					tbl+='<tr>';	
+					tbl+='<td class="text-center"><input type="hidden" name="wid" value="'+_d.wid+'">'+_d.code+'</td>';
+					tbl+='<td class="text-left">'+toStr(_d.name)+'</td>';
+					tbl+='<td class="text-center">'+toStr(_d.orderby)+'</td>';
+					tbl+='<td class="text-center">';
+					if(toStr(_d.canDelete)!="1"){
+						tbl+='<a href="javascript:void(0);"  data-key="'+_d.wid+'" data-option="editZdbs" class="text-danger"><i class="icon-edit"></i></a>';
+						tbl+='<a href="javascript:void(0);" data-key="'+_d.wid+'" data-option="deleteZdbs" class="text-danger"><i class="icon-trash"></i></a></td>';
+					}
+					tbl+='</tr>';
+				}
+				
+				
 			}else{
 			}
+			$('#tblZdbsInfo').html(tbl);
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId);
 			});

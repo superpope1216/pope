@@ -63,4 +63,5 @@
   <select id="selectMaxDqbh" resultType="java.lang.Integer">
   	SELECT MAX(DQBH) FROM t_contract_pcgl_detail
   </select>
+  
 </mapper>

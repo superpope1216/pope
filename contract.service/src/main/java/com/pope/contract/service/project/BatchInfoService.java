@@ -15,7 +15,7 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 public interface BatchInfoService {
 	List<BatchInfo> selectByCondition(BatchInfo batchInfo);
 	
-	List<BatchInfoExtend> selectDisplayByCondition(BatchInfo batchInfo);
+	List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo);
 	
 	BatchInfo selectByPrimaryKey(String wid);
 	
@@ -50,4 +50,11 @@ public interface BatchInfoService {
 	BatchInfo checkCreateContract(String wids) throws Exception;
 	
 	List<BatchInfoExtend> selectByWids(String wids) throws Exception;
+	
+	/**
+	 * 归档
+	 * @param wid
+	 * @throws Exception
+	 */
+	void guidang(String wid) throws Exception;
 }

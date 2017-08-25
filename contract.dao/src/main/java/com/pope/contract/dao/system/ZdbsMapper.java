@@ -13,7 +13,6 @@ public interface ZdbsMapper {
 
     Zdbs selectByPrimaryKey(String wid);
     
-    List<Zdbs> selectAll();
 
     int updateByPrimaryKeySelective(Zdbs record);
 

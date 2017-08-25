@@ -24,7 +24,7 @@
 					<div class="panel-body">
 						<form action="#" method="post">
 							<div class="search">
-								<input type="text" class="text" name="topic"
+								<input type="text" class="text" name="queryCondition" id="queryCondition"
 									placeholder="送样人/样品批次号/样品编号" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
 							</div>

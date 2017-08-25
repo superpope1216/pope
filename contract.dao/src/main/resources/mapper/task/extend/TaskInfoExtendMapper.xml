@@ -56,6 +56,17 @@
 		T_CONTRACT_USER_USERINFO2.NAME1 as
 		RWSHR_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS.lbmc as RWZT_DISPLAY
 	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null">
+			AND t_contract_task_main.WID=#{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="rwzt!=null">
+			AND t_contract_task_main.RWZT=#{rwzt,jdbcType=INTEGER}
+		</if>
+		<if test="pcwid!=null">
+			AND t_contract_task_main.pcwid=#{pcwid,jdbcType=INTEGER}
+		</if>
+	</sql>
 	<sql id="displayWhere">
 		from t_contract_task_main t_contract_task_main
 		left join
@@ -82,15 +93,7 @@
 		from t_contract_task_main t_contract_task_main
 		WHERE
 		t_contract_task_main.DATASTATUS=1
-		<if test="wid!=null">
-			AND t_contract_task_main.WID=#{wid,jdbcType=VARCHAR}
-		</if>
-		<if test="rwzt!=null">
-			AND t_contract_task_main.RWZT=#{rwzt,jdbcType=INTEGER}
-		</if>
-		<if test="pcwid!=null">
-			AND t_contract_task_main.pcwid=#{pcwid,jdbcType=INTEGER}
-		</if>
+		<include refid="sqlWhere"/>
 
 	</select>
 	<select id="selectDispalyTaskInfoByCondition" resultMap="BaseResultDispalyMap"
@@ -99,12 +102,7 @@
 		<include refid="Base_Display_Column_List" />
 		<include refid="displayWhere" />
 		WHERE t_contract_task_main.DATASTATUS=1
-		<if test="wid!=null">
-			AND t_contract_task_main.WID=#{wid,jdbcType=VARCHAR}
-		</if>
-		<if test="rwzt!=null">
-			AND t_contract_task_main.RWZT=#{rwzt,jdbcType=INTEGER}
-		</if>
+		<include refid="sqlWhere"/>
 	</select>
 	<select id="selectDispalyTaskInfoByPermission" resultMap="BaseResultDispalyMap">
 		select

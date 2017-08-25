@@ -96,14 +96,7 @@
 		</div>
 	</div>
 	<script id="tblZdbsInfoTpl" type="text/x-jquery-tmpl">
-				<tr>	
-					<td class="text-center"><input type="hidden" name="wid" value="{{= wid}}">{{= code}}</td>
-					<td class="text-left">{{= name}}</td>
-					<td class="text-center">{{= orderby}}</td>
-					<td class="text-center">
-					<a href="javascript:void(0);"  data-key='{{= wid}}' data-option='editZdbs' class="text-danger"><i class="icon-edit"></i></a>
-					<a href="javascript:void(0);" data-key='{{= wid}}' data-option='deleteZdbs' class="text-danger"><i class="icon-trash"></i></a></td>
-				</tr>
+				
 	 </script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/system/zdbs.js"></script>

@@ -14,13 +14,10 @@ public interface ZdbsService {
 
     int insert(Zdbs record,String userId) throws Exception;
 
-    int insertSelective(Zdbs record,String userId) throws Exception;
 
     Zdbs selectByPrimaryKey(String wid);
     
     List<Zdbs> selectAll();
 
     int updateByPrimaryKeySelective(Zdbs record,String userId) throws Exception;
-
-    int updateByPrimaryKey(Zdbs record,String userId) throws Exception;
 }
