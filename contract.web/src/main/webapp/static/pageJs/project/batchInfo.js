@@ -183,7 +183,7 @@ $(document).ready(function(){
 			strSelectedId=strSelectedId.substr(1);
 		}
 		doPost(basePath+"/batch/checkContractInfo","wids="+strSelectedId,function(data){
-			window.location=basePath+"/contractEditInfo/taskadd?pcids="+strSelectedId+"&firstPcid="+data.data.wid;
+			window.location=basePath+"/contractEditInfo/index?pcids="+strSelectedId+"&firstPcid="+data.data.wid;
 		});
 	});
 	

@@ -48,4 +48,6 @@ public interface BatchInfoService {
 	 * @throws Exception
 	 */
 	BatchInfo checkCreateContract(String wids) throws Exception;
+	
+	List<BatchInfoExtend> selectByWids(String wids) throws Exception;
 }

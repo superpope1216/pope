@@ -22,6 +22,17 @@ public class BatchInfoExtend extends BatchInfo implements Serializable{
 	
 	private String pczt_display;
 
+	private String sydw_display;
+	
+	
+	public String getSydw_display() {
+		return sydw_display;
+	}
+
+	public void setSydw_display(String sydw_display) {
+		this.sydw_display = sydw_display;
+	}
+
 	public String getPclb_display() {
 		return pclb_display;
 	}

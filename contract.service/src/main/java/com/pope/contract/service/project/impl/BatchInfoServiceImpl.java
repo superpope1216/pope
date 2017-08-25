@@ -275,11 +275,15 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	}
 
 	@Override
+	public List<BatchInfoExtend> selectByWids(String wids) throws Exception{
+		return batchInfoExtendMapper.selectByWids(StringUtil.str2List(wids));
+	}
+	@Override
 	public BatchInfo checkCreateContract(String wids) throws Exception {
 		if (StringUtils.isEmpty(wids)) {
 			throw new ServiceException("请至少选择一条样品批次！");
 		}
-		List<BatchInfo> datas = batchInfoExtendMapper.selectByWids(StringUtil.str2List(wids));
+		List<BatchInfoExtend> datas = batchInfoExtendMapper.selectByWids(StringUtil.str2List(wids));
 		if(CommonUtil.isNotEmptyList(datas)){
 			String sydw=datas.get(0).getSydw();
 			for(BatchInfo batchInfo:datas){
