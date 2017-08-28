@@ -4,40 +4,44 @@
 <html>
 <head>
 <%@ include file="/jsp/public/top.jsp"%>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/pageJs/login.js"></script>
+<link href="${pageContext.request.contextPath}/static/css/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/static/pageJs/login.js"></script>
 </head>
 <body>
-	<div class="container">
-	<br><br><br><br>
-	<form class="form-horizontal" id="loginForm">
-		<div class="form-group">
-			<label for="loginName" class="col-sm-2 required">账号</label>
-			<div class="col-md-6 col-sm-10">
-				<input type="text" class="form-control" name="loginName"
-					placeholder="用户名">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="exampleInputPassword4" class="col-sm-2 required">密码</label>
-			<div class="col-md-6 col-sm-10">
-				<input type="password" class="form-control" name="password"
-					 placeholder="密码">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<div class="checkbox">
-					<label> <input type="checkbox"> 记住我
-					</label>
+
+	<div class="main-login">
+
+		<div class="login-content">
+			<h2>用户登录</h2>
+
+			<form action="" method="post" id="loginForm" name="loginForm">
+				<div class="login-info">
+					<span class="user">&nbsp;</span> <input name="loginName"
+						id="loginName" type="text" value="" class="login-input" />
 				</div>
-			</div>
+				<div class="login-info">
+					<span class="pwd">&nbsp;</span> <input name="password"
+						id="password" type="password" value="" class="login-input" />
+				</div>
+				<!-- 
+				<div class="login-oper">
+					<input style="margin: 1px 10px 0px 2px; float: left;" name=""
+						type="checkbox" value="" checked="checked" /><span>记住密码</span>
+				</div>
+				 -->
+				 <div class="login-oper">
+				 </div>
+				<div class="login-oper">
+					<input name="" type="button" id="btnLogin" value="登 录"
+						class="login-btn" /> <input name="" type="button" id="btnClear" value="重 置"
+						class="login-reset" />
+				</div>
+			</form>
 		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" id="btnLogin" class="btn btn-default">登录</button>
-			</div>
-		</div>
-	</form>
+
 	</div>
+
+
 </body>
 </html>

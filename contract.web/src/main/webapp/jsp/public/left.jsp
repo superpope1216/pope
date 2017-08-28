@@ -13,8 +13,10 @@
 
 	<div class="col-sm-12 sidebar-image">
 		<div class="col-sm-5">
-			<img src="http://zui.sexy/docs/img/img2.jpg" class="img-circle"
-				alt="圆形图片">
+			<a href="${pageContext.request.contextPath}/personUserInfo/index">
+			<img src="${pageContext.request.contextPath}/static/img/header.jpg" class="img-circle"
+				alt="圆形图片" id="btnPersonUserInfo"></a>
+				
 		</div>
 		<div class="col-sm-7 clolor-white">我的测试</div>
 	</div>

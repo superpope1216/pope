@@ -6,10 +6,10 @@ package com.pope.contract.code;
 */
 public enum FlowStateCode {
 
-	CG("01", "草稿"),
-	DSH("02","待审核"),
-	JXZ("03","进行中"),
-	YJS("04","已结束"),
+	CG("1", "草稿"),
+	DSH("100","待审核"),
+	JXZ("101","进行中"),
+	YJS("102","已结束"),
 	BTG("-99","不通过");
 	
     private String code;

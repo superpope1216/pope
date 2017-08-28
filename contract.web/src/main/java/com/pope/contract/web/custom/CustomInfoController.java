@@ -12,9 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
+import com.pope.contract.entity.custom.CustomAccount;
 import com.pope.contract.entity.custom.CustomInfo;
 import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.entity.task.extend.TaskInfoExtend;
+import com.pope.contract.service.custom.CustomAccountService;
 import com.pope.contract.service.custom.CustomInfoService;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.StringUtil;
@@ -32,6 +34,8 @@ public class CustomInfoController extends BaseController{
 
 	@Autowired
 	private CustomInfoService customInfoService;
+	@Autowired
+	private CustomAccountService customAccountService; 
 	@RequestMapping("index")
 	public ModelAndView index(){
 		ModelAndView mv=new ModelAndView();
@@ -84,6 +88,31 @@ public class CustomInfoController extends BaseController{
 		customInfo.setWid(wid);
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.delete.getCode()));
 		customInfoService.updateByPrimaryKeySelective(customInfo);
+		return Result.success();
+	}
+	
+	@RequestMapping("addCustomAccount")
+	@ResponseBody
+	public Result addCustomAccount(String customId) throws Exception{
+		customAccountService.checkAddCustomAccount(customId);
+		Integer max=customAccountService.selectMax();
+		if(max==null){
+			max=0;
+		}
+		max++;
+		String sMax=String.format("%05d",max);
+		String month=DateUtil.format(DateUtil.getCurrentDate(),"yyyyMM");
+		sMax=month+sMax;
+		CustomAccount customAccount=new CustomAccount();
+		customAccount.setDqbh(max);
+		customAccount.setCustomId(customId);
+		customAccount.setAccountNumber(sMax);
+		return Result.success(customAccount);
+	}
+	@RequestMapping("saveCustomAccount")
+	@ResponseBody
+	public Result saveCustomAccount(CustomAccount customAccount) throws Exception{
+		customAccountService.insert(customAccount,this.getUserId());
 		return Result.success();
 	}
 }

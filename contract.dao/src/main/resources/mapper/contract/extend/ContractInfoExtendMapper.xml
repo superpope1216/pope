@@ -5,9 +5,11 @@
     <id column="WID" property="wid" jdbcType="VARCHAR" />
     <result column="HTLX" property="htlx" jdbcType="VARCHAR" />
     <result column="HTMC" property="htmc" jdbcType="VARCHAR" />
+    <result column="ZZJE" property="zzje" jdbcType="DECIMAL" />
     <result column="HTBH" property="htbh" jdbcType="VARCHAR" />
     <result column="HTJF" property="htjf" jdbcType="VARCHAR" />
     <result column="XMFZR" property="xmfzr" jdbcType="VARCHAR" />
+    <result column="ZZJE" property="zzje" jdbcType="DECIMAL" />
     <result column="HTJE" property="htje" jdbcType="DECIMAL" />
     <result column="HTZK" property="htzk" jdbcType="DECIMAL" />
     <result column="HTSJ" property="htsj" jdbcType="VARCHAR" />
@@ -42,7 +44,7 @@
     t_contract_contract_main.WID, t_contract_contract_main.HTLX, 
     t_contract_contract_main.HTMC, t_contract_contract_main.HTBH, 
     t_contract_contract_main.HTJF, t_contract_contract_main.XMFZR, 
-    t_contract_contract_main.HTJE, t_contract_contract_main.HTZK, 
+    t_contract_contract_main.ZZJE,,t_contract_contract_main.HTJE, t_contract_contract_main.HTZK, 
     t_contract_contract_main.HTSJ, t_contract_contract_main.HTZXSJ, 
     t_contract_contract_main.RWZT, t_contract_contract_main.DATASTATUS, 
     t_contract_contract_main.CurrentStep,t_contract_contract_main.DFZH, 
@@ -72,7 +74,6 @@
   		LEFT JOIN T_CONTRACT_CUSTOM_MAIN T_CONTRACT_CUSTOM_MAIN ON T_CONTRACT_CUSTOM_MAIN.CUSTOM_NUMBER=t_contract_contract_main.HTJF AND t_contract_contract_main.DATASTATUS=1
   </sql>
   <sql id="sqlWhere">
-  	<where>
   			<if test="wid!=null and wid!='' ">
   				AND t_contract_contract_main.WID=#{wid,jdbcType=VARCHAR}
   			</if>
@@ -82,37 +83,63 @@
   			<if test="htbh!=null and htbh!='' ">
   				AND t_contract_contract_main.htbh=#{htbh,jdbcType=VARCHAR}
   			</if>
-  		</where>
+  			
+  			<if test="rwzt!=null">
+  				AND t_contract_contract_main.rwzt=#{rwzt,jdbcType=INTEGER}
+  			</if>
   </sql>
   <select id="selectSingleByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.contract.ContractInfo">
   		select
   		<include refid="Base_Column_List"/>
   		FROM t_contract_contract_main t_contract_contract_main
+  		<where>
   		<include refid="sqlWhere"/>
+  		</where>
   		ORDER BY t_contract_contract_main.CREATE_TIME desc LIMIT 1
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.contract.ContractInfo">
   		select
   		<include refid="Base_Column_List"/>
   		FROM t_contract_contract_main t_contract_contract_main
+  		<where>
   		<include refid="sqlWhere"/>
+  		</where>
   		ORDER BY t_contract_contract_main.CREATE_TIME desc 
   </select>
   <select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap" parameterType="com.pope.contract.entity.contract.ContractInfo">
   		select
   		<include refid="Base_Display_Column_List"/>
   		<include refid="sqlFrom"/>
+  		<where>
   		<include refid="sqlWhere"/>
+  		</where>
   		ORDER BY t_contract_contract_main.CREATE_TIME desc  LIMIT 1
   </select>
   <select id="selectDisplayByCondition" resultMap="BaseDisplayResultMap" parameterType="com.pope.contract.entity.contract.ContractInfo">
   		select
   		<include refid="Base_Display_Column_List"/>
-  		
   		<include refid="sqlFrom"/>
+  		<where>
   		<include refid="sqlWhere"/>
+  		</where>
   		ORDER BY t_contract_contract_main.CREATE_TIME desc 
   </select>
+  <select id="selectDispalyInfoByStep" resultMap="BaseDisplayResultMap" >
+		select
+		<include refid="Base_Display_Column_List" />
+		<include refid="sqlFrom" /> 
+		WHERE t_contract_contract_main.DATASTATUS=1
+		<if test="step!=null">
+			AND t_contract_contract_main.CurrentStep=#{step,jdbcType=VARCHAR}
+		</if>
+		<if test="taskStatus!=null">
+			AND t_contract_contract_main.RWZT in
+			<foreach collection="taskStatus" item="taskStatu" open="("	separator="," close=")">
+				#{taskStatu}
+			</foreach>
+		</if> 
+		ORDER BY t_contract_contract_main.CREATE_TIME desc 
+	</select>
   <select id="selectMaxDqbh" resultType="java.lang.Integer">
   	SELECT MAX(DQBH) FROM t_contract_contract_main
   </select>

@@ -32,6 +32,7 @@ import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
 import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.entity.user.LeaveInfo;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.BaseService;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
@@ -148,7 +149,7 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 	}
 
 	@Override
-	public List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception {
+	public List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfoExtend taskInfo) throws Exception {
 		return taskInfoExtendMapper.selectDispalyTaskInfoByCondition(taskInfo);
 	}
 
@@ -224,7 +225,7 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 	}
 	
 	@Override
-	public List<TaskInfo> selectTaskInfoByCondition(TaskInfo taskInfo){
+	public List<TaskInfo> selectTaskInfoByCondition(TaskInfoExtend taskInfo){
 		return taskInfoExtendMapper.selectTaskInfoByCondition(taskInfo);
 	}
 
@@ -290,14 +291,37 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 	}
 
 	@Override
-	public List<TaskInfoExtend> selectDispalyTaskInfoByPermission(String roleName, String userId,TaskStatusEnum taskStatus) throws Exception {
-		if(ConstantUtil.FXRY_ROLE_NAME.equals(roleName)){
-			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(userId, null,taskStatus.getCode());
-		}else if(ConstantUtil.SHRY_ROLE_NAME.equals(roleName)){
-			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(null,userId,taskStatus.getCode());
-		}else{
-			return taskInfoExtendMapper.selectDispalyTaskInfoByCondition(null);
+	public List<TaskInfoExtend> selectDispalyTaskInfoByPermission(String roleName, String userId,TaskStatusEnum taskStatus,TaskInfoExtend taskInfoExtend) throws Exception {
+		if(taskInfoExtend==null){
+			taskInfoExtend=new TaskInfoExtend();
 		}
+		if(ConstantUtil.FXRY_ROLE_NAME.equals(roleName)){
+			taskInfoExtend.setRwfpr(userId);
+			taskInfoExtend.setRwzt(taskStatus.getCode());
+			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(taskInfoExtend);
+		}else if(ConstantUtil.SHRY_ROLE_NAME.equals(roleName)){
+			taskInfoExtend.setRwshr(userId);
+			taskInfoExtend.setRwzt(taskStatus.getCode());
+			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(taskInfoExtend);
+		}else{
+			return taskInfoExtendMapper.selectDispalyTaskInfoByCondition(taskInfoExtend);
+		}
+	}
+
+	@Override
+	public void deleteTask(String wid) throws Exception {
+		TaskInfo taskInfo=taskInfoMapper.selectByPrimaryKey(wid);
+		if(taskInfo.getRwzt()!=TaskStatusEnum.QCL.getCode()){
+			throw new ServiceException("该任务已进入检测或检测后环节，无法删除，请重新确认！");
+		}
+		Integer notDclTaskDetailCount=taskInfoDetailExtendMapper.selectNotDclTask();
+		if(notDclTaskDetailCount!=null && notDclTaskDetailCount>0){
+			throw new ServiceException("该任务的子任务中存在已进入检测或检测后环节，无法删除，请重新确认！");
+		}
+		taskInfo.setDatastatus(StringUtil.toStr(DataStatus.delete.getCode()));
+		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+		taskInfoDetailExtendMapper.deleteTaskDetailByTaskId(wid);
+		
 	}
 
 

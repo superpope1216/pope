@@ -20,26 +20,42 @@
 			<div class="wrapper">
 				<div class="panel">
 					<div class="panel-body">
-						<form action="#" method="post">
-							<div class="search">
-								<input type="text" class="text" name="topic"
-									placeholder="送样人/样品批次号/样品编号" class="queryCondition"> &nbsp;
-								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
-							</div>
-						</form>
+								<form class="form-horizontal" id="queryTaskForm">
+									<div class="form-group">
+										<label for="phone" class="col-sm-1 ">任务名称</label>
+										<div class="col-md-2 col-sm-2">
+											<input type="text" class="form-control " name="rwmc"
+												placeholder="请输入任务名称" class="queryCondition">
+										</div>
+										<label for="phone" class="col-sm-1 ">责任人</label>
+										<div class="col-md-2 col-sm-2">
+											<input type="text" class="form-control " name="rwfpr_display"
+												placeholder="请输入责任人" class="queryCondition">
+										</div>
+										<label for="phone" class="col-sm-1 ">任务状态</label>
+										<div class="col-md-2 col-sm-2">
+											<select  class="form-control" name="rwzt"  required placeholder="请选择任务状态"></select> 
+											
+										</div>
+										<div class="col-md-3 col-sm-3 ">
+											<button class="btn btn-primary btnQuery " type="button" id="btnQuery">查询</button>
+										</div>
+									</div>
+								</form>
 					</div>
 				</div>
 				<div class="panel">
 					<div class="panel-body">
-					<div class="pull-right">
-							<button class="btn btn-primary btnQuery" id="btnSubmit" style="display:none;">提交审核</button>
-					</div>
+						<div class="pull-right">
+							<button class="btn btn-primary btnQuery" id="btnSubmit"
+								style="display: none;">提交审核</button>
+						</div>
 						<br> <br>
 						<table class="table table-bordered datatable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-								<th class="text-center" style="width: 80px;"><input
+									<th class="text-center" style="width: 80px;"><input
 										type="checkbox" name="selAll" /></th>
 									<th class="text-center">任务名称</th>
 									<th class="text-center">责任人</th>
@@ -64,12 +80,12 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script id="tblUserInfoTpl" type="text/x-jquery-tmpl">
 				
 			</script>
-	<script type="text/javascript">	
-		var buttonsPermission="${buttons}";
+	<script type="text/javascript">
+		var buttonsPermission = "${buttons}";
 	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/task/taskInfo.js"></script>

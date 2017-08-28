@@ -107,7 +107,7 @@
 							<div class="col-md-8 col-sm-8">
 
 								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" required>
+									placeholder="请输入备注" >
 							</div>
 						</div>
 					</form>
@@ -162,7 +162,7 @@
 							<div class="col-md-8 col-sm-8">
 
 								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" required>
+									placeholder="请输入备注" >
 							</div>
 						</div>
 					</form>
@@ -214,7 +214,7 @@
 							<div class="col-md-8 col-sm-8">
 
 								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" required>
+									placeholder="请输入备注" >
 							</div>
 						</div>
 					</form>

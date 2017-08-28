@@ -173,9 +173,7 @@ $(document).ready(function(){
 		var url = basePath + "/contractEditInfo/addFxxm";
 		var datas ="htid="+wid+"&pcid="+_selectPcId+"&fxxms="+_selectFxxmBh;
 		doPost(url, datas, function(data) {
-			if (data && data.data) {
 				window.location.reload();
-			}
 		});
 	});
 	

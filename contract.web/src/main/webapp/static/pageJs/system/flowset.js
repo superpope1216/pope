@@ -19,6 +19,11 @@ $(document).ready(function(){
 			$(error).insertAfter($(element));
 		}
 	});
+	var _contract_validater=$("#contractExamineForm").validate({
+		errorPlacement: function(error, element) {
+			$(error).insertAfter($(element));
+		}
+	});
 	$("#btnNewLeave").click(function(){
 		view("leaveExamineForm","");
 		$("#modelEditLeaveInfo").modal("show");
@@ -31,6 +36,10 @@ $(document).ready(function(){
 		view("taskSupplyForm","");
 		$("#modelSupplyInfo").modal("show");
 	});
+	$("#btnNewContract").click(function(){
+		view("taskContractForm","");
+		$("#modelContractInfo").modal("show");
+	});
 	doGet(basePath+"/roles/list","",function(data){ 
 			if(data && data.data && data.data.roles){
 				var _d=data.data.roles;
@@ -42,6 +51,7 @@ $(document).ready(function(){
 				$("#leaveExamineForm [name='name']").append(str);
 				$("#taskExamineForm [name='name']").append(str);
 				$("#supplyExamineForm [name='name']").append(str);
+				$("#contractExamineForm [name='name']").append(str);
 			}
 	});
 	
@@ -60,6 +70,7 @@ $(document).ready(function(){
 	queryList("01","tblUserLeaveInfoTpl","tblUserLeaveTable","leaveExamineForm","modelEditLeaveInfo");
 	queryList("02","tblTaskInfoTpl","tblUserTaskTable","taskExamineForm","modelEditTaskInfo");
 	queryList("03","tblTaskInfoTpl","tblSupplyTable","supplyExamineForm","modelSupplyInfo");
+	queryList("04","tblTaskInfoTpl","tblContractTable","contractExamineForm","modelContractInfo");
 	function queryList(type,tblTpl,tbl,form,model){
 		doGet(basePath+"/flowset/list","type="+type,function(data){
 			if(data.data){
@@ -96,7 +107,9 @@ $(document).ready(function(){
 	$("#btnSaveLeaveInfo").click(function(){
 		save("leaveExamineForm",_validater);
 	});
-	
+	$("#btnSaveContractInfo").click(function(){
+		save("contractExamineForm",_contract_validater);
+	});
 	function save(formId,validate){
 		var url=basePath+"/flowset";
 		var wid=$("#"+formId+" [name='wid']").val();

@@ -57,14 +57,21 @@
 		RWSHR_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS.lbmc as RWZT_DISPLAY
 	</sql>
 	<sql id="sqlWhere">
-		<if test="wid!=null">
+		<if test="wid!=null and wid!=''">
 			AND t_contract_task_main.WID=#{wid,jdbcType=VARCHAR}
 		</if>
-		<if test="rwzt!=null">
+		<if test="rwzt!=null and rwzt!=''">
 			AND t_contract_task_main.RWZT=#{rwzt,jdbcType=INTEGER}
 		</if>
-		<if test="pcwid!=null">
-			AND t_contract_task_main.pcwid=#{pcwid,jdbcType=INTEGER}
+		<if test="pcwid!=null and pcwid!=''">
+				AND t_contract_task_main.pcwid=#{pcwid,jdbcType=INTEGER}
+		</if>
+		<if test="rwmc!=null and rwmc!=''">
+			AND t_contract_task_main.RWMC LIKE CONCAT('%',#{rwmc},'%')
+		</if>
+		<if test="rwfpr_display!=null and rwfpr_display!='' ">
+			AND t_contract_task_main.RWFPR IN (SELECT T_CONTRACT_USER_USERINFO.WID FROM T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO
+			WHERE T_CONTRACT_USER_USERINFO.NAME1 LIKE CONCAT('%',#{rwfpr_display},'%'))
 		</if>
 	</sql>
 	<sql id="displayWhere">
@@ -82,44 +89,47 @@
 		T_CONTRACT_SJZD_TASKSTATUS T_CONTRACT_SJZD_TASKSTATUS on
 		t_contract_task_main.RWZT=T_CONTRACT_SJZD_TASKSTATUS.lbdm
 	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_task_main.RWBH
+	</sql>
 	<select id="selectMaxXh" resultType="java.lang.Integer">
 		SELECT MAX(DQBH) FROM
-		t_contract_task_main
+		t_contract_task_main WHERE DATASTATUS=1
 	</select>
 	<select id="selectTaskInfoByCondition" resultMap="BaseResultMap"
-		parameterType="com.pope.contract.entity.task.TaskInfo">
+		parameterType="com.pope.contract.entity.task.extend.TaskInfoExtend">
 		select
 		<include refid="Base_Column_List" />
 		from t_contract_task_main t_contract_task_main
-		WHERE
-		t_contract_task_main.DATASTATUS=1
+		WHERE t_contract_task_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
-
+		<include refid="sqlOrder"/>
 	</select>
 	<select id="selectDispalyTaskInfoByCondition" resultMap="BaseResultDispalyMap"
-		parameterType="com.pope.contract.entity.task.TaskInfo">
+		parameterType="com.pope.contract.entity.task.extend.TaskInfoExtend">
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="displayWhere" />
 		WHERE t_contract_task_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
 	</select>
-	<select id="selectDispalyTaskInfoByPermission" resultMap="BaseResultDispalyMap">
+	<select id="selectDispalyTaskInfoByPermission" resultMap="BaseResultDispalyMap"
+	parameterType="com.pope.contract.entity.task.extend.TaskInfoExtend">
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="displayWhere" />
 		WHERE t_contract_task_main.DATASTATUS=1
-		<if test="fxxr!=null and fxxr!=''">
+		<if test="rwfpr!=null and rwfpr!=''">
 			AND t_contract_task_main.fxxm in(SELECT T_CONTRACT_SJZD_FXXM.LBDM FROM T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM
-			 WHERE T_CONTRACT_SJZD_FXXM.fxry=#{fxxr,jdbcType=VARCHAR})
+			 WHERE T_CONTRACT_SJZD_FXXM.fxry=#{rwfpr,jdbcType=VARCHAR})
 		</if>
-		<if test="shry!=null and shry!=''">
+		<if test="rwshr!=null and rwshr!=''">
 				AND t_contract_task_main.fxxm in(SELECT T_CONTRACT_SJZD_FXXM.LBDM FROM T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM
-			 WHERE T_CONTRACT_SJZD_FXXM.shry=#{shry,jdbcType=VARCHAR})
+			 WHERE T_CONTRACT_SJZD_FXXM.shry=#{rwshr,jdbcType=VARCHAR})
 		</if>
-		<if test="rwzt!=null and rwzt!=''">
-			AND t_contract_task_main.RWZT=#{rwzt,jdbcType=INTEGER}
-		</if>
+		<include refid="sqlWhere"/>
+		<include refid="sqlOrder"/>
 	</select>
 	<select id="selectDispalyTaskInfoByStep" resultMap="BaseResultDispalyMap"
 		parameterType="com.pope.contract.entity.task.TaskInfo">

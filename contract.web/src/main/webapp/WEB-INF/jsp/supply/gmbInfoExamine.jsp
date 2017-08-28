@@ -34,7 +34,6 @@
 									<thead>
 										<tr>
 											<th class="text-center">耗材分类</th>
-											<th class="text-center">耗材编号</th>
 											<th class="text-center">品名</th>
 											<th class="text-center">购买数量</th>
 											<th class="text-center">购买人</th>
@@ -56,7 +55,6 @@
 									<thead>
 										<tr>
 											<th class="text-center">耗材分类</th>
-											<th class="text-center">耗材编号</th>
 											<th class="text-center">品名</th>
 											<th class="text-center">购买数量</th>
 											<th class="text-center">购买人</th>
@@ -77,7 +75,6 @@
 									<thead>
 										<tr>
 											<th class="text-center">耗材分类</th>
-											<th class="text-center">耗材编号</th>
 											<th class="text-center">品名</th>
 											<th class="text-center">购买数量</th>
 											<th class="text-center">购买人</th>
@@ -98,7 +95,6 @@
 									<thead>
 										<tr>
 											<th class="text-center">耗材分类</th>
-											<th class="text-center">耗材编号</th>
 											<th class="text-center">品名</th>
 											<th class="text-center">购买数量</th>
 											<th class="text-center">购买人</th>
@@ -121,7 +117,6 @@
 		<script id="tblTaskInfoTpl" type="text/x-jquery-tmpl">
 				<tr>
 					<td class="text-center">{{= hcfl_display}}</td>
-					<td class="text-center">{{= xhppch}}</td>
 					<td class="text-center">{{= pm}}</td>
 					<td class="text-center">{{= lysl}}</td>
 					<td class="text-center">{{= userid_display}}</td>
@@ -139,7 +134,6 @@
 				<tr>
 					
 					<td class="text-center">{{= hcfl_display}}</td>
-					<td class="text-center">{{= xhppch}}</td>
 					<td class="text-center">{{= pm}}</td>
 					<td class="text-center">{{= lysl}}</td>
 					<td class="text-center">{{= userid_display}}</td>

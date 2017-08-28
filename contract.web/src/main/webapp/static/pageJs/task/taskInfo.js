@@ -3,12 +3,15 @@
  */
 $(document).ready(function(){
 	setButtonsDisplay(buttonsPermission);
+	
+	doGetSelect2("T_CONTRACT_SJZD_TASKSTATUS","#queryTaskForm [name='rwzt']","");
 	queryList();
+	
 	function queryList(pageId){
 		if(pageId==undefined || pageId<0){
 			pageId=0;
 		}
-		doGet(basePath+"/task/listTaskInfo","startPage="+pageId,function(data){
+		doGet(basePath+"/task/listTaskInfo?startPage="+pageId,$("#queryTaskForm").serializeArray(),function(data){
 			if(data.data.data){
 				var _data=data.data.data;
 				var _tr="";;
@@ -31,10 +34,12 @@ $(document).ready(function(){
 							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_data[i].wid+'">详</button>';
 						}
 						if(buttonsPermission.indexOf(",btnExamine,")>=0){
-						_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnExamine" data-key="'+_data[i].wid+'">检</button>';
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnExamine" data-key="'+_data[i].wid+'">检</button>';
 						}
 						if(buttonsPermission.indexOf(",btnDelete,")>=0){
-						_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+							if(_data[i].rwzt==1){
+								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+							}
 						}
 					}
 					_tr+='</div>';
@@ -86,6 +91,10 @@ $(document).ready(function(){
 			alert("提交审核成功");
 			window.location.reload();
 		});
+	});
+	
+	$("#btnQuery").click(function(){
+		queryList(0);
 	});
 	
 	

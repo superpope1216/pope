@@ -25,6 +25,60 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	var _validaterslbForm=$("#slbForm").validate({
+		errorPlacement: function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			//.append(error);
+			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
+		},
+		rules:{
+			ghsl:{
+				required:true,
+				number:true,
+				min:0
+			},
+			lysl:{
+				required:true,
+				number:true,
+				min:0
+			}
+		}
+	});
+	
+	var _validatergbForm=$("#gbForm").validate({
+		errorPlacement: function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			//.append(error);
+			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
+		},
+		rules:{
+			lysl:{
+				required:true,
+				number:true,
+				min:0
+			}
+		}
+	});
+	
+	var _validatershbForm=$("#shbForm").validate({
+		errorPlacement: function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			//.append(error);
+			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
+		},
+		rules:{
+			lysl:{
+				required:true,
+				number:true,
+				min:0
+			}
+		}
+	});
+	
 	setButtonsDisplay(buttonsPermission);
 	queryList();
 	
@@ -56,14 +110,15 @@ $(document).ready(function(){
 						if(buttonsPermission.indexOf(",btnShb,")>=0){
 							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnShb" data-key="'+_d[i].wid+'">损</button>';
 						}
+						if(buttonsPermission.indexOf(",btnDetail,")>=0){
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_d[i].wid+'">详</button>';
+						}
 					tbl+='	</div>';
 					tbl+='</td>';
 					tbl+='</tr>';
 				}
 
 				$("#tblSupplyInfo").html(tbl);
-				
-				
 			}
 			}
 			
@@ -106,6 +161,11 @@ $(document).ready(function(){
 				setEdit(key);
 				$("#modelEdithSupplyInfo").modal("show");
 			});
+			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
+				var key=$(this).attr("data-key");
+				window.location=basePath+"/supplyTotalDetailInfo/index?hcid="+key;
+			});
+			
 		});
 	}
 	
@@ -143,25 +203,31 @@ $(document).ready(function(){
 	
 	//发起任务
 	$("#btnSaveSlbSupplyInfo").click(function(){
+		if(_validaterslbForm.form()){
 		doPost(basePath+"/supplyTotal/saveSlb",$("#slbForm").serializeArray(),function(data){
 			alert(data.msg);
 			window.location.reload();
 		});
+		}
 	});
 	//发起任务
 	$("#btnSaveGmbSupplyInfo").click(function(){
+		if(_validatergbForm.form()){
 		doPost(basePath+"/supplyTotal/saveGmb",$("#gbForm").serializeArray(),function(data){
 			alert(data.msg);
 			window.location.reload();
 		});
+		}
 	});
 	
 	//发起任务
 	$("#btnSaveShbSupplyInfo").click(function(){
+		if(_validatershbForm.form()){
 		doPost(basePath+"/supplyTotal/saveShb",$("#shbForm").serializeArray(),function(data){
 			alert(data.msg);
 			window.location.reload();
 		});
+		}
 	});
 	
 	$("#btnSelectBm").click(function(){

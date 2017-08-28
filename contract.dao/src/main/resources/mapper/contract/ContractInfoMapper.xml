@@ -8,6 +8,7 @@
     <result column="HTBH" property="htbh" jdbcType="VARCHAR" />
     <result column="HTJF" property="htjf" jdbcType="VARCHAR" />
     <result column="XMFZR" property="xmfzr" jdbcType="VARCHAR" />
+    <result column="ZZJE" property="zzje" jdbcType="DECIMAL" />
     <result column="HTJE" property="htje" jdbcType="DECIMAL" />
     <result column="HTZK" property="htzk" jdbcType="DECIMAL" />
     <result column="HTSJ" property="htsj" jdbcType="VARCHAR" />
@@ -31,9 +32,9 @@
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    WID, HTLX, HTMC, HTBH, HTJF, XMFZR, HTJE, HTZK, HTSJ, HTZXSJ, RWZT, DATASTATUS, CurrentStep, 
-    DFZH, BY10, BY9, BY8, BY7, BY6, BY5, BY4, BY3, BY1, BY2, CREATE_TIME, CREATE_MAN, 
-    DQBH
+    WID, HTLX, HTMC, HTBH, HTJF, XMFZR, ZZJE, HTJE, HTZK, HTSJ, HTZXSJ, RWZT, DATASTATUS, 
+    CurrentStep, DFZH, BY10, BY9, BY8, BY7, BY6, BY5, BY4, BY3, BY1, BY2, CREATE_TIME, 
+    CREATE_MAN, DQBH
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -48,20 +49,22 @@
   <insert id="insert" parameterType="com.pope.contract.entity.contract.ContractInfo" >
     insert into t_contract_contract_main (WID, HTLX, HTMC, 
       HTBH, HTJF, XMFZR, 
-      HTJE, HTZK, HTSJ, HTZXSJ, 
-      RWZT, DATASTATUS, CurrentStep, 
-      DFZH, BY10, BY9, BY8, 
-      BY7, BY6, BY5, BY4, 
-      BY3, BY1, BY2, CREATE_TIME, 
-      CREATE_MAN, DQBH)
+      ZZJE, HTJE, HTZK, HTSJ, 
+      HTZXSJ, RWZT, DATASTATUS, 
+      CurrentStep, DFZH, BY10, 
+      BY9, BY8, BY7, BY6, 
+      BY5, BY4, BY3, BY1, 
+      BY2, CREATE_TIME, CREATE_MAN, 
+      DQBH)
     values (#{wid,jdbcType=VARCHAR}, #{htlx,jdbcType=VARCHAR}, #{htmc,jdbcType=VARCHAR}, 
       #{htbh,jdbcType=VARCHAR}, #{htjf,jdbcType=VARCHAR}, #{xmfzr,jdbcType=VARCHAR}, 
-      #{htje,jdbcType=DECIMAL}, #{htzk,jdbcType=DECIMAL}, #{htsj,jdbcType=VARCHAR}, #{htzxsj,jdbcType=VARCHAR}, 
-      #{rwzt,jdbcType=INTEGER}, #{datastatus,jdbcType=VARCHAR}, #{currentstep,jdbcType=INTEGER}, 
-      #{dfzh,jdbcType=VARCHAR}, #{by10,jdbcType=VARCHAR}, #{by9,jdbcType=VARCHAR}, #{by8,jdbcType=VARCHAR}, 
-      #{by7,jdbcType=VARCHAR}, #{by6,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, 
-      #{by3,jdbcType=VARCHAR}, #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
-      #{createMan,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER})
+      #{zzje,jdbcType=DECIMAL}, #{htje,jdbcType=DECIMAL}, #{htzk,jdbcType=DECIMAL}, #{htsj,jdbcType=VARCHAR}, 
+      #{htzxsj,jdbcType=VARCHAR}, #{rwzt,jdbcType=INTEGER}, #{datastatus,jdbcType=VARCHAR}, 
+      #{currentstep,jdbcType=INTEGER}, #{dfzh,jdbcType=VARCHAR}, #{by10,jdbcType=VARCHAR}, 
+      #{by9,jdbcType=VARCHAR}, #{by8,jdbcType=VARCHAR}, #{by7,jdbcType=VARCHAR}, #{by6,jdbcType=VARCHAR}, 
+      #{by5,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, #{by1,jdbcType=VARCHAR}, 
+      #{by2,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}, 
+      #{dqbh,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.ContractInfo" >
     insert into t_contract_contract_main
@@ -83,6 +86,9 @@
       </if>
       <if test="xmfzr != null" >
         XMFZR,
+      </if>
+      <if test="zzje != null" >
+        ZZJE,
       </if>
       <if test="htje != null" >
         HTJE,
@@ -167,6 +173,9 @@
       <if test="xmfzr != null" >
         #{xmfzr,jdbcType=VARCHAR},
       </if>
+      <if test="zzje != null" >
+        #{zzje,jdbcType=DECIMAL},
+      </if>
       <if test="htje != null" >
         #{htje,jdbcType=DECIMAL},
       </if>
@@ -250,6 +259,9 @@
       <if test="xmfzr != null" >
         XMFZR = #{xmfzr,jdbcType=VARCHAR},
       </if>
+      <if test="zzje != null" >
+        ZZJE = #{zzje,jdbcType=DECIMAL},
+      </if>
       <if test="htje != null" >
         HTJE = #{htje,jdbcType=DECIMAL},
       </if>
@@ -323,6 +335,7 @@
       HTBH = #{htbh,jdbcType=VARCHAR},
       HTJF = #{htjf,jdbcType=VARCHAR},
       XMFZR = #{xmfzr,jdbcType=VARCHAR},
+      ZZJE = #{zzje,jdbcType=DECIMAL},
       HTJE = #{htje,jdbcType=DECIMAL},
       HTZK = #{htzk,jdbcType=DECIMAL},
       HTSJ = #{htsj,jdbcType=VARCHAR},

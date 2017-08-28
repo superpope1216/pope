@@ -5,8 +5,10 @@ package com.pope.contract.code;
 * 类说明
 */
 public enum ContractStateEnum {
-	WFK(1, "未付款"), DSH(2, "待审核"), JXZ(3, "进行中"), SHTG(4, "审核通过"),
-	SHBTG(-99,"不通过");;
+	WFK(1, "未付款"), DSH(100,"待审核"),
+	JXZ(101,"进行中"),
+	YJS(102,"已结束"),
+	BTG(-99,"不通过");
 	private int code;
 	private String msg;
 

@@ -73,7 +73,7 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		record.setWid(wid);
 		FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.SUPPLY.getCode(), 0);
 		record.setSqsj(DateUtil.getCurrentDateStr());
-		record.setRwzt(StringUtil.toStr(TaskStatusEnum.SH.getCode()));
+		record.setRwzt(StringUtil.toStr(FlowStateCode.DSH.getCode()));
 		record.setCurentstep(flowSet.getPx());
 		saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
 		return lqbInfoMapper.insert(record);
@@ -107,11 +107,11 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		Integer currentStep=-1;
 		if(flowSet==null || flowSet.getPx()==null){
 			supplyInfo.setKc(kc+ghsl-lysl);
-			taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHTG.getCode()));
+			taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.YJS.getCode()));
 			saveFlowSetData(currentStep, wid, FlowStateCode.YJS, FlowSetCode.SUPPLY, userid,FlowStateCode.YJS.getMsg());
 		}else{
 			currentStep=flowSet.getPx();
-			taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHJXZ.getCode()));
+			taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.JXZ.getCode()));
 			saveFlowSetData(currentStep, wid, FlowStateCode.JXZ, FlowSetCode.SUPPLY, userid,FlowStateCode.JXZ.getMsg());
 		}
 		taskInfo.setCurentstep(currentStep);
@@ -131,7 +131,7 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		LqbInfo taskInfo=this.lqbInfoMapper.selectByPrimaryKey(wid); 
 		Integer currentStep=taskInfo.getCurentstep();
 		taskInfo.setCurentstep(-1);
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHBTG.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.BTG.getCode()));
 		saveFlowSetData(currentStep, wid, FlowStateCode.BTG, FlowSetCode.SUPPLY, userid,FlowStateCode.BTG.getMsg());
 		lqbInfoMapper.updateByPrimaryKeySelective(taskInfo);
 	}
@@ -146,8 +146,8 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 	public List<LqbInfoExtend> selectWaitTaskInfoByStep(String roleId) throws Exception {
 		FlowSet flowSet=flowSetService.selectByRoleAndType(roleId, FlowSetCode.SUPPLY.getCode());
 		List<Integer> taskStatus=new ArrayList<Integer>();
-		taskStatus.add(TaskStatusEnum.SH.getCode());
-		taskStatus.add(TaskStatusEnum.SHJXZ.getCode());
+		taskStatus.add(Integer.valueOf(FlowStateCode.DSH.getCode()));
+		taskStatus.add(Integer.valueOf(FlowStateCode.JXZ.getCode()));
 		return  lqbInfoExtendMapper.selectDispalyInfoByStep(flowSet.getPx(), taskStatus);
 	}
 

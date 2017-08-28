@@ -64,11 +64,16 @@
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="displayWhere" />
-		
 		<if test="rwzt!=null">
 			AND t_contract_supplies_lqb.RWZT =#{rwzt}
 		 </if>
-		
+		<if test="userid!=null and userid!=''">	
+			AND t_contract_supplies_lqb.userid =#{userid}
+		</if>
+		<if test="hcid!=null and hcid!=''">	
+			AND t_contract_supplies_lqb.hcid =#{hcid}
+		</if>
+		order by t_contract_supplies_lqb.SQSJ desc
 	</select>
 	
 </mapper>

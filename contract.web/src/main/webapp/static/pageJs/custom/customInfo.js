@@ -2,6 +2,33 @@
  * 
  */
 $(document).ready(function(){
+	var _validater = $("#customForm").validate({
+		errorPlacement : function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			// .append(error);
+			// $("#mainForm").find( "label[for='" + element.attr( "id" )
+			// + "']"
+			// ).append( error );
+		}
+	});
+	
+	var _validater2 = $("#customAccountForm").validate({
+		errorPlacement : function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			// .append(error);
+			// $("#mainForm").find( "label[for='" + element.attr( "id" )
+			// + "']"
+			// ).append( error );
+		},
+		rules : {
+			accountMoney:{
+				required : true,
+				digits:true
+			},
+		}
+	});
 	setButtonsDisplay(buttonsPermission);
 	queryList();
 	function queryList(pageId){
@@ -69,6 +96,33 @@ $(document).ready(function(){
 		$("#modelEdidCustomInfo").modal("show");
 	});
 	
+	$("#btnAddAccount").click(function(){
+		var selectCustom=$("#tblUserInfo [name='chkSingle']:checked");
+		if(selectCustom.length<=0){
+			alert("请选择一条客户记录");
+			return false;	
+		}
+		if(selectCustom.length>1){
+			alert("每次只能创建一个客户账户");
+			return false;	
+		}
+		doGet(basePath+"/custom/addCustomAccount","customId="+selectCustom[0].value,function(data){
+			$("#customAccountForm [name='dqbh']").val(data.data.dqbh);
+			$("#customAccountForm [name='accountNumber']").val(data.data.accountNumber);
+			$("#customAccountForm [name='customId']").val(data.data.customId);
+			$("#customAccountForm [name='bankAccount']").val(data.data.bankAccount);
+			$("#customAccountForm [name='accountMoney']").val(data.data.accountMoney);
+			$("#modelAddCustomAccountInfo").modal("show");
+		})
+	});
+	
+	$("#btnSaveCustomAccountInfo").click(function(){
+		if (_validater2.form()) {
+			doPost(basePath+"/custom/saveCustomAccount", $("#customAccountForm").serializeArray(),function(data){
+				window.location.href=basePath+"/customAccount/index";
+			});
+		}
+	})
 	
 	function setForm(_wid){
 		doGet(basePath+"/custom/edit","wid="+_wid,function(data){
@@ -88,10 +142,12 @@ $(document).ready(function(){
 	}
 	
 	$("#btnSaveCustomInfo").click(function(){
+		if (_validater.form()) {
+			doPost(basePath+"/custom/save", $("#customForm").serializeArray(),function(data){
+				window.location.reload();
+			});
+		}
 		
-		doPost(basePath+"/custom/save", $("#customForm").serializeArray(),function(data){
-			window.location.reload();
-		});
 	});
 	
 	

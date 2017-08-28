@@ -2,7 +2,22 @@
  * 
  */
 $(document).ready(function(){
-	
+	var _validater = $("#roleForm").validate({
+		errorPlacement : function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			// .append(error);
+			// $("#mainForm").find( "label[for='" + element.attr( "id" )
+			// + "']"
+			// ).append( error );
+		},
+		rules : {
+			accountMoney:{
+				required : true,
+				orderBy:true
+			},
+		}
+	});
 	queryList();
 	var setting = {
 			view: {
@@ -38,10 +53,12 @@ $(document).ready(function(){
 	}
 	
 	$("#btnNewRole").click(function(){
+		$("#roleForm")[0].reset();
 		$("#modelEdithRoleInfo").modal("show");
 	});
 	
 	$("#btnSaveRoleInfo").click(function(){
+		if(_validater.form()){
 		var url=basePath+"/roles";
 		if($("#modelEdithRoleInfo [name='wid']").val()==""){
 			url+="/insert";
@@ -51,6 +68,7 @@ $(document).ready(function(){
 		doPost(url,$("#modelEdithRoleInfo form").serializeArray(),function(data){
 			window.location.reload();
 		});
+		}
 	});
 	$("#mainRole tr").click(function(){
 		alert($(this).find("[name='wid']").val())
@@ -59,9 +77,10 @@ $(document).ready(function(){
 		var key=$(this).attr("data-key");
 		doGet(basePath+"/roles/select","roleId="+key,function(data){
 			if(data.data){
-				$("#modelEdithRoleInfo form [name='wid']").val(data.data.wid);
-				$("#modelEdithRoleInfo form [name='name']").val(data.data.name);
-				$("#modelEdithRoleInfo form [name='description']").val(data.data.description);
+				$("#modelEdithRoleInfo [name='wid']").val(data.data.wid);
+				$("#modelEdithRoleInfo [name='name']").val(data.data.name);
+				$("#modelEdithRoleInfo [name='orderby']").val(data.data.orderby);
+				$("#modelEdithRoleInfo [name='description']").val(data.data.description);
 				$("#modelEdithRoleInfo").modal("show");
 			}
 		})
@@ -72,7 +91,6 @@ $(document).ready(function(){
 		var key=$(this).attr("data-key");
 		confirm("您确认删除该角色？",function(){
 			doPost(basePath+"/roles/delete","roleId="+key,function(data){
-				//alert(data.msg);
 				window.location.reload();
 			})
 		});
@@ -84,7 +102,7 @@ $(document).ready(function(){
 		 treeObj.checkAllNodes(false);
 		 doGet(basePath+"/permissions/permission","roleId="+roleId,function(data){
 			if(data.data){
-				//var nodes = treeObj.getNodes();
+				// var nodes = treeObj.getNodes();
 				for(var i=0;i<data.data.length;i++){
 					var _d=data.data[i];
 					var node=treeObj.getNodeByParam("wid",_d.wid,null);

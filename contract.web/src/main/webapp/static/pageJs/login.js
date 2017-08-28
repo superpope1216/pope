@@ -9,7 +9,9 @@ $(document).ready(function(){
 			location.href = basePath + "/login/welcome";
 		})
 	});
-	
+	$("#btnClear").click(function(){
+		$("#loginForm")[0].reset();
+	});
 	$("#btnSet").click(function(){
 		doGet("http://localhost:8080/emap/sys/appstoreservice/sjzds/yyfx.do","",function(data){
 			//location.href = basePath + "/login/welcome";

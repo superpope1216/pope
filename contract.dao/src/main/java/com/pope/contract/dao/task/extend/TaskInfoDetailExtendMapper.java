@@ -7,9 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import com.pope.contract.dao.task.TaskInfoDetailMapper;
 import com.pope.contract.entity.task.TaskInfoDetail;
 
-public interface TaskInfoDetailExtendMapper extends TaskInfoDetailMapper{
+public interface TaskInfoDetailExtendMapper {
 	Integer selectMaxXh() throws Exception;
 	
 	Integer selectMinZtByPid(@Param("frwid")String pid,@Param("existRecords")List<String> existRecords) throws Exception;
 	List<TaskInfoDetail> selectDispalyTaskInfoByCondition(TaskInfoDetail taskInfoDetail) throws Exception;
+	
+	Integer selectNotDclTask();
+	
+	void deleteTaskDetailByTaskId(@Param("frwid") String frwid);
 }

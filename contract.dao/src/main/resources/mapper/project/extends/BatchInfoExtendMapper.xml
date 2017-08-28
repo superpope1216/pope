@@ -108,7 +108,7 @@
 		order by t_contract_pcgl_main.CREATE_TIME desc
 	</sql>
 	<select id="selectByCondition" resultMap="BaseResultMap"
-		parameterType="com.pope.contract.entity.project.BatchInfo">
+		parameterType="com.pope.contract.entity.project.extend.BatchInfoExtend">
 		select
 		<include refid="Base_Column_List" />
 		from t_contract_pcgl_main t_contract_pcgl_main

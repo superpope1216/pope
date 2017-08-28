@@ -72,6 +72,7 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 			}
 			record.setFid(oldSupplyInfo.getFid());
 			supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(oldSupplyInfo.getFid());
+			
 			supplyTotalInfo.setKc(supplyTotalInfo.getKc()+record.getKc());
 			supplyTotalInfo.setYjsl(supplyTotalInfo.getYjsl()+record.getYjsl());
 			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
@@ -86,6 +87,9 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 			supplyTotalInfo.setSldw(record.getSldw());
 			supplyTotalInfo.setKc(record.getKc());
 			supplyTotalInfo.setYjsl(record.getYjsl());
+			supplyTotalInfo.setDj(record.getDj());
+			supplyTotalInfo.setHbdw(record.getHbdw());
+			supplyTotalInfo.setSldw(record.getSldw());
 			supplyTotalInfoMapper.insert(supplyTotalInfo);
 		}
 		supplyInfoMapper.insert(record);

@@ -74,6 +74,15 @@ public class ContractEditInfoController extends BaseController{
 		return mv;
 	}
 	
+	@RequestMapping("viewIndex")
+	public ModelAndView viewIndex(String wid){
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("pcids","");
+		mv.addObject("firstPcid","");
+		mv.addObject("wid",wid);
+		mv.setViewName("contract/contractViewInfo");
+		return mv;
+	}
 	@RequestMapping("queryForm")
 	@ResponseBody
 	public Result queryForm(String pcid,String pcids) throws Exception{

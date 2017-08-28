@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pope.contract.code.FlowSetCode;
+import com.pope.contract.code.FlowStateCode;
 import com.pope.contract.code.Result;
 import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.dto.PageParam;
@@ -50,7 +52,7 @@ public class GmbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listJxz(Integer startPage) throws Exception{
 		GmbInfo taskInfo=new GmbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHJXZ.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.JXZ.getCode()));
 		PageUtil<GmbInfoExtend> pageUtil=new PageUtil<GmbInfoExtend>(startPage);
 		List<GmbInfoExtend> datas=gmbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<GmbInfoExtend> pageParam=pageUtil.getPageParam(datas);
@@ -61,7 +63,7 @@ public class GmbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listShtg(Integer startPage) throws Exception{
 		GmbInfo taskInfo=new GmbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHTG.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.YJS.getCode()));
 		PageUtil<GmbInfoExtend> pageUtil=new PageUtil<GmbInfoExtend>(startPage);
 		List<GmbInfoExtend> datas=gmbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<GmbInfoExtend> pageParam=pageUtil.getPageParam(datas);
@@ -72,7 +74,7 @@ public class GmbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listShbtg(Integer startPage) throws Exception{ 
 		GmbInfo taskInfo=new GmbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHBTG.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.BTG.getCode()));
 		PageUtil<GmbInfoExtend> pageUtil=new PageUtil<GmbInfoExtend>(startPage);
 		List<GmbInfoExtend> datas=gmbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<GmbInfoExtend> pageParam=pageUtil.getPageParam(datas);

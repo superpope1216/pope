@@ -17,7 +17,7 @@ public interface TaskInfoService {
 
 	void insertTaskInfo(TaskInfo taskInfo,String userId) throws Exception;
 	
-	List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception;
+	List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfoExtend taskInfo) throws Exception;
 	
 	/**
 	 * 根据分析人员获取对应的审核权限
@@ -25,7 +25,7 @@ public interface TaskInfoService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<TaskInfoExtend> selectDispalyTaskInfoByPermission(String roleName,String  userId,TaskStatusEnum taskStatus) throws Exception;
+	List<TaskInfoExtend> selectDispalyTaskInfoByPermission(String roleName,String  userId,TaskStatusEnum taskStatus,TaskInfoExtend taskInfoExtend ) throws Exception;
 	
 	List<TaskInfoDetail> selectDispalyTaskInfoDetailByCondition(TaskInfoDetail taskInfo) throws Exception;
 	
@@ -55,6 +55,10 @@ public interface TaskInfoService {
 	 */
 	void examineNotPass(String wid,String userid) throws Exception;
 	
-	List<TaskInfo> selectTaskInfoByCondition(TaskInfo taskInfo);
+	List<TaskInfo> selectTaskInfoByCondition(TaskInfoExtend taskInfo);
+	
+	
+	void deleteTask(String wid) throws Exception;
+	
 	
 }

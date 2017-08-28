@@ -81,7 +81,10 @@ $(document).ready(function(){
 						$("#userForm [name='job']").val(_userData.job);
 						$("#userForm [name='contractvalidity']").val(_userData.contractvalidity);
 						$("#userForm [name='contracttime']").val(_userData.contracttime);
-						$("#userForm [name='userInfoRole']").val(_userData.userInfoRole);
+						if(_userData.role){
+							var _role=_userData.role.split(",");
+							$("#userForm [name='userInfoRole']").multiselect("select",_role);
+						}
 						
 					}
 				});

@@ -19,6 +19,36 @@ public class UserInfoExtend extends UserInfo implements Serializable{
 	private String department_display;
 	
 	private String team_display;
+	
+	private String jobcategory_display;
+	
+	private String role;
+	
+	private String queryCondition;
+
+	public String getQueryCondition() {
+		return queryCondition;
+	}
+
+	public void setQueryCondition(String queryCondition) {
+		this.queryCondition = queryCondition;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getJobcategory_display() {
+		return jobcategory_display;
+	}
+
+	public void setJobcategory_display(String jobcategory_display) {
+		this.jobcategory_display = jobcategory_display;
+	}
 
 	public String getDepartment_display() {
 		return department_display;

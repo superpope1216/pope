@@ -1,9 +1,11 @@
 package com.pope.contract.web.usermanage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,8 +16,10 @@ import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.entity.user.UserInfoRole;
 import com.pope.contract.entity.user.extend.UserInfoExtend;
 import com.pope.contract.service.user.UserInfoService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.StringUtil;
@@ -37,9 +41,10 @@ public class UserController extends BaseController{
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}
-		UserInfo queryInfo=new UserInfo();
-		queryInfo.setGh(queryName);
-		queryInfo.setName1(queryName);
+		UserInfoExtend queryInfo=new UserInfoExtend();
+		if(!StringUtils.isEmpty(queryName)){
+			queryInfo.setQueryCondition(queryName);
+		}
 		PageParam<UserInfoExtend> pageParam = new PageParam<UserInfoExtend>();
 		pageParam.setPage(startPage);
 		Page<UserInfoExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
@@ -72,10 +77,22 @@ public class UserController extends BaseController{
 	@RequestMapping(value="select",method=RequestMethod.GET)
 	@ResponseBody
 	public Result select(String wid) throws Exception{
-		UserInfo queryInfo=new UserInfo();
+		UserInfoExtend queryInfo=new UserInfoExtend();
 		queryInfo.setWid(wid);
 		List<UserInfoExtend> users=userInfoService.selectDisplayByCondition(queryInfo);
-		
-		return Result.success(users.get(0));
+		UserInfoExtend user=users.get(0);
+		UserInfoRole queryUserInfoRole=new UserInfoRole();
+		queryUserInfoRole.setUserid(user.getWid());
+		List<UserInfoRole> lstRoles=userInfoService.selectUserInfoRole(queryUserInfoRole);
+		if(CommonUtil.isNotEmptyList(lstRoles)){
+			
+			List<String> lst=new ArrayList<String>();
+			for(UserInfoRole userInfoRole:lstRoles){
+				lst.add(userInfoRole.getRoleid());
+			}
+			String roles=StringUtil.join(lst);
+			user.setRole(roles);
+		}
+		return Result.success(user);
 	}
 }

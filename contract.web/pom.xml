@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../contract.root</relativePath>
   </parent>
-   <packaging>jar</packaging>
+   <packaging>war</packaging>
   <modelVersion>4.0.0</modelVersion> 
   <artifactId>contract.web</artifactId> 
    <name>contract.web</name>

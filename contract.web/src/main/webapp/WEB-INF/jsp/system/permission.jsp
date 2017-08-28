@@ -31,6 +31,7 @@
 								<thead>
 									<tr>
 										<th class="text-center">名称</th>
+										<th class="text-center">排序</th>
 										<th class="text-center" width="80px">操作</th>
 									</tr>
 								</thead>
@@ -76,17 +77,24 @@
 								for="name" class="col-sm-3 required">角色名</label>
 							<div class="col-md-6 col-sm-9">
 								<input type="text" class="form-control" name="name"
-									placeholder="请输入角色名称">
+									placeholder="请输入角色名称" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label
-								for="description" class="col-sm-3">描述</label>
+							<label for="description" class="col-sm-3 required">排序</label>
 							<div class="col-md-6 col-sm-9">
-								<textarea rows="3"  class="form-control" name="description"
+								<input type="text" class="form-control" name="orderby"
+									placeholder="请输入排序" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-3">描述</label>
+							<div class="col-md-6 col-sm-9">
+								<textarea rows="3" class="form-control" name="description"
 									placeholder="请输入描述"></textarea>
 							</div>
 						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -101,6 +109,7 @@
 				<tr>
 						
 					<td class="text-left"><input type="hidden" name="wid" value="{{= wid}}">{{= name}}</td>
+					<td class="text-left">{{= orderby}}</td>
 					<td class="text-center">
 					<a href="javascript:void(0);"  data-key='{{= wid}}' data-option='editRole' class="text-danger"><i class="icon-edit"></i></a>
 					<a href="javascript:void(0);" data-key='{{= wid}}' data-option='deleteRole' class="text-danger"><i class="icon-trash"></i></a></td>

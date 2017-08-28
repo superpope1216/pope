@@ -13,7 +13,7 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 * 类说明
 */
 public interface BatchInfoService {
-	List<BatchInfo> selectByCondition(BatchInfo batchInfo);
+	List<BatchInfo> selectByCondition(BatchInfoExtend batchInfo);
 	
 	List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo);
 	

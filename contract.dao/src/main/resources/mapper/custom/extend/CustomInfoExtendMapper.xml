@@ -63,7 +63,6 @@
 		left join T_CONTRACT_SJZD_CUSTOM_TYPE T_CONTRACT_SJZD_CUSTOM_TYPE on T_CONTRACT_SJZD_CUSTOM_TYPE.lbdm=t_contract_custom_main.CUSTOM_TYPE and T_CONTRACT_SJZD_CUSTOM_TYPE.STATUS=1
 	</sql>
 	<sql id="sqlWhere">
-		<where>
 			<if test="wid!=null">
 				AND t_contract_custom_main.WID=#{wid,jdbcType=VARCHAR}
 			</if>
@@ -73,7 +72,9 @@
 			<if test="datastatus!=null and datastatus!=''">	
 				AND t_contract_custom_main.datastatus=#{datastatus}
 			</if>
-		</where>
+			<if test="customNumber!=null and customNumber!=''">
+				AND t_contract_custom_main.CUSTOM_NUMBER=#{customNumber}
+			</if>
 	</sql>
 	<sql id="sqlOrder">
 		order by t_contract_custom_main.CREATE_TIME desc
@@ -83,6 +84,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_contract_custom_main t_contract_custom_main
+		WHERE t_contract_custom_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
 		<include refid="sqlOrder"/>
 		limit 1
@@ -92,6 +94,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_contract_custom_main t_contract_custom_main
+		WHERE t_contract_custom_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
 		<include refid="sqlOrder"/>
 	</select>
@@ -100,6 +103,7 @@
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="sqlFrom"/>
+		WHERE t_contract_custom_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
 		<include refid="sqlOrder"/>
 		limit 1
@@ -109,10 +113,11 @@
 		select
 		<include refid="Base_Display_Column_List" />
 		<include refid="sqlFrom"/>
+		WHERE t_contract_custom_main.DATASTATUS=1
 		<include refid="sqlWhere"/>
 		<include refid="sqlOrder"/>
 	</select>
 	<select id="selectMaxBh" resultType="java.lang.Integer">
-		SELECT MAX(DQBH) FROM t_contract_custom_main
+		SELECT MAX(DQBH) FROM t_contract_custom_main WHERE DATASTATUS=1
 	</select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.pope.contract.service.contract.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,12 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pope.contract.code.ContractStateEnum;
 import com.pope.contract.code.DataStatus;
+import com.pope.contract.code.FlowSetCode;
+import com.pope.contract.code.FlowStateCode;
 import com.pope.contract.dao.contract.ContractAddMapper;
 import com.pope.contract.dao.contract.ContractInfoMapper;
 import com.pope.contract.dao.contract.ContractInfoRelMapper;
 import com.pope.contract.dao.contract.ContractMoneyMapper;
 import com.pope.contract.dao.contract.extend.ContractInfoExtendMapper;
 import com.pope.contract.dao.contract.extend.ContractMoneyExtendMapper;
+import com.pope.contract.dao.custom.CustomAccountMapper;
+import com.pope.contract.dao.custom.CustomInfoMapper;
+import com.pope.contract.dao.custom.CustomMoneyLogMapper;
+import com.pope.contract.dao.custom.extend.CustomAccountExtendMapper;
+import com.pope.contract.dao.custom.extend.CustomInfoExtendMapper;
 import com.pope.contract.dao.project.BatchInfoMapper;
 import com.pope.contract.dao.project.extend.BatchInfoDetailFxxmExtendMapper;
 import com.pope.contract.dao.system.FxxmInfoMapper;
@@ -25,10 +33,21 @@ import com.pope.contract.entity.contract.ContractInfo;
 import com.pope.contract.entity.contract.ContractInfoRel;
 import com.pope.contract.entity.contract.ContractMoney;
 import com.pope.contract.entity.contract.extend.ContractInfoExtend;
+import com.pope.contract.entity.custom.CustomAccount;
+import com.pope.contract.entity.custom.CustomInfo;
+import com.pope.contract.entity.custom.CustomMoneyLog;
+import com.pope.contract.entity.custom.extend.CustomAccountExtend;
 import com.pope.contract.entity.project.BatchInfo;
+import com.pope.contract.entity.supply.GmbInfo;
+import com.pope.contract.entity.supply.SupplyTotalInfo;
+import com.pope.contract.entity.system.FlowSet;
+import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.exception.ServiceException;
+import com.pope.contract.service.BaseService;
 import com.pope.contract.service.contract.ContractInfoService;
+import com.pope.contract.service.system.FlowSetDataService;
+import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.DecimalUtil;
 import com.pope.contract.util.StringUtil;
@@ -40,7 +59,7 @@ import com.pope.contract.util.StringUtil;
 */
 @Service("contractInfoService")
 @Transactional
-public class ContractInfoServiceImpl implements ContractInfoService{
+public class ContractInfoServiceImpl extends BaseService implements ContractInfoService{
 
 	@Autowired
 	private ContractInfoMapper contractInfoMapper;
@@ -65,6 +84,19 @@ public class ContractInfoServiceImpl implements ContractInfoService{
 	private ContractMoneyExtendMapper contractMoneyExtendMapper;
 	@Autowired
 	private BatchInfoDetailFxxmExtendMapper batchInfoDetailFxxmExtendMapper;
+	@Autowired
+	private CustomAccountExtendMapper customAccountExtendMapper;
+	@Autowired
+	private CustomAccountMapper customAccountInfoMapper;
+	@Autowired
+	private CustomInfoExtendMapper customInfoExtendMapper;
+	@Autowired
+	private CustomMoneyLogMapper customMoneyLogMapper;
+	
+	@Autowired
+	private FlowSetDataService flowSetDataService;
+	@Autowired
+	private FlowSetService flowSetService;
 	@Override
 	public int deleteByPrimaryKey(String wid) throws Exception{
 		return contractInfoMapper.deleteByPrimaryKey(wid);
@@ -78,7 +110,6 @@ public class ContractInfoServiceImpl implements ContractInfoService{
 		if(existContractInfo!=null){
 			throw new ServiceException("该合同编号已存在，请刷新页面重新确认！");
 		}
-		
 		String wid=StringUtil.getUuId();
 		record.setWid(wid);
 		record.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
@@ -149,8 +180,23 @@ public class ContractInfoServiceImpl implements ContractInfoService{
 		if(StringUtils.isEmpty(fxxms)){
 			throw new ServiceException("请至少选择一个分析项目");
 		}
+		ContractInfo contractInfo=contractInfoMapper.selectByPrimaryKey(htid);
+		CustomInfo queryCustomInfo=new CustomInfo();
+		queryCustomInfo.setCustomNumber(contractInfo.getHtjf());
+		queryCustomInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		CustomInfo customInfo=customInfoExtendMapper.selectSingleByCondition(queryCustomInfo);
+		if(customInfo==null){
+			throw new ServiceException("合同的客户信息还没有建立，请确认！");
+		}
+		CustomAccountExtend queryCustomAccount=new CustomAccountExtend();
+		queryCustomAccount.setCustomId(customInfo.getWid());
+		queryCustomAccount.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		CustomAccount customAccount=customAccountExtendMapper.selectSingleByCondition(queryCustomAccount);
+		if(customAccount==null){
+			throw new ServiceException("合同的客户还没有账户信息，请重新确认！");
+		}
 		List<String> listFxxmId=StringUtil.str2List(fxxms);
-		BigDecimal totalJe=DecimalUtil.toDecimal("0");
+		BigDecimal totalJe=contractInfo.getHtje();
 		for(String fxxm:listFxxmId){
 			//查询分析项目
 			FxxmInfo queryFxxmInfo=new FxxmInfo();
@@ -198,9 +244,115 @@ public class ContractInfoServiceImpl implements ContractInfoService{
 			contractAdd.setPcid(pcid);
 			contractAddMapper.insert(contractAdd);
 		}
-		ContractInfo contractInfo=new ContractInfo();
-		contractInfo.setWid(htid);
+		
+		
 		contractInfo.setHtje(totalJe);
+		
+		BigDecimal money=DecimalUtil.mul(totalJe,contractInfo.getHtzk());
+		contractInfo.setZzje(money);
 		contractInfoMapper.updateByPrimaryKeySelective(contractInfo);
+		
+//		BigDecimal money=DecimalUtil.sub(totalJe, contractInfo.getHtzk());
+//		
+//		customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),money));
+//		
+//		
+//		CustomMoneyLog customMoneyLog=new CustomMoneyLog();
+//		customMoneyLog.setWid(StringUtil.getUuId());
+//		customMoneyLog.setAccountNumber(customAccount.getAccountNumber());
+//		customMoneyLog.setBankAccount(customAccount.getBankAccount());
+//		customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),money));
+//		customMoneyLog.setCreateMan(userId);
+//		customMoneyLog.setCreateTime(DateUtil.getCurrentDateTimeStr());
+//		customMoneyLog.setCustomId(customInfo.getWid());
+//		customMoneyLogMapper.insert(customMoneyLog);
+		
+	}
+
+	@Override
+	public void submitContract(String wids,String userId) throws Exception {
+		if(StringUtils.isEmpty(wids)){
+			throw new ServiceException("请至少选择一条合同提交审核！");
+		}
+		List<String> lstWid=StringUtil.str2List(wids);
+		List<ContractInfo> list=new ArrayList<ContractInfo>();
+		for(String wid:lstWid){
+			ContractInfo contractInfo=contractInfoMapper.selectByPrimaryKey(wid);
+			
+			if(contractInfo.getRwzt()!=ContractStateEnum.WFK.getCode()){
+				throw new ServiceException("存在在审核中的合同，请重新确认！");
+			}
+			list.add(contractInfo);
+		}
+		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.CONTRACT.getCode(), 0);
+		for(ContractInfo contractInfo:list){
+			contractInfo.setCurrentstep(flowSet.getPx());
+			contractInfo.setRwzt(StringUtil.toInt(FlowStateCode.DSH.getCode()));
+			this.saveFlowSetData(flowSet.getPx(), contractInfo.getWid(), FlowStateCode.DSH, FlowSetCode.CONTRACT, userId, "提交审核");
+			contractInfoMapper.updateByPrimaryKeySelective(contractInfo);
+		}
+		
+	}
+
+	@Override
+	public List<ContractInfoExtend> selectWaitTaskInfoByStep(String roleId) throws Exception {
+		FlowSet flowSet=flowSetService.selectByRoleAndType(roleId, FlowSetCode.CONTRACT.getCode());
+		List<Integer> taskStatus=new ArrayList<Integer>();
+		taskStatus.add(Integer.valueOf(FlowStateCode.DSH.getCode()));
+		taskStatus.add(Integer.valueOf(FlowStateCode.JXZ.getCode()));
+		return  contractInfoExtendMapper.selectDispalyInfoByStep(flowSet.getPx(), taskStatus);
+	}
+
+	@Override
+	public void examinePass(String wid, String userid) throws Exception {
+		// TODO Auto-generated method stub
+				ContractInfo taskInfo=this.contractInfoMapper.selectByPrimaryKey(wid);
+				FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.CONTRACT.getCode(), taskInfo.getCurrentstep());
+
+				Integer currentStep=-1;
+				if(flowSet==null || flowSet.getPx()==null){
+					
+					taskInfo.setRwzt(StringUtil.toInt(FlowStateCode.YJS.getCode()));
+					saveFlowSetData(currentStep, wid, FlowStateCode.YJS, FlowSetCode.CONTRACT, userid,FlowStateCode.YJS.getMsg());
+					
+					//变更账户金额
+
+					/**
+					 * 折扣
+					 */
+					BigDecimal zk=DecimalUtil.sub(DecimalUtil.toDecimal("1"), taskInfo.getHtzk());
+					BigDecimal money=DecimalUtil.mul(taskInfo.getHtje(),zk); 
+					CustomAccountExtend queryCustomAccountExtend=new CustomAccountExtend();
+					CustomInfo queryCustomInfo=new CustomInfo();
+					queryCustomInfo.setCustomNumber(taskInfo.getHtjf());
+					CustomInfo customInfo=customInfoExtendMapper.selectSingleDisplayByCondition(queryCustomInfo);
+					
+					queryCustomAccountExtend.setCustomId(customInfo.getWid());
+					CustomAccount customAccount=customAccountExtendMapper.selectSingleByCondition(queryCustomAccountExtend);
+					customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),money));
+					customAccountInfoMapper.updateByPrimaryKeySelective(customAccount);
+					
+					CustomMoneyLog customMoneyLog=new CustomMoneyLog();
+					customMoneyLog.setWid(StringUtil.getUuId());
+					customMoneyLog.setAccountNumber(customAccount.getAccountNumber());
+					customMoneyLog.setBankAccount(customAccount.getBankAccount());
+					customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),money));
+					customMoneyLog.setCreateMan(userid);
+					customMoneyLog.setCreateTime(DateUtil.getCurrentDateTimeStr());
+					customMoneyLog.setCustomId(customInfo.getWid());
+					customMoneyLogMapper.insert(customMoneyLog);
+				}else{
+					currentStep=flowSet.getPx();
+					taskInfo.setRwzt(StringUtil.toInt(FlowStateCode.JXZ.getCode()));
+					saveFlowSetData(currentStep, wid, FlowStateCode.JXZ, FlowSetCode.CONTRACT, userid,FlowStateCode.JXZ.getMsg());
+				}
+				taskInfo.setCurrentstep(currentStep);
+				contractInfoMapper.updateByPrimaryKeySelective(taskInfo);
+	}
+
+	@Override
+	public void examineNotPass(String wid, String userid) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }

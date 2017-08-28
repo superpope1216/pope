@@ -39,7 +39,7 @@
     T_CONTRACT_SJZD_FXXM.lbmc as FXXM_DISPLAY,T_CONTRACT_SJZD_TASKSTATUS_DETAIL.lbmc as rwzt_display
   </sql>
   <select id="selectMaxXh" resultType="java.lang.Integer">
-  		SELECT MAX(DQBH) FROM t_contract_task_detail
+  		SELECT MAX(DQBH) FROM t_contract_task_detail WHERE datastatus=1
   </select>
   <select id="selectDispalyTaskInfoByCondition" resultMap="BaseResultDisplayMap">
   		SELECT 
@@ -48,20 +48,24 @@
   		t_contract_task_detail t_contract_task_detail
   		LEFT JOIN T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM ON T_CONTRACT_SJZD_FXXM.LBDM =t_contract_task_detail.fxxm
   		left join T_CONTRACT_SJZD_TASKSTATUS_DETAIL T_CONTRACT_SJZD_TASKSTATUS_DETAIL on T_CONTRACT_SJZD_TASKSTATUS_DETAIL.lbdm=t_contract_task_detail.rwzt
-  		<trim prefix="WHERE" prefixOverrides="AND|OR">
+  		WHERE t_contract_task_detail.datastatus=#{datastatus,jdbcType=VARCHAR}
+  		
 			<if test="wid!=null">
-				AND WID=#{wid,jdbcType=VARCHAR}
+				AND t_contract_task_detail.WID=#{wid,jdbcType=VARCHAR}
 			</if>
 			<if test="frwid!=null">
-				AND FRWID=#{frwid,jdbcType=VARCHAR}
+				AND t_contract_task_detail.FRWID=#{frwid,jdbcType=VARCHAR}
 			</if>
-			<if test="datastatus!=null">
-				AND datastatus=#{datastatus,jdbcType=VARCHAR}
-			</if>
-		</trim>
   </select>
+  
+  <select id="selectNotDclTask" resultType="java.lang.Integer">
+  		SELECT COUNT(0) FROM t_contract_task_detail WHERE DATASTATUS=1 AND RWZT!=1
+  </select>
+  <update id="deleteTaskDetailByTaskId" parameterType="java.lang.String">
+  		UPDATE t_contract_task_detail SET DATASTATUS=2 WHERE FRWID=#{frwid,jdbcType=VARCHAR}
+  </update>
   <select id="selectMinZtByPid" resultType="java.lang.Integer">
-  		SELECT MIN(RWZT) FROM t_contract_task_detail WHERE FRWID=#{frwid,jdbcType=VARCHAR}
+  		SELECT MIN(RWZT) FROM t_contract_task_detail WHERE FRWID=#{frwid,jdbcType=VARCHAR}  AND DATASTATUS=1
   		<if test="existRecords!=null">
   		    AND WID NOT IN 
   			<foreach collection="existRecords" index="index" item="item" open="(" close=")" separator=",">

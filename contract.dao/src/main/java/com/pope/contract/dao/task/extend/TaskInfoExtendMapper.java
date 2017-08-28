@@ -12,9 +12,9 @@ import com.pope.contract.entity.task.extend.TaskInfoExtend;
 public interface TaskInfoExtendMapper extends TaskInfoMapper {
 	Integer selectMaxXh() throws Exception;
 	
-	List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfo taskInfo) throws Exception;
+	List<TaskInfoExtend> selectDispalyTaskInfoByCondition(TaskInfoExtend taskInfo) throws Exception;
 	
-	List<TaskInfo> selectTaskInfoByCondition(TaskInfo taskInfo);
+	List<TaskInfo> selectTaskInfoByCondition(TaskInfoExtend taskInfo);
 	
 	/**
 	 * 根据分析人员获取对应的审核权限
@@ -23,7 +23,7 @@ public interface TaskInfoExtendMapper extends TaskInfoMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	List<TaskInfoExtend> selectDispalyTaskInfoByPermission(@Param("fxxr")String  fxxr,@Param("shry")String shry,@Param("rwzt")Integer  rwzt) throws Exception;
+	List<TaskInfoExtend> selectDispalyTaskInfoByPermission(TaskInfoExtend taskInfo) throws Exception;
 	
 	List<TaskInfoDetail> selectDispalyTaskInfoDetailByCondition(TaskInfoDetail taskInfo) throws Exception;
 	

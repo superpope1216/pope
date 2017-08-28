@@ -1,5 +1,6 @@
 package com.pope.contract.web.task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,86 +16,108 @@ import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.service.task.TaskInfoService;
+import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 import com.pope.contract.web.util.PageUtil;
 
 /**
-* @author zhanglingyun E-mail:
-* @version 创建时间：2017年8月15日 上午11:14:39
-* 类说明
-*/
+ * @author zhanglingyun E-mail:
+ * @version 创建时间：2017年8月15日 上午11:14:39 类说明
+ */
 @Controller
 @RequestMapping("taskExamine")
-public class TaskInfoExamineController extends BaseController{
+public class TaskInfoExamineController extends BaseController {
 	@Autowired
 	private TaskInfoService taskInfoService;
+
 	@RequestMapping("index")
-	public ModelAndView index(){
-		ModelAndView mv=new ModelAndView();
-		//mv.setViewName("/");
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		// mv.setViewName("/");
 		mv.setViewName("task/taskInfoExamine");
 		return mv;
 	}
-	
+
 	@RequestMapping("listDsh")
 	@ResponseBody
-	public Result listDsh(Integer startPage) throws Exception{
-		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
-		//List<TaskInfo> datas=taskInfoService.selectWaitTaskInfoByStep(this.getRole().getWid());
-		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SH);
-		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
+	public Result listDsh(Integer startPage) throws Exception {
+		List<TaskInfoExtend> datas = new ArrayList<TaskInfoExtend>();
+		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
+		if (ConstantUtil.SHRY_ROLE_NAME.equals(this.getRole().getName())) {
+			// List<TaskInfo>
+			// datas=taskInfoService.selectWaitTaskInfoByStep(this.getRole().getWid());
+			datas = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),
+					TaskStatusEnum.SH, null);
+		}
+
+		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
-	
+
 	@RequestMapping("listJxz")
 	@ResponseBody
-	public Result listJxz(Integer startPage) throws Exception{
-		TaskInfo taskInfo=new TaskInfo();
+	public Result listJxz(Integer startPage) throws Exception {
+		List<TaskInfoExtend> datas = new ArrayList<TaskInfoExtend>();
+		TaskInfo taskInfo = new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHJXZ.getCode());
-		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
-		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHJXZ);
-		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
+		// List<TaskInfoExtend>
+		// datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		if (ConstantUtil.SHRY_ROLE_NAME.equals(this.getRole().getName())) {
+			 datas = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(),
+					this.getUserId(), TaskStatusEnum.SHJXZ, null);
+		}
+		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
-	
+
 	@RequestMapping("listShtg")
 	@ResponseBody
-	public Result listShtg(Integer startPage) throws Exception{
-		TaskInfo taskInfo=new TaskInfo();
+	public Result listShtg(Integer startPage) throws Exception {
+		List<TaskInfoExtend> datas = new ArrayList<TaskInfoExtend>();
+		TaskInfo taskInfo = new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHTG.getCode());
-		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
-		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHTG);
-		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
+		// List<TaskInfoExtend>
+		// datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		if (ConstantUtil.SHRY_ROLE_NAME.equals(this.getRole().getName())) {
+			datas = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(),
+				this.getUserId(), TaskStatusEnum.SHTG, null);
+		}
+		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
-	
+
 	@RequestMapping("listShbtg")
 	@ResponseBody
-	public Result listShbtg(Integer startPage) throws Exception{ 
-		TaskInfo taskInfo=new TaskInfo();
+	public Result listShbtg(Integer startPage) throws Exception {
+		List<TaskInfoExtend> datas = new ArrayList<TaskInfoExtend>();
+		TaskInfo taskInfo = new TaskInfo();
 		taskInfo.setRwzt(TaskStatusEnum.SHBTG.getCode());
-		PageUtil<TaskInfoExtend> pageUtil=new PageUtil<TaskInfoExtend>(startPage);
-		//List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
-		List<TaskInfoExtend> datas=taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(), this.getUserId(),TaskStatusEnum.SHBTG);
-		PageParam<TaskInfoExtend> pageParam=pageUtil.getPageParam(datas);
+		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
+		// List<TaskInfoExtend>
+		// datas=taskInfoService.selectDispalyTaskInfoByCondition(taskInfo);
+		if (ConstantUtil.SHRY_ROLE_NAME.equals(this.getRole().getName())) {
+		 datas = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(),
+				this.getUserId(), TaskStatusEnum.SHBTG, null);
+		}
+		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);
 	}
-	@RequestMapping(value="examinePass",method=RequestMethod.POST)
+
+	@RequestMapping(value = "examinePass", method = RequestMethod.POST)
 	@ResponseBody
-	public Result examinePassTask(String wid) throws Exception{
+	public Result examinePassTask(String wid) throws Exception {
 		taskInfoService.examinePass(wid, this.getUserId());
 		return Result.success();
 	}
-	
-	@RequestMapping(value="examineNotPass",method=RequestMethod.POST)
+
+	@RequestMapping(value = "examineNotPass", method = RequestMethod.POST)
 	@ResponseBody
-	public Result examinePassNotTask(String wid) throws Exception{
+	public Result examinePassNotTask(String wid) throws Exception {
 		taskInfoService.examineNotPass(wid, this.getUserId());
 		return Result.success();
 	}
-	
-	
+
 }

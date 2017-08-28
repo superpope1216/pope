@@ -28,4 +28,6 @@ public interface CustomInfoService {
     List<CustomInfoExtend> selectDisplayByCondition(CustomInfo customInfo);
     
     Integer selectMaxBh() throws Exception;
+    
+  
 }

@@ -56,4 +56,17 @@ public class ContractInfoController extends BaseController{
 		return Result.success(pageParam);
 	}
 	
+	/**
+	 * 提交审核
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("submitContract")
+	@ResponseBody
+	public Result submitContract(String wids) throws Exception{
+		contractInfoService.submitContract(wids, this.getUserId());
+		return Result.success();
+		
+	}
+	
 }

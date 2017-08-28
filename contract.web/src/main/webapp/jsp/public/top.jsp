@@ -21,6 +21,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/jquery-paginator/jquery.pagination.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootstrap-suggest.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/echarts.min.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/bootbox/bootbox.js"></script>
  <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/My97DatePicker/WdatePicker.js"></script>

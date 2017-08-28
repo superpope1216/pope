@@ -17,4 +17,6 @@ public class ConstantUtil {
 	
 	public static final String SHRY_ROLE_NAME="样品审核";
 	
+	public static final String SYSTEM_MANAGE="系统管理员";
+	
 }

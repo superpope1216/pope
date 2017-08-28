@@ -31,6 +31,12 @@ public interface ContractInfoService {
 	
 	void addFxxm(String htid,String pcid,String fxxms,String userId) throws Exception;
 	
+	void submitContract(String wids,String userId) throws Exception;
+	
+	List<ContractInfoExtend> selectWaitTaskInfoByStep(String wid) throws Exception;
+	
+	void examinePass(String wid, String userid) throws Exception;
+	 void examineNotPass(String wid, String userid) throws Exception;
 	
 	
 }

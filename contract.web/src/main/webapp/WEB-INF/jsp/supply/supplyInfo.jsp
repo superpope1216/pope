@@ -23,7 +23,7 @@
 						<form action="#" method="post">
 							<div class="search">
 								<input type="text" class="text" name="topic"
-									placeholder="品名/消耗品批次号" class="queryCondition"> &nbsp;
+									placeholder="品名" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -48,7 +48,6 @@
 									<th style="width: 80px;" class="text-center"><input
 										type="checkbox" name="selAll"></th>
 									<th class="text-center">消耗品名</th>
-									<th class="text-center">消耗品编号</th>
 									<th class="text-center">类别</th>
 									<th class="text-center">有效期</th>
 									<th class="text-center">数量</th>
@@ -277,15 +276,16 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="phone" class="col-sm-2">消耗品批次号</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" readonly name="xhppch"
-									placeholder="">
-							</div>
+							
 							<label for="email" class="col-sm-2 required">消耗品录入时间</label>
 							<div class="col-md-4 col-sm-4">
 								<input type="text" class="form-control" name="xhplrsj"
 									placeholder="请输入录入时间" onClick="WdatePicker()" required>
+							</div>
+							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
+							<div class="col-md-10 col-sm-10">
+								<input type="text" class="form-control" name="gys"
+									placeholder="请输入供应商" required>
 							</div>
 						</div>
 
@@ -329,13 +329,6 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="gys"
-									placeholder="请输入供应商" required>
-							</div>
-						</div>
 						<div class="form-group">
 							<label for="contractvalidity" class="col-sm-2">备注</label>
 							<div class="col-md-10 col-sm-10">
@@ -450,7 +443,6 @@
 				<tr>
 					<td class="text-center"><input type="checkbox" name="chkSingle" value="{{= wid}}"></td>
 				    <td class="text-center">{{= pm}}</td>
-					<td class="text-center">{{= xhppch}}</td>
 					<td class="text-center">{{= hcfl_display}}</td>
 					<td class="text-left">{{= yxq}}</td>
 					<td class="text-left">{{= kc}}</td>

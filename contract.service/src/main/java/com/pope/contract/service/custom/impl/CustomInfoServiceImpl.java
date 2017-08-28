@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.dao.custom.CustomInfoMapper;
+import com.pope.contract.dao.custom.extend.CustomAccountExtendMapper;
 import com.pope.contract.dao.custom.extend.CustomInfoExtendMapper;
+import com.pope.contract.entity.custom.CustomAccount;
 import com.pope.contract.entity.custom.CustomInfo;
+import com.pope.contract.entity.custom.extend.CustomAccountExtend;
 import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.custom.CustomInfoService;
@@ -29,6 +32,8 @@ public class CustomInfoServiceImpl implements CustomInfoService{
 	
 	@Autowired
 	private CustomInfoExtendMapper customInfoExtendMapper;
+	@Autowired
+	private CustomAccountExtendMapper customAccountExtendMapper; 
 	@Override
 	public int deleteByPrimaryKey(String wid) {
 		return customInfoMapper.deleteByPrimaryKey(wid);
@@ -88,4 +93,6 @@ public class CustomInfoServiceImpl implements CustomInfoService{
 		return max; 
 				
 	}
+
+	
 }

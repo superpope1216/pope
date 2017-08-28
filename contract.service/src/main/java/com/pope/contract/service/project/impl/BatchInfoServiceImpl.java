@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.druid.util.StringUtils;
 import com.pope.contract.code.BatchStateEnum;
 import com.pope.contract.code.ContractStateEnum;
+import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.dao.contract.extend.ContractInfoExtendMapper;
@@ -36,6 +37,7 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.entity.system.Sjzd;
 import com.pope.contract.entity.task.TaskInfo;
+import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.service.system.SjzdService;
@@ -80,7 +82,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	private SjzdService sjzdService;
 
 	@Override
-	public List<BatchInfo> selectByCondition(BatchInfo batchInfo) {
+	public List<BatchInfo> selectByCondition(BatchInfoExtend batchInfo) {
 		return batchInfoExtendMapper.selectByCondition(batchInfo);
 	}
 
@@ -120,7 +122,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	@Override
 	@Transactional
 	public BatchInfo insertBatchInfo(BatchInfo batchInfo, String userId) throws Exception {
-		BatchInfo query = new BatchInfo();
+		BatchInfoExtend query = new BatchInfoExtend();
 		query.setYpph(batchInfo.getYpph());
 		List<BatchInfo> list = batchInfoExtendMapper.selectByCondition(query);
 		if (CommonUtil.isNotEmptyList(list)) {
@@ -326,8 +328,8 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		if(CommonUtil.isNotEmptyList(datas)){
 			String sydw=datas.get(0).getSydw();
 			for(BatchInfo batchInfo:datas){
-				if(BatchStateEnum.DC.getCode()!=StringUtil.toInt(batchInfo.getPczt())){
-					throw new ServiceException("存在样品批次状态不是【待测】的记录，无法创建合同，请重新确认！");
+				if(BatchStateEnum.DC.getCode()!=StringUtil.toInt(batchInfo.getPczt()) && BatchStateEnum.JCZ.getCode()!=StringUtil.toInt(batchInfo.getPczt())){
+					throw new ServiceException("存在样品批次状态不是【待测】/【检测中】的记录，无法创建合同，请重新确认！");
 				}
 				if(!batchInfo.getSydw().equals(sydw)){
 					throw new ServiceException("存在样品批次的送样单位不一致的情况，无法创建合同，请重新确认！");
@@ -346,8 +348,9 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		if(batchInfo.getPczt().equals(StringUtil.toStr(BatchStateEnum.DC.getCode()))){
 			throw new ServiceException("该样品批次状态为待测，无法进行归档！");
 		}
-		TaskInfo taskInfo=new TaskInfo();
+		TaskInfoExtend taskInfo=new TaskInfoExtend();
 		taskInfo.setPcwid(wid);
+		taskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		List<TaskInfo> listTask=	taskInfoExtendMapper.selectTaskInfoByCondition(taskInfo);
 		if(CommonUtil.isNotEmptyList(listTask))
 		for(TaskInfo t:listTask){
@@ -366,7 +369,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 			List<ContractInfo> listContractInfo=contractInfoExtendMapper.selectByCondition(queryContractInfo);
 			if(CommonUtil.isNotEmptyList(listContractInfo)){
 				for(ContractInfo contractInfo:listContractInfo){
-					if(contractInfo.getRwzt()!=ContractStateEnum.SHTG.getCode() ||contractInfo.getRwzt()!=ContractStateEnum.SHBTG.getCode()){
+					if(contractInfo.getRwzt()!=ContractStateEnum.YJS.getCode() ||contractInfo.getRwzt()!=ContractStateEnum.BTG.getCode()){
 						throw new ServiceException("该样品批次下的合同还没有审核结束，无法进行归档！");
 					}
 				}

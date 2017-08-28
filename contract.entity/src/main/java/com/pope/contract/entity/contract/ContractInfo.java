@@ -3,7 +3,7 @@ package com.pope.contract.entity.contract;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ContractInfo implements Serializable {
+public class ContractInfo implements Serializable{
     /**
 	 * 
 	 */
@@ -20,6 +20,8 @@ public class ContractInfo implements Serializable {
     private String htjf;
 
     private String xmfzr;
+
+    private BigDecimal zzje;
 
     private BigDecimal htje;
 
@@ -109,6 +111,14 @@ public class ContractInfo implements Serializable {
 
     public void setXmfzr(String xmfzr) {
         this.xmfzr = xmfzr == null ? null : xmfzr.trim();
+    }
+
+    public BigDecimal getZzje() {
+        return zzje;
+    }
+
+    public void setZzje(BigDecimal zzje) {
+        this.zzje = zzje;
     }
 
     public BigDecimal getHtje() {

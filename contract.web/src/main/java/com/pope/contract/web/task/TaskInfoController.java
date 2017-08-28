@@ -25,7 +25,7 @@ import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.service.system.FxxmInfoService;
 import com.pope.contract.service.system.SjzdService;
 import com.pope.contract.service.task.TaskInfoService;
-import com.pope.contract.util.CommonUtil;
+import com.pope.contract.util.CommonUtil;import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 import com.pope.contract.web.util.PageUtil;
@@ -70,8 +70,9 @@ public class TaskInfoController extends BaseController {
 	@ResponseBody
 	public Result selectFxxm(String pcid) throws Exception {
 		List<Sjzd> fxxms = sjzdService.selectAll("T_CONTRACT_SJZD_FXXM", null);
-		TaskInfo queryTaskInfo = new TaskInfo();
+		TaskInfoExtend queryTaskInfo = new TaskInfoExtend();
 		queryTaskInfo.setPcwid(pcid);
+		queryTaskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		List<TaskInfo> listTaskInfo = taskInfoService.selectTaskInfoByCondition(queryTaskInfo);
 		if (CommonUtil.isNotEmptyList(fxxms) && CommonUtil.isNotEmptyList(listTaskInfo)) {
 			Iterator<Sjzd> sjzds = fxxms.iterator();
@@ -105,10 +106,10 @@ public class TaskInfoController extends BaseController {
 
 	@RequestMapping("listTaskInfo")
 	@ResponseBody
-	public Result listTaskInfo(Integer startPage) throws Exception {
+	public Result listTaskInfo(Integer startPage,TaskInfoExtend taskInfoExtend) throws Exception {
 		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
 		List<TaskInfoExtend> users = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(),
-				this.getUserId(),null);
+				this.getUserId(),null,taskInfoExtend);
 		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(users);
 		return Result.success(pageParam);
 	}
@@ -147,6 +148,11 @@ public class TaskInfoController extends BaseController {
 			List<Map> list = JSONObject.parseArray(datas, Map.class);
 			taskInfoService.submitTaskInfo(list, this.getUserId());
 		}
+		return Result.success();
+	}
+	
+	public Result deleteTask(String wid) throws Exception{
+		taskInfoService.deleteTask(wid);
 		return Result.success();
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pope.contract.code.FlowStateCode;
 import com.pope.contract.code.Result;
 import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.dto.PageParam;
@@ -48,7 +49,7 @@ public class LqbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listJxz(Integer startPage) throws Exception{
 		LqbInfo taskInfo=new LqbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHJXZ.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.JXZ.getCode()));
 		PageUtil<LqbInfoExtend> pageUtil=new PageUtil<LqbInfoExtend>(startPage);
 		List<LqbInfoExtend> datas=lqbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<LqbInfoExtend> pageParam=pageUtil.getPageParam(datas);
@@ -59,7 +60,7 @@ public class LqbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listShtg(Integer startPage) throws Exception{
 		LqbInfo taskInfo=new LqbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHTG.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.YJS.getCode()));
 		PageUtil<LqbInfoExtend> pageUtil=new PageUtil<LqbInfoExtend>(startPage);
 		List<LqbInfoExtend> datas=lqbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<LqbInfoExtend> pageParam=pageUtil.getPageParam(datas);
@@ -70,7 +71,7 @@ public class LqbInfoExamineController extends BaseController {
 	@ResponseBody
 	public Result listShbtg(Integer startPage) throws Exception{ 
 		LqbInfo taskInfo=new LqbInfo();
-		taskInfo.setRwzt(StringUtil.toStr(TaskStatusEnum.SHBTG.getCode()));
+		taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.BTG.getCode()));
 		PageUtil<LqbInfoExtend> pageUtil=new PageUtil<LqbInfoExtend>(startPage);
 		List<LqbInfoExtend> datas=lqbInfoService.selectDispalyTaskInfoByCondition(taskInfo);
 		PageParam<LqbInfoExtend> pageParam=pageUtil.getPageParam(datas);

@@ -35,7 +35,9 @@
 					<div class="panel-body">
 						<div class="pull-left">
 							<button class="btn btn-primary btnQuery" id="btnAdd"
-								style="display: none;">新建</button>
+								style="display: none;">新建</button>&nbsp;&nbsp;
+								<button class="btn btn-primary btnQuery" id="btnAddAccount"
+								style="display: none;">新建客户账户</button>
 						</div>
 						<br> <br>
 						<table class="table table-bordered datatable table-hover"
@@ -63,7 +65,53 @@
 			</div>
 		</div>
 	</div>
+<div class="modal fade" id="modelAddCustomAccountInfo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">编辑</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="customAccountForm"
+						style="margin-top: 10px;">
+						<div class="form-group">
+							<input type="hidden" name="wid" value=""> <input
+								type="hidden" name="dqbh" value="">
+								<input
+								type="hidden" name="customId" value=""><label for="name"
+								class="col-sm-2 required">账号编号</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="text" class="form-control" readonly name="accountNumber"
+									placeholder="请输入账户编号" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="gh" class="col-sm-2 required">银行账户</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="text" class="form-control" 
+									name="bankAccount" placeholder="请输入银行账户" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="gh" class="col-sm-2 required">账户余额</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="text" class="form-control" 
+									name="accountMoney" placeholder="请输入账户余额" required>
+							</div>
+						</div>
+					</form>
 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btnSaveCustomAccountInfo">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="modelEdidCustomInfo">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">

@@ -11,9 +11,14 @@ import com.pope.contract.entity.user.extend.UserInfoExtend;
 
 public interface UserInfoExtendMapper extends UserInfoMapper {
 
-	UserInfo selectByGh(@Param(value = "gh") String gh);
 
-	List<UserInfoExtend> selectDisplayByCondition(UserInfo user) throws Exception;
+	UserInfoExtend selectSingleDisplayByCondition(UserInfoExtend user) throws Exception;
 
+	List<UserInfoExtend> selectDisplayByCondition(UserInfoExtend user) throws Exception;
+	
+	List<UserInfo> selectByCondition(UserInfoExtend user) throws Exception;
+	
+	UserInfo selectSingleByCondition(UserInfoExtend user) throws Exception;
+	
 	List<UserInfo> selectByRoleName(@Param("name") String name);
 }

@@ -16,7 +16,7 @@ import com.pope.contract.entity.project.extend.BatchInfoExtend;
 */
 public interface BatchInfoExtendMapper {
 
-	List<BatchInfo> selectByCondition(BatchInfo batchInfo);
+	List<BatchInfo> selectByCondition(BatchInfoExtend batchInfo);
 	
 	List<BatchInfoExtend> selectByWids(@Param("wids") List<String> wids);
 	List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo);

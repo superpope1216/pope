@@ -25,6 +25,7 @@ import com.pope.contract.entity.system.Role;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.entity.user.UserInfoRole;
 import com.pope.contract.entity.user.extend.UserInfoExtend;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.system.PermissionService;
 import com.pope.contract.service.system.RoleService;
 import com.pope.contract.service.user.UserInfoService;
@@ -47,12 +48,22 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Autowired
 	private UserInfoRoleMapper userInfoRoleMapper;
+	
+	@Autowired
+	private com.pope.contract.dao.user.extend.UserInfoRoleExtendMapper UserInfoRoleExtendMapper;
 	@Autowired
 	private PermissionService permissionService;
 
 	@Override
 	@Transactional
 	public int insert(UserInfo userInfo, String userId, String userInfoRoles) throws Exception {
+		UserInfoExtend queryUserInfoExtend=new UserInfoExtend();
+		queryUserInfoExtend.setGh(userInfo.getGh());
+		UserInfo oldUserInfo=userInfoExtendMapper.selectSingleByCondition(queryUserInfoExtend);
+		if(oldUserInfo!=null){
+			throw new ServiceException("该工号已存在，请重新确认！");
+		}
+		
 		userInfo.setWid(StringUtil.getUuId());
 		userInfo.setUpdatetime(DateUtil.getCurrentDate());
 		userInfo.setCreateby(userId);
@@ -82,25 +93,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public int insertSelective(UserInfo userInfo, String userId) throws Exception {
-		userInfo.setWid(StringUtil.getUuId());
-		userInfo.setUpdatetime(DateUtil.getCurrentDate());
-		userInfo.setCreateby(userId);
-		userInfo.setCreatetime(DateUtil.getCurrentDate());
-		userInfo.setUpdateby(userId);
-		userInfo.setDatastatus(DataStatus.normal.getCode());
-		userInfo.setPassword(StringEncrypt.encrypt(ConstantUtil.DEFAULT_PASSWORD));
-		return userInfoMapper.insertSelective(userInfo);
-	}
-
-	@Override
 	public UserInfo selectByPrimaryKey(String wid) {
 		return userInfoMapper.selectByPrimaryKey(wid);
-	}
-
-	@Override
-	public UserInfo selectByGh(String gh) {
-		return userInfoExtendMapper.selectByGh(gh);
 	}
 
 	@Override
@@ -144,6 +138,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public int updateByPrimaryKeySelective(UserInfo userInfo, String userId, String userInfoRoles) throws Exception {
+		
+		UserInfoExtend queryUserInfoExtend=new UserInfoExtend();
+		queryUserInfoExtend.setGh(userInfo.getGh());
+		UserInfo oldUserInfo=userInfoExtendMapper.selectSingleByCondition(queryUserInfoExtend);
+		if(oldUserInfo!=null && !oldUserInfo.getGh().equals(userInfo.getGh())){
+			throw new ServiceException("该工号已存在，请重新确认！");
+		} 
 		userInfo.setUpdatetime(DateUtil.getCurrentDate());
 		userInfo.setUpdateby(userId);
 		userInfo.setDatastatus(DataStatus.normal.getCode());
@@ -166,14 +167,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
 	}
 
-	@Override
-	public int updateByPrimaryKey(UserInfo userInfo, String userId) throws Exception {
-		userInfo.setUpdatetime(DateUtil.getCurrentDate());
-		userInfo.setUpdateby(userId);
-		userInfo.setDatastatus(DataStatus.normal.getCode());
-		return userInfoMapper.updateByPrimaryKey(userInfo);
-	}
-
 
 	@Transactional
 	public int deleteByPrimaryKey(String wid) throws Exception {
@@ -182,11 +175,36 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public List<UserInfoExtend> selectDisplayByCondition(UserInfo userInfo) throws Exception {
+	public List<UserInfoExtend> selectDisplayByCondition(UserInfoExtend userInfo) throws Exception {
 		return userInfoExtendMapper.selectDisplayByCondition(userInfo);
 	}
 	@Override
 	public List<UserInfo> selectByRoleName(String name){
 		return userInfoExtendMapper.selectByRoleName(name);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(UserInfo record) throws Exception {
+		return userInfoMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public List<UserInfoRole> selectUserInfoRole(UserInfoRole userInfoRole) throws Exception {
+		return UserInfoRoleExtendMapper.selectByCondition(userInfoRole);
+	}
+
+	@Override
+	public UserInfoExtend selectSingleDisplayByCondition(UserInfoExtend user) throws Exception {
+		return userInfoExtendMapper.selectSingleDisplayByCondition(user);
+	}
+
+	@Override
+	public List<UserInfo> selectByCondition(UserInfoExtend user) throws Exception {
+		return userInfoExtendMapper.selectByCondition(user);
+	}
+
+	@Override
+	public UserInfo selectSingleByCondition(UserInfoExtend user) throws Exception {
+		return userInfoExtendMapper.selectSingleByCondition(user);
 	}
 }

@@ -13,8 +13,8 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">系统管理</a></li>
-					<li class="active">用户管理</li>
+					<li><a href="#">用户管理</a></li>
+					<li class="active">用户基本信息</li>
 				</ol>
 			</div>
 			<div class="wrapper">
@@ -22,8 +22,6 @@
 					<div class="panel-body">
 						<form action="#" method="post">
 							<div class="search">
-
-
 								用户信息： <input type="text" class="text" id="queryCondition"
 									placeholder="可根据工号、姓名搜索" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
@@ -36,11 +34,7 @@
 						<div class="pull-left">
 							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
 						</div>
-						<div class="pull-right">
-							<button class="btn btn-primary"
-								style="width: 100px; margin-left: 10px;">导入</button>
-							&nbsp;&nbsp;
-						</div>
+						
 						&nbsp;&nbsp;
 						<div class="pull-right">
 							&nbsp;&nbsp;
