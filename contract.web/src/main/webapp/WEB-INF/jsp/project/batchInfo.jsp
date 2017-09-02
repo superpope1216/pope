@@ -25,7 +25,7 @@
 						<form action="#" method="post">
 							<div class="search">
 								<input type="text" class="text" name="queryCondition" id="queryCondition"
-									placeholder="送样人/样品批次号/样品编号" class="queryCondition"> &nbsp;
+									placeholder="送样人/样品批次号/样品名称" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
 							</div>
 						</form>
@@ -41,6 +41,7 @@
 							<button class="btn btn-primary btnQuery" id="btnAddBatch" style="display:none;">新 建</button>
 							<button class="btn btn-primary" style="width: 100px; margin-left: 10px;display:none;"  id="btnImport">导入</button>
 							<button class="btn btn-primary btnQuery" id="btnExport" style="display:none;">导出</button>
+							<button class="btn btn-danger btnQuery" id="btnBatchDelete" style="display:none;">批量删除</button>
 						</div>
 						
 						<br> <br>
@@ -52,6 +53,7 @@
 										<input type="checkbox" name="selAll">
 									</th>
 									<th class="text-center">样品批次</th>
+									<th class="text-center">样品名称</th>
 									<th class="text-center">类别</th>
 									<th class="text-center">送样人</th>
 									<th class="text-center">数量</th>

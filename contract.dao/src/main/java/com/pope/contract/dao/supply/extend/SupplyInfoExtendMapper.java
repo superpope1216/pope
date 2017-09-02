@@ -10,12 +10,12 @@ import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
 
 public interface SupplyInfoExtendMapper{
-	List<SupplyInfo> selectByCondition(SupplyInfo supplyInfo);
-	List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfo supplyInfo);
+	List<SupplyInfo> selectByCondition(SupplyInfoExtend supplyInfo);
+	List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfoExtend supplyInfo);
 	Integer selectMaxBh();
 	
 	List<Map<String,Object>> selectPmByCondition(@Param("hcfl") String hcfl);
 	
-	SupplyInfo selectSingleByCondition(SupplyInfo supplyInfo);
+	SupplyInfo selectSingleByCondition(SupplyInfoExtend supplyInfo);
 	
 }

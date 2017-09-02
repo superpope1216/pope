@@ -36,18 +36,21 @@
   </sql>
   <sql id="sqlWhere">
   	<where>
-  			<if	test="wid!=null">
+  			<if	test="wid!=null and wid!=''">
   				AND t_contract_supplies_total.wid=#{wid,jdbcType=VARCHAR}
+  			</if>
+  			<if	test="queryCondition!=null and queryCondition!=''">
+  				AND t_contract_supplies_total.pm like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
   			</if>
   		</where>
   </sql>
-  <select id="selectByCondition" resultMap="BaseResultMap">
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend">
   		SELECT
   		<include refid="Base_Column_List"/>
   		from t_contract_supplies_total t_contract_supplies_total
   		<include refid="sqlWhere"/>
   </select>
-  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap">
+  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap" parameterType="com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend">
   		SELECT
   		<include refid="Base_Display_Column_List"/>
   		from t_contract_supplies_total t_contract_supplies_total

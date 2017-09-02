@@ -22,8 +22,8 @@
 					<div class="panel-body">
 						<form action="#" method="post">
 							<div class="search">
-								<input type="text" class="text" name="topic"
-									placeholder="品名" class="queryCondition"> &nbsp;
+								<input type="text" class="text" name="queryCondition"
+									placeholder="请输入品名进行查询" class="queryCondition" id="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -228,22 +228,6 @@
 		</div>
 	</div>
 
-	
-
-	<script id="tblSupplyInfoTpl" type="text/x-jquery-tmpl">
-				<tr>
-				    <td class="text-center">{{= pm}}</td>
-					<td class="text-center">{{= hcfl_display}}</td> 
-					<td class="text-left">{{= kc}}</td>
-					<td class="text-left">{{= sldw_display}}</td>
-					<td class="text-center">
-						<div class="btn-group">
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnView" data-key="{{= wid}}">详</button>
-          					
-        				</div>
-					</td>
-				</tr>
-			</script>
 	<script type="text/javascript" >
     	var buttonsPermission="${buttons}";
     </script>

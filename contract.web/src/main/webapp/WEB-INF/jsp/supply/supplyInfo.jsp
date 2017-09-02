@@ -22,8 +22,8 @@
 					<div class="panel-body">
 						<form action="#" method="post">
 							<div class="search">
-								<input type="text" class="text" name="topic"
-									placeholder="品名" class="queryCondition"> &nbsp;
+								<input type="text" class="text" name="queryCondition"
+									placeholder="请输入品名进行查询" class="queryCondition" id="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -32,16 +32,13 @@
 				</div>
 				<div class="panel">
 					<div class="panel-body">
-						<div class="pull-left">
-							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
+						<div class="pull-left" >
+							<button class="btn btn-primary btnQuery" style="display:none;margin-bottom:10px;" id="btnAdd">新 建</button>
 						</div>
 						<div class="pull-right">
-							<button class="btn btn-primary"
-								style="width: 100px; margin-left: 10px;">导入</button>
-							<button class="btn btn-primary btnQuery">导出</button>
+							<!-- <button class="btn btn-primary" style="width: 100px; margin-left: 10px;">导入</button> -->
+							<button class="btn btn-primary btnQuery" style="display:none;margin-bottom:10px;" id="btnExport">导出</button>
 						</div>
-
-						<br> <br>
 						<table class="table table-bordered" id="mainTable">
 							<thead>
 								<tr>
@@ -283,7 +280,7 @@
 									placeholder="请输入录入时间" onClick="WdatePicker()" required>
 							</div>
 							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
-							<div class="col-md-10 col-sm-10">
+							<div class="col-md-4 col-sm-4">
 								<input type="text" class="form-control" name="gys"
 									placeholder="请输入供应商" required>
 							</div>
@@ -372,13 +369,13 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="phone" class="col-sm-2">消耗品批次号</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="xhppch"></p>
-							</div>
 							<label for="email" class="col-sm-2 required">消耗品录入时间</label>
 							<div class="col-md-4 col-sm-4">
 								<p class="form-control-static" name="xhplrsj"></p>
+							</div>
+							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
+							<div class="col-md-4 col-sm-4">
+								<p class="form-control-static" name="gys"></p>
 							</div>
 						</div>
 
@@ -417,12 +414,6 @@
 						</div>
 
 						<div class="form-group">
-							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
-							<div class="col-md-10 col-sm-10">
-								<p class="form-control-static" name="gys"></p>
-							</div>
-						</div>
-						<div class="form-group">
 							<label for="contractvalidity" class="col-sm-2">备注</label>
 							<div class="col-md-10 col-sm-10">
 								<p class="form-control-static" name="bz"></p>
@@ -439,23 +430,7 @@
 		</div>
 	</div>
 
-	<script id="tblSupplyInfoTpl" type="text/x-jquery-tmpl">
-				<tr>
-					<td class="text-center"><input type="checkbox" name="chkSingle" value="{{= wid}}"></td>
-				    <td class="text-center">{{= pm}}</td>
-					<td class="text-center">{{= hcfl_display}}</td>
-					<td class="text-left">{{= yxq}}</td>
-					<td class="text-left">{{= kc}}</td>
-					<td class="text-left">{{= gys}}</td>
-					<td class="text-center">
-						<div class="btn-group">
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnView" data-key="{{= wid}}">详</button>
-          					
-        				</div>
-					</td>
-				</tr>
-			</script>
-			<script type="text/javascript" >
+	<script type="text/javascript" >
     	var buttonsPermission="${buttons}";
     </script>
 	<script type="text/javascript"

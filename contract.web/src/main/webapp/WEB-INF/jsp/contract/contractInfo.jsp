@@ -24,25 +24,26 @@
 								<label for="phone" class="col-sm-1 ">送样人</label>
 								<div class="col-md-3 col-sm-3">
 
-									<input type="text" class="form-control " name="topic"
+									<input type="text" class="form-control " name="querySyr" id="querySyr"
 										placeholder="" class="queryCondition">
 								</div>
 								<label for="phone" class="col-sm-1 ">合同编号</label>
 								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="topic"
+									<input type="text" class="form-control " name="queryHtb" id="queryHtb"
 										placeholder="" class="queryCondition">
 								</div>
 								<label for="phone" class="col-sm-1 ">样品批次号</label>
 								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="topic"
+									<input type="text" class="form-control " name="queryYppch" id="queryYppch"
 										placeholder="" class="queryCondition">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="phone" class="col-sm-1 ">分析项</label>
 								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="topic"
-										placeholder="" class="queryCondition">
+									<select name="pclb" class="form-control" id="queryFxxm">
+													<option value=''>--请选择--</option>
+												</select>
 								</div>
 								<div class="col-md-3 col-sm-3">
 									<button class="btn btn-primary btnQuery" type="button"

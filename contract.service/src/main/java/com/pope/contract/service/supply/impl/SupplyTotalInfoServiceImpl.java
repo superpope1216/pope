@@ -30,12 +30,12 @@ public class SupplyTotalInfoServiceImpl implements SupplyTotalInfoService{
 	@Autowired
 	private SupplyTotalInfoExtendMapper supplyInfoExtendMapper;
 	@Override
-	public List<SupplyTotalInfo> selectByCondition(SupplyTotalInfo supplyInfo) {
+	public List<SupplyTotalInfo> selectByCondition(SupplyTotalInfoExtend supplyInfo) {
 		return supplyInfoExtendMapper.selectByCondition(supplyInfo);
 	}
 
 	@Override
-	public List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfo supplyInfo) {
+	public List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfoExtend supplyInfo) {
 		return supplyInfoExtendMapper.selectDisplayByCondition(supplyInfo);
 	}
 

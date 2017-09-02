@@ -20,8 +20,8 @@ public interface SupplyTotalInfoService {
 
 	SupplyTotalInfo selectByPrimaryKey(String wid);
 
-	List<SupplyTotalInfo> selectByCondition(SupplyTotalInfo supplyInfo);
+	List<SupplyTotalInfo> selectByCondition(SupplyTotalInfoExtend supplyInfo);
 
-	List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfo supplyInfo);
+	List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfoExtend supplyInfo);
 	
 }

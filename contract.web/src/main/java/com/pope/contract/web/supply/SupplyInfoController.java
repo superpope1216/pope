@@ -1,6 +1,9 @@
 package com.pope.contract.web.supply;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.StringUtil;
 import com.pope.contract.code.Result;
+import com.pope.contract.dao.supply.extend.SupplyInfoExtendMapper;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.supply.GmbInfo;
@@ -20,10 +23,14 @@ import com.pope.contract.entity.supply.LqbInfo;
 import com.pope.contract.entity.supply.ShbInfo;
 import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
+import com.pope.contract.entity.user.extend.UserInfoExtend;
 import com.pope.contract.service.supply.GmbInfoService;
 import com.pope.contract.service.supply.LqbInfoService;
 import com.pope.contract.service.supply.ShbInfoService;
 import com.pope.contract.service.supply.SupplyInfoService;
+import com.pope.contract.util.CommonUtil;
+import com.pope.contract.util.ExportExcel;
+import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 
 /**
@@ -56,7 +63,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("view")
 	@ResponseBody
 	public Result view(String wid){
-		if(StringUtil.isEmpty(wid)){
+		if(StringUtils.isEmpty(wid)){
 			SupplyInfo supplyInfo=new SupplyInfo();
 			return Result.success(supplyInfo);
 		}
@@ -67,7 +74,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("searchPm")
 	@ResponseBody
 	public Result searchPm(String hcfl) throws Exception{
-		if(StringUtil.isEmpty(hcfl)){
+		if(StringUtils.isEmpty(hcfl)){
 			return Result.success(null);
 		}
 		return Result.success(supplyInfoService.selectPmByCondition(hcfl));
@@ -75,7 +82,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("selectByHcflAndPm")
 	@ResponseBody
 	public Result selectByHcflAndPm(String hcfl,String pm) throws Exception{
-		SupplyInfo supplyInfo=new SupplyInfo();
+		SupplyInfoExtend supplyInfo=new SupplyInfoExtend();
 		supplyInfo.setHcfl(hcfl);
 		supplyInfo.setPm(pm);
 		return Result.success(supplyInfoService.selectSingleByCondition(supplyInfo));
@@ -83,7 +90,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("viewDetail")
 	@ResponseBody
 	public Result viewDetail(String wid){
-		SupplyInfo supply=new SupplyInfo();
+		SupplyInfoExtend supply=new SupplyInfoExtend();
 		supply.setWid(wid);
 		List<SupplyInfoExtend> details=supplyInfoService.selectDisplayByCondition(supply);
 		return Result.success(details.get(0));
@@ -91,11 +98,15 @@ public class SupplyInfoController extends BaseController{
 	}
 	@RequestMapping("list")
 	@ResponseBody
-	public Result list(Integer startPage){
+	public Result list(Integer startPage,String queryCodition){
 		PageParam<SupplyInfoExtend> pageParam = new PageParam<SupplyInfoExtend>();
 		pageParam.setPage(startPage);
 		Page<SupplyInfoExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
-		List<SupplyInfoExtend> users=supplyInfoService.selectDisplayByCondition(null);
+		SupplyInfoExtend querySupplyInfoExtend=new SupplyInfoExtend();
+		if(!StringUtils.isEmpty(queryCodition)){
+			querySupplyInfoExtend.setQueryCondition(queryCodition.trim());
+		}
+		List<SupplyInfoExtend> users=supplyInfoService.selectDisplayByCondition(querySupplyInfoExtend);
 		pageParam.setTotal(page.getTotal());
 		pageParam.setTotalPage(pageParam.getTotalPage());
 		pageParam.setData(users);
@@ -104,7 +115,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("save")
 	@ResponseBody
 	public Result save(SupplyInfo supplyInfo) throws Exception{
-		if(StringUtil.isEmpty(supplyInfo.getWid())){
+		if(StringUtils.isEmpty(supplyInfo.getWid())){
 			supplyInfoService.insert(supplyInfo);
 		}else{
 			supplyInfoService.updateByPrimaryKeySelective(supplyInfo);
@@ -115,7 +126,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("toSlb")
 	@ResponseBody
 	public Result toSlb(String wid) throws Exception{
-		SupplyInfo queryInfo=new SupplyInfo();
+		SupplyInfoExtend queryInfo=new SupplyInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyInfoExtend supplyInfo= supplyInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);
@@ -136,7 +147,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("toShb")
 	@ResponseBody
 	public Result toShb(String wid) throws Exception{
-		SupplyInfo queryInfo=new SupplyInfo();
+		SupplyInfoExtend queryInfo=new SupplyInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyInfoExtend supplyInfo= supplyInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);
@@ -159,7 +170,7 @@ public class SupplyInfoController extends BaseController{
 	@RequestMapping("toGmb")
 	@ResponseBody
 	public Result toGmb(String wid) throws Exception{
-		SupplyInfo queryInfo=new SupplyInfo();
+		SupplyInfoExtend queryInfo=new SupplyInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyInfoExtend supplyInfo= supplyInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);
@@ -170,6 +181,45 @@ public class SupplyInfoController extends BaseController{
 	public Result saveGmb( GmbInfo gmbInfo) throws Exception{
 		gmbInfoService.insert(gmbInfo,this.getUserId());
 		return Result.success();
+	}
+	
+	@RequestMapping("export")
+	@ResponseBody
+	public void export(HttpServletResponse response) throws Exception{
+		List<SupplyInfoExtend> supplys=supplyInfoService.selectDisplayByCondition(null);
+		String[] headers=new String[12];
+		headers[0]="分类";
+		headers[1]="品名";
+		headers[2]="消耗品录入时间";
+		headers[3]="供应商";
+		headers[4]="库存";
+		headers[5]="数量单位";
+		headers[6]="单价";
+		headers[7]="货币单位";
+		headers[8]="有效期";
+		headers[9]="预警数量";
+		headers[10]="备注";
+		
+		List<List<String>> list=new ArrayList<List<String>>();
+		if(CommonUtil.isNotEmptyList(supplys)){
+			
+			for(SupplyInfoExtend extend:supplys){
+				List<String> data=new ArrayList<String>();
+				list.add(data);
+				data.add(StringUtil.toStr(extend.getHcfl_display()));
+				data.add(StringUtil.toStr(extend.getPm()));
+				data.add(StringUtil.toStr(extend.getXhplrsj()));
+				data.add(StringUtil.toStr(extend.getGys()));
+				data.add(StringUtil.toStr(extend.getKc()));
+				data.add(StringUtil.toStr(extend.getSldw_display()));
+				data.add(StringUtil.toStr(extend.getDj()));
+				data.add(StringUtil.toStr(extend.getHbdw_display()));
+				data.add(StringUtil.toStr(extend.getYxq()));
+				data.add(StringUtil.toStr(extend.getYjsl()));
+				data.add(StringUtil.toStr(extend.getBz()));	
+			}
+		}
+		ExportExcel.doExportExcel2("耗材信息","耗材基本信息",  headers, list,response);
 	}
 	
 	

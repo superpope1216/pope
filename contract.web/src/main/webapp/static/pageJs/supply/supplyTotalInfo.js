@@ -87,7 +87,7 @@ $(document).ready(function(){
 		if(pageId==undefined){
 			pageId=0;
 		}
-		doGet(basePath+"/supplyTotal/list","startPage="+pageId,function(data){
+		doGet(basePath+"/supplyTotal/list","startPage="+pageId+"&queryCodition="+$("#queryCondition").val(),function(data){
 			if(data.data.data){
 				var _d=data.data.data;
 				var tbl="";
@@ -238,7 +238,7 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		alert("123");
+		queryList("0");
 		return false;
 	});
 	

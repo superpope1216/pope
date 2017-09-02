@@ -86,32 +86,13 @@ public class ContractEditInfoController extends BaseController{
 	@RequestMapping("queryForm")
 	@ResponseBody
 	public Result queryForm(String pcid,String pcids) throws Exception{
-		BatchInfoExtend queryBatchInfo=new BatchInfoExtend();
-		queryBatchInfo.setWid(pcid);
-		List<BatchInfoExtend> list=batchInfoService.selectDisplayByCondition(queryBatchInfo);
-		BatchInfoExtend batchInfo=list.get(0);
-		CustomInfo queryCustomInfo=new CustomInfo();
-		queryCustomInfo.setWid(batchInfo.getSydw());
-	    CustomInfoExtend  customInfoExtend=customInfoService.selectSingleDisplayByCondition(queryCustomInfo);
-	    Map<String,Object> map=new HashMap<String,Object>();
-	    ContractInfoExtend contractInfoExtend=new ContractInfoExtend();
-	    contractInfoExtend.setHtjf(batchInfo.getSydw());
-	    contractInfoExtend.setHtjf_display(batchInfo.getSydw_display());
-	    contractInfoExtend.setXmfzr(batchInfo.getSyxmfzr());
-	    contractInfoExtend.setHtje(new BigDecimal("0"));
-	    contractInfoExtend.setHtsj(batchInfo.getSysj());
-	    Integer max=customInfoService.selectMaxBh();
-	    contractInfoExtend.setDqbh(max);
-	    String sMax=String.format("%05d", max);
-	    String month=DateUtil.format(DateUtil.getCurrentDate(), "yyyyMM");
-	    contractInfoExtend.setHtbh(month+sMax);
-	    contractInfoExtend.setXmfzr(contractInfoExtend.getXmfzr());
+		ContractInfoExtend contractInfoExtend=contractInfoService.getNewContractinfo(pcid, pcids);
 	    return Result.success(contractInfoExtend);
 	}
 	@RequestMapping("queryContractInfo")
 	@ResponseBody
 	public Result queryContractInfo(String wid) throws Exception{
-		ContractInfo contractInfo=new ContractInfo();
+		ContractInfoExtend contractInfo=new ContractInfoExtend();
 		contractInfo.setWid(wid);
 		ContractInfoExtend contractInfoExtend=contractInfoService.selectSingleDisplayByCondition(contractInfo);
 		return Result.success(contractInfoExtend);

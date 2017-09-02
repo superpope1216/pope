@@ -19,13 +19,13 @@ public interface ContractInfoService {
 
 	int updateByPrimaryKeySelective(ContractInfo record) throws Exception;
 
-	ContractInfo selectSingleByCondition(ContractInfo contractInfo) throws Exception;
+	ContractInfo selectSingleByCondition(ContractInfoExtend contractInfo) throws Exception;
 
-	List<ContractInfo> selectByCondition(ContractInfo contractInfo) throws Exception;
+	List<ContractInfo> selectByCondition(ContractInfoExtend contractInfo) throws Exception;
 
-	ContractInfoExtend selectSingleDisplayByCondition(ContractInfo contractInfo) throws Exception;
+	ContractInfoExtend selectSingleDisplayByCondition(ContractInfoExtend contractInfo) throws Exception;
 
-	List<ContractInfoExtend> selectDisplayByCondition(ContractInfo contractInfo) throws Exception;
+	List<ContractInfoExtend> selectDisplayByCondition(ContractInfoExtend contractInfo) throws Exception;
 	
 	Integer selectMaxDqbh() throws Exception;
 	
@@ -36,7 +36,9 @@ public interface ContractInfoService {
 	List<ContractInfoExtend> selectWaitTaskInfoByStep(String wid) throws Exception;
 	
 	void examinePass(String wid, String userid) throws Exception;
-	 void examineNotPass(String wid, String userid) throws Exception;
+    void examineNotPass(String wid, String userid) throws Exception;
+    
+    ContractInfoExtend getNewContractinfo(String pcid,String pcids) throws Exception;
 	
 	
 }

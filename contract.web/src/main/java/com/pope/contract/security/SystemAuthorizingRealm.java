@@ -42,51 +42,52 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-		LOG.debug("开始查询授权信息");
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		String gh = (String) principalCollection.getPrimaryPrincipal();
-		UserInfo userInfo = userInfoService.selectByGh(gh);
-		Set<String> permissions = new HashSet<String>();
-		Set<String> roles = new HashSet<String>();
-		List<Role> lstRoles = roleService.selectRolesByUserId(userInfo.getWid());// 角色
-		if (CommonUtil.isNotEmptyList(lstRoles)) {
-			for (Role role : lstRoles) {
-				roles.add(role.getWid());
-			}
-		}
-
-		List<Permission> lstPermission =null;
-		if(CommonUtil.isNotEmptyList(lstRoles)){
-			lstPermission= permissionService.selectPermissionByRoles(lstRoles);
-		}
-		if (CommonUtil.isNotEmptyList(lstPermission)) {
-			for (Permission p : lstPermission) {
-				if(StringUtil.isNotEmpty(p.getCode())){
-					permissions.add(p.getCode());
-				}
-			}
-		}
-		info.addRoles(roles);
-		info.addStringPermissions(permissions);
-		LOG.debug("角色信息: \n {}", roles.toString());
-		LOG.debug("权限信息: \n{}", permissions.toString());
-		return info;
+//		LOG.debug("开始查询授权信息");
+//		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+//		String gh = (String) principalCollection.getPrimaryPrincipal();
+//		UserInfo userInfo = userInfoService.selectByGh(gh);
+//		Set<String> permissions = new HashSet<String>();
+//		Set<String> roles = new HashSet<String>();
+//		List<Role> lstRoles = roleService.selectRolesByUserId(userInfo.getWid());// 角色
+//		if (CommonUtil.isNotEmptyList(lstRoles)) {
+//			for (Role role : lstRoles) {
+//				roles.add(role.getWid());
+//			}
+//		}
+//
+//		List<Permission> lstPermission =null;
+//		if(CommonUtil.isNotEmptyList(lstRoles)){
+//			lstPermission= permissionService.selectPermissionByRoles(lstRoles);
+//		}
+//		if (CommonUtil.isNotEmptyList(lstPermission)) {
+//			for (Permission p : lstPermission) {
+//				if(StringUtil.isNotEmpty(p.getCode())){
+//					permissions.add(p.getCode());
+//				}
+//			}
+//		}
+//		info.addRoles(roles);
+//		info.addStringPermissions(permissions);
+//		LOG.debug("角色信息: \n {}", roles.toString());
+//		LOG.debug("权限信息: \n{}", permissions.toString());
+//		return info;
+		return null;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-		 LOG.debug("登录验证");
-		 UsernamePasswordToken usernamePasswordToken=(UsernamePasswordToken)authenticationToken;
-	     String gh = usernamePasswordToken.getUsername();
-	     if(StringUtil.isEmpty(gh)){
-	    	 throw new AccountException("用户不存在");
-	     }
-	     UserInfo userInfo = userInfoService.selectByGh(gh);
-	     if (userInfo == null) {  
-	            throw new UnknownAccountException("用户不存在");  
-	     } 
-	     AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(gh, userInfo.getPassword(), getName());
-		return authenticationInfo;
+//		 LOG.debug("登录验证");
+//		 UsernamePasswordToken usernamePasswordToken=(UsernamePasswordToken)authenticationToken;
+//	     String gh = usernamePasswordToken.getUsername();
+//	     if(StringUtil.isEmpty(gh)){
+//	    	 throw new AccountException("用户不存在");
+//	     }
+//	     UserInfo userInfo = userInfoService.selectByGh(gh);
+//	     if (userInfo == null) {  
+//	            throw new UnknownAccountException("用户不存在");  
+//	     } 
+//	     AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(gh, userInfo.getPassword(), getName());
+//		return authenticationInfo;
+		return null;
 	}
-
 }

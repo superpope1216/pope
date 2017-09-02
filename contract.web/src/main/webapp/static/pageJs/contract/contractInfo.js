@@ -4,14 +4,19 @@
 $(document) .ready(
 				function() {
 					setButtonsDisplay(buttonsPermission);
+					doGetSelect2("T_CONTRACT_SJZD_FXXM", "#queryFxxm", "");
 					queryList();
+					
+					$("#btnQuery").click(function(){
+						queryList("0");
+					});
 					function queryList(pageId) {
 						if (pageId == undefined || pageId < 0) {
 							pageId = 0;
 						}
 						doGet(
 								basePath + "/contractInfo/list",
-								"startPage=" + pageId,
+								"startPage=" + pageId+"&querySyr="+$("#querySyr").val()+"&queryHtb="+$("#queryHtb").val()+"&queryYppch="+$("#queryYppch").val()+"&queryFxxm="+$("#queryFxxm").val(),
 								function(data) {
 									if (data.data.data) {
 										var _data = data.data.data;

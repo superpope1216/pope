@@ -2,7 +2,9 @@ package com.pope.contract.service.contract.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.pope.contract.code.ContractStateEnum;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.code.FlowStateCode;
+import com.pope.contract.code.Result;
 import com.pope.contract.dao.contract.ContractAddMapper;
 import com.pope.contract.dao.contract.ContractInfoMapper;
 import com.pope.contract.dao.contract.ContractInfoRelMapper;
@@ -26,6 +29,7 @@ import com.pope.contract.dao.custom.extend.CustomAccountExtendMapper;
 import com.pope.contract.dao.custom.extend.CustomInfoExtendMapper;
 import com.pope.contract.dao.project.BatchInfoMapper;
 import com.pope.contract.dao.project.extend.BatchInfoDetailFxxmExtendMapper;
+import com.pope.contract.dao.project.extend.BatchInfoExtendMapper;
 import com.pope.contract.dao.system.FxxmInfoMapper;
 import com.pope.contract.dao.system.extend.FxxmInfoExtendMapper;
 import com.pope.contract.entity.contract.ContractAdd;
@@ -37,13 +41,16 @@ import com.pope.contract.entity.custom.CustomAccount;
 import com.pope.contract.entity.custom.CustomInfo;
 import com.pope.contract.entity.custom.CustomMoneyLog;
 import com.pope.contract.entity.custom.extend.CustomAccountExtend;
+import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.entity.project.BatchInfo;
+import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.supply.GmbInfo;
 import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.exception.ServiceException;
+import com.pope.contract.number.GenernalKey;
 import com.pope.contract.service.BaseService;
 import com.pope.contract.service.contract.ContractInfoService;
 import com.pope.contract.service.system.FlowSetDataService;
@@ -71,6 +78,8 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	
 	@Autowired
 	private BatchInfoMapper batchInfoMappper;
+	@Autowired
+	private BatchInfoExtendMapper batchInfoExtendMapper;
 	@Autowired
 	private FxxmInfoMapper fxxmInfoMapper;
 	@Autowired
@@ -104,7 +113,7 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 
 	@Override
 	public String insert(ContractInfo record,String pcids,String userId) throws Exception{
-		ContractInfo queryContractInfo=new ContractInfo();
+		ContractInfoExtend queryContractInfo=new ContractInfoExtend();
 		queryContractInfo.setHtbh(record.getHtbh());
 		ContractInfo existContractInfo=contractInfoExtendMapper.selectSingleByCondition(queryContractInfo);
 		if(existContractInfo!=null){
@@ -147,22 +156,22 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	}
 
 	@Override
-	public ContractInfo selectSingleByCondition(ContractInfo contractInfo) throws Exception{
+	public ContractInfo selectSingleByCondition(ContractInfoExtend contractInfo) throws Exception{
 		return contractInfoExtendMapper.selectSingleByCondition(contractInfo);
 	}
 
 	@Override
-	public List<ContractInfo> selectByCondition(ContractInfo contractInfo) throws Exception{
+	public List<ContractInfo> selectByCondition(ContractInfoExtend contractInfo) throws Exception{
 		return contractInfoExtendMapper.selectByCondition(contractInfo);
 	}
 
 	@Override
-	public ContractInfoExtend selectSingleDisplayByCondition(ContractInfo contractInfo) throws Exception{
+	public ContractInfoExtend selectSingleDisplayByCondition(ContractInfoExtend contractInfo) throws Exception{
 		return contractInfoExtendMapper.selectSingleDisplayByCondition(contractInfo);
 	}
 
 	@Override
-	public List<ContractInfoExtend> selectDisplayByCondition(ContractInfo contractInfo) throws Exception{
+	public List<ContractInfoExtend> selectDisplayByCondition(ContractInfoExtend contractInfo) throws Exception{
 		return contractInfoExtendMapper.selectDisplayByCondition(contractInfo);
 	}
 	@Override
@@ -354,5 +363,43 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	public void examineNotPass(String wid, String userid) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ContractInfoExtend getNewContractinfo(String pcid, String pcids) throws Exception {
+		BatchInfoExtend queryBatchInfo=new BatchInfoExtend();
+		queryBatchInfo.setWid(pcid);
+		List<BatchInfoExtend> list=batchInfoExtendMapper.selectDisplayByCondition(queryBatchInfo);
+		BatchInfoExtend batchInfo=list.get(0);
+		CustomInfo queryCustomInfo=new CustomInfo();
+		//queryCustomInfo.setWid(batchInfo.getSydw());
+		queryCustomInfo.setCustomNumber(batchInfo.getSydw());
+	    CustomInfoExtend  customInfoExtend=customInfoExtendMapper.selectSingleDisplayByCondition(queryCustomInfo);
+	    if(customInfoExtend==null){
+	    	throw new ServiceException("该合同的甲方还没有客户信息，请先建立甲方对应的客户信息！");
+	    }
+	    Map<String,Object> map=new HashMap<String,Object>();
+	    ContractInfoExtend contractInfoExtend=new ContractInfoExtend();
+	    contractInfoExtend.setHtjf(batchInfo.getSydw());
+	    contractInfoExtend.setHtjf_display(batchInfo.getSydw_display());
+	    contractInfoExtend.setXmfzr(batchInfo.getSyxmfzr());
+	    contractInfoExtend.setHtje(new BigDecimal("0"));
+	    contractInfoExtend.setHtsj(batchInfo.getSysj());
+	    CustomAccountExtend queryCustomAccountExtend=new CustomAccountExtend();
+	    queryCustomAccountExtend.setCustomId(customInfoExtend.getWid());
+	    CustomAccount customAccount= customAccountExtendMapper.selectSingleByCondition(queryCustomAccountExtend);
+	    if(customAccount==null){
+	    	throw new ServiceException("该合同的甲方还没有客户账户信息，请先建立甲方对应的客户账户信息！");
+	    }
+	    Integer max=contractInfoExtendMapper.selectMaxDqbh();
+	    if(max==null){
+	    	max=0;
+	    }
+	    max++;
+	    contractInfoExtend.setDqbh(max);
+	    contractInfoExtend.setHtbh(GenernalKey.getContractKey(max, ""));
+	    contractInfoExtend.setXmfzr(contractInfoExtend.getXmfzr());
+	    contractInfoExtend.setDfzh(customAccount.getBankAccount());
+	    return contractInfoExtend;
 	}
 }

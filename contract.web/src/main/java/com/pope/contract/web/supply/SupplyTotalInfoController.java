@@ -61,10 +61,13 @@ public class SupplyTotalInfoController extends BaseController{
 	
 	@RequestMapping("list")
 	@ResponseBody
-	public Result list(Integer startPage){
+	public Result list(Integer startPage,String queryCodition){
 		PageUtil<SupplyTotalInfoExtend> pageUtil = new PageUtil<SupplyTotalInfoExtend>(startPage);
-		
-		List<SupplyTotalInfoExtend> users=supplyTotalInfoService.selectDisplayByCondition(null);
+		SupplyTotalInfoExtend supplyTotalInfoExtend=new SupplyTotalInfoExtend();
+		if(!StringUtil.isEmpty(queryCodition)){
+			supplyTotalInfoExtend.setQueryCondition(queryCodition);
+		}
+		List<SupplyTotalInfoExtend> users=supplyTotalInfoService.selectDisplayByCondition(supplyTotalInfoExtend);
 		PageParam<SupplyTotalInfoExtend> pageParam = pageUtil.getPageParam(users);
 		return Result.success(pageParam);
 	}
@@ -72,7 +75,7 @@ public class SupplyTotalInfoController extends BaseController{
 	@RequestMapping("toSlb")
 	@ResponseBody
 	public Result toSlb(String wid) throws Exception{
-		SupplyTotalInfo queryInfo=new SupplyTotalInfo();
+		SupplyTotalInfoExtend queryInfo=new SupplyTotalInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyTotalInfoExtend supplyInfo= supplyTotalInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);
@@ -93,7 +96,7 @@ public class SupplyTotalInfoController extends BaseController{
 	@RequestMapping("toShb")
 	@ResponseBody
 	public Result toShb(String wid) throws Exception{
-		SupplyTotalInfo queryInfo=new SupplyTotalInfo();
+		SupplyTotalInfoExtend queryInfo=new SupplyTotalInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyTotalInfoExtend supplyInfo= supplyTotalInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);
@@ -110,7 +113,7 @@ public class SupplyTotalInfoController extends BaseController{
 	@RequestMapping("toGmb")
 	@ResponseBody
 	public Result toGmb(String wid) throws Exception{
-		SupplyTotalInfo queryInfo=new SupplyTotalInfo();
+		SupplyTotalInfoExtend queryInfo=new SupplyTotalInfoExtend();
 		queryInfo.setWid(wid);
 		SupplyTotalInfoExtend supplyInfo= supplyTotalInfoService.selectDisplayByCondition(queryInfo).get(0);
 		return Result.success(supplyInfo);

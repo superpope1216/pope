@@ -18,6 +18,16 @@ public class SupplyTotalInfoExtend extends SupplyTotalInfo implements Serializab
 	 private String sldw_display;
 	 
 	 private String hbdw_display;
+	 
+	 private String queryCondition;
+
+	public String getQueryCondition() {
+		return queryCondition;
+	}
+
+	public void setQueryCondition(String queryCondition) {
+		this.queryCondition = queryCondition;
+	}
 
 	public String getHcfl_display() {
 		return hcfl_display;

@@ -33,54 +33,44 @@ $(document).ready(function(){
 		if(pageId==undefined){
 			pageId=0;
 		}
-		doGet(basePath+"/supply/list","startPage="+pageId,function(data){
+		doGet(basePath+"/supply/list","startPage="+pageId+"&queryCodition="+$("#queryCondition").val(),function(data){
 			if(data.data.data){
-				$('#tblSupplyInfoTpl').tmpl(data.data.data).appendTo('#tblSupplyInfo');
-				//$("#mainTable").datatable({checkable: true});
-			}else{
-				//$("#mainTable").datatable({checkable: true});
+				var tbl='';
+				var _data=data.data.data;
+				for(var i=0;i<_data.length;i++){
+					tbl+='<tr>';
+					tbl+='<td class="text-center"><input type="checkbox" name="chkSingle" value="'+_data[i].wid+'"></td>';
+					tbl+='<td class="text-center">'+toStr(_data[i].pm)+'</td>';
+					tbl+='<td class="text-center">'+toStr(_data[i].hcfl_display)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].yxq)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].kc)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].gys)+'</td>';
+					tbl+='<td class="text-center">';
+					tbl+='<div class="btn-group">';
+					if(buttonsPermission){
+						if(buttonsPermission.indexOf(",btnDetail,")>=0){
+							tbl+='		<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_data[i].wid+'">详</button>';
+						}
+					}
+					
+          					
+					tbl+='	</div>';
+					tbl+='</td>';
+					tbl+='</tr>';
+				}
+				$("#tblSupplyInfo").html(tbl);
 			}
 			
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId);
 			});
-			$("#mainTable").delegate("[data-option='btnLing']","click",function(){
-				var key=$(this).attr("data-key");
-				doGet(basePath+"/supply/toShb","wid="+key,function(data){
-					$("#slbForm [name='hcfl']").html(data.data.hcfl_display);
-					$("#slbForm [name='pm']").html(data.data.pm);
-					$("#slbForm [name='kc']").html(data.data.kc);
-					$("#slbForm [name='hcid']").val(data.data.wid);
-					$("#modelSlbSupplyInfo").modal("show");
-				});
-				
-			});
-			$("#mainTable").delegate("[data-option='btnMai']","click",function(){
-				var key=$(this).attr("data-key");
-					doGet(basePath+"/supply/toGmb","wid="+key,function(data){
-						$("#gbForm [name='hcfl']").html(data.data.hcfl_display);
-						$("#gbForm [name='pm']").html(data.data.pm);
-						$("#gbForm [name='kc']").html(data.data.kc);
-						$("#gbForm [name='hcid']").val(data.data.wid);
-						$("#modelGmbSupplyInfo").modal("show");
-					});
-			});
-			$("#mainTable").delegate("[data-option='btnSun']","click",function(){
-				var key=$(this).attr("data-key");
-				doGet(basePath+"/supply/toGmb","wid="+key,function(data){
-					$("#shbForm [name='hcfl']").html(data.data.hcfl_display);
-					$("#shbForm [name='pm']").html(data.data.pm);
-					$("#shbForm [name='kc']").html(data.data.kc);
-					$("#shbForm [name='hcid']").val(data.data.wid);
-					$("#modelShbSupplyInfo").modal("show");
-				});
-			});
+			
 			$("#mainTable").delegate("[data-option='btnEdit']","click",function(){
 				var key=$(this).attr("data-key");
 				setEdit(key);
 				$("#modelEdithSupplyInfo").modal("show");
 			});
-			$("#mainTable").delegate("[data-option='btnView']","click",function(){
+			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
 					doGet(basePath+"/supply/viewDetail", "wid="+key, function(data) {
 						$("#supplyViewForm [name='hcfl']").html(data.data.hcfl_display);
@@ -157,7 +147,7 @@ $(document).ready(function(){
         });
 	}
 	
-	$("#btnNew").click(function(){
+	$("#btnAdd").click(function(){
 		setEdit("");
 		$("#modelEdithSupplyInfo").modal("show");
 	});
@@ -226,7 +216,7 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		alert("123");
+		queryList("0");
 		return false;
 	});
 	
@@ -239,4 +229,8 @@ $(document).ready(function(){
 			});
 		}
 	});
+	
+	$("#btnExport").click(function(){
+		window.open(basePath+"/supply/export");
+	})
 })

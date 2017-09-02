@@ -33,7 +33,7 @@
 		T_CONTRACT_USER_USERINFO.CONTRACTVALIDITY,T_CONTRACT_USER_USERINFO.CONTRACTTIME, 
 		T_CONTRACT_USER_USERINFO.DATASTATUS, T_CONTRACT_USER_USERINFO.CreateTime, 
 		T_CONTRACT_USER_USERINFO.CreateBy,T_CONTRACT_USER_USERINFO.UpdateTime,
-		UpdateBy
+		T_CONTRACT_USER_USERINFO.UpdateBy
 	</sql>
 	<resultMap id="BaseResultDisplayMap"
 		type="com.pope.contract.entity.user.extend.UserInfoExtend" extends="BaseResultMap">
@@ -45,7 +45,7 @@
 	</resultMap>
 	<sql id="Base_Display_Column_List">
 		<include refid="Base_Column_List"/>
-		T_CONTRACT_SYS_DEPART.NAME AS
+		,T_CONTRACT_SYS_DEPART.NAME AS
 		DEPARTMENT_DISPLAY,T_CONTRACT_SYS_TEAM.NAME AS TEAM_DISPLAY,
 		T_CONTRACT_SJZD_ZWLB.LBMC AS JOBCATEGORY_DISPLAY
 	</sql>
@@ -114,7 +114,7 @@
 		<include refid="sqlWhere" />
 		<include refid="sqlOrder" />
 	</select>
-	<select id="selectSingleDisplayByCondition" resultMap="BaseResultMap"
+	<select id="selectSingleByCondition" resultMap="BaseResultMap"
 		parameterType="com.pope.contract.entity.user.extend.UserInfoExtend">
 		select
 		<include refid="Base_Column_List" />

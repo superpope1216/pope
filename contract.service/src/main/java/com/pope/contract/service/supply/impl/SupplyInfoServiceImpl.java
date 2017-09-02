@@ -37,12 +37,12 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 	@Autowired
 	private SupplyTotalInfoExtendMapper supplyTotalInfoExtendMapper;
 	@Override
-	public List<SupplyInfo> selectByCondition(SupplyInfo supplyInfo) {
+	public List<SupplyInfo> selectByCondition(SupplyInfoExtend supplyInfo) {
 		return supplyInfoExtendMapper.selectByCondition(supplyInfo);
 	}
 
 	@Override
-	public List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfo supplyInfo) {
+	public List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfoExtend supplyInfo) {
 		return supplyInfoExtendMapper.selectDisplayByCondition(supplyInfo);
 	}
 
@@ -61,7 +61,7 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		}
 		max++;
 		record.setDqbh(max);
-		SupplyInfo querySupplyInfo=new SupplyInfo();
+		SupplyInfoExtend querySupplyInfo=new SupplyInfoExtend();
 		querySupplyInfo.setHcfl(record.getHcfl());
 		querySupplyInfo.setPm(record.getPm());
 		SupplyInfo oldSupplyInfo=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
@@ -130,7 +130,7 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		return supplyInfoExtendMapper.selectPmByCondition(hcpl);
 	}
 	
-	public SupplyInfo selectSingleByCondition(SupplyInfo supplyInfo) throws Exception{
+	public SupplyInfo selectSingleByCondition(SupplyInfoExtend supplyInfo) throws Exception{
 		return supplyInfoExtendMapper.selectSingleByCondition(supplyInfo);
 	}
 }

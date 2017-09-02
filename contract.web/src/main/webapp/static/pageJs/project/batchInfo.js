@@ -56,13 +56,14 @@ $(document).ready(function(){
 				for(var i=0;i<_data.length;i++){
 					_tr+='<tr>';
 					_tr+='<td class="text-center"><input type="checkbox" name="chkSingle" value="'+_data[i].wid+'"></td>';
+					_tr+='<td class="text-center">'+toStr(_data[i].ypph)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].pcmc)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].pclb_display)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].syr)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].sl)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].sldw)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].cfd)+'</td>';
-					_tr+='<td class="text-left">'+toStr(_data[i].gys)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].sydw_display)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].pczt_display)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].sysj)+'</td>';
 					_tr+='<td class="text-center">';
@@ -165,6 +166,25 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#btnBatchDelete").click(function(){
+		var selectRows=$("#mainTable [name='chkSingle']:checked");
+		if(selectRows.size()<=0){
+			alert("请至少选择一条样品批次！");
+			return false;
+		}
+		var strSelectedId="";
+		for(var i=0;i<selectRows.size();i++){
+			strSelectedId+=","+selectRows[i].value;
+		}
+		if(strSelectedId){
+			strSelectedId=strSelectedId.substr(1);
+		}
+		confirm("您确认删除选中的该样品批次信息吗？",function(e){
+			doGet(basePath+"/batch/deleteBatchBatchInfo","wids="+strSelectedId,function(data){
+			window.location.reload();
+		});
+		});
+	});
 	//发起任务
 	$("#btnAddTask").click(function(){
 		var selectRows=$("#mainTable [name='chkSingle']:checked");

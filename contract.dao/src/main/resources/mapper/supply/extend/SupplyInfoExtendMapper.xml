@@ -50,15 +50,18 @@
   			<if test="pm!=null and pm!=''">
   				AND t_contract_supplies_main.pm=#{pm,jdbcType=VARCHAR}
   			</if>
+  			<if test="queryCondition!=null and queryCondition!=''">
+  				AND t_contract_supplies_main.pm LIKE CONCAT('%',#{queryCondition,jdbcType=VARCHAR},'%')
+  			</if>
   		</where>
   </sql>
-  <select id="selectByCondition" resultMap="BaseResultMap">
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.supply.extend.SupplyInfoExtend">
   		SELECT
   		<include refid="Base_Column_List"/>
   		from t_contract_supplies_main t_contract_supplies_main
   		<include refid="sqlWhere"/>
   </select>
-  <select id="selectSingleByCondition" resultMap="BaseResultMap">
+  <select id="selectSingleByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.supply.extend.SupplyInfoExtend">
   		SELECT
   		<include refid="Base_Column_List"/>
   		from t_contract_supplies_main t_contract_supplies_main
@@ -66,7 +69,7 @@
   		limit 1
   </select>
   
-  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap">
+  <select id="selectDisplayByCondition" resultMap="BaseResultDisplayMap" parameterType="com.pope.contract.entity.supply.extend.SupplyInfoExtend">
   		SELECT
   		<include refid="Base_Display_Column_List"/>
   		from t_contract_supplies_main t_contract_supplies_main

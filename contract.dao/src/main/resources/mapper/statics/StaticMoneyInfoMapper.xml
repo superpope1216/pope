@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.statics.StaticMoneyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.statics.StaticMoneyInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="DATA_YEAR" property="dataYear" jdbcType="INTEGER" />
+    <result column="DATA_MONTH" property="dataMonth" jdbcType="INTEGER" />
+    <result column="DATA_YEAR_MONTH" property="dataYearMonth" jdbcType="VARCHAR" />
+    <result column="SR" property="sr" jdbcType="DECIMAL" />
+    <result column="WRZ" property="wrz" jdbcType="DECIMAL" />
+    <result column="ZC" property="zc" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, DATA_YEAR, DATA_MONTH, DATA_YEAR_MONTH, SR, WRZ, ZC
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_static_money
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_static_money
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.statics.StaticMoneyInfo" >
+    insert into t_contract_static_money (WID, DATA_YEAR, DATA_MONTH, 
+      DATA_YEAR_MONTH, SR, WRZ, 
+      ZC)
+    values (#{wid,jdbcType=VARCHAR}, #{dataYear,jdbcType=INTEGER}, #{dataMonth,jdbcType=INTEGER}, 
+      #{dataYearMonth,jdbcType=VARCHAR}, #{sr,jdbcType=DECIMAL}, #{wrz,jdbcType=DECIMAL}, 
+      #{zc,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.statics.StaticMoneyInfo" >
+    insert into t_contract_static_money
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="dataYear != null" >
+        DATA_YEAR,
+      </if>
+      <if test="dataMonth != null" >
+        DATA_MONTH,
+      </if>
+      <if test="dataYearMonth != null" >
+        DATA_YEAR_MONTH,
+      </if>
+      <if test="sr != null" >
+        SR,
+      </if>
+      <if test="wrz != null" >
+        WRZ,
+      </if>
+      <if test="zc != null" >
+        ZC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="dataYear != null" >
+        #{dataYear,jdbcType=INTEGER},
+      </if>
+      <if test="dataMonth != null" >
+        #{dataMonth,jdbcType=INTEGER},
+      </if>
+      <if test="dataYearMonth != null" >
+        #{dataYearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sr != null" >
+        #{sr,jdbcType=DECIMAL},
+      </if>
+      <if test="wrz != null" >
+        #{wrz,jdbcType=DECIMAL},
+      </if>
+      <if test="zc != null" >
+        #{zc,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.statics.StaticMoneyInfo" >
+    update t_contract_static_money
+    <set >
+      <if test="dataYear != null" >
+        DATA_YEAR = #{dataYear,jdbcType=INTEGER},
+      </if>
+      <if test="dataMonth != null" >
+        DATA_MONTH = #{dataMonth,jdbcType=INTEGER},
+      </if>
+      <if test="dataYearMonth != null" >
+        DATA_YEAR_MONTH = #{dataYearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sr != null" >
+        SR = #{sr,jdbcType=DECIMAL},
+      </if>
+      <if test="wrz != null" >
+        WRZ = #{wrz,jdbcType=DECIMAL},
+      </if>
+      <if test="zc != null" >
+        ZC = #{zc,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.statics.StaticMoneyInfo" >
+    update t_contract_static_money
+    set DATA_YEAR = #{dataYear,jdbcType=INTEGER},
+      DATA_MONTH = #{dataMonth,jdbcType=INTEGER},
+      DATA_YEAR_MONTH = #{dataYearMonth,jdbcType=VARCHAR},
+      SR = #{sr,jdbcType=DECIMAL},
+      WRZ = #{wrz,jdbcType=DECIMAL},
+      ZC = #{zc,jdbcType=DECIMAL}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

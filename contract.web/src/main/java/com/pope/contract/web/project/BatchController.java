@@ -133,11 +133,7 @@ public class BatchController extends BaseController{
 	@ResponseBody
 	public Result details(String wid) throws Exception{
 		if(StringUtils.isEmpty(wid)){
-			BatchInfo batch=new BatchInfo();
-			String max=batchInfoService.selectMax();
-			String month=DateUtil.format(DateUtil.getCurrentDate(),"yyyyMM");
-			batch.setDqbh(Integer.valueOf(max));
-			batch.setYpph("SN"+month+max.toString());
+			BatchInfo batch=batchInfoService.getNewBatchInfo();
 			return Result.success(batch);
 		}else{
 			return Result.success(batchInfoService.selectByPrimaryKey(wid));
@@ -168,16 +164,7 @@ public class BatchController extends BaseController{
 	@RequestMapping("addDetail")
 	@ResponseBody
 	public Result addDetail(String wid) throws Exception{
-		BatchInfo batchInfo=batchInfoService.selectByPrimaryKey(wid);
-		Map<String,Object> map=new HashMap<String,Object>();
-		String sMax=batchInfoService.selectDetailMax();
-		String max=batchInfo.getYpph()+sMax;
-		map.put("ypph", batchInfo.getYpph());
-		map.put("dqbh", sMax);
-		map.put("ypbh", max);
-		map.put("fxxm", batchInfo.getFxxm());
-		map.put("pcwid", batchInfo.getWid());
-		return Result.success(map);
+		return Result.success(batchInfoService.getNewBatchInfoDetail(wid));
 	}
 	
 	@RequestMapping("saveDetail")
@@ -223,7 +210,7 @@ public class BatchController extends BaseController{
 	@RequestMapping("copyBatch")
 	@ResponseBody
 	public Result copyBatch(String wid) throws Exception{
-		String newWid=batchInfoService.copyBatchInfo(wid);
+		String newWid=batchInfoService.copyBatchInfo(wid,this.getUserId());
 		return Result.success(newWid);
 	}
 	@RequestMapping("deleteBatch")
@@ -232,7 +219,12 @@ public class BatchController extends BaseController{
 		batchInfoService.deleteBatchInfo(wid);
 		return Result.success();
 	}
-	
+	@RequestMapping("deleteBatchBatchInfo")
+	@ResponseBody
+	public Result deleteBatchBatchInfo(String wids) throws Exception{
+		batchInfoService.deleteBatchBatchInfo(wids);
+		return Result.success();
+	}
 	@RequestMapping("deleteBatchDetail")
 	@ResponseBody
 	public Result deleteBatchDetail(String wid) throws Exception{
@@ -280,10 +272,8 @@ public class BatchController extends BaseController{
 		headers[13]="送样人";
 		headers[14]="送样单位";
 		headers[15]="送样负责人";
-		headers[16]="审核时间";
 		headers[17]="样品监控状态";
 		headers[18]="合同号";
-		headers[19]="分析项目";
 		List<List<String>> list=new ArrayList<List<String>>();
 		if(CommonUtil.isNotEmptyList(users)){
 			
@@ -306,10 +296,10 @@ public class BatchController extends BaseController{
 				data.add(StringUtil.toStr(extend.getSyr()));
 				data.add(StringUtil.toStr(extend.getSydw_display()));
 				data.add(StringUtil.toStr(extend.getSyxmfzr()));
-				data.add(StringUtil.toStr(extend.getShsj()));
+				//data.add(StringUtil.toStr(extend.getShsj()));
 				data.add(StringUtil.toStr(extend.getPczt_display()));
 				data.add(StringUtil.toStr(extend.getHth()));
-				data.add(StringUtil.toStr(extend.getFxxm()));
+				//data.add(StringUtil.toStr(extend.getFxxm()));
 				
 			}
 		}

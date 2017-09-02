@@ -3,18 +3,22 @@ package com.pope.contract.web.usermanage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
+import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.entity.user.UserInfoRole;
 import com.pope.contract.entity.user.extend.UserInfoExtend;
@@ -22,6 +26,7 @@ import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.DateUtil;
+import com.pope.contract.util.ExportExcel;
 import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 
@@ -32,8 +37,11 @@ public class UserController extends BaseController{
 	@Autowired
 	private UserInfoService userInfoService;
 	@RequestMapping("index")
-	public String index(){
-		return "usermanage/userInfo";
+	public ModelAndView index(){
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("buttons",this.getButtonPermission("/users/index"));
+		mv.setViewName("usermanage/userInfo");
+		return mv;
 	}
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
@@ -94,5 +102,45 @@ public class UserController extends BaseController{
 			user.setRole(roles);
 		}
 		return Result.success(user);
+	}
+	
+	@RequestMapping("export")
+	public void export(HttpServletResponse response) throws Exception{
+		List<UserInfoExtend> users=userInfoService.selectDisplayByCondition(null);
+		String[] headers=new String[12];
+		headers[0]="姓名";
+		headers[1]="工号";
+		headers[2]="手机号";
+		headers[3]="邮箱地址";
+		headers[4]="部门信息";
+		headers[5]="小组";
+		headers[6]="出生年月";
+		headers[7]="学位";
+		headers[8]="职位类别";
+		headers[9]="职位";
+		headers[10]="合同有效期";
+		headers[11]="合同签订时间";
+		
+		List<List<String>> list=new ArrayList<List<String>>();
+		if(CommonUtil.isNotEmptyList(users)){
+			
+			for(UserInfoExtend extend:users){
+				List<String> data=new ArrayList<String>();
+				list.add(data);
+				data.add(StringUtil.toStr(extend.getName1()));
+				data.add(StringUtil.toStr(extend.getGh()));
+				data.add(StringUtil.toStr(extend.getPhone()));
+				data.add(StringUtil.toStr(extend.getEmail()));
+				data.add(StringUtil.toStr(extend.getDepartment_display()));
+				data.add(StringUtil.toStr(extend.getTeam_display()));
+				data.add(StringUtil.toStr(extend.getBirthday()));
+				data.add(StringUtil.toStr(extend.getDegree()));
+				data.add(StringUtil.toStr(extend.getJobcategory_display()));
+				data.add(StringUtil.toStr(extend.getJob()));
+				data.add(StringUtil.toStr(extend.getContractvalidity()));
+				data.add(StringUtil.toStr(extend.getContracttime()));	
+			}
+		}
+		ExportExcel.doExportExcel2("人员基本信息","人员基本信息",  headers, list,response);
 	}
 }

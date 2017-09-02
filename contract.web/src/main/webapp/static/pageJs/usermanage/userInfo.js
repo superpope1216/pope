@@ -38,6 +38,7 @@ $(document).ready(function(){
 			}
 		};
 	var zTree;
+	setButtonsDisplay(buttonsPermission);
 	queryList();
 	queryRole();
 	
@@ -51,15 +52,37 @@ $(document).ready(function(){
 		}
 		doGet(basePath+"/users/list","queryName="+name+"&startPage="+pageId,function(data){
 			if(data.data.data){
-				$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
-				//$("#mainTable").datatable({sortable: true});
-			}else{
+				//$('#tblUserInfoTpl').tmpl(data.data.data).appendTo('#tblUserInfo');
+				var _data=data.data.data;
+				var tbl="";
+				for(var i=0;i<_data.length;i++){
+					tbl+='<tr>';
+					tbl+='<td class="text-center">'+toStr(_data[i].name1)+'</td>';
+					tbl+='<td class="text-center">'+toStr(_data[i].gh)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].department_display)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].team_display)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].degree)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].jobcategory)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_data[i].job)+'</td>';
+					tbl+='<td class="text-center">';
+					tbl+='<div class="btn-group">';
+					if(buttonsPermission.indexOf(",btnModify,")>=0){
+					tbl+='<button type="button" class="btn btn-xs btn-primary" data-option="btnModify" data-key="'+toStr(_data[i].wid)+'"><i class="icon icon-edit"></i>编辑</button>';
+					}
+					if(buttonsPermission.indexOf(",btnDelete,")>=0){
+					tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+toStr(_data[i].wid)+'"><i class="icon icon-times"></i>删除</button>';
+					}
+					tbl+='</div>';
+					tbl+='</td>';
+					tbl+='</tr>';
+				}
+				$("#tblUserInfo").html(tbl);
 				//$("#mainTable").datatable({sortable: true});
 			}
 			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
 				queryList(pageId,name);
 			});
-			$("#mainTable").delegate("[data-option='editUser']","click",function(){
+			$("#mainTable").delegate("[data-option='btnModify']","click",function(){
 				$("#userForm")[0].reset();
 				var key=$(this).attr("data-key");
 				doGet(basePath+"/users/select","wid="+key,function(data){
@@ -90,7 +113,7 @@ $(document).ready(function(){
 				});
 				$("#modelEdithUserInfo").modal("show");
 			});
-			$("#mainTable").delegate("[data-option='deleteUser']","click",function(){
+			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该用户信息吗？",function(e){
 					doPost(basePath+"/users/delete","wid="+key,function(data){
@@ -116,6 +139,10 @@ $(document).ready(function(){
 			}
 		})
 	}
+	
+	$("#btnExport").click(function(){
+		window.open(basePath+"/users/export");
+	});
 	$("#btnNew").click(function(){
 		$("#userForm")[0].reset();
 		doGetSelect2("T_CONTRACT_SJZD_ZWLB","#userForm [name='jobcategory']");
@@ -133,9 +160,9 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		if($.trim($("#queryCondition").val())!=""){
-			queryList($.trim($("#queryCondition").val()));
-		}
+		
+			queryList(0,$.trim($("#queryCondition").val()));
+		
 		return false;
 	});
 	function setTree(){

@@ -7,6 +7,6 @@ import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend;
 
 public interface SupplyTotalInfoExtendMapper {
-	List<SupplyTotalInfo> selectByCondition(SupplyTotalInfo supplyTotalInfo);
-	List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfo supplyTotalInfo);
+	List<SupplyTotalInfo> selectByCondition(SupplyTotalInfoExtend supplyTotalInfo);
+	List<SupplyTotalInfoExtend> selectDisplayByCondition(SupplyTotalInfoExtend supplyTotalInfo);
 }

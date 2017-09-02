@@ -19,11 +19,11 @@ public interface SupplyInfoService {
 
 	SupplyInfo selectByPrimaryKey(String wid);
 
-	List<SupplyInfo> selectByCondition(SupplyInfo supplyInfo);
+	List<SupplyInfo> selectByCondition(SupplyInfoExtend supplyInfo);
 	
-	SupplyInfo selectSingleByCondition(SupplyInfo supplyInfo) throws Exception;
+	SupplyInfo selectSingleByCondition(SupplyInfoExtend supplyInfo) throws Exception;
 
-	List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfo supplyInfo);
+	List<SupplyInfoExtend> selectDisplayByCondition(SupplyInfoExtend supplyInfo);
 	
 	List<Map<String,Object>> selectPmByCondition(String hcfl) throws Exception;
 	

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.user.extend.UserInfoRoleExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.user.UserInfoRole" >
+    <result column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="VARCHAR" />
+    <result column="RoleId" property="roleid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  		t_contract_user_userinfo_role.WID,
+  		t_contract_user_userinfo_role.USERID,
+  		t_contract_user_userinfo_role.ROLEID
+  		
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.user.UserInfoRole">
+  		SELECT
+  		<include refid="Base_Column_List"/>
+  		FROM t_contract_user_userinfo_role
+  		<where>
+  			<if test="wid!=null and wid!=''">
+  				AND t_contract_user_userinfo_role.WID=#{wid}
+  			</if>
+  			<if test="userid!=null and userid!=''">
+  				AND t_contract_user_userinfo_role.USERID=#{userid}
+  			</if>
+  			<if test="roleid!=null and roleid!=''">
+  				AND t_contract_user_userinfo_role.ROLEID=#{roleid}
+  			</if>
+  		</where>
+  </select>
+</mapper>

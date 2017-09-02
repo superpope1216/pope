@@ -280,7 +280,7 @@
 							<label for="gh" class="col-sm-2 required">样品二维码</label>
 							<div class="col-md-8 col-sm-8">
 								<input type="text" class="form-control" name="ypewm"
-									placeholder="请输入样品二维码">
+									placeholder="请输入样品二维码" required>
 							</div>
 						</div>
 						<div class="form-group">

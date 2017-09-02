@@ -21,11 +21,11 @@ public class ContractInfo implements Serializable{
 
     private String xmfzr;
 
-    private BigDecimal zzje;
-
     private BigDecimal htje;
 
     private BigDecimal htzk;
+
+    private BigDecimal zzje;
 
     private String htsj;
 
@@ -64,6 +64,8 @@ public class ContractInfo implements Serializable{
     private String createMan;
 
     private Integer dqbh;
+
+    private String bz;
 
     public String getWid() {
         return wid;
@@ -113,14 +115,6 @@ public class ContractInfo implements Serializable{
         this.xmfzr = xmfzr == null ? null : xmfzr.trim();
     }
 
-    public BigDecimal getZzje() {
-        return zzje;
-    }
-
-    public void setZzje(BigDecimal zzje) {
-        this.zzje = zzje;
-    }
-
     public BigDecimal getHtje() {
         return htje;
     }
@@ -135,6 +129,14 @@ public class ContractInfo implements Serializable{
 
     public void setHtzk(BigDecimal htzk) {
         this.htzk = htzk;
+    }
+
+    public BigDecimal getZzje() {
+        return zzje;
+    }
+
+    public void setZzje(BigDecimal zzje) {
+        this.zzje = zzje;
     }
 
     public String getHtsj() {
@@ -287,5 +289,13 @@ public class ContractInfo implements Serializable{
 
     public void setDqbh(Integer dqbh) {
         this.dqbh = dqbh;
+    }
+
+    public String getBz() {
+        return bz;
+    }
+
+    public void setBz(String bz) {
+        this.bz = bz == null ? null : bz.trim();
     }
 }

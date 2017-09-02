@@ -32,13 +32,13 @@
 				<div class="panel">
 					<div class="panel-body">
 						<div class="pull-left">
-							<button class="btn btn-primary btnQuery" id="btnNew">新 建</button>
+							<button class="btn btn-primary btnQuery"  style="display:none;" id="btnNew">新 建</button>
 						</div>
 						
 						&nbsp;&nbsp;
 						<div class="pull-right">
 							&nbsp;&nbsp;
-							<button class="btn btn-primary btnQuery">导出</button>
+							<button class="btn btn-primary btnQuery" style="display:none;" id="btnExport">导出</button>
 						</div>
 						<br> <br>
 						<table class="table table-bordered datatable table-hover"
@@ -183,24 +183,9 @@
 		style="display: none; z-index:999999999;background: #f1f1f1; position: absolute;">
 		<ul id="treeDemo" class="ztree" style="margin-top: 0; width: 100%;"></ul>
 	</div>
-
-	<script id="tblUserInfoTpl" type="text/x-jquery-tmpl">
-				<tr>
-					<td class="text-center">{{= name1}}</td>
-					<td class="text-center">{{= gh}}</td>
-					<td class="text-left">{{= department_display}}</td>
-					<td class="text-left">{{= team_display}}</td>
-					<td class="text-left">{{= degree}}</td>
-					<td class="text-left">{{= jobcategory}}</td>
-					<td class="text-left">{{= job}}</td>
-					<td class="text-center">
-						<div class="btn-group">
-          					<button type="button" class="btn btn-xs btn-primary" data-option="editUser" data-key="{{= wid}}"><i class="icon icon-edit"></i>编辑</button>
-							<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="deleteUser" data-key="{{= wid}}"><i class="icon icon-times"></i>删除</button>
-        				</div>
-				    </td>
-				</tr>
-			</script>
+			<script type="text/javascript" >
+    	var buttonsPermission="${buttons}";
+    </script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/usermanage/userInfo.js"></script>
 </body>

@@ -26,9 +26,14 @@ public interface BatchInfoService {
 	
 	void deleteBatchInfo(String wid) throws Exception;
 	
-	String selectMax() throws Exception;
 	
-	String selectDetailMax() throws Exception;
+	void deleteBatchBatchInfo(String wids) throws Exception;
+	
+	BatchInfo getNewBatchInfo() throws Exception;
+	
+	BatchInfoDetail getNewBatchInfoDetail(String batchInfo) throws Exception;
+	
+	
 	
 	List<BatchInfoDetail> selectDetailByCondition(BatchInfoDetail batchInfoDetail) throws Exception;
 	
@@ -39,7 +44,7 @@ public interface BatchInfoService {
 	
 	void deleteBatchInfoDetail(String wid) throws Exception;
 	
-	String copyBatchInfo(String wid) throws Exception;
+	String copyBatchInfo(String wid,String userId) throws Exception;
 	
 	/**
 	 * 通过样品批次ID集成判断是否可生成合同信息，并返回最新创建的那个

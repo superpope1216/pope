@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.custom.CustomAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.custom.CustomAccount" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="CUSTOM_ID" property="customId" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NUMBER" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_MONEY" property="accountMoney" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+    <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+    <result column="BY10" property="by10" jdbcType="VARCHAR" />
+    <result column="BY9" property="by9" jdbcType="VARCHAR" />
+    <result column="BY8" property="by8" jdbcType="VARCHAR" />
+    <result column="BY7" property="by7" jdbcType="VARCHAR" />
+    <result column="BY6" property="by6" jdbcType="VARCHAR" />
+    <result column="BY5" property="by5" jdbcType="VARCHAR" />
+    <result column="BY4" property="by4" jdbcType="VARCHAR" />
+    <result column="BY3" property="by3" jdbcType="VARCHAR" />
+    <result column="BY1" property="by1" jdbcType="VARCHAR" />
+    <result column="BY2" property="by2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, CUSTOM_ID, ACCOUNT_NUMBER, DQBH, BANK_ACCOUNT, ACCOUNT_MONEY, CREATE_TIME, CREATE_MAN, 
+    DATASTATUS, BY10, BY9, BY8, BY7, BY6, BY5, BY4, BY3, BY1, BY2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_custom_account
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_custom_account
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.custom.CustomAccount" >
+    insert into t_contract_custom_account (WID, CUSTOM_ID, ACCOUNT_NUMBER, 
+      DQBH, BANK_ACCOUNT, ACCOUNT_MONEY, 
+      CREATE_TIME, CREATE_MAN, DATASTATUS, 
+      BY10, BY9, BY8, BY7, 
+      BY6, BY5, BY4, BY3, 
+      BY1, BY2)
+    values (#{wid,jdbcType=VARCHAR}, #{customId,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, 
+      #{dqbh,jdbcType=INTEGER}, #{bankAccount,jdbcType=VARCHAR}, #{accountMoney,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}, #{datastatus,jdbcType=VARCHAR}, 
+      #{by10,jdbcType=VARCHAR}, #{by9,jdbcType=VARCHAR}, #{by8,jdbcType=VARCHAR}, #{by7,jdbcType=VARCHAR}, 
+      #{by6,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, 
+      #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.custom.CustomAccount" >
+    insert into t_contract_custom_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="customId != null" >
+        CUSTOM_ID,
+      </if>
+      <if test="accountNumber != null" >
+        ACCOUNT_NUMBER,
+      </if>
+      <if test="dqbh != null" >
+        DQBH,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="accountMoney != null" >
+        ACCOUNT_MONEY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN,
+      </if>
+      <if test="datastatus != null" >
+        DATASTATUS,
+      </if>
+      <if test="by10 != null" >
+        BY10,
+      </if>
+      <if test="by9 != null" >
+        BY9,
+      </if>
+      <if test="by8 != null" >
+        BY8,
+      </if>
+      <if test="by7 != null" >
+        BY7,
+      </if>
+      <if test="by6 != null" >
+        BY6,
+      </if>
+      <if test="by5 != null" >
+        BY5,
+      </if>
+      <if test="by4 != null" >
+        BY4,
+      </if>
+      <if test="by3 != null" >
+        BY3,
+      </if>
+      <if test="by1 != null" >
+        BY1,
+      </if>
+      <if test="by2 != null" >
+        BY2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="customId != null" >
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        #{dqbh,jdbcType=INTEGER},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="accountMoney != null" >
+        #{accountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        #{createMan,jdbcType=VARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        #{datastatus,jdbcType=VARCHAR},
+      </if>
+      <if test="by10 != null" >
+        #{by10,jdbcType=VARCHAR},
+      </if>
+      <if test="by9 != null" >
+        #{by9,jdbcType=VARCHAR},
+      </if>
+      <if test="by8 != null" >
+        #{by8,jdbcType=VARCHAR},
+      </if>
+      <if test="by7 != null" >
+        #{by7,jdbcType=VARCHAR},
+      </if>
+      <if test="by6 != null" >
+        #{by6,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null" >
+        #{by5,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null" >
+        #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null" >
+        #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by1 != null" >
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null" >
+        #{by2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.custom.CustomAccount" >
+    update t_contract_custom_account
+    <set >
+      <if test="customId != null" >
+        CUSTOM_ID = #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        ACCOUNT_NUMBER = #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="dqbh != null" >
+        DQBH = #{dqbh,jdbcType=INTEGER},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="accountMoney != null" >
+        ACCOUNT_MONEY = #{accountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        DATASTATUS = #{datastatus,jdbcType=VARCHAR},
+      </if>
+      <if test="by10 != null" >
+        BY10 = #{by10,jdbcType=VARCHAR},
+      </if>
+      <if test="by9 != null" >
+        BY9 = #{by9,jdbcType=VARCHAR},
+      </if>
+      <if test="by8 != null" >
+        BY8 = #{by8,jdbcType=VARCHAR},
+      </if>
+      <if test="by7 != null" >
+        BY7 = #{by7,jdbcType=VARCHAR},
+      </if>
+      <if test="by6 != null" >
+        BY6 = #{by6,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null" >
+        BY5 = #{by5,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null" >
+        BY4 = #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null" >
+        BY3 = #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by1 != null" >
+        BY1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null" >
+        BY2 = #{by2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.custom.CustomAccount" >
+    update t_contract_custom_account
+    set CUSTOM_ID = #{customId,jdbcType=VARCHAR},
+      ACCOUNT_NUMBER = #{accountNumber,jdbcType=VARCHAR},
+      DQBH = #{dqbh,jdbcType=INTEGER},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      ACCOUNT_MONEY = #{accountMoney,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      DATASTATUS = #{datastatus,jdbcType=VARCHAR},
+      BY10 = #{by10,jdbcType=VARCHAR},
+      BY9 = #{by9,jdbcType=VARCHAR},
+      BY8 = #{by8,jdbcType=VARCHAR},
+      BY7 = #{by7,jdbcType=VARCHAR},
+      BY6 = #{by6,jdbcType=VARCHAR},
+      BY5 = #{by5,jdbcType=VARCHAR},
+      BY4 = #{by4,jdbcType=VARCHAR},
+      BY3 = #{by3,jdbcType=VARCHAR},
+      BY1 = #{by1,jdbcType=VARCHAR},
+      BY2 = #{by2,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

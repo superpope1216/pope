@@ -8,9 +8,9 @@
     <result column="HTBH" property="htbh" jdbcType="VARCHAR" />
     <result column="HTJF" property="htjf" jdbcType="VARCHAR" />
     <result column="XMFZR" property="xmfzr" jdbcType="VARCHAR" />
-    <result column="ZZJE" property="zzje" jdbcType="DECIMAL" />
     <result column="HTJE" property="htje" jdbcType="DECIMAL" />
     <result column="HTZK" property="htzk" jdbcType="DECIMAL" />
+    <result column="ZZJE" property="zzje" jdbcType="DECIMAL" />
     <result column="HTSJ" property="htsj" jdbcType="VARCHAR" />
     <result column="HTZXSJ" property="htzxsj" jdbcType="VARCHAR" />
     <result column="RWZT" property="rwzt" jdbcType="INTEGER" />
@@ -30,11 +30,12 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    WID, HTLX, HTMC, HTBH, HTJF, XMFZR, ZZJE, HTJE, HTZK, HTSJ, HTZXSJ, RWZT, DATASTATUS, 
+    WID, HTLX, HTMC, HTBH, HTJF, XMFZR, HTJE, HTZK, ZZJE, HTSJ, HTZXSJ, RWZT, DATASTATUS, 
     CurrentStep, DFZH, BY10, BY9, BY8, BY7, BY6, BY5, BY4, BY3, BY1, BY2, CREATE_TIME, 
-    CREATE_MAN, DQBH
+    CREATE_MAN, DQBH, BZ
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -49,22 +50,22 @@
   <insert id="insert" parameterType="com.pope.contract.entity.contract.ContractInfo" >
     insert into t_contract_contract_main (WID, HTLX, HTMC, 
       HTBH, HTJF, XMFZR, 
-      ZZJE, HTJE, HTZK, HTSJ, 
+      HTJE, HTZK, ZZJE, HTSJ, 
       HTZXSJ, RWZT, DATASTATUS, 
       CurrentStep, DFZH, BY10, 
       BY9, BY8, BY7, BY6, 
       BY5, BY4, BY3, BY1, 
       BY2, CREATE_TIME, CREATE_MAN, 
-      DQBH)
+      DQBH, BZ)
     values (#{wid,jdbcType=VARCHAR}, #{htlx,jdbcType=VARCHAR}, #{htmc,jdbcType=VARCHAR}, 
       #{htbh,jdbcType=VARCHAR}, #{htjf,jdbcType=VARCHAR}, #{xmfzr,jdbcType=VARCHAR}, 
-      #{zzje,jdbcType=DECIMAL}, #{htje,jdbcType=DECIMAL}, #{htzk,jdbcType=DECIMAL}, #{htsj,jdbcType=VARCHAR}, 
+      #{htje,jdbcType=DECIMAL}, #{htzk,jdbcType=DECIMAL}, #{zzje,jdbcType=DECIMAL}, #{htsj,jdbcType=VARCHAR}, 
       #{htzxsj,jdbcType=VARCHAR}, #{rwzt,jdbcType=INTEGER}, #{datastatus,jdbcType=VARCHAR}, 
       #{currentstep,jdbcType=INTEGER}, #{dfzh,jdbcType=VARCHAR}, #{by10,jdbcType=VARCHAR}, 
       #{by9,jdbcType=VARCHAR}, #{by8,jdbcType=VARCHAR}, #{by7,jdbcType=VARCHAR}, #{by6,jdbcType=VARCHAR}, 
       #{by5,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, #{by1,jdbcType=VARCHAR}, 
       #{by2,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}, 
-      #{dqbh,jdbcType=INTEGER})
+      #{dqbh,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.ContractInfo" >
     insert into t_contract_contract_main
@@ -87,14 +88,14 @@
       <if test="xmfzr != null" >
         XMFZR,
       </if>
-      <if test="zzje != null" >
-        ZZJE,
-      </if>
       <if test="htje != null" >
         HTJE,
       </if>
       <if test="htzk != null" >
         HTZK,
+      </if>
+      <if test="zzje != null" >
+        ZZJE,
       </if>
       <if test="htsj != null" >
         HTSJ,
@@ -153,6 +154,9 @@
       <if test="dqbh != null" >
         DQBH,
       </if>
+      <if test="bz != null" >
+        BZ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -173,14 +177,14 @@
       <if test="xmfzr != null" >
         #{xmfzr,jdbcType=VARCHAR},
       </if>
-      <if test="zzje != null" >
-        #{zzje,jdbcType=DECIMAL},
-      </if>
       <if test="htje != null" >
         #{htje,jdbcType=DECIMAL},
       </if>
       <if test="htzk != null" >
         #{htzk,jdbcType=DECIMAL},
+      </if>
+      <if test="zzje != null" >
+        #{zzje,jdbcType=DECIMAL},
       </if>
       <if test="htsj != null" >
         #{htsj,jdbcType=VARCHAR},
@@ -239,6 +243,9 @@
       <if test="dqbh != null" >
         #{dqbh,jdbcType=INTEGER},
       </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.contract.ContractInfo" >
@@ -259,14 +266,14 @@
       <if test="xmfzr != null" >
         XMFZR = #{xmfzr,jdbcType=VARCHAR},
       </if>
-      <if test="zzje != null" >
-        ZZJE = #{zzje,jdbcType=DECIMAL},
-      </if>
       <if test="htje != null" >
         HTJE = #{htje,jdbcType=DECIMAL},
       </if>
       <if test="htzk != null" >
         HTZK = #{htzk,jdbcType=DECIMAL},
+      </if>
+      <if test="zzje != null" >
+        ZZJE = #{zzje,jdbcType=DECIMAL},
       </if>
       <if test="htsj != null" >
         HTSJ = #{htsj,jdbcType=VARCHAR},
@@ -325,6 +332,9 @@
       <if test="dqbh != null" >
         DQBH = #{dqbh,jdbcType=INTEGER},
       </if>
+      <if test="bz != null" >
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -335,9 +345,9 @@
       HTBH = #{htbh,jdbcType=VARCHAR},
       HTJF = #{htjf,jdbcType=VARCHAR},
       XMFZR = #{xmfzr,jdbcType=VARCHAR},
-      ZZJE = #{zzje,jdbcType=DECIMAL},
       HTJE = #{htje,jdbcType=DECIMAL},
       HTZK = #{htzk,jdbcType=DECIMAL},
+      ZZJE = #{zzje,jdbcType=DECIMAL},
       HTSJ = #{htsj,jdbcType=VARCHAR},
       HTZXSJ = #{htzxsj,jdbcType=VARCHAR},
       RWZT = #{rwzt,jdbcType=INTEGER},
@@ -356,7 +366,8 @@
       BY2 = #{by2,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=VARCHAR},
       CREATE_MAN = #{createMan,jdbcType=VARCHAR},
-      DQBH = #{dqbh,jdbcType=INTEGER}
+      DQBH = #{dqbh,jdbcType=INTEGER},
+      BZ = #{bz,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

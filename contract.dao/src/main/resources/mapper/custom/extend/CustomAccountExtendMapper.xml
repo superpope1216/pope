@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.custom.extend.CustomAccountExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.custom.CustomAccount">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="CUSTOM_ID" property="customId" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_NUMBER" property="accountNumber"
+			jdbcType="VARCHAR" />
+		<result column="DQBH" property="dqbh" jdbcType="INTEGER" />
+		<result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_MONEY" property="accountMoney"
+			jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+		<result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
+		<result column="BY10" property="by10" jdbcType="VARCHAR" />
+		<result column="BY9" property="by9" jdbcType="VARCHAR" />
+		<result column="BY8" property="by8" jdbcType="VARCHAR" />
+		<result column="BY7" property="by7" jdbcType="VARCHAR" />
+		<result column="BY6" property="by6" jdbcType="VARCHAR" />
+		<result column="BY5" property="by5" jdbcType="VARCHAR" />
+		<result column="BY4" property="by4" jdbcType="VARCHAR" />
+		<result column="BY3" property="by3" jdbcType="VARCHAR" />
+		<result column="BY1" property="by1" jdbcType="VARCHAR" />
+		<result column="BY2" property="by2" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.custom.extend.CustomAccountExtend"
+		extends="BaseResultMap">
+		<result column="CUSTOM_NAME" property="customName" jdbcType="VARCHAR" />
+		<result column="CUSTOM_NUMBER" property="customNumber"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_custom_account.WID,
+		t_contract_custom_account.CUSTOM_ID,
+		t_contract_custom_account.ACCOUNT_NUMBER,
+		t_contract_custom_account.DQBH,
+		t_contract_custom_account.BANK_ACCOUNT,
+		t_contract_custom_account.ACCOUNT_MONEY,
+		t_contract_custom_account.CREATE_TIME,
+		t_contract_custom_account.CREATE_MAN,
+		t_contract_custom_account.DATASTATUS, t_contract_custom_account.BY10,
+		t_contract_custom_account.BY9,
+		t_contract_custom_account.BY8,
+		t_contract_custom_account.BY7, t_contract_custom_account.BY6,
+		t_contract_custom_account.BY5, t_contract_custom_account.BY4,
+		t_contract_custom_account.BY3,
+		t_contract_custom_account.BY1,
+		t_contract_custom_account.BY2
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List" />
+		,T_CONTRACT_CUSTOM_MAIN.CUSTOM_NAME,T_CONTRACT_CUSTOM_MAIN.CUSTOM_NUMBER
+	</sql>
+	<sql id="sqlFrom">
+		INNER JOIN T_CONTRACT_CUSTOM_MAIN T_CONTRACT_CUSTOM_MAIN ON
+		T_CONTRACT_CUSTOM_MAIN.WID=t_contract_custom_account.CUSTOM_ID
+		AND
+		T_CONTRACT_CUSTOM_MAIN.DATASTATUS=1
+	</sql>
+	<sql id="sqlWhere">
+		<if test="customId!=null and customId!=''">
+			AND
+			t_contract_custom_account.custom_Id=#{customId,jdbcType=VARCHAR}
+		</if>
+		<if test="wid!=null and wid!=''">
+			AND t_contract_custom_account.WID=#{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="datastatus!=null and datastatus!=''">
+			AND
+			t_contract_custom_account.DATASTATUS=#{datastatus,jdbcType=VARCHAR}
+		</if>
+		<if test="accountNumber!=null and accountNumber!=''">
+			AND
+			t_contract_custom_account.ACCOUNT_NUMBER=#{accountNumber,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<sql id="sqlOrder">
+		order by t_contract_custom_account.CREATE_TIME desc
+	</sql>
+	<select id="selectSingleByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.custom.extend.CustomAccountExtend">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_custom_account t_contract_custom_account
+		WHERE
+		t_contract_custom_account.DATASTATUS=1
+		<include refid="sqlWhere" />
+		<include refid="sqlOrder" />
+		limit 1
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.custom.extend.CustomAccountExtend">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_custom_account t_contract_custom_account
+		WHERE
+		t_contract_custom_account.DATASTATUS=1
+		<include refid="sqlWhere" />
+		<include refid="sqlOrder" />
+	</select>
+	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.custom.extend.CustomAccountExtend">
+		select
+		<include refid="Base_Display_Column_List" />
+		from t_contract_custom_account t_contract_custom_account
+		<include refid="sqlFrom" />
+		WHERE t_contract_custom_account.DATASTATUS=1
+		 <include refid="sqlWhere" /> 
+		<include refid="sqlOrder" />
+		limit 1
+	</select>
+	<select id="selectByDisplayCondition" resultMap="BaseDisplayResultMap"
+		parameterType="com.pope.contract.entity.custom.extend.CustomAccountExtend">
+		select
+		<include refid="Base_Display_Column_List" />
+		from t_contract_custom_account t_contract_custom_account
+		<include refid="sqlFrom" />
+		WHERE t_contract_custom_account.DATASTATUS=1
+		<include refid="sqlWhere" />
+		<include refid="sqlOrder" />
+	</select>
+
+	<select id="selectMax" resultType="java.lang.Integer">
+		SELECT MAX(DQBH) FROM
+		t_contract_custom_account
+		WHERE DATASTATUS=1
+	</select>
+</mapper>

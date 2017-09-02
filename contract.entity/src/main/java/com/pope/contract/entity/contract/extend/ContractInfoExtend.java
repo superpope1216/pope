@@ -22,6 +22,46 @@ public class ContractInfoExtend extends ContractInfo implements Serializable{
 	
 	private String htzt_display;
 	
+	private String querySyr;
+	
+	private String queryHth;
+	
+	private String queryYppch;
+	
+	private String queryFxxh;
+	
+	public String getQuerySyr() {
+		return querySyr;
+	}
+
+	public void setQuerySyr(String querySyr) {
+		this.querySyr = querySyr;
+	}
+
+	public String getQueryHth() {
+		return queryHth;
+	}
+
+	public void setQueryHth(String queryHth) {
+		this.queryHth = queryHth;
+	}
+
+	public String getQueryYppch() {
+		return queryYppch;
+	}
+
+	public void setQueryYppch(String queryYppch) {
+		this.queryYppch = queryYppch;
+	}
+
+	public String getQueryFxxh() {
+		return queryFxxh;
+	}
+
+	public void setQueryFxxh(String queryFxxh) {
+		this.queryFxxh = queryFxxh;
+	}
+
 	public String getHtzt_display() {
 		return htzt_display;
 	}

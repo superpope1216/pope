@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.pope.contract.dao.statics.extend.StaticMoneyInfoExtendMapper">
+	<resultMap id="BaseResultMap"
+		type="com.pope.contract.entity.statics.StaticMoneyInfo">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="DATA_YEAR" property="dataYear" jdbcType="INTEGER" />
+		<result column="DATA_MONTH" property="dataMonth" jdbcType="INTEGER" />
+		<result column="DATA_YEAR_MONTH" property="dataYearMonth"
+			jdbcType="VARCHAR" />
+		<result column="SR" property="sr" jdbcType="DECIMAL" />
+		<result column="WRZ" property="wrz" jdbcType="DECIMAL" />
+		<result column="ZC" property="zc" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_static_money.WID,
+		t_contract_static_money.DATA_YEAR,
+		t_contract_static_money.DATA_MONTH,
+		t_contract_static_money.DATA_YEAR_MONTH,
+		t_contract_static_money.SR,
+		t_contract_static_money.WRZ,
+		t_contract_static_money.ZC
+	</sql>
+	<sql id="sqlFrom">
+
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_static_money.wid=#{wid}
+		</if>
+		<if test="dataYearMonth!=null">
+			AND
+			t_contract_static_money.DATA_YEAR_MONTH=#{dataYearMonth}
+		</if>
+		<if test="dataYear!=null">
+			AND t_contract_static_money.DATA_YEAR=#{dataYear}
+		</if>
+		<if test="dataMonth!=null">
+			AND t_contract_static_money.DATA_MONTH=#{dataMonth}
+		</if>
+	</sql>
+	<sql id="sqlOrder">
+		ORDER BY
+		t_contract_static_money.DATA_YEAR,t_contract_static_money.DATA_MONTH
+	</sql>
+	<delete id="deleteByCondition"
+		parameterType="com.pope.contract.entity.statics.extend.StaticMoneyInfoExtend">
+		DELETE FROM t_contract_static_money
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+	</delete>
+
+	<select id="selectSupplyStaticByRwzt" resultType="map">
+		select sum(t.je) as je,t.ym,t.y,t.m from ( 
+		SELECT F.SL*F.DJ AS je ,F.rwzt,F.ym,F.y,F.m FROM (
+		SELECT IFNULL(T_CONTRACT_SUPPLIES_GMB.LYSL,0) AS
+		SL,IFNULL(T_CONTRACT_SUPPLIES_TOTAL.DJ,0) AS
+		DJ,T_CONTRACT_SUPPLIES_GMB.RWZT,DATE_FORMAT(STR_TO_DATE(T_CONTRACT_SUPPLIES_GMB.SQSJ,'%Y-%m-%d'),'%Y-%m')
+		as
+		ym,DATE_FORMAT(STR_TO_DATE(T_CONTRACT_SUPPLIES_GMB.SQSJ,'%Y-%m-%d'),'%Y')
+		as y,
+		DATE_FORMAT(STR_TO_DATE(T_CONTRACT_SUPPLIES_GMB.SQSJ,'%Y-%m-%d'),'%m')
+		as m FROM T_CONTRACT_SUPPLIES_GMB
+		T_CONTRACT_SUPPLIES_GMB,T_CONTRACT_SUPPLIES_TOTAL
+		T_CONTRACT_SUPPLIES_TOTAL
+		WHERE T_CONTRACT_SUPPLIES_TOTAL.WID=T_CONTRACT_SUPPLIES_GMB.HCID) F
+			WHERE 1=1 
+			<if test="rwzt!=null">
+			AND F.RWZT IN
+			<foreach collection="rwzt" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		)
+		t  where t.y=#{year}
+		GROUP BY t.ym,t.y,t.m
+		order by t.ym
+	</select>
+	<select id="selectContractStaticByRwzt" resultType="map">
+
+
+		select sum(t.je) as je,t.ym,t.y,T.m from (
+		SELECT IFNULL(zzje,0) AS
+		JE,rwzt,
+		DATE_FORMAT(STR_TO_DATE(HTZXSJ,'%Y-%m-%d'),'%Y-%m') as
+		ym,DATE_FORMAT(STR_TO_DATE(HTZXSJ,'%Y-%m-%d'),'%Y') as y,
+		DATE_FORMAT(STR_TO_DATE(HTZXSJ,'%Y-%m-%d'),'%m') as m FROM
+		T_CONTRACT_CONTRACT_MAIN
+		WHERE 1=1
+		<if test="rwzt!=null">
+			AND RWZT IN
+			<foreach collection="rwzt" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		) T
+		where t.y=#{year}
+		GROUP BY t.ym,t.y,t.m
+		order by t.ym
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.statics.extend.StaticMoneyInfoExtend">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_static_money t_contract_static_money
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+	</select>
+	<select id="selectSingleByCondition" resultMap="BaseResultMap"
+		parameterType="com.pope.contract.entity.statics.extend.StaticMoneyInfoExtend">
+		select
+		<include refid="Base_Column_List" />
+		from t_contract_static_money t_contract_static_money
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		<include refid="sqlOrder" />
+		LIMIT 1
+	</select>
+</mapper>

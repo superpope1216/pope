@@ -9,13 +9,13 @@ import com.pope.contract.entity.contract.extend.ContractInfoExtend;
 
 public interface ContractInfoExtendMapper {
     
-	ContractInfo selectSingleByCondition(ContractInfo contractInfo);
+	ContractInfo selectSingleByCondition(ContractInfoExtend contractInfo);
 	
-	List<ContractInfo> selectByCondition(ContractInfo contractInfo);
+	List<ContractInfo> selectByCondition(ContractInfoExtend contractInfo);
 	
-	ContractInfoExtend selectSingleDisplayByCondition(ContractInfo contractInfo);
+	ContractInfoExtend selectSingleDisplayByCondition(ContractInfoExtend contractInfo);
 	
-	List<ContractInfoExtend> selectDisplayByCondition(ContractInfo contractInfo);
+	List<ContractInfoExtend> selectDisplayByCondition(ContractInfoExtend contractInfo);
 	
 	Integer selectMaxDqbh();
 	
