@@ -57,9 +57,10 @@
 					<div class="panel-body">
 						<div class="pull-right">
 							<button class="btn btn-primary btnQuery" id="btnSubmit"
-								style="display: none;">提交审核</button>
+								style="display: none;margin-bottom:15px;">提交审核</button>
+								<button class="btn btn-primary btnQuery" id="btnExport"
+								style="display: none;margin-bottom:15px;">导出</button>
 						</div>
-						<br> <br>
 						<table class="table table-bordered datatable table-hover"
 							id="mainTable">
 							<thead>

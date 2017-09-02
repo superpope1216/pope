@@ -90,4 +90,10 @@
 		<include refid="sqlOrder" />
 		LIMIT 1
 	</select>
+	<delete id="deleteByCondition" parameterType="com.pope.contract.entity.contract.ContractMoney">
+		DELETE FROM t_contract_contract_money t_contract_contract_money
+		<where>
+			<include refid="sqlWhere"/>
+		</where>
+	</delete>
 </mapper>

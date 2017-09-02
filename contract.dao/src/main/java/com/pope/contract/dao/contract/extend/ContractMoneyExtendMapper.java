@@ -14,4 +14,6 @@ public interface ContractMoneyExtendMapper {
 	ContractMoneyExtend selectSingleDispalyByCondition(ContractMoney contractMoney);
 	
 	List<ContractMoneyExtend> selectDispalyByCondition(ContractMoney contractMoney);
+	
+	int deleteByCondition(ContractMoney contractMoney);
 }

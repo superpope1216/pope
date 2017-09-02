@@ -40,5 +40,5 @@ public interface ContractInfoService {
     
     ContractInfoExtend getNewContractinfo(String pcid,String pcids) throws Exception;
 	
-	
+    void deleteContractInfo(String wid) throws Exception;
 }

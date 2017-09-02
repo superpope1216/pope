@@ -117,4 +117,11 @@ public class ContractInfoController extends BaseController{
 		ExportExcel.doExportExcel2("样品批次信息","样品批次信息",  headers, list,response);
 	}
 	
+	@ResponseBody
+	@RequestMapping("delete")
+	public Result delete(String wid) throws Exception{
+		contractInfoService.deleteContractInfo(wid);
+		return Result.success();
+	}
+	
 }

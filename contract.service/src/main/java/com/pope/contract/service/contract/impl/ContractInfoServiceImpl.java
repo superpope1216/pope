@@ -21,6 +21,7 @@ import com.pope.contract.dao.contract.ContractInfoMapper;
 import com.pope.contract.dao.contract.ContractInfoRelMapper;
 import com.pope.contract.dao.contract.ContractMoneyMapper;
 import com.pope.contract.dao.contract.extend.ContractInfoExtendMapper;
+import com.pope.contract.dao.contract.extend.ContractInfoRelExtendMapper;
 import com.pope.contract.dao.contract.extend.ContractMoneyExtendMapper;
 import com.pope.contract.dao.custom.CustomAccountMapper;
 import com.pope.contract.dao.custom.CustomInfoMapper;
@@ -55,6 +56,7 @@ import com.pope.contract.service.BaseService;
 import com.pope.contract.service.contract.ContractInfoService;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.DecimalUtil;
 import com.pope.contract.util.StringUtil;
@@ -75,6 +77,9 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	
 	@Autowired
 	private ContractInfoRelMapper contractInfoRelMapper;
+	
+	@Autowired
+	private ContractInfoRelExtendMapper contractInfoRelExtendMapper; 
 	
 	@Autowired
 	private BatchInfoMapper batchInfoMappper;
@@ -401,5 +406,36 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	    contractInfoExtend.setXmfzr(contractInfoExtend.getXmfzr());
 	    contractInfoExtend.setDfzh(customAccount.getBankAccount());
 	    return contractInfoExtend;
+	}
+
+	@Override
+	@Transactional
+	public void deleteContractInfo(String wid) throws Exception {
+		ContractInfo contractInfo=contractInfoMapper.selectByPrimaryKey(wid);
+		if(StringUtil.toStr(ContractStateEnum.WFK.getCode()).equals(contractInfo.getRwzt())){
+			throw new ServiceException("该合同状态不是未付款，不满足删除条件，请重新确认！");
+		}
+		contractInfo.setDatastatus(StringUtil.toStr(DataStatus.delete.getCode()));
+		contractInfoMapper.updateByPrimaryKeySelective(contractInfo);
+		ContractInfoRel queryContractInfoRel=new ContractInfoRel();
+		queryContractInfoRel.setHtid(wid);
+//		List<ContractInfoRel> lstRel=contractInfoRelExtendMapper.selectByCondition(queryContractInfoRel);
+//		if(CommonUtil.isNotEmptyList(lstRel)){
+//			for(ContractInfoRel contractInfoRel:lstRel){
+//				BatchInfo batchInfo=new BatchInfo();
+//				batchInfo.setWid(contractInfoRel.getPcid());
+//				batchInfo.setHth("");
+//				batchInfoMappper.updateByPrimaryKeySelective(batchInfo);
+//			}
+//		}
+//		
+		ContractInfoRel deleteContractInfoRel=new ContractInfoRel();
+		deleteContractInfoRel.setHtid(wid);
+		contractInfoRelExtendMapper.deleteByCondition(deleteContractInfoRel);
+		ContractMoney deleteContractMoney=new ContractMoney();
+		deleteContractMoney.setHtid(wid);
+		contractMoneyExtendMapper.deleteByCondition(deleteContractMoney);
+		
+		
 	}
 }

@@ -94,14 +94,20 @@ $(document) .ready(
 											});
 									$("#mainTable").delegate("[data-option='btnDelete']","click",function() {
 														var key = $(this).attr("data-key");
-														confirm("您确认删除该客户信息吗？",function(e) {
-																	doPost(basePath+ "/custom/deleteCustom","wid="+ key,function(data) {
+														confirm("您确认删除该合同信息吗？",function(e) {
+																	doPost(basePath+ "/contractInfo/delete","wid="+ key,function(data) {
 																				window.location.reload();
 																			});
 														});
 									});
 								})
 					}
+					/**
+					 * 导出
+					 */
+					$("#btnExport").click(function(){
+						window.open(basePath+"/contractInfo/export");
+					});
 
 					/**
 					 * 提交审核

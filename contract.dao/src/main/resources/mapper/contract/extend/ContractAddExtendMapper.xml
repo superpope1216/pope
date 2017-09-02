@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.ContractAddMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractAdd">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="HTID" property="htid" jdbcType="VARCHAR" />
+		<result column="PCID" property="pcid" jdbcType="VARCHAR" />
+		<result column="FXXM" property="fxxm" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_contract_add.WID, t_contract_contract_add.HTID,
+		t_contract_contract_add.PCID, t_contract_contract_add.FXXM,
+		t_contract_contract_add.CREATE_TIME, t_contract_contract_add.CREATE_MAN
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_contract_add.WID=#{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="htid!=null and htid!=''">
+			AND t_contract_contract_add.htid=#{htid,jdbcType=VARCHAR}
+		</if>
+		<if test="pcid!=null and pcid!=''">
+			AND t_contract_contract_add.pcid=#{pcid,jdbcType=VARCHAR}
+		</if>
+		<if test="fxxm!=null and fxxm!=''">
+			AND t_contract_contract_add.fxxm=#{fxxm,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<delete id="deleteByCondition" parameterType="com.pope.contract.entity.contract.ContractAdd">
+		delete from t_contract_contract_add t_contract_contract_add
+		<where>
+			<include refid="sqlWhere"/>
+		</where>
+	</delete>
+</mapper>
