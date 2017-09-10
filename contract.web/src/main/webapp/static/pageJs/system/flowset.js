@@ -24,6 +24,11 @@ $(document).ready(function(){
 			$(error).insertAfter($(element));
 		}
 	});
+	var _pxgl_validater=$("#pxglExamineForm").validate({
+		errorPlacement: function(error, element) {
+			$(error).insertAfter($(element));
+		}
+	});
 	$("#btnNewLeave").click(function(){
 		view("leaveExamineForm","");
 		$("#modelEditLeaveInfo").modal("show");
@@ -40,6 +45,10 @@ $(document).ready(function(){
 		view("taskContractForm","");
 		$("#modelContractInfo").modal("show");
 	});
+	$("#btnNewPxgl").click(function(){
+		view("pxglContractForm","");
+		$("#modelPxglInfo").modal("show");
+	});
 	doGet(basePath+"/roles/list","",function(data){ 
 			if(data && data.data && data.data.roles){
 				var _d=data.data.roles;
@@ -52,8 +61,10 @@ $(document).ready(function(){
 				$("#taskExamineForm [name='name']").append(str);
 				$("#supplyExamineForm [name='name']").append(str);
 				$("#contractExamineForm [name='name']").append(str);
+				$("#pxglExamineForm [name='name']").append(str);
 			}
 	});
+	setSelectList("");
 	
 	function view(formName,wid){
 		doGet(basePath+"/flowset/view","wid="+wid,function(data){
@@ -71,6 +82,7 @@ $(document).ready(function(){
 	queryList("02","tblTaskInfoTpl","tblUserTaskTable","taskExamineForm","modelEditTaskInfo");
 	queryList("03","tblTaskInfoTpl","tblSupplyTable","supplyExamineForm","modelSupplyInfo");
 	queryList("04","tblTaskInfoTpl","tblContractTable","contractExamineForm","modelContractInfo");
+	queryList("05","tblTaskInfoTpl","tblPxglTable","pxglExamineForm","modelPxglInfo");
 	function queryList(type,tblTpl,tbl,form,model){
 		doGet(basePath+"/flowset/list","type="+type,function(data){
 			if(data.data){
@@ -109,6 +121,9 @@ $(document).ready(function(){
 	});
 	$("#btnSaveContractInfo").click(function(){
 		save("contractExamineForm",_contract_validater);
+	});
+	$("#btnSavePxglInfo").click(function(){
+		save("pxglExamineForm",_pxgl_validater);
 	});
 	function save(formId,validate){
 		var url=basePath+"/flowset";

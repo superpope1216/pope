@@ -88,4 +88,11 @@ public class UserLeaveExamineController extends BaseController{
 		leaveInfoService.examinePass(wid, this.getUserId());
 		return Result.success();
 	}
+	
+	@RequestMapping(value="examineNotPass",method=RequestMethod.POST)
+	@ResponseBody
+	public Result examineNotPass(String wid) throws Exception{
+		leaveInfoService.examineNotPass(wid, this.getUserId());
+		return Result.success();
+	}
 }

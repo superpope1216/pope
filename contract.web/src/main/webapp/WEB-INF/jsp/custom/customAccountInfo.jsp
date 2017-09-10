@@ -34,15 +34,11 @@
 				<div class="panel">
 					<div class="panel-body">
 						<div class="pull-left">
-							
 						</div>
-						<br> <br>
 						<table class="table table-bordered datatable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center" style="width: 80px;"><input
-										type="checkbox" name="selAll" /></th>
 									<th class="text-center">客户编码</th>
 									<th class="text-center">客户名称</th>
 									<th class="text-center">账户编号</th>
@@ -93,7 +89,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">银行账户</label>
+							<label for="gh" class="col-sm-2 required">账户余额</label>
 							<div class="col-md-8 col-sm-8">
 								<input type="text" class="form-control" 
 									name="accountMoney" placeholder="请输入账户余额" required>

@@ -11,13 +11,13 @@
   </sql>
   <sql id="sqlWhere">
   		<if test="htid!=null and htid!=''">
-  			t_contract_contract_batch_rel.htid=#{htid,jdbcType=VARCHAR}
+  			AND t_contract_contract_batch_rel.htid=#{htid,jdbcType=VARCHAR}
   		</if>
   		<if test="pcid!=null and pcid!=''">
-  			t_contract_contract_batch_rel.pcid=#{pcid,jdbcType=VARCHAR}
+  			AND t_contract_contract_batch_rel.pcid=#{pcid,jdbcType=VARCHAR}
   		</if>
   		<if test="wid!=null and wid!=''">
-  			t_contract_contract_batch_rel.wid=#{wid,jdbcType=VARCHAR}
+  			AND t_contract_contract_batch_rel.wid=#{wid,jdbcType=VARCHAR}
   		</if>
   </sql>
   <delete id="deleteByCondition" parameterType="com.pope.contract.entity.contract.ContractInfoRel" >

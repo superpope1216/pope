@@ -76,8 +76,9 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
-				setForm(key);
-				$("#modelEdidCustomInfo").modal("show");
+				//setForm(key);
+				//$("#modelEdidCustomInfo").modal("show");
+				window.location=basePath+"/customInfoDetail/index?wid="+key;
 			});
 			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");

@@ -83,7 +83,7 @@ public class ContractInfoController extends BaseController{
 	@RequestMapping("export")
 	public void export(HttpServletResponse response) throws Exception{
 		List<ContractInfoExtend> datas =contractInfoService.selectDisplayByCondition(null);
-		String[] headers=new String[20];
+		String[] headers=new String[12];
 		headers[0]="合同类型";
 		headers[1]="合同名称";
 		headers[2]="合同编号";
@@ -94,7 +94,8 @@ public class ContractInfoController extends BaseController{
 		headers[7]="合同时间";
 		headers[8]="合同执行时间";
 		headers[9]="对方账号";
-		headers[10]="备注";
+		headers[10]="合同状态";
+		headers[11]="备注";
 		List<List<String>> list=new ArrayList<List<String>>();
 		if(CommonUtil.isNotEmptyList(datas)){
 			
@@ -105,16 +106,19 @@ public class ContractInfoController extends BaseController{
 				data.add(StringUtil.toStr(extend.getHtmc()));
 				data.add(StringUtil.toStr(extend.getHtbh()));
 				data.add(StringUtil.toStr(extend.getHtjf_display()));
+				data.add(StringUtil.toStr(extend.getXmfzr()));
+				
 				data.add(StringUtil.toStr(extend.getHtje()));
 				data.add(StringUtil.toStr(extend.getHtzk_display()));
 				data.add(StringUtil.toStr(extend.getHtsj()));
 				data.add(StringUtil.toStr(extend.getHtzxsj()));
 				data.add(StringUtil.toStr(extend.getDfzh()));
+				data.add(StringUtil.toStr(extend.getHtzt_display()));
 				data.add(StringUtil.toStr(extend.getBz()));
 				
 			}
 		}
-		ExportExcel.doExportExcel2("样品批次信息","样品批次信息",  headers, list,response);
+		ExportExcel.doExportExcel2("合同信息","合同信息",  headers, list,response);
 	}
 	
 	@ResponseBody

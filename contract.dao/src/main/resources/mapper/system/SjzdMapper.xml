@@ -17,6 +17,21 @@
     from ${tableName}
     where WID = #{wid,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectRwzt" resultMap="BaseResultMap" >
+  		SELECT WID,BM AS LBDM,name AS LBMC,SFSY AS STATUS,PX AS OrderBy
+  		from t_contract_sjzd_shzt
+  		where sfsy=1
+  		order by px
+  </select>
+  
+  
+  <select id="selectUsers" resultMap="BaseResultMap" >
+  		SELECT WID,WID AS LBDM,name1 AS LBMC,DATASTATUS AS STATUS,GH AS OrderBy
+  		from t_contract_user_userinfo
+  		where DATASTATUS=1
+  		order by GH
+  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
   	SELECT
   	<include refid="Base_Column_List" /> 

@@ -17,7 +17,7 @@ public interface LeaveInfoService {
 	    int insert(LeaveInfo record,String userId) throws Exception;
 
 	    int insertSelective(LeaveInfo record,String userId) throws Exception;
-	    
+	    void examineNotPass(String wid,String userId) throws Exception;
 	    /**
 		 * 审核
 		 * @param wid

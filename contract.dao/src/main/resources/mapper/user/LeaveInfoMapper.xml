@@ -43,12 +43,16 @@
     from t_contract_user_leaveinfo
     where WID = #{wid,jdbcType=VARCHAR}
   </select>
+  
+  
+  
+  
    <select id="selectByYhid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,
+    <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,b.gh,
     D.NAME AS taskStatusDisplayvalue
     from t_contract_user_leaveinfo A
-    LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.STATUS=1
+    LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.DATASTATUS=1
     LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
     LEFT JOIN T_CONTRACT_SJZD_SHZT D ON A.TASKSTATUS=D.BM AND D.SFSY=1
     where A.YHID = #{yhid,jdbcType=VARCHAR}
@@ -56,7 +60,7 @@
     ORDER BY A.CREATETIME DESC
   </select>
   <select id="selectLeaveInfoByStep" resultMap="BaseResultMap">
-  	SELECT <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,
+  	SELECT <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,B.GH,
   	D.NAME AS taskStatusDisplayvalue
     from T_CONTRACT_USER_USERINFO B,t_contract_user_leaveinfo A
     LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
@@ -65,7 +69,7 @@
     <if test="step!=null">
     	AND A.CurrentStep=#{step,jdbcType=VARCHAR}	
     </if>
-    AND A.YHID=B.WID AND B.STATUS=1
+    AND A.YHID=B.WID AND B.DATASTATUS=1
     AND A.STATUS=1
     <if test="shType=='01'">
     	AND B.TEAM=#{teamId,jdbcType=VARCHAR}	

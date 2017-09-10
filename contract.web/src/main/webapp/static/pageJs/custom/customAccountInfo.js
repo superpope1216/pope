@@ -31,7 +31,7 @@ $(document).ready(function(){
 				var _tr="";;
 				for(var i=0;i<_data.length;i++){
 					_tr+='<tr>';
-					_tr+='<td class="text-center"><input type="checkbox" name="chkSingle" value="'+toStr(_data[i].wid)+'" data-rwzt="'+_data[i].rwzt+'"></td>';
+					
 					_tr+='<td class="text-center">'+toStr(_data[i].customNumber)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].customName)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].accountNumber)+'</td>';
@@ -66,8 +66,7 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
-				setForm(key);
-				$("#modelEdidCustomInfo").modal("show");
+				window.location.href=basePath+"/customInfoDetail/index?wid="+key;
 			});
 			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");

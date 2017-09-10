@@ -26,4 +26,8 @@ public interface SjzdService {
 	    int updateByPrimaryKeySelective(Sjzd record ) throws Exception;
 
 	    int updateByPrimaryKey(Sjzd record ) throws Exception;
+	    
+	    List<Sjzd> selectRwzt();
+	    
+	    List<Sjzd> selectUsers();
 }

@@ -11,9 +11,11 @@ import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.code.FlowStateCode;
 import com.pope.contract.dao.user.LeaveInfoMapper;
+import com.pope.contract.entity.supply.GmbInfo;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.user.LeaveInfo;
+import com.pope.contract.service.BaseService;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.service.user.LeaveInfoService;
@@ -26,7 +28,7 @@ import com.pope.contract.util.StringUtil;
 * 类说明
 */
 @Service("leaveInfoService")
-public class LeaveInfoServiceImpl implements LeaveInfoService {
+public class LeaveInfoServiceImpl  extends BaseService implements LeaveInfoService {
 
 	@Autowired
 	private LeaveInfoMapper leaveInfoMapper; 
@@ -45,6 +47,15 @@ public class LeaveInfoServiceImpl implements LeaveInfoService {
 		return leaveInfoMapper.updateByPrimaryKeySelective(record);
 	}
 
+	public void examineNotPass(String wid,String userId) throws Exception{
+		
+		LeaveInfo leaveInfo=this.leaveInfoMapper.selectByPrimaryKey(wid);
+		String currentStep=leaveInfo.getCurrentStep();
+		leaveInfo.setCurrentStep("-1");
+		leaveInfo.setTaskstatus(StringUtil.toStr(FlowStateCode.BTG.getCode()));
+		this.leaveInfoMapper.updateByPrimaryKeySelective(leaveInfo);
+		saveFlowSetData(StringUtil.toInt(currentStep), wid, FlowStateCode.BTG, FlowSetCode.LEAVE, userId,FlowStateCode.BTG.getMsg());
+	}
 	@Override
 	@Transactional
 	/**

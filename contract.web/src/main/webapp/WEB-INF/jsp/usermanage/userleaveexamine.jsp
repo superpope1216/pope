@@ -130,7 +130,7 @@
 				<tr>
 					<td class="text-center">
 						{{if userInfo}}
-							{{= userInfo.name}}
+							{{= userInfo.name1}}
 						{{/if}} 
 					</td>
 					<td class="text-center">
@@ -165,7 +165,7 @@
 				<tr>
 					<td class="text-center">
 						{{if userInfo}}
-							{{= userInfo.name}}
+							{{= userInfo.name1}}
 						{{/if}} 
 					</td>
 					<td class="text-center">

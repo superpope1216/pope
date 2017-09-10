@@ -75,5 +75,14 @@ public class SjzdServiceImpl implements SjzdService {
 	public int updateByPrimaryKey(Sjzd record ) throws Exception {
 		return sjzdMapper.updateByPrimaryKeySelective(record);
 	}
+	
+	public List<Sjzd> selectRwzt(){
+		return sjzdMapper.selectRwzt();
+	}
+
+	@Override
+	public List<Sjzd> selectUsers() {
+		return sjzdMapper.selectUsers();
+	}
 
 }

@@ -39,7 +39,7 @@
 									<th class="text-center">请假结束时间</th>
 									<th class="text-center">请假时长</th>
 									<th class="text-center">任务状态</th>
-									<th data-width="130px" class="text-center">操作</th>
+									<!-- <th data-width="130px" class="text-center">操作</th> -->
 								</tr>
 							</thead>
 							<tbody id="tblLevelInfo">
@@ -93,7 +93,7 @@
 							<label for="endtime" class="col-sm-2 required">请假结束时间</label>
 							<div class="col-md-8 col-sm-8">
 								<input type="text" class="form-control" name="endtime"
-									placeholder="请选择清洁结束时间" required onFocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm ' })">
+									placeholder="请选择请假结束时间" required onFocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm ' })">
 							</div>
 						</div>
 						<div class="form-group">
@@ -109,7 +109,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="btnSaveLeaveInfo">保存草稿</button>
+					<!-- <button type="button" class="btn btn-primary" id="btnSaveLeaveInfo">保存草稿</button> -->
 					<button type="button" class="btn btn-primary" id="btnShLeaveInfo">提交审核</button>
 				</div>
 			</div>
@@ -121,7 +121,7 @@
 				<tr>
 					<td class="text-center">
 						{{if userInfo}}
-							{{= userInfo.name}}
+							{{= userInfo.name1}}
 						{{/if}} 
 					</td>
 					<td class="text-center">
@@ -143,14 +143,6 @@
 							{{= taskstatusSjzd.lbmc}}
 						{{/if}}
 					</td>
-					<td class="text-center"><div class="btn-group">
-							{{if taskstatus=="01"}}
-
-          								<button type="button" data-key='{{= wid}}' data-option='editLeave' class="btn btn-xs btn-primary"><i class="icon icon-edit"></i>编辑</button>
-			
-          								<button type="button" data-key='{{= wid}}' data-option='deleteLeave' style="margin-left:4px;" class="btn btn-xs btn-danger"><i class="icon icon-times"></i>删除</button>
-							{{/if}}
-        			</div></td>
 				</tr>
 			</script>
 	<script type="text/javascript"

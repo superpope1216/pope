@@ -79,6 +79,14 @@ public class ZdbDetailController extends BaseController{
 		return Result.success(data);
 		
 	}
-	
-	
+	@RequestMapping(value="selectRwzt",method=RequestMethod.GET)
+	@ResponseBody
+	public Result selectRwzt() throws Exception{
+		return Result.success(this.sjzdService.selectRwzt());
+	}
+	@RequestMapping(value="selectUsers",method=RequestMethod.GET)
+	@ResponseBody
+	public Result selectUsers() throws Exception{
+		return Result.success(this.sjzdService.selectUsers());
+	}
 }

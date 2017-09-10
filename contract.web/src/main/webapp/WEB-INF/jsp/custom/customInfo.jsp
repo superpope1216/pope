@@ -35,11 +35,10 @@
 					<div class="panel-body">
 						<div class="pull-left">
 							<button class="btn btn-primary btnQuery" id="btnAdd"
-								style="display: none;">新建</button>&nbsp;&nbsp;
+								style="display: none;margin-bottom:15px;">新建</button>&nbsp;&nbsp;
 								<button class="btn btn-primary btnQuery" id="btnAddAccount"
-								style="display: none;">新建客户账户</button>
+								style="display: none;margin-bottom:15px;">新建客户账户</button>
 						</div>
-						<br> <br>
 						<table class="table table-bordered datatable table-hover"
 							id="mainTable">
 							<thead>

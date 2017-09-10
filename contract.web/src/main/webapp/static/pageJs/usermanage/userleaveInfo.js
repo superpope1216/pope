@@ -27,15 +27,22 @@ $(document).ready(function(){
 	function setZdb(){
 		doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_QJLX","#modelEdithLevelInfo [name='type']")
 	}
-	function queryList(){
-		doGet(basePath+"/userleaves/list","",function(data){
+	function queryList(startPage){
+		$("#tblLevelInfo").html("");
+		if(startPage==undefined){
+			startPage=0;
+		}
+		doGet(basePath+"/userleaves/list","startPage="+startPage,function(data){
 			if(data.data.data){
 				$('#tblLevelInfoTpl').tmpl(data.data.data).appendTo('#tblLevelInfo');
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}else{
-				$("#mainTable").datatable({sortable: true});
+				//$("#mainTable").datatable({sortable: true});
 			}
-			$("#datatable-mainTable").delegate("[data-option='editLeave']","click",function(){
+			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+				queryList(pageId);
+			});
+			$("#mainTable").delegate("[data-option='editLeave']","click",function(){
 				var key=$(this).attr("data-key");
 				$("#levelForm")[0].reset();
 				$("#levelForm [name='wid']").val(key);
@@ -48,7 +55,7 @@ $(document).ready(function(){
 				});
 				$("#modelEdithLevelInfo").modal("show");
 			});
-			$("#datatable-mainTable").delegate("[data-option='deleteLeave']","click",function(){
+			$("#mainTable").delegate("[data-option='deleteLeave']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该数据？",function(){
 					doPost(basePath+"/userleaves/delete","wid="+key,function(data){
