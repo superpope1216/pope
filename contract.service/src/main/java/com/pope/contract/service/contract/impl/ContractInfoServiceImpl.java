@@ -195,7 +195,7 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 			throw new ServiceException("请至少选择一个分析项目");
 		}
 		ContractInfo contractInfo=contractInfoMapper.selectByPrimaryKey(htid);
-		CustomInfo queryCustomInfo=new CustomInfo();
+		CustomInfoExtend queryCustomInfo=new CustomInfoExtend();
 		queryCustomInfo.setCustomNumber(contractInfo.getHtjf());
 		queryCustomInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		CustomInfo customInfo=customInfoExtendMapper.selectSingleByCondition(queryCustomInfo);
@@ -237,11 +237,12 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 				contractMoney.setDj(fxxmInfo.getFxdj());
 			}
 			contractMoney.setSl((contractMoney.getSl()==null?0:contractMoney.getSl())+fxxmCount);
-			BigDecimal zk=DecimalUtil.sub(DecimalUtil.toDecimal("1"), fxxmInfo.getZk());
+			BigDecimal zk=fxxmInfo.getZk();
 			BigDecimal currentZkjg=DecimalUtil.mul(DecimalUtil.mul(fxdj, DecimalUtil.toDecimal(zk.toString())),DecimalUtil.toDecimal(contractMoney.getSl().toString()));
-			contractMoney.setZkjg(currentZkjg);
-			contractMoney.setZj(DecimalUtil.mul(fxdj, DecimalUtil.toDecimal(contractMoney.getSl().toString())));
-			totalJe=DecimalUtil.sub(DecimalUtil.add(totalJe, contractMoney.getZj()),contractMoney.getZkjg());
+			contractMoney.setZkjg(zk);
+			//contractMoney.setZj(DecimalUtil.mul(fxdj, DecimalUtil.toDecimal(contractMoney.getSl().toString())));
+			contractMoney.setZj(currentZkjg);
+			totalJe=DecimalUtil.add(totalJe, DecimalUtil.mul(contractMoney.getZj(),contractInfo.getHtzk()));
 			if(StringUtils.isEmpty(contractMoney.getWid())){
 				contractMoney.setWid(StringUtil.getUuId());
 				contractMoneyMapper.insert(contractMoney);
@@ -334,26 +335,28 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 					/**
 					 * 折扣
 					 */
-					BigDecimal zk=DecimalUtil.sub(DecimalUtil.toDecimal("1"), taskInfo.getHtzk());
-					BigDecimal money=DecimalUtil.mul(taskInfo.getHtje(),zk); 
+					//BigDecimal zk=DecimalUtil.sub(DecimalUtil.toDecimal("1"), taskInfo.getHtzk());
+					//BigDecimal money=DecimalUtil.mul(taskInfo.getHtje(),zk); 
 					CustomAccountExtend queryCustomAccountExtend=new CustomAccountExtend();
-					CustomInfo queryCustomInfo=new CustomInfo();
+					CustomInfoExtend queryCustomInfo=new CustomInfoExtend();
 					queryCustomInfo.setCustomNumber(taskInfo.getHtjf());
 					CustomInfo customInfo=customInfoExtendMapper.selectSingleDisplayByCondition(queryCustomInfo);
 					
 					queryCustomAccountExtend.setCustomId(customInfo.getWid());
 					CustomAccount customAccount=customAccountExtendMapper.selectSingleByCondition(queryCustomAccountExtend);
-					customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),money));
+					customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),taskInfo.getHtje()));
 					customAccountInfoMapper.updateByPrimaryKeySelective(customAccount);
 					
 					CustomMoneyLog customMoneyLog=new CustomMoneyLog();
 					customMoneyLog.setWid(StringUtil.getUuId());
 					customMoneyLog.setAccountNumber(customAccount.getAccountNumber());
 					customMoneyLog.setBankAccount(customAccount.getBankAccount());
-					customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),money));
+					customMoneyLog.setAccountMoney(customAccount.getAccountMoney());
+					customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),taskInfo.getHtje()));
 					customMoneyLog.setCreateMan(userid);
 					customMoneyLog.setCreateTime(DateUtil.getCurrentDateTimeStr());
 					customMoneyLog.setCustomId(customInfo.getWid());
+					customMoneyLog.setContractId(wid);
 					customMoneyLogMapper.insert(customMoneyLog);
 				}else{
 					currentStep=flowSet.getPx();
@@ -376,7 +379,7 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 		queryBatchInfo.setWid(pcid);
 		List<BatchInfoExtend> list=batchInfoExtendMapper.selectDisplayByCondition(queryBatchInfo);
 		BatchInfoExtend batchInfo=list.get(0);
-		CustomInfo queryCustomInfo=new CustomInfo();
+		CustomInfoExtend queryCustomInfo=new CustomInfoExtend();
 		//queryCustomInfo.setWid(batchInfo.getSydw());
 		queryCustomInfo.setCustomNumber(batchInfo.getSydw());
 	    CustomInfoExtend  customInfoExtend=customInfoExtendMapper.selectSingleDisplayByCondition(queryCustomInfo);

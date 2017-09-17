@@ -21,7 +21,8 @@ $(document).ready(function(){
 			},
 			yjsl:{
 				required:true,
-				digits:true
+				digits:true,
+				min:0
 			}
 		}
 	});
@@ -98,6 +99,7 @@ $(document).ready(function(){
 					tbl+='<td class="text-center">'+toStr(_d[i].hcfl_display)+'</td>'; 
 					tbl+='<td class="text-left">'+toStr(_d[i].kc)+'</td>';
 					tbl+='<td class="text-left">'+toStr(_d[i].sldw_display)+'</td>';
+					tbl+='<td class="text-left">'+toStr(_d[i].yjsl)+'</td>';
 					tbl+='<td class="text-center">';
 					tbl+='	<div class="btn-group">';
 					if(buttonsPermission){
@@ -113,7 +115,10 @@ $(document).ready(function(){
 						if(buttonsPermission.indexOf(",btnDetail,")>=0){
 							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_d[i].wid+'">详</button>';
 						}
-					tbl+='	</div>';
+						if(buttonsPermission.indexOf(",btnYjsz,")>=0){
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnYjsz" data-key="'+_d[i].wid+'">预警</button>';
+						}
+					tbl+='</div>';
 					tbl+='</td>';
 					tbl+='</tr>';
 				}
@@ -156,6 +161,12 @@ $(document).ready(function(){
 					$("#modelShbSupplyInfo").modal("show");
 				});
 			});
+			
+			$("#mainTable").delegate("[data-option='btnYjsz']","click",function(){
+				var key=$(this).attr("data-key");
+				setEdit(key);
+				
+			});
 			$("#mainTable").delegate("[data-option='btnEdit']","click",function(){
 				var key=$(this).attr("data-key");
 				setEdit(key);
@@ -176,25 +187,19 @@ $(document).ready(function(){
 	});
 	
 	function setEdit(_wid){
-		doGet(basePath+"/supply/view","wid="+_wid,function(data){
+		
+		doGet(basePath+"/supplyTotal/select","wid="+_wid,function(data){
 			if(data && data.data){
 				var _d=data.data;
 				$("#supplyForm [name='wid']").val(_d.wid);
-				doGetSelect2("T_CONTRACT_SJZD_HCFL","#supplyForm [name='hcfl']",_d.hcfl);
-				$("#supplyForm [name='pm']").val(_d.pm);
-				$("#supplyForm [name='xhppch']").val(_d.xhppch);
-				$("#supplyForm [name='xhplrsj']").val(_d.xhplrsj);
-				$("#supplyForm [name='kc']").val(_d.kc);
-				doGetSelect2("T_CONTRACT_SJZD_SLDW","#supplyForm [name='sldw']",_d.sldw);
-				
-				$("#supplyForm [name='dj']").val(_d.dj);
-				doGetSelect2("T_CONTRACT_SJZD_HBDW","#supplyForm [name='hbdw']",_d.hbdw);
-				
-				$("#supplyForm [name='yxq']").val(_d.yxq);
+				$("#supplyForm [name='hcfl']").html(_d.hcfl_display);
+				$("#supplyForm [name='pm']").html(_d.pm);
+				$("#supplyForm [name='kc']").html(_d.kc);
+				$("#supplyForm [name='sldw']").html(_d.sldw_display);
+				$("#supplyForm [name='dj']").html(_d.dj);
+				$("#supplyForm [name='hbdw']").html(_d.hbdw_display);
 				$("#supplyForm [name='yjsl']").val(_d.yjsl);
-				$("#supplyForm [name='gys']").val(_d.gys);
-				$("#supplyForm [name='bz']").val(_d.bz);
-				
+				$("#modelEdithSupplyInfo").modal("show");
 				
 			}
 		});
@@ -244,7 +249,7 @@ $(document).ready(function(){
 	
 	$("#btnSaveSupplyInfo").click(function(){
 		if(_validater.form()){
-			var url=basePath+"/supply/save";
+			var url=basePath+"/supplyTotal/save";
 			var datas=$("#supplyForm").serializeArray();
 			doPost(url,datas,function(data){
 				window.location.reload();

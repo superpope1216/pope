@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.pxgl.extend.PxglInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.pxgl.PxglInfo">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="PXLX" property="pxlx" jdbcType="VARCHAR" />
+		<result column="PXMC" property="pxmc" jdbcType="VARCHAR" />
+		<result column="BEGTIME" property="begtime" jdbcType="VARCHAR" />
+		<result column="ENDTIME" property="endtime" jdbcType="VARCHAR" />
+		<result column="PXFY" property="pxfy" jdbcType="DECIMAL" />
+		<result column="BZ" property="bz" jdbcType="VARCHAR" />
+		<result column="BY10" property="by10" jdbcType="VARCHAR" />
+		<result column="BY9" property="by9" jdbcType="VARCHAR" />
+		<result column="BY8" property="by8" jdbcType="VARCHAR" />
+		<result column="BY7" property="by7" jdbcType="VARCHAR" />
+		<result column="BY6" property="by6" jdbcType="VARCHAR" />
+		<result column="BY5" property="by5" jdbcType="VARCHAR" />
+		<result column="BY4" property="by4" jdbcType="VARCHAR" />
+		<result column="BY3" property="by3" jdbcType="VARCHAR" />
+		<result column="BY1" property="by1" jdbcType="VARCHAR" />
+		<result column="BY2" property="by2" jdbcType="VARCHAR" />
+		<result column="CurrentStep" property="currentstep" jdbcType="INTEGER" />
+		<result column="RWZT" property="rwzt" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.pxgl.extend.PxglInfoExtend" extends="BaseResultMap">
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="gh" property="gh" jdbcType="VARCHAR" />
+		<result column="pxlx_display" property="pxlx_display" jdbcType="VARCHAR" />
+		<result column="rwzt_display" property="rwzt_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_pxgl_main.WID, t_contract_pxgl_main.PXLX,
+		t_contract_pxgl_main.PXMC,
+		t_contract_pxgl_main.BEGTIME,
+		t_contract_pxgl_main.ENDTIME,
+		t_contract_pxgl_main.PXFY,
+		t_contract_pxgl_main.BZ,
+		t_contract_pxgl_main.BY10,
+		t_contract_pxgl_main.BY9,
+		t_contract_pxgl_main.BY8,
+		t_contract_pxgl_main.BY7,
+		t_contract_pxgl_main.BY6,
+		t_contract_pxgl_main.BY5,
+		t_contract_pxgl_main.BY4,t_contract_pxgl_main.BY3,
+		t_contract_pxgl_main.BY1, t_contract_pxgl_main.BY2,
+		t_contract_pxgl_main.CurrentStep, t_contract_pxgl_main.RWZT
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List"/>
+		,t_contract_user_userinfo.name1 as userName
+		,t_contract_user_userinfo.gh
+		,T_CONTRACT_SJZD_PXLX.lbmc as pxlx_display
+		,t_contract_sjzd_shzt.NAME AS rwzt_display
+	</sql>
+	<sql id="sqlFrom">
+		LEFT JOIN t_contract_user_userinfo t_contract_user_userinfo on t_contract_pxgl_main.by1=t_contract_user_userinfo.wid
+		LEFT JOIN T_CONTRACT_SJZD_PXLX T_CONTRACT_SJZD_PXLX ON T_CONTRACT_SJZD_PXLX.LBDM=t_contract_pxgl_main.PXLX AND T_CONTRACT_SJZD_PXLX.STATUS=1
+		LEFT JOIN t_contract_sjzd_shzt t_contract_sjzd_shzt ON t_contract_pxgl_main.RWZT=t_contract_sjzd_shzt.BM AND t_contract_sjzd_shzt.SFSY=1
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_pxgl_main.wid=#{wid,jdbcType=VARCHAR}
+		</if>
+		<if test="by1!=null and by1!=''">
+			AND T_contract_pxgl_main.by1=#{by1,jdbcType=VARCHAR}
+		</if>
+		<if test="currentstep!=null">
+			AND T_contract_pxgl_main.currentstep=#{currentstep,jdbcType=INTEGER}
+		</if>
+		<if test="rwzt!=null">
+			AND T_contract_pxgl_main.rwzt=#{rwzt,jdbcType=INTEGER}
+		</if>
+		<if test="pxlx!=null and pxlx!=''">
+			AND T_contract_pxgl_main.pxlx=#{pxlx,jdbcType=VARCHAR}
+		</if>
+		<if test="userName!=null and userName!=''">
+			AND t_contract_user_userinfo.name1 like concat('%',#{userName},'%')
+		</if>
+		<if test="pxmc!=null and pxmc!=''">
+			AND T_contract_pxgl_main.pxmc like concat('%',#{pxmc},'%')	
+		</if>
+		<if test="rwztList!=null">
+			AND T_contract_pxgl_main.rwzt in
+			<foreach collection="rwztList" index="index" item="item" close=")" open="(" separator=",">
+				#{item}
+			</foreach>
+		</if>
+	</sql>
+	<select id="selectSingleByCondition" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_contract_pxgl_main t_contract_pxgl_main
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_pxgl_main.BY2 DESC
+		LIMIT 1
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_contract_pxgl_main t_contract_pxgl_main
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_pxgl_main.BY2 DESC
+	</select>
+	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap">
+		SELECT
+		<include refid="Base_Display_Column_List" />
+		FROM t_contract_pxgl_main t_contract_pxgl_main
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_pxgl_main.BY2 DESC
+		LIMIT 1
+	</select>
+	<select id="selectDisplayByCondition" resultMap="BaseDisplayResultMap">
+		SELECT
+		<include refid="Base_Display_Column_List" />
+		FROM t_contract_pxgl_main t_contract_pxgl_main
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_pxgl_main.BY2 DESC
+	</select>
+</mapper>

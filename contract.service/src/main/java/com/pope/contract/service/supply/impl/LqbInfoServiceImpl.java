@@ -15,10 +15,12 @@ import com.pope.contract.dao.supply.LqbInfoMapper;
 import com.pope.contract.dao.supply.SupplyInfoMapper;
 import com.pope.contract.dao.supply.SupplyTotalInfoMapper;
 import com.pope.contract.dao.supply.extend.LqbInfoExtendMapper;
+import com.pope.contract.dao.supply.extend.SupplyInfoExtendMapper;
 import com.pope.contract.entity.supply.LqbInfo;
 import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.supply.extend.LqbInfoExtend;
+import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.entity.task.TaskInfo;
@@ -94,8 +96,9 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 	public void examinePass(String wid, String userid) throws Exception {
 		// TODO Auto-generated method stub
 		LqbInfo taskInfo=this.lqbInfoMapper.selectByPrimaryKey(wid);
-		SupplyTotalInfo supplyInfo=supplyTotalInfoMapper.selectByPrimaryKey(taskInfo.getHcid());
-		int kc=supplyInfo.getKc()==null?0:supplyInfo.getKc();
+		SupplyTotalInfo supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(taskInfo.getHcid());
+		
+		int kc=supplyTotalInfo.getKc()==null?0:supplyTotalInfo.getKc();
 		int ghsl=taskInfo.getGhsl()==null?0:taskInfo.getGhsl();
 		int lysl=taskInfo.getLysl()==null?0:taskInfo.getLysl();
 		if((kc+ghsl)<lysl){
@@ -106,7 +109,22 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		
 		Integer currentStep=-1;
 		if(flowSet==null || flowSet.getPx()==null){
-			supplyInfo.setKc(kc+ghsl-lysl);
+			supplyTotalInfo.setKc(kc+ghsl-lysl);
+//			SupplyInfo supplyInfo=new SupplyInfo();
+//			supplyInfo.setWid(StringUtil.getUuId());
+//			supplyInfo.setDj(supplyTotalInfo.getDj());
+//			//supplyInfo.setDqbh(dqbh);
+//			supplyInfo.setFid(supplyTotalInfo.getWid());
+//			supplyInfo.setGys(supplyTotalInfo.getGys());
+//			supplyInfo.setHbdw(supplyTotalInfo.getHbdw());
+//			supplyInfo.setHcfl(supplyTotalInfo.getHcfl());
+//			supplyInfo.setKc(ghsl-lysl);
+//			supplyInfo.setNeedKl("0");
+//			supplyInfo.setPm(supplyTotalInfo.getPm());
+//			supplyInfo.setSldw(supplyTotalInfo.getSldw());
+//			supplyInfo.setXhplrsj(supplyTotalInfo.getXhplrsj());
+//			supplyInfo.setYjsl(0);
+//			supplyInfoMapper.insertSelective(supplyInfo);
 			taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.YJS.getCode()));
 			saveFlowSetData(currentStep, wid, FlowStateCode.YJS, FlowSetCode.SUPPLY, userid,FlowStateCode.YJS.getMsg());
 		}else{
@@ -116,7 +134,7 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		}
 		taskInfo.setCurentstep(currentStep);
 		lqbInfoMapper.updateByPrimaryKeySelective(taskInfo);
-		supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyInfo);
+		supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
 	}
 
 	@Override

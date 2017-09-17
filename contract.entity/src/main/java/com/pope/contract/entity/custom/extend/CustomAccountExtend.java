@@ -16,6 +16,16 @@ public class CustomAccountExtend extends CustomAccount implements Serializable {
 	private String customName;
 
     private String customNumber;
+    
+    private String queryCondition;
+
+	public String getQueryCondition() {
+		return queryCondition;
+	}
+
+	public void setQueryCondition(String queryCondition) {
+		this.queryCondition = queryCondition;
+	}
 
 	public String getCustomName() {
 		return customName;

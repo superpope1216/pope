@@ -42,6 +42,12 @@
   			<if	test="queryCondition!=null and queryCondition!=''">
   				AND t_contract_supplies_total.pm like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
   			</if>
+  			<if test="hcfl!=null and hcfl!=''">
+  				AND t_contract_supplies_total.hcfl=#{hcfl,jdbcType=VARCHAR}
+  			</if>
+  			<if test="pm!=null and pm!=''">
+  				AND t_contract_supplies_total.pm=#{pm,jdbcType=VARCHAR}
+  			</if>
   		</where>
   </sql>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend">

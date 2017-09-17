@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.ContractFbsqdInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="YPLB" property="yplb" jdbcType="VARCHAR" />
+    <result column="YPSL" property="ypsl" jdbcType="INTEGER" />
+    <result column="WTBH" property="wtbh" jdbcType="VARCHAR" />
+    <result column="FBBH" property="fbbh" jdbcType="VARCHAR" />
+    <result column="FBXM" property="fbxm" jdbcType="VARCHAR" />
+    <result column="FBSYS" property="fbsys" jdbcType="VARCHAR" />
+    <result column="SYR" property="syr" jdbcType="VARCHAR" />
+    <result column="WTSJ" property="wtsj" jdbcType="VARCHAR" />
+    <result column="LYR" property="lyr" jdbcType="VARCHAR" />
+    <result column="FBSJ" property="fbsj" jdbcType="VARCHAR" />
+    <result column="SQR" property="sqr" jdbcType="VARCHAR" />
+    <result column="SYSZG" property="syszg" jdbcType="VARCHAR" />
+    <result column="FBKXXFX" property="fbkxxfx" jdbcType="VARCHAR" />
+    <result column="HTID" property="htid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, YPLB, YPSL, WTBH, FBBH, FBXM, FBSYS, SYR, WTSJ, LYR, FBSJ, SQR, SYSZG, FBKXXFX, 
+    HTID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_fbsqd
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_contract_fbsqd
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    insert into t_contract_contract_fbsqd (WID, YPLB, YPSL, 
+      WTBH, FBBH, FBXM, FBSYS, 
+      SYR, WTSJ, LYR, FBSJ, 
+      SQR, SYSZG, FBKXXFX, 
+      HTID)
+    values (#{wid,jdbcType=VARCHAR}, #{yplb,jdbcType=VARCHAR}, #{ypsl,jdbcType=INTEGER}, 
+      #{wtbh,jdbcType=VARCHAR}, #{fbbh,jdbcType=VARCHAR}, #{fbxm,jdbcType=VARCHAR}, #{fbsys,jdbcType=VARCHAR}, 
+      #{syr,jdbcType=VARCHAR}, #{wtsj,jdbcType=VARCHAR}, #{lyr,jdbcType=VARCHAR}, #{fbsj,jdbcType=VARCHAR}, 
+      #{sqr,jdbcType=VARCHAR}, #{syszg,jdbcType=VARCHAR}, #{fbkxxfx,jdbcType=VARCHAR}, 
+      #{htid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    insert into t_contract_contract_fbsqd
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="yplb != null" >
+        YPLB,
+      </if>
+      <if test="ypsl != null" >
+        YPSL,
+      </if>
+      <if test="wtbh != null" >
+        WTBH,
+      </if>
+      <if test="fbbh != null" >
+        FBBH,
+      </if>
+      <if test="fbxm != null" >
+        FBXM,
+      </if>
+      <if test="fbsys != null" >
+        FBSYS,
+      </if>
+      <if test="syr != null" >
+        SYR,
+      </if>
+      <if test="wtsj != null" >
+        WTSJ,
+      </if>
+      <if test="lyr != null" >
+        LYR,
+      </if>
+      <if test="fbsj != null" >
+        FBSJ,
+      </if>
+      <if test="sqr != null" >
+        SQR,
+      </if>
+      <if test="syszg != null" >
+        SYSZG,
+      </if>
+      <if test="fbkxxfx != null" >
+        FBKXXFX,
+      </if>
+      <if test="htid != null" >
+        HTID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="yplb != null" >
+        #{yplb,jdbcType=VARCHAR},
+      </if>
+      <if test="ypsl != null" >
+        #{ypsl,jdbcType=INTEGER},
+      </if>
+      <if test="wtbh != null" >
+        #{wtbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fbbh != null" >
+        #{fbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fbxm != null" >
+        #{fbxm,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsys != null" >
+        #{fbsys,jdbcType=VARCHAR},
+      </if>
+      <if test="syr != null" >
+        #{syr,jdbcType=VARCHAR},
+      </if>
+      <if test="wtsj != null" >
+        #{wtsj,jdbcType=VARCHAR},
+      </if>
+      <if test="lyr != null" >
+        #{lyr,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        #{fbsj,jdbcType=VARCHAR},
+      </if>
+      <if test="sqr != null" >
+        #{sqr,jdbcType=VARCHAR},
+      </if>
+      <if test="syszg != null" >
+        #{syszg,jdbcType=VARCHAR},
+      </if>
+      <if test="fbkxxfx != null" >
+        #{fbkxxfx,jdbcType=VARCHAR},
+      </if>
+      <if test="htid != null" >
+        #{htid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    update t_contract_contract_fbsqd
+    <set >
+      <if test="yplb != null" >
+        YPLB = #{yplb,jdbcType=VARCHAR},
+      </if>
+      <if test="ypsl != null" >
+        YPSL = #{ypsl,jdbcType=INTEGER},
+      </if>
+      <if test="wtbh != null" >
+        WTBH = #{wtbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fbbh != null" >
+        FBBH = #{fbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fbxm != null" >
+        FBXM = #{fbxm,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsys != null" >
+        FBSYS = #{fbsys,jdbcType=VARCHAR},
+      </if>
+      <if test="syr != null" >
+        SYR = #{syr,jdbcType=VARCHAR},
+      </if>
+      <if test="wtsj != null" >
+        WTSJ = #{wtsj,jdbcType=VARCHAR},
+      </if>
+      <if test="lyr != null" >
+        LYR = #{lyr,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        FBSJ = #{fbsj,jdbcType=VARCHAR},
+      </if>
+      <if test="sqr != null" >
+        SQR = #{sqr,jdbcType=VARCHAR},
+      </if>
+      <if test="syszg != null" >
+        SYSZG = #{syszg,jdbcType=VARCHAR},
+      </if>
+      <if test="fbkxxfx != null" >
+        FBKXXFX = #{fbkxxfx,jdbcType=VARCHAR},
+      </if>
+      <if test="htid != null" >
+        HTID = #{htid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    update t_contract_contract_fbsqd
+    set YPLB = #{yplb,jdbcType=VARCHAR},
+      YPSL = #{ypsl,jdbcType=INTEGER},
+      WTBH = #{wtbh,jdbcType=VARCHAR},
+      FBBH = #{fbbh,jdbcType=VARCHAR},
+      FBXM = #{fbxm,jdbcType=VARCHAR},
+      FBSYS = #{fbsys,jdbcType=VARCHAR},
+      SYR = #{syr,jdbcType=VARCHAR},
+      WTSJ = #{wtsj,jdbcType=VARCHAR},
+      LYR = #{lyr,jdbcType=VARCHAR},
+      FBSJ = #{fbsj,jdbcType=VARCHAR},
+      SQR = #{sqr,jdbcType=VARCHAR},
+      SYSZG = #{syszg,jdbcType=VARCHAR},
+      FBKXXFX = #{fbkxxfx,jdbcType=VARCHAR},
+      HTID = #{htid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

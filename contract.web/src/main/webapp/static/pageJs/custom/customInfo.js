@@ -31,11 +31,14 @@ $(document).ready(function(){
 	});
 	setButtonsDisplay(buttonsPermission);
 	queryList();
+	$("#btnQuery").click(function(){
+		queryList();
+	});
 	function queryList(pageId){
 		if(pageId==undefined || pageId<0){
 			pageId=0;
 		}
-		doGet(basePath+"/custom/list","startPage="+pageId,function(data){
+		doGet(basePath+"/custom/list","startPage="+pageId+"&queryCondition="+$("#queryCondition").val(),function(data){
 			if(data.data.data){
 				var _data=data.data.data;
 				var _tr="";;
@@ -88,6 +91,7 @@ $(document).ready(function(){
 						window.location.reload();
 					});
 				});
+				return false;
 			});
 		})
 	}

@@ -8530,7 +8530,7 @@ body.article-content {
   }
 .tree-menu {
   overflow: hidden;
-  border: 1px solid #ddd;
+  border: 1px solid #2a3542;
   border-radius: 4px;
   }
 .tree-menu li {
@@ -8543,7 +8543,7 @@ body.article-content {
   display: block;
   padding: 8px;
   margin-bottom: -1px;
-  color: #353535;
+  color: white;
   }
 .tree-menu li > a > .icon {
   display: inline-block;
@@ -8613,9 +8613,9 @@ body.article-content {
   color: #fff;
   }
 .tree-menu > li > a {
-  border: 1px solid transparent;
-  border-bottom-color: #ddd;
+  border: 1px solid #2a3542;
+  border-bottom-color: #2a3542;
   }
 .tree-menu > li.open + li > a {
-  border-top-color: #ddd;
+  border-top-color: #2a3542;
   }

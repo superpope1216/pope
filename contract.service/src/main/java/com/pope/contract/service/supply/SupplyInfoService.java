@@ -27,4 +27,7 @@ public interface SupplyInfoService {
 	
 	List<Map<String,Object>> selectPmByCondition(String hcfl) throws Exception;
 	
+	
+	void kl(String wid) throws Exception;
+	
 }

@@ -15,16 +15,7 @@ public class FxxmExtendInfo extends FxxmInfo implements Serializable{
     private String fxry_display;
 
     private String shry_display;
-    
-    private String zk_display;
 
-	public String getZk_display() {
-		return zk_display;
-	}
-
-	public void setZk_display(String zk_display) {
-		this.zk_display = zk_display;
-	}
 
 	public String getFxry_display() {
 		return fxry_display;

@@ -18,7 +18,14 @@ $(document).ready(function(){
 				required:true,
 				digits:true,
 				min:0
+			},
+			zk:{
+				required:true,
+				number:true,
+				min:0,
+				max:1
 			}
+			
 		}
 	});
 	queryList();
@@ -64,6 +71,7 @@ $(document).ready(function(){
 				window.location.reload();
 			});
 		}
+		return false;
 	});
 	$("#btnNew").click(function(){
 		$("#zdbsForm")[0].reset();
@@ -82,7 +90,7 @@ $(document).ready(function(){
 			$("#zdbsForm [name='fxyj']").val(_d.fxyj);
 			$("#zdbsForm [name='orderby']").val(_d.orderby);
 			$("#zdbsForm [name='bz']").val(_d.bz);
-			doGetSelect2("T_CONTRACT_SJZD_HTZK","#zdbsForm [name='zk']",_d.zk);
+			$("#zdbsForm [name='zk']").val(_d.zk);
 			doGetUserSelect(basePath+"/fxxmInfo/selectFxry","","#zdbsForm [name='fxry']",_d.fxry);
 			doGetUserSelect(basePath+"/fxxmInfo/selectShry","","#zdbsForm [name='shry']",_d.shry);
 			

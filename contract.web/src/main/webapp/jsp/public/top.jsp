@@ -6,6 +6,7 @@
 <title>合同与实验室管理系统</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/css/zui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/css/zui-theme.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/ueditor/themes/default/css/ueditor.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/datatable/zui.datatable.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/style.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css">
@@ -14,6 +15,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/jquery/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/js/zui.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/datatable/zui.datatable.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/plugins/jquery-validate/jquery.validate.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/plugins/jquery-validate/localization/messages_zh.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/pageJs/common.js"></script>

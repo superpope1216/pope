@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.NewsInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.NewsInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="ONLINE" property="online" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.NewsInfo" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t_contract_sys_news.WID, t_contract_sys_news.NAME, 
+    t_contract_sys_news.BEGIN_TIME, t_contract_sys_news.END_TIME, 
+    t_contract_sys_news.ONLINE, t_contract_sys_news.CREATE_TIME, 
+    t_contract_sys_news.CREATE_MAN
+  </sql>
+  <sql id="Blob_Column_List" >
+    t_contract_sys_news.CONTENT
+  </sql>
+  
+  
+  <sql id="sqlWhere">
+  
+  	<if test="wid!=null and wid!=''">
+  		AND t_contract_sys_news.wid=#{wid,jdbcType=VARCHAR}
+  	</if>
+  	
+  	<if test="beginTime!=null and beginTime!=''">
+  		AND t_contract_sys_news.BEGIN_TIME&lt;=#{beginTime,jdbcType=VARCHAR}
+  	</if>
+  	<if test="endTime!=null and endTime!=''">
+  		AND t_contract_sys_news.END_TIME&gt;=#{endTime,jdbcType=VARCHAR}
+  	</if>
+  	<if test="online!=null and online!=''">
+  		AND t_contract_sys_news.online=#{online,jdbcType=VARCHAR}
+  	</if>
+  </sql>
+  <select id="selectByCondition" parameterType="com.pope.contract.entity.system.extend.NewsInfoExtend" resultMap="ResultMapWithBLOBs">
+  		SELECT <include refid="Base_Column_List"/>,
+  		<include refid="Blob_Column_List"/>
+  		FROM t_contract_sys_news t_contract_sys_news
+  		<where>
+  			<include refid="sqlWhere"/>
+  		</where>
+  		order by t_contract_sys_news.begin_time desc
+  </select>
+   <select id="selectSingleByCondition" parameterType="com.pope.contract.entity.system.extend.NewsInfoExtend" resultMap="ResultMapWithBLOBs">
+  		SELECT <include refid="Base_Column_List"/>,
+  		<include refid="Blob_Column_List"/>
+  		FROM t_contract_sys_news t_contract_sys_news
+  		<where>
+  			<include refid="sqlWhere"/>
+  		</where>
+  		order by t_contract_sys_news.begin_time desc
+  		limit 1
+  </select>
+</mapper>

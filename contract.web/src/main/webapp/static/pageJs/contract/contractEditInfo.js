@@ -26,7 +26,14 @@ $(document).ready(function(){
 			dj:{
 				number:true,
 				min:0
+			},
+			htzk:{
+				required:true,
+				number:true,
+				min:0,
+				max:1
 			}
+			
 		}
 	});
 	queryForm();
@@ -125,8 +132,8 @@ $(document).ready(function(){
 		$("#userForm [name='p_xmfzr']").html(toStr(data.xmfzr));
 		$("#userForm [name='htje']").val(toStr(data.htje));
 		$("#userForm [name='p_htje']").html(toStr(data.htje));
-		
-		doGetSelect2("T_CONTRACT_SJZD_HTZK","#userForm [name='htzk']",data.htzk);
+		$("#userForm [name='htzk']").val(toStr(data.htzk));
+		//doGetSelect2("T_CONTRACT_SJZD_HTZK","#userForm [name='htzk']",data.htzk);
 		$("#userForm [name='htsj']").val(toStr(data.htsj));
 		$("#userForm [name='p_htsj']").html(toStr(data.htsj));
 		$("#userForm [name='htzxsj']").val(toStr(data.htzxsj));

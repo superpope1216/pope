@@ -3,12 +3,13 @@ package com.pope.contract.entity.supply;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class SupplyInfo implements Serializable{
+public class SupplyInfo implements Serializable {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-    private String wid;
+
+	private String wid;
 
     private String hcfl;
 
@@ -37,6 +38,8 @@ public class SupplyInfo implements Serializable{
     private Integer dqbh;
 
     private String fid;
+
+    private String needKl;
 
     public String getWid() {
         return wid;
@@ -156,5 +159,13 @@ public class SupplyInfo implements Serializable{
 
     public void setFid(String fid) {
         this.fid = fid == null ? null : fid.trim();
+    }
+
+    public String getNeedKl() {
+        return needKl;
+    }
+
+    public void setNeedKl(String needKl) {
+        this.needKl = needKl == null ? null : needKl.trim();
     }
 }

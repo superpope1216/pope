@@ -21,9 +21,9 @@ body{
 	height:150px;
 	margin-left:auto;
 	margin-right:auto;
-	background:url(../img/login/bg4.gif);
+	/**background:url(../img/login/bg4.gif);*/
 	position:absolute; top:20%;
-	border:1px solid #ddd;
+	/**border:1px solid #ddd;*/
 }
 
 .login-content{
@@ -38,7 +38,7 @@ h2{
 	text-align:center;
 	height:50px; 
 	line-height:50px;
-	background:#eee;
+	/**background:#eee;*/
 }
 .login-info{
 	width:320px; 

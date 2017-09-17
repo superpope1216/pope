@@ -15,10 +15,13 @@
     <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
     <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="BaseColumnList">
-  	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL
+  	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL,
+  	ICON
   </sql>
+  
   <select id="selectPermissionByRoleAsTree" parameterType="com.pope.contract.entity.system.Role" resultMap="BaseResultMap">
   	SELECT 
   	<include refid="BaseColumnList"/>

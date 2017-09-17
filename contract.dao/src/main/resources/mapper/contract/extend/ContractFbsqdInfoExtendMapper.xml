@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.extend.ContractFbsqdInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="YPLB" property="yplb" jdbcType="VARCHAR" />
+    <result column="YPSL" property="ypsl" jdbcType="INTEGER" />
+    <result column="WTBH" property="wtbh" jdbcType="VARCHAR" />
+    <result column="FBXM" property="fbxm" jdbcType="VARCHAR" />
+    <result column="FBSYS" property="fbsys" jdbcType="VARCHAR" />
+    <result column="SYR" property="syr" jdbcType="VARCHAR" />
+    <result column="WTSJ" property="wtsj" jdbcType="VARCHAR" />
+    <result column="LYR" property="lyr" jdbcType="VARCHAR" />
+    <result column="FBSJ" property="fbsj" jdbcType="VARCHAR" />
+    <result column="SQR" property="sqr" jdbcType="VARCHAR" />
+    <result column="SYSZG" property="syszg" jdbcType="VARCHAR" />
+    <result column="FBKXXFX" property="fbkxxfx" jdbcType="VARCHAR" />
+    <result column="HTID" property="htid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_contract_contract_fbsqd.WID, t_contract_contract_fbsqd.YPLB, 
+    t_contract_contract_fbsqd.YPSL, t_contract_contract_fbsqd.WTBH, 
+    t_contract_contract_fbsqd.FBXM, t_contract_contract_fbsqd.FBSYS, 
+    t_contract_contract_fbsqd.SYR, t_contract_contract_fbsqd.WTSJ, 
+    t_contract_contract_fbsqd.LYR, t_contract_contract_fbsqd.FBSJ, 
+    t_contract_contract_fbsqd.SQR, t_contract_contract_fbsqd.SYSZG, 
+    t_contract_contract_fbsqd.FBKXXFX, t_contract_contract_fbsqd.HTID
+  </sql>
+  <select id="selectSingleByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.contract.ContractFbsqdInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_fbsqd t_contract_contract_fbsqd
+    <where>
+    	<if test="wid!=null and wid!=''">
+    		 and t_contract_contract_fbsqd.WID = #{wid,jdbcType=VARCHAR}
+    	</if>
+    	<if test="htid!=null and htid!=''">
+    		and t_contract_contract_fbsqd.htid = #{htid,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    limit 1
+    
+  </select>
+  
+</mapper>

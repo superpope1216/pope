@@ -108,6 +108,23 @@ $(document) .ready(
 					$("#btnExport").click(function(){
 						window.open(basePath+"/contractInfo/export");
 					});
+					
+					$("#btnDownload").click(function(){
+						var selectContractId = $("#mainTable [name='chkSingle']:checked");
+						if (selectContractId.length <= 0) {
+							alert("请至少选择一条合同下载分包申请表！");
+							return;
+						}
+						if(selectContractId.length>1){
+							alert("只能选择一条记录，请重新确认！");
+							return ;
+						}
+						var _wid=selectContractId[0].value;
+						window.open(basePath+"/contractPrint/index?wid="+_wid)
+						//doGet(basePath+"/contractInfo/download","wid="+_wid,function(data){
+							
+						//});
+					});
 
 					/**
 					 * 提交审核
@@ -116,6 +133,7 @@ $(document) .ready(
 							var selectContractId = $("#mainTable [name='chkSingle']:checked");
 							if (selectContractId.length <= 0) {
 								alert("请至少选择一条合同提交审核！");
+								return;
 							}
 							var wids="";
 							for(var i=0;i<selectContractId.length;i++){

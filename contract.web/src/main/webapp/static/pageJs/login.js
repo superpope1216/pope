@@ -6,7 +6,7 @@ $(document).ready(function(){
 	
 	$("#btnLogin").click(function(){
 		doPost(basePath+"/login/login",$("#loginForm").serializeArray(),function(data){
-			location.href = basePath + "/login/welcome";
+			location.href = basePath + "/center/index";
 		})
 	});
 	$("#btnClear").click(function(){

@@ -14,7 +14,8 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li class="active">首页</li>
+					<li><a href="#">客户管理</a></li>
+					<li class="active">收支统计</li>
 				</ol>
 			</div>
 			<div class="wrapper">

@@ -17,6 +17,7 @@
     <result column="BZ" property="bz" jdbcType="VARCHAR" />
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
     <result column="FID" property="fid" jdbcType="VARCHAR" />
+    <result column="NEED_KL" property="needKl" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseResultDisplayMap" type="com.pope.contract.entity.supply.extend.SupplyInfoExtend"  extends="BaseResultMap">
    
@@ -32,8 +33,8 @@
     t_contract_supplies_main.DJ, t_contract_supplies_main.HBDW, 
     t_contract_supplies_main.GYS, t_contract_supplies_main.YJSL, 
     t_contract_supplies_main.BZ, t_contract_supplies_main.DQBH, 
-    t_contract_supplies_main.FID
-  </sql>
+    t_contract_supplies_main.FID,t_contract_supplies_main.NEED_KL
+     </sql>
   <sql id="Base_Display_Column_List">
   	<include refid="Base_Column_List"></include>
   	,T_CONTRACT_SJZD_HCFL.LBMC AS HCFL_DISPLAY,

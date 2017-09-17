@@ -1,8 +1,10 @@
 package com.pope.contract.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -124,6 +126,11 @@ public class LoginController extends BaseController {
 				}
 			}
 		}
-		return "index";
+		return "center/centerInfo";
+	}
+	@RequestMapping("logout")
+	public void logout(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		request.getSession().invalidate();
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
 	}
 }

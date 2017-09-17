@@ -19,7 +19,6 @@
 		type="com.pope.contract.entity.system.extend.FxxmExtendInfo" extends="BaseResultMap">
 		<result column="FXRY_DISPLAY" property="fxry_display" jdbcType="VARCHAR" />
 		<result column="SHRY_DISPLAY" property="shry_display" jdbcType="VARCHAR" />
-		<result column="ZK_DISPLAY" property="zk_display" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		t_contract_sjzd_fxxm.WID, t_contract_sjzd_fxxm.LBDM,
@@ -35,7 +34,7 @@
 	<sql id="Base_Display_Column_List">
 		<include refid="Base_Column_List" />
 		,FXRY.NAME1 AS FXRY_DISPLAY,SHRY.NAME1 AS
-		SHRY_DISPLAY,T_CONTRACT_SJZD_HTZK.LBMC AS ZK_DISPLAY
+		SHRY_DISPLAY
 
 	</sql>
 	<sql id="sqlFrom">
@@ -46,12 +45,7 @@
 		AND FXRY.DATASTATUS=1
 		LEFT JOIN t_contract_user_userinfo SHRY ON
 		t_contract_sjzd_fxxm.FXRY=
-		FXRY.WID AND SHRY.DATASTATUS=1
-		LEFT JOIN
-		T_CONTRACT_SJZD_HTZK T_CONTRACT_SJZD_HTZK ON
-		t_contract_sjzd_fxxm.ZK=
-		T_CONTRACT_SJZD_HTZK.LBDM AND
-		T_CONTRACT_SJZD_HTZK.STATUS=1
+		SHRY.WID AND SHRY.DATASTATUS=1
 	</sql>
 	<sql id="sqlWhere">
 		<if test="wid!=null and wid!=''">

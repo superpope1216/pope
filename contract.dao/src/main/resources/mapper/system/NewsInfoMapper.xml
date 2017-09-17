@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.NewsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.NewsInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="ONLINE" property="online" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.NewsInfo" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, NAME, BEGIN_TIME, END_TIME, ONLINE, CREATE_TIME, CREATE_MAN
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_contract_sys_news
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sys_news
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.NewsInfo" >
+    insert into t_contract_sys_news (WID, NAME, BEGIN_TIME, 
+      END_TIME, ONLINE, CREATE_TIME, 
+      CREATE_MAN, CONTENT)
+    values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{beginTime,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=VARCHAR}, #{online,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{createMan,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.NewsInfo" >
+    insert into t_contract_sys_news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="online != null" >
+        ONLINE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        #{createMan,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.NewsInfo" >
+    update t_contract_sys_news
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        ONLINE = #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createMan != null" >
+        CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pope.contract.entity.system.NewsInfo" >
+    update t_contract_sys_news
+    set NAME = #{name,jdbcType=VARCHAR},
+      BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+      END_TIME = #{endTime,jdbcType=VARCHAR},
+      ONLINE = #{online,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.NewsInfo" >
+    update t_contract_sys_news
+    set NAME = #{name,jdbcType=VARCHAR},
+      BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+      END_TIME = #{endTime,jdbcType=VARCHAR},
+      ONLINE = #{online,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

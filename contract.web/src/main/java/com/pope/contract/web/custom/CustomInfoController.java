@@ -45,10 +45,13 @@ public class CustomInfoController extends BaseController{
 	}
 	@RequestMapping("list")
 	@ResponseBody
-	public Result list(Integer startPage){
+	public Result list(Integer startPage,String queryCondition){
 		PageUtil<CustomInfoExtend> pageUtil = new PageUtil<CustomInfoExtend>(startPage);
-		CustomInfo customInfo=new CustomInfo();
+		CustomInfoExtend customInfo=new CustomInfoExtend();
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		if(!StringUtils.isEmpty(queryCondition)){
+			customInfo.setQueryCondition(queryCondition);
+		}
 		List<CustomInfoExtend> datas=customInfoService.selectDisplayByCondition(customInfo);
 		PageParam<CustomInfoExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);

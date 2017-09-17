@@ -40,6 +40,7 @@
 					}
 					}
 				%>
+				<li ><a href='${pageContext.request.contextPath}/login/logout'>退出系统</a></li>
 			</ul>
 		</div>
 	</div>

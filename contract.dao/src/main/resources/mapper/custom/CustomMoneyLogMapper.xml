@@ -10,10 +10,11 @@
     <result column="BD_MONEY" property="bdMoney" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     WID, CUSTOM_ID, ACCOUNT_NUMBER, BANK_ACCOUNT, ACCOUNT_MONEY, BD_MONEY, CREATE_TIME, 
-    CREATE_MAN
+    CREATE_MAN, CONTRACT_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,10 +29,12 @@
   <insert id="insert" parameterType="com.pope.contract.entity.custom.CustomMoneyLog" >
     insert into t_contract_custom_money_log (WID, CUSTOM_ID, ACCOUNT_NUMBER, 
       BANK_ACCOUNT, ACCOUNT_MONEY, BD_MONEY, 
-      CREATE_TIME, CREATE_MAN)
+      CREATE_TIME, CREATE_MAN, CONTRACT_ID
+      )
     values (#{wid,jdbcType=VARCHAR}, #{customId,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, 
       #{bankAccount,jdbcType=VARCHAR}, #{accountMoney,jdbcType=DECIMAL}, #{bdMoney,jdbcType=DECIMAL}, 
-      #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR})
+      #{createTime,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.custom.CustomMoneyLog" >
     insert into t_contract_custom_money_log
@@ -60,6 +63,9 @@
       <if test="createMan != null" >
         CREATE_MAN,
       </if>
+      <if test="contractId != null" >
+        CONTRACT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -85,6 +91,9 @@
       </if>
       <if test="createMan != null" >
         #{createMan,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null" >
+        #{contractId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -112,6 +121,9 @@
       <if test="createMan != null" >
         CREATE_MAN = #{createMan,jdbcType=VARCHAR},
       </if>
+      <if test="contractId != null" >
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -123,7 +135,8 @@
       ACCOUNT_MONEY = #{accountMoney,jdbcType=DECIMAL},
       BD_MONEY = #{bdMoney,jdbcType=DECIMAL},
       CREATE_TIME = #{createTime,jdbcType=VARCHAR},
-      CREATE_MAN = #{createMan,jdbcType=VARCHAR}
+      CREATE_MAN = #{createMan,jdbcType=VARCHAR},
+      CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -75,6 +75,10 @@
 			AND
 			t_contract_custom_account.ACCOUNT_NUMBER=#{accountNumber,jdbcType=VARCHAR}
 		</if>
+		<if test="queryCondition!=null and queryCondition!=''">
+			AND (t_contract_custom_main.CUSTOM_NUMBER like concat('%',#{queryCondition},'%')
+				OR t_contract_custom_main.CUSTOM_NAME like concat('%',#{queryCondition},'%')) 
+		</if>
 	</sql>
 	<sql id="sqlOrder">
 		order by t_contract_custom_account.CREATE_TIME desc

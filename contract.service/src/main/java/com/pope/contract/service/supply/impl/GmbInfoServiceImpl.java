@@ -16,6 +16,7 @@ import com.pope.contract.dao.supply.SupplyInfoMapper;
 import com.pope.contract.dao.supply.SupplyTotalInfoMapper;
 import com.pope.contract.dao.supply.extend.GmbInfoExtendMapper;
 import com.pope.contract.dao.supply.extend.LqbInfoExtendMapper;
+import com.pope.contract.dao.supply.extend.SupplyInfoExtendMapper;
 import com.pope.contract.entity.supply.GmbInfo;
 import com.pope.contract.entity.supply.LqbInfo;
 import com.pope.contract.entity.supply.ShbInfo;
@@ -23,6 +24,7 @@ import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.supply.extend.GmbInfoExtend;
 import com.pope.contract.entity.supply.extend.LqbInfoExtend;
+import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
 import com.pope.contract.entity.system.FlowSet;
 import com.pope.contract.entity.system.FlowSetData;
 import com.pope.contract.exception.ServiceException;
@@ -54,6 +56,9 @@ public class GmbInfoServiceImpl extends BaseService implements GmbInfoService {
 	private FlowSetDataService flowSetDataService;
 	@Autowired
 	private FlowSetService flowSetService;
+	
+	@Autowired
+	private SupplyInfoExtendMapper supplyInfoExtendMapper;
 	@Override
 	public int deleteByPrimaryKey(String wid) throws Exception {
 		return gmbInfoMapper.deleteByPrimaryKey(wid);
@@ -92,11 +97,29 @@ public class GmbInfoServiceImpl extends BaseService implements GmbInfoService {
 		int kc=supplyInfo.getKc()==null?0:supplyInfo.getKc();
 		int gml=taskInfo.getLysl()==null?0:taskInfo.getLysl();
 		
+		
 		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.SUPPLY.getCode(), taskInfo.getCurentstep());
 		
 		Integer currentStep=-1;
 		if(flowSet==null || flowSet.getPx()==null){
-			supplyInfo.setKc(kc+gml);
+			//supplyInfo.setKc(kc);
+			SupplyInfoExtend querySupplyInfo=new SupplyInfoExtend();
+			querySupplyInfo.setFid(supplyInfo.getWid());
+			SupplyInfo oldSupplyInfo=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
+			SupplyInfo supplyInfoNew=new SupplyInfo();
+			supplyInfoNew.setWid(StringUtil.getUuId());
+			supplyInfoNew.setDj(oldSupplyInfo.getDj());
+			//supplyInfo.setDqbh(dqbh);
+			supplyInfoNew.setFid(oldSupplyInfo.getFid());
+			supplyInfoNew.setGys(oldSupplyInfo.getGys());
+			supplyInfoNew.setHbdw(oldSupplyInfo.getHbdw());
+			supplyInfoNew.setHcfl(oldSupplyInfo.getHcfl());
+			supplyInfoNew.setKc(taskInfo.getLysl());
+			supplyInfoNew.setNeedKl("0");
+			supplyInfoNew.setPm(oldSupplyInfo.getPm());
+			supplyInfoNew.setSldw(oldSupplyInfo.getSldw());
+			supplyInfoNew.setXhplrsj(oldSupplyInfo.getXhplrsj());
+			supplyInfoMapper.insertSelective(supplyInfoNew);
 			taskInfo.setRwzt(StringUtil.toStr(FlowStateCode.YJS.getCode()));
 			saveFlowSetData(currentStep, wid, FlowStateCode.YJS, FlowSetCode.SUPPLY, userid,FlowStateCode.YJS.getMsg());
 		}else{
@@ -134,7 +157,7 @@ public class GmbInfoServiceImpl extends BaseService implements GmbInfoService {
 	 * @throws Exception
 	 */
 	public List<GmbInfoExtend> selectWaitTaskInfoByStep(String roleId) throws Exception {
-		FlowSet flowSet=flowSetService.selectByRoleAndType(roleId, FlowSetCode.CONTRACT.getCode());
+		FlowSet flowSet=flowSetService.selectByRoleAndType(roleId, FlowSetCode.SUPPLY.getCode());
 		List<Integer> taskStatus=new ArrayList<Integer>();
 		taskStatus.add(Integer.valueOf(FlowStateCode.DSH.getCode()));
 		taskStatus.add(Integer.valueOf(FlowStateCode.JXZ.getCode()));

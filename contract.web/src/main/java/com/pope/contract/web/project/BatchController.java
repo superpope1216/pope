@@ -26,11 +26,13 @@ import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.custom.CustomInfo;
+import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
 import com.pope.contract.entity.user.UserInfo;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.custom.CustomInfoService;
 import com.pope.contract.service.project.BatchInfoService;
 import com.pope.contract.util.CommonUtil;
@@ -89,7 +91,7 @@ public class BatchController extends BaseController{
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("wid", wid);
 		mv.addObject("type", type);
-		mv.setViewName("project/batchInfoDetail");;
+		mv.setViewName("project/batchInfoDetail");
 		return mv;
 	}
 	
@@ -136,7 +138,9 @@ public class BatchController extends BaseController{
 			BatchInfo batch=batchInfoService.getNewBatchInfo();
 			return Result.success(batch);
 		}else{
-			return Result.success(batchInfoService.selectByPrimaryKey(wid));
+			BatchInfoExtend batchInfo=new BatchInfoExtend();
+			batchInfo.setWid(wid);
+			return Result.success(batchInfoService.selectDisplayByCondition(batchInfo).get(0));
 		}
 	}
 	
@@ -234,7 +238,7 @@ public class BatchController extends BaseController{
 	@RequestMapping("selectCustomInfos")
 	@ResponseBody
 	public Result selectCustomInfos() throws Exception{
-		CustomInfo customInfo=new CustomInfo();
+		CustomInfoExtend customInfo=new CustomInfoExtend();
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		List<CustomInfo> datas=customInfoService.selectByCondition(customInfo);
 		return Result.success(datas);
@@ -305,4 +309,26 @@ public class BatchController extends BaseController{
 		}
 		ExportExcel.doExportExcel2("样品批次信息","样品批次信息",  headers, list,response);
 	}
+	
+	
+	@RequestMapping("overPc")
+	@ResponseBody
+	public Result overPc(String wid) throws Exception{
+			PageParam<BatchInfoDetailExtend> pageParam = new PageParam<BatchInfoDetailExtend>();
+			pageParam.setPage(0);
+		
+			List<BatchInfoDetailExtend> users=null;
+			Page<BatchInfoDetailExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
+			BatchInfoDetail batchInfoDetail=new BatchInfoDetail();
+			batchInfoDetail.setPcwid(wid);
+			users=batchInfoService.selectDetailDisplayByCondition(batchInfoDetail);
+			if(CommonUtil.isEmptyList(users)){
+				throw new ServiceException("该批次下还没有建样品，请重新确认");
+			}
+			BatchInfo batchInfo=new BatchInfo();
+			batchInfo.setWid(wid);
+			batchInfo.setPczt(StringUtil.toStr(BatchStateEnum.DC.getCode()));
+			batchInfoService.updateBatchInfo(batchInfo);
+			return Result.success();
+		}
 }

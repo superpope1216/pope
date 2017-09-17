@@ -58,6 +58,8 @@
 						<div class="pull-right">
 							<button class="btn btn-primary btnQuery" id="btnSubmit"
 								style="display: none;margin-bottom:15px;">提交审核</button>
+							<button class="btn btn-primary btnQuery" id="btnDownload"
+								style=";margin-bottom:15px;width:120px;">创建分包申请表</button>
 								<button class="btn btn-primary btnQuery" id="btnExport"
 								style="display: none;margin-bottom:15px;">导出</button>
 						</div>

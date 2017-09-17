@@ -71,6 +71,13 @@ public class SupplyTotalInfoController extends BaseController{
 		PageParam<SupplyTotalInfoExtend> pageParam = pageUtil.getPageParam(users);
 		return Result.success(pageParam);
 	}
+	@RequestMapping("select")
+	@ResponseBody
+	public Result select(String wid) throws Exception{
+		SupplyTotalInfoExtend supplyTotalInfoExtend=new SupplyTotalInfoExtend();
+		supplyTotalInfoExtend.setWid(wid);
+		return Result.success(supplyTotalInfoService.selectDisplayByCondition(supplyTotalInfoExtend).get(0));
+	}
 	
 	@RequestMapping("toSlb")
 	@ResponseBody
@@ -126,5 +133,11 @@ public class SupplyTotalInfoController extends BaseController{
 		return Result.success();
 	}
 	
+	@RequestMapping("save")
+	@ResponseBody
+	public Result save(SupplyTotalInfo supplyTotalInfo) throws Exception{
+		supplyTotalInfoService.updateByPrimaryKeySelective(supplyTotalInfo);
+		return Result.success();
+	}
 	
 }

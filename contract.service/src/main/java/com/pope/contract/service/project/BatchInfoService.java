@@ -29,7 +29,7 @@ public interface BatchInfoService {
 	
 	void deleteBatchBatchInfo(String wids) throws Exception;
 	
-	BatchInfo getNewBatchInfo() throws Exception;
+	BatchInfoExtend getNewBatchInfo() throws Exception;
 	
 	BatchInfoDetail getNewBatchInfoDetail(String batchInfo) throws Exception;
 	

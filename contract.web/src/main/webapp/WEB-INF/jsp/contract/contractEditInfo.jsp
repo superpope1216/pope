@@ -81,9 +81,9 @@
 										<div class="form-group">
 											<label for="phone" class="col-sm-2 required">合同折扣</label>
 											<div class="col-md-4 col-sm-4">
-												<select name="htzk" class="form-control" required>
-													<option value=''>--请选择--</option>
-												</select>
+												<input type="text" class="form-control" name="htzk"
+													placeholder="请输入合同折扣" required>
+												
 											</div>
 											<label for="department" class="col-sm-2 required">合同时间</label>
 											<div class="col-md-4 col-sm-4">

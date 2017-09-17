@@ -1,15 +1,9 @@
 package com.pope.contract.entity.custom;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CustomMoneyLog implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private String wid;
+public class CustomMoneyLog {
+    private String wid;
 
     private String customId;
 
@@ -24,6 +18,8 @@ public class CustomMoneyLog implements Serializable {
     private String createTime;
 
     private String createMan;
+
+    private String contractId;
 
     public String getWid() {
         return wid;
@@ -87,5 +83,13 @@ public class CustomMoneyLog implements Serializable {
 
     public void setCreateMan(String createMan) {
         this.createMan = createMan == null ? null : createMan.trim();
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId == null ? null : contractId.trim();
     }
 }

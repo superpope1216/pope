@@ -1,10 +1,17 @@
 package com.pope.contract.web.contract;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +29,7 @@ import com.pope.contract.service.contract.ContractInfoService;
 import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.ExportExcel;
 import com.pope.contract.util.StringUtil;
+import com.pope.contract.util.TempleWordUtil;
 import com.pope.contract.web.BaseController;
 import com.pope.contract.web.util.PageUtil;
 
@@ -127,5 +135,6 @@ public class ContractInfoController extends BaseController{
 		contractInfoService.deleteContractInfo(wid);
 		return Result.success();
 	}
+	
 	
 }

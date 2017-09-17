@@ -41,7 +41,7 @@ public class CustomInfoServiceImpl implements CustomInfoService{
 
 	@Override
 	public int insert(CustomInfo record,String userId) throws Exception {
-		CustomInfo queryCustomInfo=new CustomInfo();
+		CustomInfoExtend queryCustomInfo=new CustomInfoExtend();
 		queryCustomInfo.setDqbh(record.getDqbh());
 		List<CustomInfo> list=customInfoExtendMapper.selectByCondition(queryCustomInfo);
 		if(CommonUtil.isNotEmptyList(list)){
@@ -65,22 +65,22 @@ public class CustomInfoServiceImpl implements CustomInfoService{
 	}
 
 	@Override
-	public CustomInfo selectSingleByCondition(CustomInfo customInfo) {
+	public CustomInfo selectSingleByCondition(CustomInfoExtend customInfo) {
 		return customInfoExtendMapper.selectSingleByCondition(customInfo);
 	}
 
 	@Override
-	public List<CustomInfo> selectByCondition(CustomInfo customInfo) {
+	public List<CustomInfo> selectByCondition(CustomInfoExtend customInfo) {
 		return customInfoExtendMapper.selectByCondition(customInfo);
 	}
 
 	@Override
-	public CustomInfoExtend selectSingleDisplayByCondition(CustomInfo customInfo) {
+	public CustomInfoExtend selectSingleDisplayByCondition(CustomInfoExtend customInfo) {
 		return customInfoExtendMapper.selectSingleDisplayByCondition(customInfo);
 	}
 
 	@Override
-	public List<CustomInfoExtend> selectDisplayByCondition(CustomInfo customInfo) {
+	public List<CustomInfoExtend> selectDisplayByCondition(CustomInfoExtend customInfo) {
 		return customInfoExtendMapper.selectDisplayByCondition(customInfo);
 	}
 	@Override

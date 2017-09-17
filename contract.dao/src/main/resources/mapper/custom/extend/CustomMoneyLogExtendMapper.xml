@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.custom.extend.CustomMoneyLogExtendMapper">
+	<resultMap id="BaseResultMap"
+		type="com.pope.contract.entity.custom.CustomMoneyLog">
+		<id column="WID" property="wid" jdbcType="VARCHAR" />
+		<result column="CUSTOM_ID" property="customId" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_NUMBER" property="accountNumber"
+			jdbcType="VARCHAR" />
+		<result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_MONEY" property="accountMoney"
+			jdbcType="DECIMAL" />
+		<result column="BD_MONEY" property="bdMoney" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+		<result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap"
+		type="com.pope.contract.entity.custom.extend.CustomMoneyLogExtend"
+		extends="BaseResultMap">
+		<result column="htbh" property="htbh" jdbcType="VARCHAR" />
+		<result column="htmc" property="htmc" jdbcType="VARCHAR" />
+		<result column="htsj" property="htsj" jdbcType="VARCHAR" />
+		<result column="htlx_display" property="htlx_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t_contract_custom_money_log.WID, t_contract_custom_money_log.CUSTOM_ID,
+		t_contract_custom_money_log.ACCOUNT_NUMBER,
+		t_contract_custom_money_log.BANK_ACCOUNT,
+		t_contract_custom_money_log.ACCOUNT_MONEY,
+		t_contract_custom_money_log.BD_MONEY,
+		t_contract_custom_money_log.CREATE_TIME,t_contract_custom_money_log.CREATE_MAN,
+		t_contract_custom_money_log.CONTRACT_ID
+	</sql>
+	<sql id="Base_Display_Column_List">
+		<include refid="Base_Column_List" />
+		,t_contract_contract_main.htbh
+		,t_contract_contract_main.htmc
+		,t_contract_contract_main.htsj
+		,T_CONTRACT_SJZD_HTLX.lbmc as htlx_display
+	</sql>
+	<sql id="sqlFrom">
+		LEFT JOIN t_contract_contract_main t_contract_contract_main ON
+		t_contract_contract_main.WID=t_contract_custom_money_log.CONTRACT_ID
+		left join T_CONTRACT_SJZD_HTLX T_CONTRACT_SJZD_HTLX on
+		T_CONTRACT_SJZD_HTLX.lbdm=t_contract_contract_main.HTLX and
+		T_CONTRACT_SJZD_HTLX.STATUS=1
+	</sql>
+	<sql id="sqlWhere">
+		<if test="customId!=null and customId!=''">
+			AND t_contract_custom_money_log.CUSTOM_ID=#{customId}
+		</if>
+	</sql>
+	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap">
+		select
+		<include refid="Base_Display_Column_List" />
+		from t_contract_custom_money_log t_contract_custom_money_log
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_custom_money_log.CREATE_TIME desc
+		limit 1
+	</select>
+	<select id="selectDisplayByCondition" resultMap="BaseDisplayResultMap">
+		select
+		<include refid="Base_Display_Column_List" />
+		from t_contract_custom_money_log t_contract_custom_money_log
+		<include refid="sqlFrom" />
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		ORDER BY t_contract_custom_money_log.CREATE_TIME desc
+	</select>
+</mapper>

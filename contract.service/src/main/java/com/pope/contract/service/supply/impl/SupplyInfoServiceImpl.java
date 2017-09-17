@@ -14,6 +14,7 @@ import com.pope.contract.dao.supply.extend.SupplyTotalInfoExtendMapper;
 import com.pope.contract.entity.supply.SupplyInfo;
 import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.supply.extend.SupplyInfoExtend;
+import com.pope.contract.entity.supply.extend.SupplyTotalInfoExtend;
 import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.supply.SupplyInfoService;
 import com.pope.contract.util.CommonUtil;
@@ -48,6 +49,10 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 
 	@Override
 	public void deleteByPrimaryKey(String wid) {
+		SupplyInfo oldSupplyInfo=supplyInfoMapper.selectByPrimaryKey(wid);
+		if(oldSupplyInfo.getNeedKl().equals("1")){
+			throw new ServiceException("已加入领取仓库，无法删除！");
+		}
 		 supplyInfoMapper.deleteByPrimaryKey(wid);
 	}
 
@@ -65,33 +70,39 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		querySupplyInfo.setHcfl(record.getHcfl());
 		querySupplyInfo.setPm(record.getPm());
 		SupplyInfo oldSupplyInfo=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
-		SupplyTotalInfo supplyTotalInfo=null;
 		if(oldSupplyInfo!=null){
 			if(!record.getSldw().equals(oldSupplyInfo.getSldw()) ){
 				throw new ServiceException("同一分类同一品名的数量单位不一致，请重新确认！");
 			}
-			record.setFid(oldSupplyInfo.getFid());
-			supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(oldSupplyInfo.getFid());
-			
-			supplyTotalInfo.setKc(supplyTotalInfo.getKc()+record.getKc());
-			supplyTotalInfo.setYjsl(supplyTotalInfo.getYjsl()+record.getYjsl());
-			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
-			
-		}else{
-			supplyTotalInfo=new SupplyTotalInfo();
-			String pid=StringUtil.getUuId();
-			record.setFid(pid);
-			supplyTotalInfo.setWid(pid);
-			supplyTotalInfo.setHcfl(record.getHcfl());
-			supplyTotalInfo.setPm(record.getPm());
-			supplyTotalInfo.setSldw(record.getSldw());
-			supplyTotalInfo.setKc(record.getKc());
-			supplyTotalInfo.setYjsl(record.getYjsl());
-			supplyTotalInfo.setDj(record.getDj());
-			supplyTotalInfo.setHbdw(record.getHbdw());
-			supplyTotalInfo.setSldw(record.getSldw());
-			supplyTotalInfoMapper.insert(supplyTotalInfo);
 		}
+//		SupplyTotalInfo supplyTotalInfo=null;
+//		if(oldSupplyInfo!=null){
+//			if(!record.getSldw().equals(oldSupplyInfo.getSldw()) ){
+//				throw new ServiceException("同一分类同一品名的数量单位不一致，请重新确认！");
+//			}
+//			record.setFid(oldSupplyInfo.getFid());
+//			supplyTotalInfo=supplyTotalInfoMapper.selectByPrimaryKey(oldSupplyInfo.getFid());
+//			
+//			supplyTotalInfo.setKc(supplyTotalInfo.getKc()+record.getKc());
+//			supplyTotalInfo.setYjsl(supplyTotalInfo.getYjsl()+record.getYjsl());
+//			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
+//			
+//		}else{
+//			supplyTotalInfo=new SupplyTotalInfo();
+//			String pid=StringUtil.getUuId();
+//			record.setFid(pid);
+//			supplyTotalInfo.setWid(pid);
+//			supplyTotalInfo.setHcfl(record.getHcfl());
+//			supplyTotalInfo.setPm(record.getPm());
+//			supplyTotalInfo.setSldw(record.getSldw());
+//			supplyTotalInfo.setKc(record.getKc());
+//			supplyTotalInfo.setYjsl(record.getYjsl());
+//			supplyTotalInfo.setDj(record.getDj());
+//			supplyTotalInfo.setHbdw(record.getHbdw());
+//			supplyTotalInfo.setSldw(record.getSldw());
+//			supplyTotalInfoMapper.insert(supplyTotalInfo);
+//		}
+		record.setNeedKl("0");
 		supplyInfoMapper.insert(record);
 		return record;
 	}
@@ -117,6 +128,19 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 //			supplyTotalInfoMapper.updateByPrimaryKeySelective(supplyTotalInfo);
 //			
 //		}
+		SupplyInfo oldSupplyInfo=supplyInfoMapper.selectByPrimaryKey(record.getWid());
+		if(oldSupplyInfo.getNeedKl().equals("1")){
+			throw new ServiceException("已加入领取仓库，无法修改！");
+		}
+		SupplyInfoExtend querySupplyInfo=new SupplyInfoExtend();
+		querySupplyInfo.setHcfl(record.getHcfl());
+		querySupplyInfo.setPm(record.getPm());
+		SupplyInfo oldSupplyInfo2=supplyInfoExtendMapper.selectSingleByCondition(querySupplyInfo);
+		if(oldSupplyInfo2!=null){
+			if(!record.getSldw().equals(oldSupplyInfo2.getSldw()) ){
+				throw new ServiceException("同一分类同一品名的数量单位不一致，请重新确认！");
+			}
+		}
 		supplyInfoMapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -132,5 +156,43 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 	
 	public SupplyInfo selectSingleByCondition(SupplyInfoExtend supplyInfo) throws Exception{
 		return supplyInfoExtendMapper.selectSingleByCondition(supplyInfo);
+	}
+
+	@Override
+	@Transactional
+	public void kl(String wid) throws Exception {
+		SupplyInfo oldSupplyInfo=supplyInfoMapper.selectByPrimaryKey(wid);
+		if(oldSupplyInfo.getNeedKl().equals("1")){
+			throw new ServiceException("已加入领取仓库，无法再次加入！");
+		}
+		oldSupplyInfo.setNeedKl("1");
+		
+		SupplyTotalInfoExtend querySupplyInfo=new SupplyTotalInfoExtend();
+		querySupplyInfo.setHcfl(oldSupplyInfo.getHcfl());
+		querySupplyInfo.setPm(oldSupplyInfo.getPm());
+		List<SupplyTotalInfo> supplyTotalInfo=supplyTotalInfoExtendMapper.selectByCondition(querySupplyInfo);
+		if(CommonUtil.isNotEmptyList(supplyTotalInfo)){
+			SupplyTotalInfo oneSupplyTotalInfo=supplyTotalInfo.get(0);
+			oneSupplyTotalInfo.setKc(oneSupplyTotalInfo.getKc()+oldSupplyInfo.getKc());
+			//oneSupplyTotalInfo.setYjsl(oneSupplyTotalInfo.getYjsl()+oldSupplyInfo.getYjsl());
+			supplyTotalInfoMapper.updateByPrimaryKeySelective(oneSupplyTotalInfo);
+			oldSupplyInfo.setFid(oneSupplyTotalInfo.getWid());
+		}else{
+			SupplyTotalInfo oneSupplyTotalInfo=new SupplyTotalInfo();
+			String pid=StringUtil.getUuId();
+			oldSupplyInfo.setFid(pid);
+			oneSupplyTotalInfo.setWid(pid);
+			oneSupplyTotalInfo.setHcfl(oldSupplyInfo.getHcfl());
+			oneSupplyTotalInfo.setPm(oldSupplyInfo.getPm());
+			oneSupplyTotalInfo.setSldw(oldSupplyInfo.getSldw());
+			oneSupplyTotalInfo.setKc(oldSupplyInfo.getKc());
+			//oneSupplyTotalInfo.setYjsl(oldSupplyInfo.getYjsl());
+			oneSupplyTotalInfo.setDj(oldSupplyInfo.getDj());
+			oneSupplyTotalInfo.setHbdw(oldSupplyInfo.getHbdw());
+			oneSupplyTotalInfo.setSldw(oldSupplyInfo.getSldw());
+			supplyTotalInfoMapper.insert(oneSupplyTotalInfo);
+		}
+		supplyInfoMapper.updateByPrimaryKeySelective(oldSupplyInfo);
+		
 	}
 }

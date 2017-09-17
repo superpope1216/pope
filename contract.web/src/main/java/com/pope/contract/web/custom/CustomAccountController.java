@@ -46,10 +46,14 @@ public class CustomAccountController extends BaseController{
 	}
 	@RequestMapping("list")
 	@ResponseBody
-	public Result list(Integer startPage) throws Exception{
+	public Result list(Integer startPage,String queryCondition) throws Exception{
 		PageUtil<CustomAccountExtend> pageUtil = new PageUtil<CustomAccountExtend>(startPage);
 		CustomAccountExtend customAccountExtend=new CustomAccountExtend();
 		customAccountExtend.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		if(!StringUtils.isEmpty(queryCondition)){
+			customAccountExtend.setQueryCondition(queryCondition);
+		}
+		
 		List<CustomAccountExtend> datas=customAccountService.selectByDisplayCondition(customAccountExtend);
 		PageParam<CustomAccountExtend> pageParam = pageUtil.getPageParam(datas);
 		return Result.success(pageParam);

@@ -11,6 +11,16 @@ public class CustomInfoExtend extends CustomInfo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
     private String customType_display;
+    
+    private String queryCondition;
+
+	public String getQueryCondition() {
+		return queryCondition;
+	}
+
+	public void setQueryCondition(String queryCondition) {
+		this.queryCondition = queryCondition;
+	}
 
 	public String getCustomType_display() {
 		return customType_display;

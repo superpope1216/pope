@@ -3,6 +3,17 @@
  */
 $(document).ready(
 		function() {
+			if(wid){
+				$("#userForm").hide();
+				$("#userFormView").show();
+			}else{
+				$("#userForm").show();
+				$("#userFormView").hide();
+			}
+			$("#btnEdit").click(function(){
+				$("#userForm").show();
+				$("#userFormView").hide();
+			});
 			var _validater = $("#userForm").validate({
 				errorPlacement : function(error, element) {
 					// Append error within linked label
@@ -78,6 +89,7 @@ $(document).ready(
 			function queryDetail() {
 				doGet(basePath + "/batch/detail", "wid=" + wid, function(data) {
 					if (data && data.data) {
+						setFormView(data);
 						var _details = data.data;
 						$("#userForm [name='wid']").val(_details.wid);
 						$("#userForm [name='dqbh']").val(_details.dqbh);
@@ -118,7 +130,7 @@ $(document).ready(
 						});
 						$("#userForm [name='syxmfzr']").val(_details.syxmfzr);
 						$("#userForm [name='shsj']").val(_details.shsj);
-						doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);
+						//doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);
 						doGetSelect2("T_CONTRACT_SJZD_FXXM", "#userForm [name='fxxm']", "",function(){
 							$("#userForm [name='fxxm']").multiselect();
 							if(_details.fxxm){
@@ -131,12 +143,50 @@ $(document).ready(
 							
 							
 						});
-						$("#userForm [name='hth']").val(_details.hth);
+						//$("#userForm [name='hth']").val(_details.hth);
 						$("#userForm [name='bz']").val(_details.bz);
 					}
 				});
 			}
-
+			function setFormView(data){
+				if(!data.data){
+					return;
+				}
+				var _details = data.data;
+				$("#userFormView [name='pclb_display']").html(_details.pclb_display);
+				$("#userFormView [name='ejfl']").html(_details.ejfl);
+				$("#userFormView [name='pcmc']").html(_details.pcmc);
+				$("#userFormView [name='ypph']").html(_details.ypph);
+				$("#userFormView [name='sl']").html(_details.sl);
+				$("#userFormView [name='pp_display']").html(_details.pp);
+				$("#userFormView [name='sldw_display']").html(_details.sldw);
+				$("#userFormView [name='cfd']").html(_details.cfd);
+				$("#userFormView [name='dj']").html(_details.dj);
+				$("#userFormView [name='hbdw_display']").html(_details.hbdw);
+				$("#userFormView [name='fxxm_display']").html(_details.fxxm_display);
+				
+				$("#userFormView [name='kzsjd']").html(_details.kzsjd);
+				$("#userFormView [name='sysj']").html(_details.sysj);
+				$("#userFormView [name='gys']").html(_details.gys);
+				$("#userFormView [name='syr']").html(_details.syr);
+				$("#userFormView [name='sydw_display']").html(_details.sydw_display);
+				$("#userFormView [name='syxmfzr']").html(_details.syxmfzr);
+				$("#userFormView [name='shsj']").html(_details.shsj);
+				$("#userFormView [name='pczt_display']").html(_details.pczt_display);
+				$("#userFormView [name='hth']").html(_details.hth);
+				$("#userFormView [name='bz']").html(_details.bz);
+			}
+			$("#btnLrjs").click(function(){
+				if(wid==""){
+					alert("样品批次还没有保存，请在左侧表单先保存样品批次信息！")
+					return;
+				}
+				confirm("确认该批次录入结束吗？",function(){
+					doPost(basePath+"/batch/overPc","wid="+wid,function(data){
+						window.location.href=basePath+"/batch/index";
+					})
+				});
+			});
 			$("#btnSave").click(
 					function() {
 						if (_validater.form()) {

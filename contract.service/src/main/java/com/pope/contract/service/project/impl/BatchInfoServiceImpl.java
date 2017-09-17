@@ -354,12 +354,16 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		List<BatchInfoExtend> datas = batchInfoExtendMapper.selectByWids(StringUtil.str2List(wids));
 		if(CommonUtil.isNotEmptyList(datas)){
 			String sydw=datas.get(0).getSydw();
+			String pclb=datas.get(0).getPclb();
 			for(BatchInfo batchInfo:datas){
 				if(BatchStateEnum.DC.getCode()!=StringUtil.toInt(batchInfo.getPczt()) && BatchStateEnum.JCZ.getCode()!=StringUtil.toInt(batchInfo.getPczt())){
 					throw new ServiceException("存在样品批次状态不是【待测】/【检测中】的记录，无法创建合同，请重新确认！");
 				}
 				if(!batchInfo.getSydw().equals(sydw)){
 					throw new ServiceException("存在样品批次的送样单位不一致的情况，无法创建合同，请重新确认！");
+				}
+				if(!batchInfo.getPclb().equals(pclb)){
+					throw new ServiceException("存在样品批次的类别不一致的情况，无法创建合同，请重新确认！");
 				}
 			}
 		}
@@ -407,7 +411,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		batchInfoMapper.updateByPrimaryKeySelective(batchInfo);
 	}
 	
-	public BatchInfo getNewBatchInfo() throws Exception{
+	public BatchInfoExtend getNewBatchInfo() throws Exception{
 		Integer max=batchInfoExtendMapper.selectMaxDqbh();
 		if(max==null){
 			max=1;
@@ -415,7 +419,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 
 			max++;
 		}
-		BatchInfo batchInfo=new BatchInfo();
+		BatchInfoExtend batchInfo=new BatchInfoExtend();
 		batchInfo.setDqbh(max);
 		
 		batchInfo.setYpph(GenernalKey.getBatchKey(max));

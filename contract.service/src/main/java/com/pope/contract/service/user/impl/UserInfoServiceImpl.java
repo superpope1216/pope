@@ -101,6 +101,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public LoginInfo login(UserInfo userInfo) {
 		LoginInfo loginInfo = new LoginInfo();
 		BeanUtils.copyProperties(userInfo, loginInfo);
+		loginInfo.setName(userInfo.getName1());
 		List<Role> roles = roleService.selectRolesByUserId(userInfo.getWid());
 		if (CommonUtil.isNotEmptyList(roles)) {
 			for (Role role : roles) {

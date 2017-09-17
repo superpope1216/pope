@@ -15,9 +15,13 @@ $(document).ready(function(){
 		rules : {
 			accountMoney:{
 				required : true,
-				digits:true
+				number:true,
+				range:[-9999999,9999999]
 			},
 		}
+	});
+	$("#btnQuery").click(function(){
+		queryList();
 	});
 	setButtonsDisplay(buttonsPermission);
 	queryList();
@@ -25,7 +29,7 @@ $(document).ready(function(){
 		if(pageId==undefined || pageId<0){
 			pageId=0;
 		}
-		doGet(basePath+"/customAccount/list","startPage="+pageId,function(data){
+		doGet(basePath+"/customAccount/list","startPage="+pageId+"&queryCondition="+$("#queryCondition").val(),function(data){
 			if(data.data.data){
 				var _data=data.data.data;
 				var _tr="";;

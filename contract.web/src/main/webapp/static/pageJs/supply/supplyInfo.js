@@ -49,7 +49,22 @@ $(document).ready(function(){
 					tbl+='<div class="btn-group">';
 					if(buttonsPermission){
 						if(buttonsPermission.indexOf(",btnDetail,")>=0){
-							tbl+='		<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_data[i].wid+'">详</button>';
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_data[i].wid+'">详</button>';
+						}
+						if(buttonsPermission.indexOf(",btnModify,")>=0 && _data[i].needKl!="1"){
+							
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModify" data-key="'+_data[i].wid+'">录</button>';
+							
+						}
+						if(buttonsPermission.indexOf(",btnKl,")>=0 && _data[i].needKl!="1"){
+							
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnKl" data-key="'+_data[i].wid+'">可领</button>';
+							
+						}
+						if(buttonsPermission.indexOf(",btnDelete,")>=0 && _data[i].needKl!="1"){
+							
+							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+							
 						}
 					}
 					
@@ -65,10 +80,18 @@ $(document).ready(function(){
 				queryList(pageId);
 			});
 			
-			$("#mainTable").delegate("[data-option='btnEdit']","click",function(){
+			$("#mainTable").delegate("[data-option='btnModify']","click",function(){
 				var key=$(this).attr("data-key");
 				setEdit(key);
 				$("#modelEdithSupplyInfo").modal("show");
+			});
+			$("#mainTable").delegate("[data-option='btnKl']","click",function(){
+				var key=$(this).attr("data-key");
+				confirm("您确认该类耗材加入可领仓库？",function(){
+					doPost(basePath+"/supply/kl","wid="+key,function(data){
+						window.location.reload();
+					})
+				});
 			});
 			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
@@ -82,7 +105,7 @@ $(document).ready(function(){
 						$("#supplyViewForm [name='hbdw']").html(data.data.hbdw_display);
 						$("#supplyViewForm [name='yxq']").html(data.data.yxq);
 						$("#supplyViewForm [name='kc']").html(data.data.kc);
-						$("#supplyViewForm [name='yjsl']").html(data.data.yjsl);
+						//$("#supplyViewForm [name='yjsl']").html(data.data.yjsl);
 						$("#supplyViewForm [name='gys']").html(data.data.gys);
 						$("#supplyViewForm [name='bz']").html(data.data.bz);
 					});
@@ -125,7 +148,8 @@ $(document).ready(function(){
 		        data: dataList,
 		        idField: "pm",
 		        keyField: "pm",
-		        clearable: true
+		        clearable: true,
+		        inputWarnColor:"white"
 		 }).on('onDataRequestSuccess', function (e, result) {
 		        console.log('从 json.data 参数中获取，不会触发 onDataRequestSuccess 事件', result);
 		    }).on('onSetSelectValue', function (e, keyword, data) {

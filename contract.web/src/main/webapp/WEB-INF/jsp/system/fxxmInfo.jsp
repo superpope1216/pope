@@ -91,9 +91,8 @@
 						<div class="form-group">
 							<label for="name" class="col-sm-2 required">折扣</label>
 							<div class="col-md-8 col-sm-8">
-								<select name="zk" class="form-control" required>
-									<option value=''>--请选择--</option>
-								</select>
+								<input type="text" class="form-control" name="zk"
+									placeholder="请输入折扣" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -147,7 +146,7 @@
 					<td class="text-center">{{= lbmc}}</td>
 					<td class="text-left">{{= fxxlb}}</td>
 					<td class="text-center">{{= fxdj}}</td>
-					<td class="text-center">{{= zk_display}}</td>
+					<td class="text-center">{{= zk}}</td>
 					<td class="text-center">{{= fxyj}}</td>
 					<td class="text-center">{{= fxry_display}}</td>
 					<td class="text-center">{{= shry_display}}</td>

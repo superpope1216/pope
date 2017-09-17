@@ -17,9 +17,11 @@
     <result column="BZ" property="bz" jdbcType="VARCHAR" />
     <result column="DQBH" property="dqbh" jdbcType="INTEGER" />
     <result column="FID" property="fid" jdbcType="VARCHAR" />
+    <result column="NEED_KL" property="needKl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    WID, HCFL, PM, XHPPCH, XHPLRSJ, YXQ, KC, SLDW, DJ, HBDW, GYS, YJSL, BZ, DQBH, FID
+    WID, HCFL, PM, XHPPCH, XHPLRSJ, YXQ, KC, SLDW, DJ, HBDW, GYS, YJSL, BZ, DQBH, FID, 
+    NEED_KL
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -36,12 +38,12 @@
       XHPPCH, XHPLRSJ, YXQ, 
       KC, SLDW, DJ, HBDW, 
       GYS, YJSL, BZ, DQBH, 
-      FID)
+      FID, NEED_KL)
     values (#{wid,jdbcType=VARCHAR}, #{hcfl,jdbcType=VARCHAR}, #{pm,jdbcType=VARCHAR}, 
       #{xhppch,jdbcType=VARCHAR}, #{xhplrsj,jdbcType=VARCHAR}, #{yxq,jdbcType=DECIMAL}, 
       #{kc,jdbcType=INTEGER}, #{sldw,jdbcType=VARCHAR}, #{dj,jdbcType=DECIMAL}, #{hbdw,jdbcType=VARCHAR}, 
       #{gys,jdbcType=VARCHAR}, #{yjsl,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
-      #{fid,jdbcType=VARCHAR})
+      #{fid,jdbcType=VARCHAR}, #{needKl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.supply.SupplyInfo" >
     insert into t_contract_supplies_main
@@ -91,6 +93,9 @@
       <if test="fid != null" >
         FID,
       </if>
+      <if test="needKl != null" >
+        NEED_KL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -137,6 +142,9 @@
       </if>
       <if test="fid != null" >
         #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="needKl != null" >
+        #{needKl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -185,6 +193,9 @@
       <if test="fid != null" >
         FID = #{fid,jdbcType=VARCHAR},
       </if>
+      <if test="needKl != null" >
+        NEED_KL = #{needKl,jdbcType=VARCHAR},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -203,7 +214,8 @@
       YJSL = #{yjsl,jdbcType=INTEGER},
       BZ = #{bz,jdbcType=VARCHAR},
       DQBH = #{dqbh,jdbcType=INTEGER},
-      FID = #{fid,jdbcType=VARCHAR}
+      FID = #{fid,jdbcType=VARCHAR},
+      NEED_KL = #{needKl,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -223,4 +223,11 @@ public class SupplyInfoController extends BaseController{
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping("kl")
+	public Result kl(String wid) throws Exception{
+		supplyInfoService.kl(wid);
+		return Result.success();
+	}
+	
 }

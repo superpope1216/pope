@@ -39,7 +39,17 @@ public class Permission implements Serializable{
 
     private Integer orderby;
     
-    private List<Permission> list=new ArrayList<Permission>();
+    private String icon;
+    
+    public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	private List<Permission> list=new ArrayList<Permission>();
 
     public List<Permission> getList() {
 		return list;

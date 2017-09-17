@@ -30,9 +30,8 @@
 											</td>
 										</tr>
 									</table>
-									
 									<form class="form-horizontal" id="userForm"
-										style="margin-top: 10px;">
+										style="margin-top: 10px;" style="display:none;">
 
 										<div class="form-group">
 											<input type="hidden" name="wid" value="">  <input
@@ -147,6 +146,7 @@
 											</div>
 
 										</div>
+										<!-- 
 										<div class="form-group">
 											<label for="phone" class="col-sm-2 required">样品状态监控</label>
 											<div class="col-md-4 col-sm-4">
@@ -161,7 +161,7 @@
 											</div>
 
 										</div>
-
+										 -->
 										<div class="form-group">
 											<label for="jobcategory" class="col-sm-2 required">分析项目</label>
 											<div class="col-md-10 col-sm-10">
@@ -178,11 +178,135 @@
 													placeholder="请输入备注">
 											</div>
 										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<button class="btn pull-right btn-primary btnQuery"
+													type="button" id="btnSave">保存</button>
+											</div>
+										</div>
 									</form>
-									<div>
-										<button class="btn btn-primary btnQuery" type="button"
-											id="btnSave">保存</button>
-									</div>
+									<form class="form-horizontal" id="userFormView"
+										style="margin-top: 10px;" style="display:none;">
+										<div class="form-group"><label
+												for="name" class="col-sm-2">类别</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="pclb_display"></p>
+											</div>
+											<label for="gh" class="col-sm-2">二级分类</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="ejfl"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">批次名称</label>
+											<div class="col-md-4 col-sm-4">
+													<p class="form-control-static" name="pcmc"></p>
+											</div>
+											<label for="email" class="col-sm-2 ">样品批号</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="ypph"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">数量</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="sl"></p>
+											</div>
+											<label for="department" class="col-sm-2 ">品牌</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="pp_display"></p> 
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">数量单位</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="sldw_display"></p>
+											</div>
+											<label for="department" class="col-sm-2 ">存放地</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="cfd"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">单价</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="dj"></p>
+											</div>
+											<label for="department" class="col-sm-2 ">货币单位</label>
+											<div class="col-md-4 col-sm-4">
+											<p class="form-control-static" name="hbdw_display"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="birthday" class="col-sm-2 ">控制时间点</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="kzsjd"></p>
+											</div>
+											<label for="degree" class="col-sm-2 ">送样时间</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="sysj"></p>
+											</div>
+										</div>
+										<div class="form-group">
+
+											<label for="jobcategory" class="col-sm-2 ">对方单位</label>
+											<div class="col-md-10 col-sm-10">
+												<p class="form-control-static" name="gys"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">送样人</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="syr"></p>
+											</div>
+											<label for="phone" class="col-sm-2 ">送样单位</label>
+											<div class="col-md-4 col-sm-4">
+											<p class="form-control-static" name="sydw_display"></p>
+											</div>
+
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">送样项目负责人</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="syxmfzr"></p>
+											</div>
+											<label for="phone" class="col-sm-2 ">审核时间</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="shsj"></p>
+											</div>
+
+										</div>
+										<div class="form-group">
+											<label for="phone" class="col-sm-2 ">样品状态监控</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="pczt_display"></p>
+											</div>
+											<label for="phone" class="col-sm-2 ">合同号</label>
+											<div class="col-md-4 col-sm-4">
+												<p class="form-control-static" name="hth"></p>
+											</div>
+
+										</div>
+
+										<div class="form-group">
+											<label for="jobcategory" class="col-sm-2 ">分析项目</label>
+											<div class="col-md-10 col-sm-10">
+												<p class="form-control-static" name="fxxm_display"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="jobcategory" class="col-sm-2">备注</label>
+											<div class="col-md-10 col-sm-10">
+												<p class="form-control-static" name="bz"></p>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<button class="btn pull-right btn-primary btnQuery"
+													type="button" id="btnEdit">编辑</button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</td>
@@ -197,6 +321,8 @@
 												<h3>批次内样品详情</h3>
 											</td>
 											<td align="right">
+												<button class="btn btn-danger btnQuery" type="button"
+													id="btnLrjs">录入结束</button>
 												<button class="btn btn-primary btnQuery" type="button"
 													id="btnLryp">录入样品</button>
 											</td>
@@ -207,7 +333,6 @@
 										<thead>
 											<tr>
 												<th class="text-center">样品编号</th>
-												<th class="text-center">样品批次号</th>
 												<th class="text-center">样品原有编号</th>
 												<th class="text-center">样品性质</th>
 												<th class="text-center">样品二维码</th>
@@ -309,7 +434,6 @@
 	<script id="tblDetailInfoTpl" type="text/x-jquery-tmpl">
 				<tr>
 					<td class="text-center">{{= ypbh}}</td>
-					<td class="text-center">{{= ypph}}</td>
 					<td class="text-left">{{= ypyybh}}</td>
 					<td class="text-left">{{= ypxz}}</td>
 					<td class="text-left">{{= ypewm}}</td>

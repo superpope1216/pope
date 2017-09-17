@@ -75,6 +75,10 @@
 			<if test="customNumber!=null and customNumber!=''">
 				AND t_contract_custom_main.CUSTOM_NUMBER=#{customNumber}
 			</if>
+			<if test="queryCondition!=null and queryCondition!=''">
+				AND (t_contract_custom_main.CUSTOM_NUMBER like concat('%',#{queryCondition},'%')
+				OR t_contract_custom_main.CUSTOM_NAME like concat('%',#{queryCondition},'%'))
+			</if>
 	</sql>
 	<sql id="sqlOrder">
 		order by t_contract_custom_main.CREATE_TIME desc

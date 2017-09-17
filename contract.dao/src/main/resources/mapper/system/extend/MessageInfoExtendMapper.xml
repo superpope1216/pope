@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.MessageInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.MessageInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
+    <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.MessageInfo" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_contract_sys_messages.WID, t_contract_sys_messages.NAME, 
+    t_contract_sys_messages.CREATE_TIME, t_contract_sys_messages.CREATE_MAN, 
+    t_contract_sys_messages.MESSAGE_TYPE, t_contract_sys_messages.TASK_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    t_contract_sys_messages.CONTENT
+  </sql>
+  <sql id="sqlWhere">
+  	<if test="wid!=null and wid!=''">
+  		AND t_contract_sys_messages.wid=#{wid,jdbcType=VARCHAR}
+  	</if>
+  	<if test="hasRead!=null and hasRead=='1'">
+  		AND t_contract_sys_messages.wid in (select T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
+  		FROM  T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
+  		WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR} 
+  		
+  		)
+  	</if>
+  	
+  	
+  		<if test="hasRead!=null and hasRead=='0'">
+  		AND t_contract_sys_messages.wid not in (select T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
+  		FROM  T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
+  		WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR} 
+  		)
+  	</if>
+  </sql>
+  <select id="selectByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend" resultMap="ResultMapWithBLOBs">
+  		SELECT <include refid="Base_Column_List"/>,
+  		<include refid="Blob_Column_List"/>
+  		FROM t_contract_sys_messages t_contract_sys_messages
+  		<where>
+  			<include refid="sqlWhere"/>
+  		</where>
+  		order by t_contract_sys_messages.CREATE_TIME desc
+  </select>
+   <select id="selectSingleByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend" resultMap="ResultMapWithBLOBs">
+  		SELECT <include refid="Base_Column_List"/>,
+  		<include refid="Blob_Column_List"/>
+  		FROM t_contract_sys_messages t_contract_sys_messages
+  		<where>
+  			<include refid="sqlWhere"/>
+  		</where>
+  		order by t_contract_sys_messages.CREATE_TIME desc
+  		limit 1
+  </select>
+  <select id="selectCountByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+   resultType="java.lang.Integer">
+  		SELECT count(0)
+  		
+  		FROM t_contract_sys_messages t_contract_sys_messages
+  		<where>
+  			<include refid="sqlWhere"/>
+  		</where>
+  </select>
+</mapper>

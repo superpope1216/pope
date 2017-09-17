@@ -30,6 +30,8 @@
     select 
     <include refid="Base_Column_List" />
     from t_contract_contract_batch_rel
-    
+    <where>
+    	<include refid="sqlWhere"/>
+    </where>
   </select>
 </mapper>
