@@ -101,6 +101,21 @@ $(document).ready(function(){
 					tbl+='<td class="text-left">'+toStr(_d[i].sldw_display)+'</td>';
 					tbl+='<td class="text-left">'+toStr(_d[i].yjsl)+'</td>';
 					tbl+='<td class="text-center">';
+					var _kc=_d[i].kc;
+					var _yjsl=_d[i].yjsl;
+					if(!_kc){
+						_kc=0;
+					}
+					if(!_yjsl){
+						_yjsl=0;
+					}
+					_kc=parseInt(_kc);
+					_yjsl=parseInt(_yjsl);
+					if(_kc<=_yjsl){
+						tbl+="<span style='color:red;font-size:15px;font-weight:bold'>！</span>";
+					}
+					tbl+='</td>';
+					tbl+='<td class="text-center">';
 					tbl+='	<div class="btn-group">';
 					if(buttonsPermission){
 						if(buttonsPermission.indexOf(",btnLqb,")>=0){

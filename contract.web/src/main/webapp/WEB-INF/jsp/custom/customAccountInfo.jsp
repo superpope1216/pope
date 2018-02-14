@@ -13,7 +13,7 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">客户管理</a></li>
+					<li><a href="${pageContext.request.contextPath}/custom/index?open=300&select=301">客户管理</a></li>
 					<li class="active">客户账户信息</li>
 				</ol>
 			</div>
@@ -35,16 +35,15 @@
 					<div class="panel-body">
 						<div class="pull-left">
 						</div>
-						<table class="table table-bordered datatable table-hover"
+						<table class="mainTable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center">客户编码</th>
-									<th class="text-center">客户名称</th>
-									<th class="text-center">账户编号</th>
-									<th class="text-center">银行账户</th>
-									<th class="text-center">账户余额</th>
-									<th data-width="160px" class="text-center">操作</th>
+									<td class="text-center">客户名称</td>
+									<td class="text-center">预存账户编号</td>
+									<td class="text-center">预存账户信息</td>
+									<td class="text-center">预存账户余额</td>
+									<td data-width="160px" class="text-center">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">
@@ -70,31 +69,30 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="customAccountForm"
 						style="margin-top: 10px;">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="dqbh" value="">
-								<input
-								type="hidden" name="customId" value=""><label for="name"
-								class="col-sm-2 required">账号编号</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" readonly name="accountNumber"
-									placeholder="请输入账户编号" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">银行账户</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" 
-									name="bankAccount" placeholder="请输入银行账户" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">账户余额</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" 
-									name="accountMoney" placeholder="请输入账户余额" required>
-							</div>
-						</div>
+						<table class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""><input type="hidden" name="dqbh" value="">
+									<input type="hidden" name="customId" value="">预存账号编号<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" readonly
+									name="accountNumber" placeholder="请输入账户编号" required></td>
+								
+							</tr>
+							<tr>
+								<td class="tbl-one-text">预存账户信息<span class="myrequrire">*</span>
+								</td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="bankAccount" readonly placeholder="请输入银行账户"
+									required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">预存账户余额<span class="myrequrire">*</span>
+								</td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="accountMoney"
+									placeholder="请输入预存账户余额" required></td>
+							</tr>
+						</table>
 					</form>
 
 				</div>

@@ -1,5 +1,6 @@
 package com.pope.contract.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -95,15 +96,22 @@ public class LeaveInfoServiceImpl  extends BaseService implements LeaveInfoServi
 	public int insert(LeaveInfo record,String userId) throws Exception {
 		String userLevelId=StringUtil.getUuId();
 		FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.LEAVE.getCode(), 0);
+		int currentStep=0;
+		String taskStatus=FlowStateCode.YJS.getCode();
+		if(flowSet!=null){
+			currentStep=flowSet.getPx();
+			taskStatus=FlowStateCode.DSH.getCode();
+		}
 		record.setWid(userLevelId);
 		record.setStatus(DataStatus.normal.getCode());
-		record.setTaskstatus(FlowStateCode.DSH.getCode());
+		record.setTaskstatus(taskStatus);
 		record.setCreateby(userId);
 		record.setCreatetime(DateUtil.getCurrentDate());
 		record.setUpdateby(userId);
 		record.setUpdatetime(DateUtil.getCurrentDate());
-		record.setCurrentStep(flowSet.getPx().toString());
+		record.setCurrentStep(StringUtil.toStr(currentStep));
 		record.setTime(caluTime(record.getStarttime(), record.getEndtime()));
+		if(flowSet!=null){
 		FlowSetData flowSetData=new FlowSetData();
 		flowSetData.setWid(StringUtil.getUuId());
 		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
@@ -114,6 +122,7 @@ public class LeaveInfoServiceImpl  extends BaseService implements LeaveInfoServi
 		flowSetData.setShid(userId);
 		flowSetData.setContent("提交审核");
 		flowSetDataService.insert(flowSetData);
+		}
 		return leaveInfoMapper.insert(record);
 	}
 
@@ -134,8 +143,8 @@ public class LeaveInfoServiceImpl  extends BaseService implements LeaveInfoServi
 		return leaveInfoMapper.selectByPrimaryKey(wid);
 	}
 	@Override
-	public List<LeaveInfo> selectByYhid(String yhid){
-		return leaveInfoMapper.selectByYhid(yhid);
+	public List<LeaveInfo> selectByYhid(String yhid,String condition,String shzt){
+		return leaveInfoMapper.selectByYhid(yhid,condition,shzt);
 	}
 	@Override
 	public int updateByPrimaryKeySelective(LeaveInfo record,String userId) throws Exception {
@@ -167,6 +176,9 @@ public class LeaveInfoServiceImpl  extends BaseService implements LeaveInfoServi
 	@Override	
 	public List<LeaveInfo> selectByRoleId(String roldId,List<String> taskStatus,String departId,String teamId) throws Exception{
 		FlowSet flowSet=flowSetService.selectByRoleAndType(roldId, FlowSetCode.LEAVE.getCode());
+		if(flowSet==null){
+			return new ArrayList<LeaveInfo>();
+		}
 		return leaveInfoMapper.selectLeaveInfoByStep(flowSet.getPx().toString(), flowSet.getShType(),teamId , departId,taskStatus);
 	}
 	

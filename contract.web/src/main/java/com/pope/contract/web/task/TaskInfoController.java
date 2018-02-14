@@ -1,5 +1,6 @@
 package com.pope.contract.web.task;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +18,20 @@ import com.pope.contract.code.Result;
 import com.pope.contract.code.TaskStatusEnum;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.project.BatchInfo;
+import com.pope.contract.entity.project.extend.BatchInfoExtend;
+import com.pope.contract.entity.system.FxxmInfo;
 import com.pope.contract.entity.system.Sjzd;
 import com.pope.contract.entity.task.TaskInfo;
 import com.pope.contract.entity.task.TaskInfoDetail;
 import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.service.project.BatchInfoService;
+import com.pope.contract.service.supply.SupplyInfoService;
 import com.pope.contract.service.system.FxxmInfoService;
 import com.pope.contract.service.system.SjzdService;
 import com.pope.contract.service.task.TaskInfoService;
-import com.pope.contract.util.CommonUtil;import com.pope.contract.util.ConstantUtil;
+import com.pope.contract.util.CommonUtil;
+import com.pope.contract.util.ConstantUtil;
+import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.StringUtil;
 import com.pope.contract.web.BaseController;
 import com.pope.contract.web.util.PageUtil;
@@ -45,6 +51,9 @@ public class TaskInfoController extends BaseController {
 	private TaskInfoService taskInfoService;
 
 	@Autowired
+	private FxxmInfoService fxxmInfoService;
+
+	@Autowired
 	private SjzdService sjzdService;
 
 	@RequestMapping("index")
@@ -56,43 +65,93 @@ public class TaskInfoController extends BaseController {
 	}
 
 	@RequestMapping("taskadd")
-	public ModelAndView taskAdd(String wid) {
+	public ModelAndView taskAdd(String wid, String taskId) throws Exception{
 		if (StringUtils.isEmpty(wid)) {
 			wid = "";
 		}
+		if (StringUtils.isEmpty(taskId)) {
+			taskId = "";
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("pcid", wid);
+		mv.addObject("taskId", taskId);
+		mv.addObject("currentDate",DateUtil.getCurrentDateStr());
 		mv.setViewName("task/taskEditInfo");
 		return mv;
 	}
 
+	@ResponseBody
+	@RequestMapping("selectFxxmById")
+	public Result selectFxxmById(String wid) throws Exception {
+		FxxmInfo fxxmInfo = fxxmInfoService.selectByPrimaryKey(wid);
+		return Result.success(fxxmInfo);
+	}
+
 	@RequestMapping("selectFxxm")
 	@ResponseBody
-	public Result selectFxxm(String pcid) throws Exception {
+	public Result selectFxxm(String pcid,String taskId) throws Exception {
 		List<Sjzd> fxxms = sjzdService.selectAll("T_CONTRACT_SJZD_FXXM", null);
-		TaskInfoExtend queryTaskInfo = new TaskInfoExtend();
-		queryTaskInfo.setPcwid(pcid);
-		queryTaskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+	
+		List<Sjzd> datas = new ArrayList<Sjzd>();
+		BatchInfo batchInfo = batchInfoService.selectByPrimaryKey(pcid);
+		if (batchInfo != null) {
+			String fxxm = batchInfo.getFxxm();
+			if (!StringUtils.isEmpty(fxxm)) {
+				String[] aFxxm = fxxm.split(",");
+				for (int j = 0; j < fxxms.size(); j++) {
+					for (int i = 0; i < aFxxm.length; i++) {
+						if(fxxms.get(j).getLbdm().equals(aFxxm[i])){
+							datas.add(fxxms.get(j));
+						}
+					}
+				}
+
+			}
+		}
+		
+		 TaskInfoExtend queryTaskInfo = new TaskInfoExtend();
+		 queryTaskInfo.setPcwid(pcid);
+		 queryTaskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		List<TaskInfo> listTaskInfo = taskInfoService.selectTaskInfoByCondition(queryTaskInfo);
-		if (CommonUtil.isNotEmptyList(fxxms) && CommonUtil.isNotEmptyList(listTaskInfo)) {
-			Iterator<Sjzd> sjzds = fxxms.iterator();
-			while (sjzds.hasNext()) {
-				Sjzd sjzd = sjzds.next();
+		if (CommonUtil.isNotEmptyList(datas) && CommonUtil.isNotEmptyList(listTaskInfo)) {
+			
+			for(int i=datas.size()-1;i>=0;--i){
+				Sjzd sjzd = datas.get(i);
 				for (TaskInfo taskInfo : listTaskInfo) {
-					if (sjzd.getLbdm().equals(taskInfo.getFxxm())) {
-						sjzds.remove();
+					if (sjzd.getLbdm().equals(taskInfo.getFxxm()) ) {
+						if(StringUtils.isEmpty(taskId)){
+							datas.remove(i);
+							break;
+						}else{
+							if(!taskInfo.getWid().equals(taskId)){
+								datas.remove(i);
+								break;
+							}
+						}
+						
 					}
 				}
 			}
 		}
-		return Result.success(fxxms);
+		return Result.success(datas);
 	}
 
 	@RequestMapping("taskaddView")
 	@ResponseBody
-	public Result taskAddView(String wid) {
+	public Result taskAddView(String wid,String taskId) {
 		BatchInfo batchInfo = batchInfoService.selectByPrimaryKey(wid);
+		
 		return Result.success(batchInfo);
+	}
+	
+	@RequestMapping("taskaddView2")
+	@ResponseBody
+	public Result taskAddView2(String taskId) {
+		TaskInfoExtend queryTaskInfo=new TaskInfoExtend();
+		queryTaskInfo.setWid(taskId);
+		List<TaskInfo> tasks = taskInfoService.selectTaskInfoByCondition(queryTaskInfo);
+		
+		return Result.success(tasks.get(0));
 	}
 
 	@RequestMapping("taskDetailsIndex")
@@ -104,12 +163,25 @@ public class TaskInfoController extends BaseController {
 		return mv;
 	}
 
+	@RequestMapping("selectTaskInfo")
+	@ResponseBody
+	public Result selectTaskInfo(String wid) throws Exception {
+		TaskInfoExtend queryTaskInfoExtend = new TaskInfoExtend();
+		queryTaskInfoExtend.setWid(wid);
+		List<TaskInfoExtend> lstDatas = taskInfoService.selectDispalyTaskInfoByCondition(queryTaskInfoExtend);
+		TaskInfoExtend taskInfoExtend = new TaskInfoExtend();
+		if (CommonUtil.isNotEmptyList(lstDatas)) {
+			taskInfoExtend = lstDatas.get(0);
+		}
+		return Result.success(taskInfoExtend);
+	}
+
 	@RequestMapping("listTaskInfo")
 	@ResponseBody
-	public Result listTaskInfo(Integer startPage,TaskInfoExtend taskInfoExtend) throws Exception {
+	public Result listTaskInfo(Integer startPage, TaskInfoExtend taskInfoExtend) throws Exception {
 		PageUtil<TaskInfoExtend> pageUtil = new PageUtil<TaskInfoExtend>(startPage);
 		List<TaskInfoExtend> users = taskInfoService.selectDispalyTaskInfoByPermission(this.getRole().getName(),
-				this.getUserId(),null,taskInfoExtend);
+				this.getUserId(), null, taskInfoExtend);
 		PageParam<TaskInfoExtend> pageParam = pageUtil.getPageParam(users);
 		return Result.success(pageParam);
 	}
@@ -150,8 +222,10 @@ public class TaskInfoController extends BaseController {
 		}
 		return Result.success();
 	}
-	
-	public Result deleteTask(String wid) throws Exception{
+
+	@RequestMapping("deleteTask")
+	@ResponseBody
+	public Result deleteTask(String wid) throws Exception {
 		taskInfoService.deleteTask(wid);
 		return Result.success();
 	}

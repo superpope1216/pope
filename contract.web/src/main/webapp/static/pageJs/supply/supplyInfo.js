@@ -61,11 +61,14 @@ $(document).ready(function(){
 							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnKl" data-key="'+_data[i].wid+'">可领</button>';
 							
 						}
+						tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnCopy" data-key="'+_data[i].wid+'">复</button>';
 						if(buttonsPermission.indexOf(",btnDelete,")>=0 && _data[i].needKl!="1"){
 							
 							tbl+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
 							
 						}
+						
+						
 					}
 					
           					
@@ -93,6 +96,16 @@ $(document).ready(function(){
 					})
 				});
 			});
+			
+			$("#mainTable").delegate("[data-option='btnCopy']","click",function(){
+				var key=$(this).attr("data-key");
+				confirm("您确认复制该耗材吗？",function(){
+					doPost(basePath+"/supply/copy","wid="+key,function(data){
+						window.location.reload();
+					})
+				});
+			});
+			
 			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
 					doGet(basePath+"/supply/viewDetail", "wid="+key, function(data) {

@@ -19,7 +19,7 @@
 			<div class="wrapper">
 			<div class="panel">
 				<div class="panel-body text-primary" 
-					style="font-size: 26px;text-transform: uppercase;padding-top:60px;;text-align:center;color: white;margin:0 auto;height: 180px; background: url(../static/img/first-header.jpg); background-repeat: no-repeat; background-size: 100% 100%; -moz-background-size: 100% 100%;">
+					style="font-size: 26px;text-transform: uppercase;padding-top:60px;;text-align:center;color: white;margin:0 auto;height: 180px; background: url(../static/img/center-header.png) no-repeat center center fixed;  background-size: 100% 100%; -moz-background-size: 100% 100%;">
 						<p><%=loginInfo.getName() %>，您好！欢迎进入实验室管理系统</p>
 				</div>
 			</div>

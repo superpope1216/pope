@@ -38,9 +38,12 @@ $(document).ready(function(){
 						}
 						if(buttonsPermission.indexOf(",btnDelete,")>=0){
 							if(_data[i].rwzt==1){
-								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+								_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete"  data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
 							}
 						}
+					}
+					if(_data[i].rwzt==1){
+					_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModify" data-key2="'+_data[i].pcwid+'" data-key="'+_data[i].wid+'">录</button>';
 					}
 					_tr+='</div>';
 					_tr+='</td>';
@@ -59,6 +62,12 @@ $(document).ready(function(){
 				var key=$(this).attr("data-key");
 				window.location=basePath+"/task/taskDetailsIndex?wid="+key+"&flag=detail";
 			});
+			$("#mainTable").delegate("[data-option='btnModify']","click",function(){
+				var key=$(this).attr("data-key");
+				var _pcwid=$(this).attr("data-key2");
+				window.location=basePath+"/task/taskadd?taskId="+key+"&wid="+_pcwid;
+			});
+			
 			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");
 				confirm("您确认删除该任务信息吗？",function(e){
@@ -71,6 +80,20 @@ $(document).ready(function(){
 		})
 	}
 	
+	$("#btnPrint").click(function(){
+		var selectData=$("#mainTable [name='chkSingle']:checked");
+		if(!selectData ||selectData.length<=0){
+			alert("每次只能选择一条任务，请重新选择！");
+			return;
+		}
+		if(selectData.length>1){
+			alert("每次只能选择一条任务，请重新选择！");
+			return;
+			
+		}
+		window.open(basePath+"/taskPrint/index?wid="+$(selectData[0]).val());
+	});
+	
 	$("#btnSubmit").click(function(){
 		var selectData=$("#mainTable [name='chkSingle']:checked");
 		if(!selectData ||selectData.length<=0){
@@ -81,8 +104,8 @@ $(document).ready(function(){
 		for(var i=0;i<selectData.length;i++){
 			var c_wid=$(selectData[i]).val();
 			var c_rwzt=$($(selectData[i])).attr("data-rwzt");
-			if(c_rwzt!=4){
-				alert("选中的任务存在不为数据报告的任务，请重新选择");
+			if(c_rwzt!=4 && c_rwzt!=-99){
+				alert("选中的任务存在不为数据报告/审核不通过的任务，请重新选择");
 				return false;
 			}
 			saveData.push({wid:c_wid,value:c_rwzt});

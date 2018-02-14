@@ -69,11 +69,19 @@ public class ShbInfoServiceImpl extends BaseService implements ShbInfoService{
 		String wid = StringUtil.getUuId();
 		record.setUserid(userId);
 		record.setWid(wid);
+		String taskStatus=FlowStateCode.YJS.getCode(),currentStep="0";
+		
 		FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.SUPPLY.getCode(), 0);
+		if(flowSet!=null){
+			taskStatus=FlowStateCode.DSH.getCode();
+			currentStep=StringUtil.toStr(flowSet.getPx());
+		}
 		record.setSqsj(DateUtil.getCurrentDateStr());
-		record.setRwzt(StringUtil.toStr(FlowStateCode.DSH.getCode()));
-		record.setCurentstep(flowSet.getPx());
-		saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		record.setRwzt(taskStatus);
+		record.setCurentstep(StringUtil.toInt(currentStep));
+		if(flowSet!=null){
+			saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		}
 		return shbInfoMapper.insert(record);
 	}
 

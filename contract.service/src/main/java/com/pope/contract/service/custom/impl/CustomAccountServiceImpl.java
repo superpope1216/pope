@@ -1,6 +1,7 @@
 package com.pope.contract.service.custom.impl;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,7 @@ import com.pope.contract.entity.custom.extend.CustomAccountExtend;
 import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.custom.CustomAccountService;
 import com.pope.contract.util.DateUtil;
+import com.pope.contract.util.DecimalUtil;
 import com.pope.contract.util.StringUtil;
 
 /**
@@ -84,11 +86,12 @@ public class CustomAccountServiceImpl implements CustomAccountService {
 		record.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		CustomUpdateLog customUpdateLog=new CustomUpdateLog();
 		customUpdateLog.setAccountMoney(record.getAccountMoney());
-		customUpdateLog.setAccountNumber(record.getAccountNumber());
+		customUpdateLog.setAccountId(record.getWid());
 		customUpdateLog.setBankAccount(record.getBankAccount());
 		customUpdateLog.setCreateMan(record.getCreateMan());
 		customUpdateLog.setCreateTime(record.getCreateTime());
 		customUpdateLog.setCustomId(record.getCustomId());
+		customUpdateLog.setBdMoney(record.getAccountMoney());
 		customUpdateLog.setUpdateType(DataOperatorEnum.ADD.getCode());
 		customUpdateLog.setWid(StringUtil.getUuId());		
 		customUpdateLogMapper.insert(customUpdateLog);
@@ -101,18 +104,23 @@ public class CustomAccountServiceImpl implements CustomAccountService {
 	}
 
 	@Override
+	@Transactional
 	public int updateByPrimaryKeySelective(CustomAccount record,String userId) throws Exception{
+		CustomAccount customAccount=customAccountMapper.selectByPrimaryKey(record.getWid());
+		BigDecimal ye=DecimalUtil.add(record.getAccountMoney(), customAccount.getAccountMoney());
+		customAccount.setAccountMoney(ye);
 		CustomUpdateLog customUpdateLog=new CustomUpdateLog();
-		customUpdateLog.setAccountMoney(record.getAccountMoney());
-		customUpdateLog.setAccountNumber(record.getAccountNumber());
-		customUpdateLog.setBankAccount(record.getBankAccount());
-		customUpdateLog.setCreateMan(record.getCreateMan());
-		customUpdateLog.setCreateTime(record.getCreateTime());
-		customUpdateLog.setCustomId(record.getCustomId());
+		customUpdateLog.setAccountMoney(customAccount.getAccountMoney());
+		customUpdateLog.setAccountId(customAccount.getWid());
+		customUpdateLog.setBankAccount(customAccount.getBankAccount());
+		customUpdateLog.setCreateMan(userId);
+		customUpdateLog.setCreateTime(DateUtil.getCurrentDateTimeStr());
+		customUpdateLog.setCustomId(customAccount.getCustomId());
+		customUpdateLog.setBdMoney(record.getAccountMoney());
 		customUpdateLog.setUpdateType(DataOperatorEnum.MODIFY.getCode());
 		customUpdateLog.setWid(StringUtil.getUuId());		
 		customUpdateLogMapper.insert(customUpdateLog);
-		return customAccountMapper.updateByPrimaryKeySelective(record);
+		return customAccountMapper.updateByPrimaryKeySelective(customAccount);
 	}
 	
 	@Override

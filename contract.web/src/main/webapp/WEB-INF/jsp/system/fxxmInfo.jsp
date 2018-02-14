@@ -27,18 +27,17 @@
 									建</button>
 							</div>
 							<br> <br>
-							<table class="table table-bordered datatable table-hover"
-								id="mainTable">
+							<table class="mainTable table-hover" id="mainTable">
 								<thead>
 									<tr>
-										<th class="text-center">分析项目名称</th>
-										<th class="text-center">分析项目类别</th>
-										<th class="text-center">分析单价</th>
-										<th class="text-center">折扣</th>
-										<th class="text-center">分析依据</th>
-										<th class="text-center">分析人员</th>
-										<th class="text-center">审核人员</th>
-										<th data-width="130px" class="text-center">操作</th>
+										<td class="text-center">分析项目名称</td>
+										<td class="text-center">分析项目类别</td>
+										<td class="text-center">分析单价</td>
+										<td class="text-center">折扣</td>
+										<td class="text-center">分析依据</td>
+										<td class="text-center">分析人员</td>
+										<td class="text-center">审核人员</td>
+										<td data-width="130px" class="text-center">操作</td>
 									</tr>
 								</thead>
 								<tbody id="tblZdbsInfo">
@@ -62,76 +61,62 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
 					</button>
-					<h4 class="modal-title">字典表信息</h4>
+					<h4 class="modal-title">分析项信息</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="zdbsForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="code" class="col-sm-2 required">分析项目名称</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="lbmc"
-									placeholder="请输入分析项目名称" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">请输入分析类别</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="fxxlb"
-									placeholder="请输入分析类别" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">分析单价</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="fxdj"
-									placeholder="请输入分析单价" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">折扣</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="zk"
-									placeholder="请输入折扣" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">分析依据</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="fxyj"
-									placeholder="请输入分析依据" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="orderby" class="col-sm-2 required">分析人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="fxry" class="form-control" required>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value="">分析项目名称<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="lbmc" placeholder="请输入分析项目名称"
+									required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">请输入分析类别<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="fxxlb" placeholder="请输入分析类别"
+									required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">分析单价<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="fxdj"
+									placeholder="请输入分析单价" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">折扣<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="zk"
+									placeholder="请输入折扣" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">分析依据<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="fxyj"
+									placeholder="请输入分析依据" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">分析人员<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value">	<select name="fxry" class="form-control" required>
 									<option value=''>--请选择--</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="orderby" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="shry" class="form-control" required>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="shry" class="form-control" required>
 									<option value=''>--请选择--</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="orderby" class="col-sm-2 required">排序</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="orderby"
-									placeholder="请输入排序信息" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="orderby" class="col-sm-2 ">备注</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注信息">
-							</div>
-						</div>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">排序<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="orderby"
+									placeholder="请输入排序信息" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">备注</td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="bz"
+									placeholder="请输入备注信息"></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">

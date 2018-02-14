@@ -9,42 +9,31 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/static/pageJs/login.js"></script>
 </head>
-<body style="background: #0288d1;filter:alpha(opacity=50)">
+<body style="background:url(${pageContext.request.contextPath}/static/img/login/login.png) no-repeat center center fixed;background-size: 100%;">
 	<table style="color: white">
 		<tr>
 			<td align="left"><img
-				src="${pageContext.request.contextPath}/static/img/icon.png"></td>
+				src="${pageContext.request.contextPath}/static/img/logo.png"></td>
 			<td style="font-size: 35px;">|实验室管理系统</td>
 		</tr>
 	</table>
 	<div class="main-login">
 
-		<div class="login-content"  style=" float: right; margin-right: 50px; margin-top: auto; margin-bottom: auto;">
+		<form id="loginForm" name="loginForm">
 			<h2>用户登录</h2>
-			<form action="" method="post" id="loginForm" name="loginForm">
-				
-				<div class="login-info">
-					<span class="user">&nbsp;</span> <input name="loginName"
-						id="loginName" type="text" value="" class="login-input" placeholder="请输入用户名" />
-				</div>
-				<div class="login-info">
-					<span class="pwd">&nbsp;</span> <input name="password"
-						id="password" type="password" value="" class="login-input"  placeholder="请输入密码"/>
-				</div>
-				<!-- 
-				<div class="login-oper">
-					<input style="margin: 1px 10px 0px 2px; float: left;" name=""
-						type="checkbox" value="" checked="checked" /><span>记住密码</span>
-				</div>
-				 -->
-				<div class="login-oper"></div>
-				<div class="login-oper">
-					<input name="" type="button" id="btnLogin" value="登 录"
-						class="login-btn" /> <input name="" type="button" id="btnClear"
-						value="重 置" class="login-reset" />
-				</div>
-			</form>
-		</div>
+			<div class="form-group">
+				<input type="text" name="loginName" id="loginName" required class="form-control" style=" border-radius:0px;height:43px;" placeholder="请输入用户名">
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" id="password" required style=" border-radius:0px;height:43px;"  required="" class="form-control" 
+				placeholder="请输入密码" ></div>
+			<div class="login_link">&nbsp;</div>
+			<button class="btn btn-lg btn-primary btn-block" id="btnLogin" type="button">登录</button>
+
+
+			<!-- <a class="btn btn-lg btn-info btn-block" href="https://show.metinfo.cn/muban/M1156014/381/member/register_include.php?lang=cn">没有账号？现在去注册</a> 
+			 -->
+		</form>
 
 	</div>
 

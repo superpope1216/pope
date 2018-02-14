@@ -17,6 +17,40 @@ $(document).ready(function(){
 			email:{
 				required:true,
 				email:true
+			},
+			contractvalidity:{
+				required:true,
+				number:true,
+				min:0,
+				max:10000
+			}
+		}
+	});
+	var _validaterPassword=$("#userPasswordForm").validate({
+		errorPlacement: function(error, element) {
+			// Append error within linked label
+			$(error).insertAfter($(element));
+			//.append(error);
+			//$("#mainForm").find( "label[for='" + element.attr( "id" ) + "']" ).append( error );
+		},
+		rules:{
+			oldPassword:{
+				required:true,
+				password:false
+			},
+			newPassword:{
+				required:true,
+				password:true
+			},
+			newQrPassword:{
+				required:true,
+				password:true,
+				equalTo:"#userPasswordForm [name='newPassword']"
+			}
+		},
+		messages:{
+			newQrPassword:{
+				equalTo:"新密码和确认密码不一致，请重新输入"
 			}
 		}
 	});
@@ -60,6 +94,25 @@ $(document).ready(function(){
 			}
 		});
 	}
+	
+	/**
+	 * 修改密码
+	 */
+	$("#btnModifyPassword").click(function(){
+		$("#modelEdithUserPasswordInfo").modal("show");
+	});
+	
+	$("#btnSaveUserPasswordInfo").click(function(){
+		if(_validaterPassword.form()){
+			doPost(basePath+"/personUserInfo/savePassword","oldPassword="+$("[name='oldPassword']").val()+"&newPassword="+$("[name='newPassword']").val()+"&relPassword="+$("[name='newQrPassword']").val(),function(data){
+				$("#userPasswordForm")[0].reset();
+				_validaterPassword.resetForm();
+				$("#modelEdithUserPasswordInfo").modal("hide");
+				alert("密码修改成功");
+				
+			});
+		}
+	});
 	
 	$("#btnModify").click(function(){ 
 		doGet(basePath+"/personUserInfo/select","",function(data){

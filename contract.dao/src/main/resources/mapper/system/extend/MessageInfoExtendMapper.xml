@@ -1,71 +1,224 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pope.contract.dao.system.extend.MessageInfoExtendMapper" >
-  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.MessageInfo" >
+<mapper namespace="com.pope.contract.dao.system.extend.MessageInfoExtendMapper">
+	<resultMap id="BaseResultMap" type="com.pope.contract.entity.system.MessageInfo" >
     <id column="WID" property="wid" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
     <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
     <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_DEPART" property="messageReceiveDepart" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_TEAM" property="messageReceiveTeam" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_MAN" property="messageReceiveMan" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.MessageInfo" extends="BaseResultMap" >
-    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    t_contract_sys_messages.WID, t_contract_sys_messages.NAME, 
-    t_contract_sys_messages.CREATE_TIME, t_contract_sys_messages.CREATE_MAN, 
-    t_contract_sys_messages.MESSAGE_TYPE, t_contract_sys_messages.TASK_ID
-  </sql>
-  <sql id="Blob_Column_List" >
-    t_contract_sys_messages.CONTENT
-  </sql>
-  <sql id="sqlWhere">
-  	<if test="wid!=null and wid!=''">
-  		AND t_contract_sys_messages.wid=#{wid,jdbcType=VARCHAR}
-  	</if>
-  	<if test="hasRead!=null and hasRead=='1'">
-  		AND t_contract_sys_messages.wid in (select T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
-  		FROM  T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
-  		WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR} 
-  		
-  		)
-  	</if>
-  	
-  	
-  		<if test="hasRead!=null and hasRead=='0'">
-  		AND t_contract_sys_messages.wid not in (select T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
-  		FROM  T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
-  		WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR} 
-  		)
-  	</if>
-  </sql>
-  <select id="selectByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend" resultMap="ResultMapWithBLOBs">
-  		SELECT <include refid="Base_Column_List"/>,
-  		<include refid="Blob_Column_List"/>
-  		FROM t_contract_sys_messages t_contract_sys_messages
-  		<where>
-  			<include refid="sqlWhere"/>
-  		</where>
-  		order by t_contract_sys_messages.CREATE_TIME desc
-  </select>
-   <select id="selectSingleByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend" resultMap="ResultMapWithBLOBs">
-  		SELECT <include refid="Base_Column_List"/>,
-  		<include refid="Blob_Column_List"/>
-  		FROM t_contract_sys_messages t_contract_sys_messages
-  		<where>
-  			<include refid="sqlWhere"/>
-  		</where>
-  		order by t_contract_sys_messages.CREATE_TIME desc
-  		limit 1
-  </select>
-  <select id="selectCountByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
-   resultType="java.lang.Integer">
-  		SELECT count(0)
-  		
-  		FROM t_contract_sys_messages t_contract_sys_messages
-  		<where>
-  			<include refid="sqlWhere"/>
-  		</where>
+	<resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.MessageInfo"
+		extends="BaseResultMap">
+		<result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<resultMap id="BaseDisplayResultMap" type="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		extends="ResultMapWithBLOBs">
+		
+		<result column="messageReceiveDepart_display" property="messageReceiveDepart_display" jdbcType="VARCHAR" />
+		<result column="messageReceiveTeam_display" property="messageReceiveTeam_display" jdbcType="VARCHAR" />
+		<result column="messageReceiveMan_display" property="messageReceiveMan_display" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		   t_contract_sys_messages.WID, t_contract_sys_messages.NAME, 
+		   
+		   
+		   t_contract_sys_messages.CREATE_TIME, t_contract_sys_messages.CREATE_MAN, 
+		   t_contract_sys_messages.MESSAGE_TYPE, t_contract_sys_messages.TASK_ID, 
+		   t_contract_sys_messages.MESSAGE_RECEIVE_DEPART,t_contract_sys_messages.MESSAGE_RECEIVE_TEAM, 
+		   t_contract_sys_messages.MESSAGE_RECEIVE_MAN
+	</sql>
+	
+	<sql id="Blob_Column_List">
+		t_contract_sys_messages.CONTENT
+	</sql>
+
+	<sql id="display_Column_List">
+		T_CONTRACT_SYS_DEPART.NAME AS messageReceiveDepart_display,
+		T_CONTRACT_SYS_TEAM.NAME AS messageReceiveTeam_display,
+		T_CONTRACT_USER_USERINFO.NAME1 AS messageReceiveMan_display
+	</sql>
+	<sql id="sqlWhere">
+		<if test="wid!=null and wid!=''">
+			AND t_contract_sys_messages.wid=#{wid,jdbcType=VARCHAR}
+		</if>
+		<if test='hasRead!=null and hasRead=="1"'>
+			AND t_contract_sys_messages.wid in (select
+			T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
+			FROM T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
+			WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR}
+
+			)
+		</if>
+		<if test='hasRead!=null and hasRead=="0"'>
+			AND t_contract_sys_messages.wid not in (select
+			T_CONTRACT_SYS_MESSAGES_USER.MESSAGE_ID
+			FROM T_CONTRACT_SYS_MESSAGES_USER T_CONTRACT_SYS_MESSAGES_USER
+			WHERE T_CONTRACT_SYS_MESSAGES_USER.USER_ID=#{userId,jdbcType=VARCHAR}
+			)
+		</if>
+  
+	</sql>
+	<sql id="sqlFrom">
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_DEPART ON
+		t_contract_sys_messages.MESSAGE_RECEIVE_DEPART=T_CONTRACT_SYS_DEPART.BM
+		AND T_CONTRACT_SYS_DEPART.STATUS=1
+		LEFT JOIN T_CONTRACT_SYS_DEPART T_CONTRACT_SYS_TEAM ON
+		t_contract_sys_messages.MESSAGE_RECEIVE_TEAM=T_CONTRACT_SYS_TEAM.BM
+		AND T_CONTRACT_SYS_TEAM.STATUS=1
+		LEFT JOIN T_CONTRACT_USER_USERINFO T_CONTRACT_USER_USERINFO ON
+		t_contract_sys_messages.MESSAGE_RECEIVE_MAN=T_CONTRACT_USER_USERINFO.WID
+		AND T_CONTRACT_USER_USERINFO.DATASTATUS=1
+	</sql>
+	<select id="selectByCondition"
+		parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultMap="ResultMapWithBLOBs">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		FROM t_contract_sys_messages t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		order by t_contract_sys_messages.CREATE_TIME desc
+	</select>
+	
+	<select id="selectDisplayByCondition" parameterType="java.lang.String" resultMap="BaseDisplayResultMap">
+		SELECT <include refid="Base_Column_List"/>,
+		<include refid="Blob_Column_List"/>,
+		<include refid="display_Column_List"/>
+		from t_contract_sys_messages t_contract_sys_messages
+		<include refid="sqlFrom"/>
+		WHERE t_contract_sys_messages.WID=#{wid,jdbcType=VARCHAR}
+		
+	</select>
+	<select id="selectSingleByCondition"
+		parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultMap="ResultMapWithBLOBs">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		FROM t_contract_sys_messages t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		order by t_contract_sys_messages.CREATE_TIME desc
+		limit 1
+	</select>
+	<select id="selectSingleDisplayByCondition"
+		parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultMap="ResultMapWithBLOBs">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		FROM t_contract_sys_messages t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		order by t_contract_sys_messages.CREATE_TIME desc
+		limit 1
+	</select>
+	<select id="selectCountByCondition"
+		parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultType="java.lang.Integer">
+		SELECT count(0)
+
+		FROM t_contract_sys_messages t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+	</select>
+
+
+	<select id="selectPersonByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultMap="ResultMapWithBLOBs">
+		SELECT * from (
+		SELECT * FROM t_contract_sys_messages WHERE MESSAGE_TYPE=1
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A where a.wid in (select me from
+		t_contract_sys_message_extend where bm=#{messageReceiveDepart})
+		and a.MESSAGE_TYPE=2
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A  WHERE  A.MESSAGE_RECEIVE_TEAM=#{messageReceiveTeam}
+		AND A.MESSAGE_TYPE=3
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A WHERE A.MESSAGE_RECEIVE_MAN=#{messageReceiveMan}
+		and a.MESSAGE_TYPE=4) t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		order by t_contract_sys_messages.CREATE_TIME desc
+	</select>
+	
+	
+	<select id="selectPersonCountByCondition"  resultType="java.lang.Integer" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		>
+		SELECT count(0) from (
+		
+		SELECT * FROM t_contract_sys_messages WHERE MESSAGE_TYPE=1
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A where a.wid in (select me from
+		t_contract_sys_message_extend where bm=#{messageReceiveDepart})
+		and a.MESSAGE_TYPE=2
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A  WHERE  A.MESSAGE_RECEIVE_TEAM=#{messageReceiveTeam}
+		AND A.MESSAGE_TYPE=3
+		UNION ALL
+		SELECT A.* FROM t_contract_sys_messages A WHERE A.MESSAGE_RECEIVE_MAN=#{messageReceiveMan}
+		and a.MESSAGE_TYPE=4) t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		
+	</select>
+	<sql id="sqlAll">
+		
+		
+		SELECT * from (
+		<if test='accountRole!=null and accountRole=="1"'>
+			SELECT * FROM V_CONTRACT_CUSTOM_MONEY_ALARM WHERE TYPE='1'
+			UNION ALL
+		</if>
+		SELECT * FROM V_CONTRACT_CUSTOM_MONEY_ALARM WHERE MESSAGE_TYPE=1 AND TYPE='2'
+		UNION ALL
+		SELECT A.* FROM V_CONTRACT_CUSTOM_MONEY_ALARM A where a.wid in (select me from
+		t_contract_sys_message_extend where bm=#{messageReceiveDepart})
+		and a.MESSAGE_TYPE=2 AND A.TYPE='2'
+		UNION ALL
+		SELECT A.* FROM V_CONTRACT_CUSTOM_MONEY_ALARM A  WHERE  A.MESSAGE_RECEIVE_TEAM=#{messageReceiveTeam}
+		AND A.MESSAGE_TYPE=3  AND A.TYPE='2'
+		UNION ALL
+		SELECT A.* FROM V_CONTRACT_CUSTOM_MONEY_ALARM A WHERE A.MESSAGE_RECEIVE_MAN=#{messageReceiveMan}
+		and a.MESSAGE_TYPE=4 AND  A.TYPE='2') t_contract_sys_messages
+		<where>
+			<include refid="sqlWhere" />
+		</where>
+		order by t_contract_sys_messages.CREATE_TIME desc
+	</sql>
+	<select id="selectAllPersonByCondition" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend"
+		resultMap="ResultMapWithBLOBs">
+		<include refid="sqlAll"/>
+	</select>
+	
+	<select id="selectAllPersonCountByCondition"  resultType="java.lang.Integer" parameterType="com.pope.contract.entity.system.extend.MessageInfoExtend">
+		SELECT COUNT(0) FROM (
+			<include refid="sqlAll"/>
+		) t_contract_sys_messages
+    </select>
+    
+    <select id="selectAllByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from V_CONTRACT_CUSTOM_MONEY_ALARM as t_contract_sys_messages
+    where WID = #{wid,jdbcType=VARCHAR}
   </select>
 </mapper>

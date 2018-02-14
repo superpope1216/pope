@@ -34,7 +34,7 @@ public class MessagesDetailController extends BaseController{
 	@ResponseBody
 	@RequestMapping("select")
 	public Result select(String wid) throws Exception{
-		MessageInfo messageInfo=messageInfoService.selectByPrimaryKey(wid);
+		MessageInfo messageInfo=messageInfoService.readMessages(this.getUserId(),wid);
 		return Result.success(messageInfo);
 	}
 }

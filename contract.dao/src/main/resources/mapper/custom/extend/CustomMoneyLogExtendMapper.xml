@@ -5,7 +5,7 @@
 		type="com.pope.contract.entity.custom.CustomMoneyLog">
 		<id column="WID" property="wid" jdbcType="VARCHAR" />
 		<result column="CUSTOM_ID" property="customId" jdbcType="VARCHAR" />
-		<result column="ACCOUNT_NUMBER" property="accountNumber"
+		<result column="ACCOUNT_ID" property="accountId"
 			jdbcType="VARCHAR" />
 		<result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
 		<result column="ACCOUNT_MONEY" property="accountMoney"
@@ -25,7 +25,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		t_contract_custom_money_log.WID, t_contract_custom_money_log.CUSTOM_ID,
-		t_contract_custom_money_log.ACCOUNT_NUMBER,
+		t_contract_custom_money_log.ACCOUNT_ID,
 		t_contract_custom_money_log.BANK_ACCOUNT,
 		t_contract_custom_money_log.ACCOUNT_MONEY,
 		t_contract_custom_money_log.BD_MONEY,
@@ -49,6 +49,9 @@
 	<sql id="sqlWhere">
 		<if test="customId!=null and customId!=''">
 			AND t_contract_custom_money_log.CUSTOM_ID=#{customId}
+		</if>
+		<if test="accountId!=null and accountId!=''">
+			AND t_contract_custom_money_log.ACCOUNT_ID=#{accountId}
 		</if>
 	</sql>
 	<select id="selectSingleDisplayByCondition" resultMap="BaseDisplayResultMap">

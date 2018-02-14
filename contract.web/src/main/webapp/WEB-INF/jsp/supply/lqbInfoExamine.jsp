@@ -29,17 +29,17 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="dshContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="mainTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">领用数量</th>
-											<th class="text-center">领用人</th>
-											<th class="text-center">领用时间</th>
-											<th class="text-center">归还数量</th>
-											<th data-width="160px" class="text-center">操作</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">领用数量</td>
+											<td class="text-center">领用人</td>
+											<td class="text-center">领用时间</td>
+											<td class="text-center">归还数量</td>
+											<td data-width="160px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblTaskInfo">
@@ -51,16 +51,16 @@
 							</div>
 							<div class="tab-pane" id="jxzContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="jxzTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">领用数量</th>
-											<th class="text-center">领用人</th>
-											<th class="text-center">领用时间</th>
-											<th class="text-center">归还数量</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">领用数量</td>
+											<td class="text-center">领用人</td>
+											<td class="text-center">领用时间</td>
+											<td class="text-center">归还数量</td>
 										</tr>
 									</thead>
 									<tbody id="tblJxzTaskInfo">
@@ -72,16 +72,16 @@
 							</div>
 							<div class="tab-pane" id="ywcContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="ywcTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">领用数量</th>
-											<th class="text-center">领用人</th>
-											<th class="text-center">领用时间</th>
-											<th class="text-center">归还数量</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">领用数量</td>
+											<td class="text-center">领用人</td>
+											<td class="text-center">领用时间</td>
+											<td class="text-center">归还数量</td>
 										</tr>
 									</thead>
 									<tbody id="tblYwcTaskInfo">
@@ -93,16 +93,16 @@
 							</div>
 							<div class="tab-pane" id="shbtgContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="btgTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">领用数量</th>
-											<th class="text-center">领用人</th>
-											<th class="text-center">领用时间</th>
-											<th class="text-center">归还数量</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">领用数量</td>
+											<td class="text-center">领用人</td>
+											<td class="text-center">领用时间</td>
+											<td class="text-center">归还数量</td>
 										</tr>
 									</thead>
 									<tbody id="tblBtgTaskInfo">

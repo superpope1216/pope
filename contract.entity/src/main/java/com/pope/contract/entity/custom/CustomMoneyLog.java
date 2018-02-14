@@ -7,7 +7,7 @@ public class CustomMoneyLog {
 
     private String customId;
 
-    private String accountNumber;
+    private String accountId;
 
     private String bankAccount;
 
@@ -37,12 +37,12 @@ public class CustomMoneyLog {
         this.customId = customId == null ? null : customId.trim();
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber == null ? null : accountNumber.trim();
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     public String getBankAccount() {

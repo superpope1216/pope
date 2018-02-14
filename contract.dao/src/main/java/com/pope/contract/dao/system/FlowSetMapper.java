@@ -24,4 +24,6 @@ public interface FlowSetMapper {
     int updateByPrimaryKeySelective(FlowSet record);
 
     int updateByPrimaryKey(FlowSet record);
+    
+    FlowSet selectSingleByCondition(FlowSet flowSet);
 }

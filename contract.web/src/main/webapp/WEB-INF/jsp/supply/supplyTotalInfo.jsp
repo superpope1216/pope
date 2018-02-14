@@ -23,7 +23,8 @@
 						<form action="#" method="post">
 							<div class="search">
 								<input type="text" class="text" name="queryCondition"
-									placeholder="请输入品名进行查询" class="queryCondition" id="queryCondition"> &nbsp;
+									placeholder="请输入品名进行查询" class="queryCondition"
+									id="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -32,15 +33,16 @@
 				</div>
 				<div class="panel">
 					<div class="panel-body">
-						<table class="table table-bordered" id="mainTable">
+						<table class="mainTable table-bordered" id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center">消耗品名</th>
-									<th class="text-center">类别</th>
-									<th class="text-center">数量</th>
-									<th class="text-center">数量单位</th>
-									<th class="text-center">预警数量</th>
-									<th class="text-center">操作</th>
+									<td class="text-center">消耗品名</td>
+									<td class="text-center">类别</td>
+									<td class="text-center">数量</td>
+									<td class="text-center">数量单位</td>
+									<td class="text-center">预警数量</td>
+									<td class="text-center">告警</td>
+									<td class="text-center" style="width:160px;">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblSupplyInfo">
@@ -54,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-<div class="modal fade" id="modelEdithSupplyInfo">
+	<div class="modal fade" id="modelEdithSupplyInfo">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -65,49 +67,41 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="supplyForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="name" class="col-sm-2 required">分类</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="hcfl"></p>
-							</div>
-							<label for="gh" class="col-sm-2 required">品名</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="pm"></p>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="team" class="col-sm-2 required">数量</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="kc"></p>
-							</div>
-							<label for="birthday" class="col-sm-2 required">数量单位</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="sldw"></p>
-							</div>
-
-						</div>
-						<div class="form-group">
-							<label for="degree" class="col-sm-2 required">单价</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="dj"></p>
-							</div>
-							<label for="jobcategory" class="col-sm-2 required">货币单位</label>
-							
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="hbdw"></p>
-							</div>
-
-
-						</div>
-						<div class="form-group">
-							<label for="department" class="col-sm-2 required">预警数量</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="yjsl"
-									placeholder="请输入预警数量" required>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-two-text"><input type="hidden" name="wid"
+									value="">分类</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="hcfl"></p></td>
+								<td class="tbl-two-text">品名</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="hcfl"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">数量</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="kc"></p></td>
+								<td class="tbl-two-text">数量单位</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="sldw"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">单价</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="dj"></p></td>
+								<td class="tbl-two-text">货币单位</td>
+								<td class="tbl-two-edit-value"><p
+										class="form-control-static" name="hbdw"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">预警数量<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text"
+									class="form-control" name="yjsl" placeholder="请输入预警数量" required></td>
+								<td class="tbl-two-edit-value" colspan="2">&nbsp;
+									</p>
+								</td>
+							</tr>
+						</table>
 					</form>
 
 				</div>
@@ -130,51 +124,40 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="slbForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="hcid" value=""> <label for="name"
-								class="col-sm-2 ">分类</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="hcfl"></p>
-							</div>
-
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 ">品名</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="pm"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 ">可领用数量</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="kc"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">领用数量</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="lysl"
-									placeholder="请输入领用数量" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">归还数量</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="ghsl"
-									placeholder="请输入归还数量" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2">备注</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" >
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="hcid" value="">
+									分类</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="hcfl"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">品名</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="pm"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">可领用数量</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="kc"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">领用数量<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="lysl" placeholder="请输入领用数量" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">归还数量<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="ghsl" placeholder="请输入归还数量" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">备注</td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="bz" placeholder="请输入备注"></td>
+							</tr>
+						</table>
 					</form>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -199,37 +182,30 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="gbForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="hcid" value=""> <label for="name"
-								class="col-sm-2 ">分类</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="hcfl"></p>
-							</div>
-
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2">品名</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="pm"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">申购数量</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="lysl"
-									placeholder="请输入申购数量" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2">备注</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" >
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="hcid" value="">
+									分类</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="hcfl"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">品名</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="pm"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">申购数量<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="lysl" placeholder="请输入申购数量" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">备注</td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="bz" placeholder="请输入备注"></td>
+							</tr>
+							</table>
 					</form>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -251,37 +227,33 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="shbForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""><input
-								type="hidden" name="hcid" value=""> <label for="name"
-								class="col-sm-2 ">分类</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="hcfl"></p>
-							</div>
-
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2">品名</label>
-							<div class="col-md-8 col-sm-8">
-								<p class="form-control-static" name="pm"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">报损数量</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="lysl"
-									placeholder="请输入损坏数量" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2">备注</label>
-							<div class="col-md-8 col-sm-8">
-
-								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" >
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="hcid" value="">
+									分类</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="hcfl"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">品名</td>
+								<td class="tbl-one-edit-value"><p
+										class="form-control-static" name="pm"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">报损数量<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="lysl"
+									placeholder="请输入损坏数量" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">备注</td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="bz" placeholder="请输入备注"></td>
+							</tr>
+							</table>
+					</form>
+					
+					
 					</form>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -293,9 +265,9 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" >
-    	var buttonsPermission="${buttons}";
-    </script>
+	<script type="text/javascript">
+		var buttonsPermission = "${buttons}";
+	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/supply/supplyTotalInfo.js"></script>
 </body>

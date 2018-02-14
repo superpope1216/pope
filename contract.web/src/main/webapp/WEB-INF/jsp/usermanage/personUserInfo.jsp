@@ -20,9 +20,12 @@
 				<div class="panel">
 					<div class="panel-body">
 						<div class="pull-right">
-							<button class="btn btn-primary" style="width: 100px; " id="btnModify">编辑</button>
+							<button class="btn btn-primary" style="width: 100px;"
+								id="btnModifyPassword">修改密码</button>
+							<button class="btn btn-primary" style="width: 100px;"
+								id="btnModify">编辑</button>
 						</div>
-						<br><br>
+						<br> <br>
 						<div>
 							<form class="form-horizontal" id="userViewForm">
 								<div class="form-group">
@@ -95,6 +98,50 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="modelEdithUserPasswordInfo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">修改密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="userPasswordForm">
+						<div class="form-group">
+							<input type="hidden" name="wid" value=""> <label
+								for="name" class="col-sm-2 required">原密码</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="password" class="form-control" name="oldPassword"
+									placeholder="请输入原密码" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="gh" class="col-sm-2 required">新密码</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="password" class="form-control"  name="newPassword"
+									placeholder="请输入新密码" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="gh" class="col-sm-2 required">确认密码</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="password" class="form-control"  name="newQrPassword"
+									placeholder="请输入确认密码" required>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btnSaveUserPasswordInfo">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<div class="modal fade" id="modelEdithUserInfo">
 		<div class="modal-dialog modal-lg">
@@ -146,7 +193,8 @@
 							</div>
 							<label for="team" class="col-sm-2 required">科室小组</label>
 							<div class="col-md-4 col-sm-4">
-								<select id="team" class="form-control" name="team"  required placeholder="请选择科室小组"></select> 
+								<select id="team" class="form-control" name="team" required
+									placeholder="请选择科室小组"></select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -155,10 +203,10 @@
 								<input type="text" class="form-control" name="birthday"
 									placeholder="请输入出生年月" onClick="WdatePicker()" required>
 							</div>
-							<label for="degree" class="col-sm-2 required">学位</label>
+							<label for="degree" class="col-sm-2 ">学位</label>
 							<div class="col-md-4 col-sm-4">
 								<input type="text" class="form-control" name="degree"
-									placeholder="请输入学位" required>
+									placeholder="请输入学位" >
 							</div>
 						</div>
 						<div class="form-group">
@@ -176,7 +224,7 @@
 
 						</div>
 						<div class="form-group">
-							<label for="contractvalidity" class="col-sm-2 required">合同有效期</label>
+							<label for="contractvalidity" class="col-sm-2 required">合同有效期(月)</label>
 							<div class="col-md-4 col-sm-4">
 								<input type="text" class="form-control" name="contractvalidity"
 									placeholder="请输入合同有效期" required>

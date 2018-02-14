@@ -60,19 +60,27 @@ $(document) .ready(
 															+ '">详</button>';
 												}
 												if (buttonsPermission.indexOf(",btnModify,") >= 0) {
-													if (_data[i].rwzt=="1"){
+													if (_data[i].rwzt=="1" || _data[i].rwzt=="-99"){
 													_tr += '<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModify" data-key="'
 															+ _data[i].wid
 															+ '">录</button>';
 													}
 												}
+												if(_data[i].rwzt=="102" ){
+												_tr += '<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnGui" data-key="'
+													+ _data[i].wid
+													+ '">归</button>';
+												}
 												if (buttonsPermission .indexOf(",btnDelete,") >= 0) {
-													if (_data[i].rwzt=="1"){
+													if (_data[i].rwzt=="1" || _data[i].rwzt=="-99"){
 														_tr += '<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'
 																+ _data[i].wid
 																+ '"><i class="icon icon-times"></i></button>';
 													}
 												}
+												
+												
+												
 											}
 											_tr += '</div>';
 											_tr += '</td>';
@@ -92,6 +100,15 @@ $(document) .ready(
 												var key = $(this).attr("data-key");
 												window.location = basePath+ "/contractEditInfo/viewIndex?wid="+ key;
 											});
+									$("#mainTable").delegate("[data-option='btnGui']","click",function() {
+										var key = $(this).attr("data-key");
+										confirm("您确认归档该合同信息吗？",function(e) {
+											doPost(basePath+ "/contractInfo/guidang","wid="+ key,function(data) {
+														window.location.reload();
+													});
+										});
+									});
+									
 									$("#mainTable").delegate("[data-option='btnDelete']","click",function() {
 														var key = $(this).attr("data-key");
 														confirm("您确认删除该合同信息吗？",function(e) {
@@ -106,7 +123,7 @@ $(document) .ready(
 					 * 导出
 					 */
 					$("#btnExport").click(function(){
-						window.open(basePath+"/contractInfo/export");
+						window.open(basePath+"/contractInfo/export?querySyr="+$("#querySyr").val()+"&queryHtb="+$("#queryHtb").val()+"&queryYppch="+$("#queryYppch").val()+"&queryFxxm="+$("#queryFxxm").val());
 					});
 					
 					$("#btnDownload").click(function(){

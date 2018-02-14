@@ -65,6 +65,7 @@ public class SupplyTotalInfoController extends BaseController{
 		PageUtil<SupplyTotalInfoExtend> pageUtil = new PageUtil<SupplyTotalInfoExtend>(startPage);
 		SupplyTotalInfoExtend supplyTotalInfoExtend=new SupplyTotalInfoExtend();
 		if(!StringUtil.isEmpty(queryCodition)){
+			queryCodition=queryCodition.trim();
 			supplyTotalInfoExtend.setQueryCondition(queryCodition);
 		}
 		List<SupplyTotalInfoExtend> users=supplyTotalInfoService.selectDisplayByCondition(supplyTotalInfoExtend);

@@ -1,5 +1,6 @@
 package com.pope.contract.web.usermanage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
 import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
@@ -32,23 +34,38 @@ public class UserLeaveController extends BaseController{
 	@Autowired
 	private LeaveInfoService leaveInfoService;
 	@RequestMapping("index")
-	public ModelAndView index(){
+	public ModelAndView index(String flag){
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("flowSetType", FlowSetCode.LEAVE.getCode());
+		if(StringUtil.isEmpty(flag)){
+			flag="";
+		}
+		mv.addObject("flag", flag);
 		mv.setViewName("usermanage/userleaveInfo");
 		return mv;
 	}
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public Result list(Integer startPage) throws Exception{
+	public Result list(Integer startPage,String flag,String condition,String shzt) throws Exception{
 		if(startPage==null ||startPage<0){
 			startPage=0;
 		}
 		PageParam<LeaveInfo> pageParam = new PageParam<LeaveInfo>();
 		pageParam.setPage(startPage);
 		Page<LeaveInfo> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
-		List<LeaveInfo> users=leaveInfoService.selectByYhid(this.getUserId());
+		List<LeaveInfo> users=new ArrayList<LeaveInfo>();
+		if(StringUtil.isNotEmpty(condition)){
+			condition=condition.trim();
+		}
+		if(StringUtil.isNotEmpty(shzt)){
+			shzt=shzt.trim();
+		}
+		if("manager".equals(flag)){
+			users=leaveInfoService.selectByYhid(null,condition,shzt);
+		}else{
+			users=leaveInfoService.selectByYhid(this.getUserId(),condition,shzt);
+		}
 		pageParam.setTotal(page.getTotal());
 		pageParam.setTotalPage(pageParam.getTotalPage());
 		pageParam.setData(users);

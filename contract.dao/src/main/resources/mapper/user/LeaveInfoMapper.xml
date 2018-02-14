@@ -47,7 +47,7 @@
   
   
   
-   <select id="selectByYhid" parameterType="java.lang.String" resultMap="BaseResultMap">
+   <select id="selectByYhid"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List2" />,B.NAME1 AS USERNAME,C.LBMC AS typeDisplayvalue,b.gh,
     D.NAME AS taskStatusDisplayvalue
@@ -55,8 +55,19 @@
     LEFT JOIN T_CONTRACT_USER_USERINFO B ON A.YHID=B.WID AND B.DATASTATUS=1
     LEFT JOIN T_CONTRACT_SJZD_QJLX C ON A.TYPE=C.LBDM and C.STATUS=1
     LEFT JOIN T_CONTRACT_SJZD_SHZT D ON A.TASKSTATUS=D.BM AND D.SFSY=1
-    where A.YHID = #{yhid,jdbcType=VARCHAR}
-    AND A.STATUS=1
+    where A.STATUS=1
+    <if test='yhid!=null and yhid!=""'>
+    	AND A.YHID = #{yhid,jdbcType=VARCHAR}
+    </if>
+    <if test='condition!=null and condition!=""'>
+    	AND (
+    		B.GH LIKE CONCAT('%',#{condition,jdbcType=VARCHAR},'%')
+    		OR B.NAME1 LIKE CONCAT('%',#{condition,jdbcType=VARCHAR},'%')
+    		)
+    </if>
+    <if test='shzt!=null and shzt!=""'>
+    	AND A.TaskStatus=#{shzt,jdbcType=VARCHAR}
+    </if>
     ORDER BY A.CREATETIME DESC
   </select>
   <select id="selectLeaveInfoByStep" resultMap="BaseResultMap">

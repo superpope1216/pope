@@ -13,7 +13,7 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">系统管理</a></li>
+					<li><a href="#">请假管理</a></li>
 					<li class="active">请假审核</li>
 				</ol>
 			</div>
@@ -29,19 +29,19 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="dshContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="mainTable">
 									<thead>
 										<tr>
-											<th class="text-center">姓名</th>
-											<th class="text-center">工号</th>
-											<th class="text-center">请假类型</th>
-											<th class="text-center">请假名称</th>
-											<th class="text-center">请假开始时间</th>
-											<th class="text-center">请假结束时间</th>
-											<th class="text-center">请假时长</th>
-											<th class="text-center">任务状态</th>
-											<th data-width="150px" class="text-center">操作</th>
+											<td class="text-center">姓名</td>
+											<td class="text-center">工号</td>
+											<td class="text-center">请假类型</td>
+											<td class="text-center">请假名称</td>
+											<td class="text-center">请假开始时间</td>
+											<td class="text-center">请假结束时间</td>
+											<td class="text-center">请假时长</td>
+											<td class="text-center">任务状态</td>
+											<td data-width="150px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblLevelInfo">
@@ -53,18 +53,18 @@
 							</div>
 							<div class="tab-pane" id="jxzContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="jxzTable">
 									<thead>
 										<tr>
-											<th class="text-center">姓名</th>
-											<th class="text-center">工号</th>
-											<th class="text-center">请假类型</th>
-											<th class="text-center">请假名称</th>
-											<th class="text-center">请假开始时间</th>
-											<th class="text-center">请假结束时间</th>
-											<th class="text-center">请假时长</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">姓名</td>
+											<td class="text-center">工号</td>
+											<td class="text-center">请假类型</td>
+											<td class="text-center">请假名称</td>
+											<td class="text-center">请假开始时间</td>
+											<td class="text-center">请假结束时间</td>
+											<td class="text-center">请假时长</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblJxzLevelInfo">
@@ -76,18 +76,18 @@
 							</div>
 							<div class="tab-pane" id="ywcContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="ywcTable">
 									<thead>
 										<tr>
-											<th class="text-center">姓名</th>
-											<th class="text-center">工号</th>
-											<th class="text-center">请假类型</th>
-											<th class="text-center">请假名称</th>
-											<th class="text-center">请假开始时间</th>
-											<th class="text-center">请假结束时间</th>
-											<th class="text-center">请假时长</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">姓名</td>
+											<td class="text-center">工号</td>
+											<td class="text-center">请假类型</td>
+											<td class="text-center">请假名称</td>
+											<td class="text-center">请假开始时间</td>
+											<td class="text-center">请假结束时间</td>
+											<td class="text-center">请假时长</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblYwcLevelInfo">
@@ -99,18 +99,18 @@
 							</div>
 							<div class="tab-pane" id="shbtgContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="btgTable">
 									<thead>
 										<tr>
-											<th class="text-center">姓名</th>
-											<th class="text-center">工号</th>
-											<th class="text-center">请假类型</th>
-											<th class="text-center">请假名称</th>
-											<th class="text-center">请假开始时间</th>
-											<th class="text-center">请假结束时间</th>
-											<th class="text-center">请假时长</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">姓名</td>
+											<td class="text-center">工号</td>
+											<td class="text-center">请假类型</td>
+											<td class="text-center">请假名称</td>
+											<td class="text-center">请假开始时间</td>
+											<td class="text-center">请假结束时间</td>
+											<td class="text-center">请假时长</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblBtgLevelInfo">

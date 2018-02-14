@@ -22,6 +22,7 @@
 		<result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
 		<result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
 		<result column="CurrentStep" property="currentstep" jdbcType="INTEGER" />
+		<result column="cjsj" property="cjsj" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		t_contract_task_main.WID,t_contract_task_main.RWMC,t_contract_task_main.RWLX,
@@ -37,7 +38,8 @@
 		t_contract_task_main.FJ, t_contract_task_main.BZ,
 		t_contract_task_main.DQBH,
 		t_contract_task_main.PCWID,
-		t_contract_task_main.DATASTATUS, t_contract_task_main.CurrentStep
+		t_contract_task_main.DATASTATUS, t_contract_task_main.CurrentStep,
+		t_contract_task_main.CJSJ
 	</sql>
 
 	<resultMap id="BaseResultDispalyMap"
@@ -90,7 +92,7 @@
 		t_contract_task_main.RWZT=T_CONTRACT_SJZD_TASKSTATUS.lbdm
 	</sql>
 	<sql id="sqlOrder">
-		order by t_contract_task_main.RWBH
+		order by t_contract_task_main.CJSJ DESC
 	</sql>
 	<select id="selectMaxXh" resultType="java.lang.Integer">
 		SELECT MAX(DQBH) FROM
@@ -121,12 +123,12 @@
 		<include refid="displayWhere" />
 		WHERE t_contract_task_main.DATASTATUS=1
 		<if test="rwfpr!=null and rwfpr!=''">
-			AND t_contract_task_main.fxxm in(SELECT T_CONTRACT_SJZD_FXXM.LBDM FROM T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM
-			 WHERE T_CONTRACT_SJZD_FXXM.fxry=#{rwfpr,jdbcType=VARCHAR})
+			AND t_contract_task_main.rwfpr=#{rwfpr,jdbcType=VARCHAR}
+			
 		</if>
 		<if test="rwshr!=null and rwshr!=''">
-				AND t_contract_task_main.fxxm in(SELECT T_CONTRACT_SJZD_FXXM.LBDM FROM T_CONTRACT_SJZD_FXXM T_CONTRACT_SJZD_FXXM
-			 WHERE T_CONTRACT_SJZD_FXXM.shry=#{rwshr,jdbcType=VARCHAR})
+				AND t_contract_task_main.rwshr =#{rwshr,jdbcType=VARCHAR}
+				
 		</if>
 		<include refid="sqlWhere"/>
 		<include refid="sqlOrder"/>

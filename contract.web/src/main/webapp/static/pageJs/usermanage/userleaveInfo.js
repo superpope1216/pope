@@ -21,18 +21,26 @@ $(document).ready(function(){
 		}
 	});
 	queryList();
-	
+	setButtonsDisplay(buttonsPermission);
 	setZdb();
 	
 	function setZdb(){
-		doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_QJLX","#modelEdithLevelInfo [name='type']")
+		doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_QJLX","#modelEdithLevelInfo [name='type']");
+		//doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_SHZT","#queryContractForm [name='queryPxlx']");
+		
 	}
+	$("#btnQuery").click(function(){
+		queryList();
+	});
 	function queryList(startPage){
 		$("#tblLevelInfo").html("");
 		if(startPage==undefined){
 			startPage=0;
 		}
-		doGet(basePath+"/userleaves/list","startPage="+startPage,function(data){
+		var _condition=$("#queryContractForm [name='queryCondition']").val();
+		var _shzt=$("#queryContractForm [name='queryPxlx']").val();
+		
+		doGet(basePath+"/userleaves/list","startPage="+startPage+"&flag="+flag+"&condition="+_condition+"&shzt="+_shzt,function(data){
 			if(data.data.data){
 				$('#tblLevelInfoTpl').tmpl(data.data.data).appendTo('#tblLevelInfo');
 				//$("#mainTable").datatable({sortable: true});
@@ -80,6 +88,7 @@ $(document).ready(function(){
 			}else{
 				url+="/update";
 			}
+			$("#btnShLeaveInfo").attr("disabled",true);
 			doPost(url,$("#levelForm").serializeArray(),function(data){
 				window.location.reload();
 			});
@@ -94,6 +103,7 @@ $(document).ready(function(){
 			}else{
 				url+="/update";
 			}
+			$("#btnSaveLeaveInfo").attr("disabled",true);
 			doPost(url,$("#levelForm").serializeArray(),function(data){
 				window.location.reload();
 			});

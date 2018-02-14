@@ -18,5 +18,11 @@ public class ConstantUtil {
 	public static final String SHRY_ROLE_NAME="样品审核";
 	
 	public static final String SYSTEM_MANAGE="系统管理员";
+	/**
+	 * 哇哇
+	 */
+	public static final String HTLX_WB="9999";
+	
+	public static final String TABLE_HTLX="T_CONTRACT_SJZD_HTLX";
 	
 }

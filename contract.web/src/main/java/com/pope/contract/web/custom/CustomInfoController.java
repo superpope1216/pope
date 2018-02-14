@@ -14,6 +14,7 @@ import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
 import com.pope.contract.entity.custom.CustomAccount;
 import com.pope.contract.entity.custom.CustomInfo;
+import com.pope.contract.entity.custom.extend.CustomAccountExtend;
 import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.entity.task.extend.TaskInfoExtend;
 import com.pope.contract.service.custom.CustomAccountService;
@@ -37,10 +38,11 @@ public class CustomInfoController extends BaseController{
 	@Autowired
 	private CustomAccountService customAccountService; 
 	@RequestMapping("index")
-	public ModelAndView index(){
+	public ModelAndView index() throws Exception{
 		ModelAndView mv=new ModelAndView();
 		mv.setViewName("custom/customInfo");
 		mv.addObject("buttons",this.getButtonPermission("/custom/index"));
+		
 		return mv;
 	}
 	@RequestMapping("list")
@@ -50,6 +52,7 @@ public class CustomInfoController extends BaseController{
 		CustomInfoExtend customInfo=new CustomInfoExtend();
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		if(!StringUtils.isEmpty(queryCondition)){
+			queryCondition=queryCondition.trim();
 			customInfo.setQueryCondition(queryCondition);
 		}
 		List<CustomInfoExtend> datas=customInfoService.selectDisplayByCondition(customInfo);
@@ -84,6 +87,15 @@ public class CustomInfoController extends BaseController{
 		}
 		return Result.success(customInfo);
 	}
+	@RequestMapping("view")
+	@ResponseBody
+	public Result view(String wid) throws Exception{
+		CustomInfoExtend queryCustomInfo=new CustomInfoExtend();
+		queryCustomInfo.setWid(wid);
+		return Result.success(customInfoService.selectSingleDisplayByCondition(queryCustomInfo));
+	}
+	
+	
 	@RequestMapping("deleteCustom")
 	@ResponseBody
 	public Result deleteCustom(String wid) throws Exception{
@@ -92,6 +104,17 @@ public class CustomInfoController extends BaseController{
 		customInfo.setDatastatus(StringUtil.toStr(DataStatus.delete.getCode()));
 		customInfoService.updateByPrimaryKeySelective(customInfo);
 		return Result.success();
+	}
+	
+	@RequestMapping("accountList")
+	@ResponseBody
+	public Result accountList(String customId) throws Exception{
+		CustomAccountExtend customAccountExtend=new CustomAccountExtend();
+		customAccountExtend.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		customAccountExtend.setCustomId(customId);
+		List<CustomAccountExtend> datas=customAccountService.selectByDisplayCondition(customAccountExtend);
+		
+		return Result.success(datas);
 	}
 	
 	@RequestMapping("addCustomAccount")

@@ -71,6 +71,12 @@ public class SupplyInfoController extends BaseController{
 		return Result.success(supplyInfo);
 		
 	}
+	@RequestMapping("copy")
+	@ResponseBody
+	public Result copy(String wid) throws Exception{
+		supplyInfoService.copy(wid);
+		return Result.success();
+	}
 	@RequestMapping("searchPm")
 	@ResponseBody
 	public Result searchPm(String hcfl) throws Exception{
@@ -104,6 +110,7 @@ public class SupplyInfoController extends BaseController{
 		Page<SupplyInfoExtend> page = PageHelper.startPage(pageParam.getPage(), pageParam.getPageSize());
 		SupplyInfoExtend querySupplyInfoExtend=new SupplyInfoExtend();
 		if(!StringUtils.isEmpty(queryCodition)){
+			queryCodition=queryCodition.trim();
 			querySupplyInfoExtend.setQueryCondition(queryCodition.trim());
 		}
 		List<SupplyInfoExtend> users=supplyInfoService.selectDisplayByCondition(querySupplyInfoExtend);

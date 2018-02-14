@@ -27,13 +27,13 @@
 									建</button>
 							</div>
 							<br> <br>
-							<table class="table table-bordered datatable table-hover"
+							<table class="mainTable table-hover"
 								id="mainTable">
 								<thead>
 									<tr>
-										<th class="text-center">消息名称</th>
-										<th class="text-center">创建时间</th>
-										<th data-width="130px" class="text-center">操作</th>
+										<td class="text-center">消息名称</td>
+										<td class="text-center">创建时间</td>
+										<td data-width="130px" class="text-center">操作</td>
 									</tr>
 								</thead>
 								<tbody id="tblZdbsInfo">

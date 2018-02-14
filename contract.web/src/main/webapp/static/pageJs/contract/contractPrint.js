@@ -25,7 +25,7 @@ $(document).ready(function() {
 		if (_validater.form()) {
 			doPost(basePath+"/contractPrint/save",$("#mainForm").serializeArray(),function(){
 				//window.open(basePath+"/contractPrint/download");
-				location.href=basePath+"/contractPrint/download";
+				location.href=basePath+"/contractPrint/download?wid="+wid;
 			});
 		}
 	});

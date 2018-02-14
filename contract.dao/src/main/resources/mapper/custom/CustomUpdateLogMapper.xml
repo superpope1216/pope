@@ -4,16 +4,17 @@
   <resultMap id="BaseResultMap" type="com.pope.contract.entity.custom.CustomUpdateLog" >
     <id column="WID" property="wid" jdbcType="VARCHAR" />
     <result column="CUSTOM_ID" property="customId" jdbcType="VARCHAR" />
-    <result column="ACCOUNT_NUMBER" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
     <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
     <result column="ACCOUNT_MONEY" property="accountMoney" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
     <result column="UPDATE_TYPE" property="updateType" jdbcType="INTEGER" />
+    <result column="BD_MONEY" property="bdMoney" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    WID, CUSTOM_ID, ACCOUNT_NUMBER, BANK_ACCOUNT, ACCOUNT_MONEY, CREATE_TIME, CREATE_MAN, 
-    UPDATE_TYPE
+    WID, CUSTOM_ID, ACCOUNT_ID, BANK_ACCOUNT, ACCOUNT_MONEY, CREATE_TIME, CREATE_MAN, 
+    UPDATE_TYPE, BD_MONEY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -26,12 +27,14 @@
     where WID = #{wid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.pope.contract.entity.custom.CustomUpdateLog" >
-    insert into t_contract_custom_update_log (WID, CUSTOM_ID, ACCOUNT_NUMBER, 
+    insert into t_contract_custom_update_log (WID, CUSTOM_ID, ACCOUNT_ID, 
       BANK_ACCOUNT, ACCOUNT_MONEY, CREATE_TIME, 
-      CREATE_MAN, UPDATE_TYPE)
-    values (#{wid,jdbcType=VARCHAR}, #{customId,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, 
+      CREATE_MAN, UPDATE_TYPE, BD_MONEY
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{customId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
       #{bankAccount,jdbcType=VARCHAR}, #{accountMoney,jdbcType=DECIMAL}, #{createTime,jdbcType=VARCHAR}, 
-      #{createMan,jdbcType=VARCHAR}, #{updateType,jdbcType=INTEGER})
+      #{createMan,jdbcType=VARCHAR}, #{updateType,jdbcType=INTEGER}, #{bdMoney,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.custom.CustomUpdateLog" >
     insert into t_contract_custom_update_log
@@ -42,8 +45,8 @@
       <if test="customId != null" >
         CUSTOM_ID,
       </if>
-      <if test="accountNumber != null" >
-        ACCOUNT_NUMBER,
+      <if test="accountId != null" >
+        ACCOUNT_ID,
       </if>
       <if test="bankAccount != null" >
         BANK_ACCOUNT,
@@ -60,6 +63,9 @@
       <if test="updateType != null" >
         UPDATE_TYPE,
       </if>
+      <if test="bdMoney != null" >
+        BD_MONEY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -68,8 +74,8 @@
       <if test="customId != null" >
         #{customId,jdbcType=VARCHAR},
       </if>
-      <if test="accountNumber != null" >
-        #{accountNumber,jdbcType=VARCHAR},
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="bankAccount != null" >
         #{bankAccount,jdbcType=VARCHAR},
@@ -86,6 +92,9 @@
       <if test="updateType != null" >
         #{updateType,jdbcType=INTEGER},
       </if>
+      <if test="bdMoney != null" >
+        #{bdMoney,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.custom.CustomUpdateLog" >
@@ -94,8 +103,8 @@
       <if test="customId != null" >
         CUSTOM_ID = #{customId,jdbcType=VARCHAR},
       </if>
-      <if test="accountNumber != null" >
-        ACCOUNT_NUMBER = #{accountNumber,jdbcType=VARCHAR},
+      <if test="accountId != null" >
+        ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="bankAccount != null" >
         BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
@@ -112,18 +121,22 @@
       <if test="updateType != null" >
         UPDATE_TYPE = #{updateType,jdbcType=INTEGER},
       </if>
+      <if test="bdMoney != null" >
+        BD_MONEY = #{bdMoney,jdbcType=DECIMAL},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.custom.CustomUpdateLog" >
     update t_contract_custom_update_log
     set CUSTOM_ID = #{customId,jdbcType=VARCHAR},
-      ACCOUNT_NUMBER = #{accountNumber,jdbcType=VARCHAR},
+      ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
       BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
       ACCOUNT_MONEY = #{accountMoney,jdbcType=DECIMAL},
       CREATE_TIME = #{createTime,jdbcType=VARCHAR},
       CREATE_MAN = #{createMan,jdbcType=VARCHAR},
-      UPDATE_TYPE = #{updateType,jdbcType=INTEGER}
+      UPDATE_TYPE = #{updateType,jdbcType=INTEGER},
+      BD_MONEY = #{bdMoney,jdbcType=DECIMAL}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

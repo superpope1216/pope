@@ -47,15 +47,19 @@ public class PxglInfoController extends BaseController{
 		}
 		PxglInfoExtend queryInfo=new PxglInfoExtend();
 		if(!StringUtils.isEmpty(pxlx)){
+			pxlx=pxlx.trim();
 			queryInfo.setPxlx(pxlx);
 		}
 		if(!StringUtils.isEmpty(pxmc)){
+			pxmc=pxmc.trim();
 			queryInfo.setPxmc(pxmc);
 		}
 		if(!StringUtils.isEmpty(pxr)){
+			pxr=pxr.trim();
 			queryInfo.setUserName(pxr);
 		}
 		if(!StringUtils.isEmpty(pxzt)){
+			pxzt=pxzt.trim();
 			queryInfo.setRwzt(StringUtil.toInt(pxzt));
 		}
 		PageParam<PxglInfoExtend> pageParam = new PageParam<PxglInfoExtend>();

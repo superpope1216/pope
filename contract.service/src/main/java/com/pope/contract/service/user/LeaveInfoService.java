@@ -29,7 +29,7 @@ public interface LeaveInfoService {
 
 	    LeaveInfo selectByPrimaryKey(String wid);
 	    
-	    List<LeaveInfo> selectByYhid(String yhid);
+	    List<LeaveInfo> selectByYhid(String yhid,String condition,String shzt);
 
 	    int updateByPrimaryKeySelective(LeaveInfo record,String userId) throws Exception;
 

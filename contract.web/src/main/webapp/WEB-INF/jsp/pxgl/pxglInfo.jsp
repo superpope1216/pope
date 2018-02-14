@@ -21,38 +21,32 @@
 				<div class="panel">
 					<div class="panel-body">
 						<form class="form-horizontal" id="queryContractForm">
-							<div class="form-group">
-								<label for="phone" class="col-sm-1 ">培训类型</label>
-								<div class="col-md-3 col-sm-3">
-
-									<select name="queryPxlx" class="form-control">
-										<option value=''>--请选择--</option>
-									</select>
-								</div>
-								<label for="phone" class="col-sm-1 ">培训名称</label>
-								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="queryPxmc"
-										"
-										placeholder="">
-								</div>
-								<label for="phone" class="col-sm-1 ">培训人</label>
-								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control queryCondition"
-										name="queryMan" placeholder="">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="phone" class="col-sm-1 ">任务状态</label>
-								<div class="col-md-3 col-sm-3">
-									<select name="queryRwzt" class="form-control">
-										<option value=''>--请选择--</option>
-									</select>
-								</div>
-								<div class="col-md-3 col-sm-3">
-									<button class="btn btn-primary btnQuery" type="button"
-										id="btnQuery">查询</button>
-								</div>
-							</div>
+							<table class="mainQueryTable">
+								<tr>
+									<td class="tbl-three-text">培训类型</td>
+									<td class="tbl-three-edit-value"><select name="queryPxlx"
+										class="form-control">
+											<option value=''>--请选择--</option>
+									</select></td>
+									<td class="tbl-three-text">培训名称</td>
+									<td class="tbl-three-edit-value"><input type="text"
+										class="form-control " name="queryPxmc" placeholder="">
+									</td>
+									<td class="tbl-three-text">培训人</td>
+									<td class="tbl-three-edit-value"><input type="text"
+										class="form-control" name="queryMan" placeholder=""></td>
+								</tr>
+								<tr>
+									<td class="tbl-three-text">任务状态</td>
+									<td class="tbl-three-edit-value"><select name="queryRwzt"
+										class="form-control">
+											<option value=''>--请选择--</option>
+									</select></td>
+									<td class="tbl-three-edit-value" colspan="4"><button
+											class="btn btn-primary btnQuery" type="button" id="btnQuery">查询</button>
+									</td>
+								</tr>
+							</table>
 						</form>
 					</div>
 				</div>
@@ -65,18 +59,17 @@
 								id="btnAdd">新建</button>
 						</div>
 						<br> <br>
-						<table class="table table-bordered datatable table-hover"
-							id="mainTable">
+						<table class="mainTable table-hover" id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center">培训类型</th>
-									<th class="text-center">培训名称</th>
-									<th class="text-center">培训人</th>
-									<th class="text-center">开始时间</th>
-									<th class="text-center">结束时间</th>
-									<th class="text-center">培训费用</th>
-									<th class="text-center">任务状态</th>
-									<th data-width="130px" class="text-center">操作</th>
+									<td class="text-center">培训类型</td>
+									<td class="text-center">培训名称</td>
+									<td class="text-center">培训人</td>
+									<td class="text-center">开始时间</td>
+									<td class="text-center">结束时间</td>
+									<td class="text-center">培训费用</td>
+									<td class="text-center">任务状态</td>
+									<td data-width="130px" class="text-center">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">
@@ -101,64 +94,58 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="userForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="name" class="col-sm-2 required">培训类型</label>
-							<div class="col-md-6 col-sm-6">
-								<select name="pxlx" class="form-control " required>
-									<option value=''>--请选择--</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">培训名称</label>
-							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" name="pxmc"
-									placeholder="请输入培训名称" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">培训人</label>
-							<div class="col-md-6 col-sm-6">
-								<select name="by1" class="form-control " required>
-									<option value=''>--请选择--</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">开始时间</label>
-							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" name="begtime"
-									placeholder="请输入开始时间" required onClick="WdatePicker()">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">结束时间</label>
-							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" name="endtime"
-									placeholder="请输入结束时间" required onClick="WdatePicker()">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">培训费用</label>
-							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" name="pxfy"
-									placeholder="请输入培训费用" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">备注</label>
-							<div class="col-md-6 col-sm-6">
-								<textarea name="bz" rows="3" cols="35"></textarea>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value="">培训类型<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="pxlx"
+									class="form-control " required>
+										<option value=''>--请选择--</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">培训名称<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="pxmc" placeholder="请输入培训名称" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">培训人<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="by1"
+									class="form-control " required>
+										<option value=''>--请选择--</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">开始时间<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" id="txtStartDate"
+									class="form-control" name="begtime" placeholder="请输入开始时间"
+									required onClick="WdatePicker({maxDate:'#F{$dp.$D(\'txtEndDate\')}' })"></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">结束时间<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" id="txtEndDate"
+									class="form-control" name="endtime" placeholder="请输入结束时间"
+									required onClick="WdatePicker({minDate:'#F{$dp.$D(\'txtStartDate\')}' })"></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">培训费用<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="pxfy" placeholder="请输入培训费用" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">备注</td>
+								<td class="tbl-one-edit-value"><textarea name="bz" rows="3"
+										cols="35"></textarea></td>
+							</tr>
+						</table>
 					</form>
 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-primary" id="btnSaveUserInfo">保存</button>
-					<button type="button" class="btn btn-primary" id="btnSubmitUserInfo">提交审核</button>
+					<button type="button" class="btn btn-primary"
+						id="btnSubmitUserInfo">提交审核</button>
 				</div>
 			</div>
 		</div>

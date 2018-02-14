@@ -4,6 +4,11 @@
 <html>
 <head>
 <%@ include file="/jsp/public/top.jsp"%>
+<style type="text/css">
+#modelViewCustomInfo .form-group {
+	margin-bottom: 3px;
+}
+</style>
 </head>
 <body>
 	<div class="main">
@@ -23,8 +28,7 @@
 						<form action="#" method="post">
 							<div class="search">
 								<input type="text" class="text" id="queryCondition"
-									placeholder="客户编号/客户名称" class="queryCondition">
-								&nbsp;
+									placeholder="客户编号/客户名称" class="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -35,22 +39,21 @@
 					<div class="panel-body">
 						<div class="pull-left">
 							<button class="btn btn-primary btnQuery" id="btnAdd"
-								style="display: none;margin-bottom:15px;">新建</button>&nbsp;&nbsp;
-								<button class="btn btn-primary btnQuery" id="btnAddAccount"
-								style="display: none;margin-bottom:15px;">新建客户账户</button>
+								style="display: none; margin-bottom: 15px;">新建</button>
+							&nbsp;&nbsp;
+
 						</div>
-						<table class="table table-bordered datatable table-hover"
-							id="mainTable">
+						<table class="mainTable table-hover" id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center" style="width: 80px;"><input
-										type="checkbox" name="selAll" /></th>
-									<th class="text-center">客户编码</th>
-									<th class="text-center">客户名称</th>
-									<th class="text-center">客户类别</th>
-									<th class="text-center">客户公司信息</th>
-									<th class="text-center">联系方式</th>
-									<th data-width="160px" class="text-center">操作</th>
+									<td class="text-center" style="width: 80px;"><input
+										type="checkbox" name="selAll" /></td>
+									<td class="text-center">客户编码</td>
+									<td class="text-center">客户名称</td>
+									<td class="text-center">客户类别</td>
+									<td class="text-center">客户公司信息</td>
+									<td class="text-center">联系方式</td>
+									<td data-width="160px" class="text-center">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">
@@ -64,7 +67,8 @@
 			</div>
 		</div>
 	</div>
-<div class="modal fade" id="modelAddCustomAccountInfo">
+	<div class="modal fade" id="modelAddCustomAccountInfo"
+		style="z-Index: 99999999999">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -76,37 +80,116 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="customAccountForm"
 						style="margin-top: 10px;">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="dqbh" value="">
-								<input
-								type="hidden" name="customId" value=""><label for="name"
-								class="col-sm-2 required">账号编号</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" readonly name="accountNumber"
-									placeholder="请输入账户编号" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">银行账户</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" 
-									name="bankAccount" placeholder="请输入银行账户" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gh" class="col-sm-2 required">账户余额</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" 
-									name="accountMoney" placeholder="请输入账户余额" required>
-							</div>
-						</div>
+						<table class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="dqbh" value="">
+									<input type="hidden" name="customId" value="">预存账号编号<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" readonly
+									name="accountNumber" placeholder="请输入账户编号" required></td>
+								
+							</tr>
+							<tr>
+								<td class="tbl-one-text">预存账户信息<span class="myrequrire">*</span>
+								</td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="bankAccount" placeholder="请输入银行账户"
+									required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">预存账户余额<span class="myrequrire">*</span>
+								</td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="accountMoney"
+									placeholder="请输入账户余额" required></td>
+							</tr>
+						</table>
 					</form>
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="btnSaveCustomAccountInfo">保存</button>
+					<button type="button" class="btn btn-primary"
+						id="btnSaveCustomAccountInfo">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modelViewCustomInfo">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">客户详情</h4>
+				</div>
+				<div class="modal-body">
+					<table style="width: 100%; margin-top: 5px;">
+						<tr>
+							<td align="left">
+								<h3>客户详情</h3>
+							</td>
+							<td align="right">
+								<button class="btn pull-right btn-primary btnQuery"
+									id="btnAddAccount" style="margin-bottom: 15px;">新建客户账户</button>
+							</td>
+						</tr>
+					</table>
+					<form class="form-horizontal" id="customViewForm"
+						style="margin-top: 10px;">
+						<table class="mainTable">
+							<tr>
+								<td class="tbl-two-text">客户名称</td>
+								<td class="tbl-two-edit-value"><input type="hidden" name="wid"><p class="form-control-static" name="customName"></p></td>
+								<td class="tbl-two-text">客户编号</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="customNumber"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户类别</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="customType"></p></td>
+								<td class="tbl-two-text">客户联系方式</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="contractWay"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户基本信息</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="linkMan"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户公司名称</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="companyName"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户公司地址</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="companyAddress"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户银行账户</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="companyAccount"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户开户行</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="companyPreAccount"></p></td>
+							</tr>
+						</table>
+					</form>
+					<br>
+					<table class="mainTable table-hover"
+						id="mainAccountTable">
+						<thead>
+							<tr>
+								<td class="text-center">预存账户编号</td>
+								<td class="text-center">预存账户信息</td>
+								<td class="text-center">预存账户余额</td>
+								<td data-width="160px" class="text-center">操作</td>
+							</tr>
+						</thead>
+						<tbody id="tblAccountInfo">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				</div>
 			</div>
 		</div>
@@ -123,80 +206,76 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="customForm"
 						style="margin-top: 10px;">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="dqbh" value=""><label for="name"
-								class="col-sm-2 required">客户名称</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="customName"
-									placeholder="请输入客户名称" required>
-							</div>
-							<label for="gh" class="col-sm-2 required">客户编号</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" readonly
-									name="customNumber" placeholder="请输入客户编号" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户类别</label>
-							<div class="col-md-4 col-sm-4">
-								<select name="customType" class="form-control" required>
+						<table class="mainTable">
+							<tr>
+								<td class="tbl-two-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="dqbh" value="">客户名称<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text"
+									class="form-control" name="customName" placeholder=""
+									required></td>
+									<td class="tbl-two-text">客户编号<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text"  readonly
+									name="customNumber" placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户类别<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><select name="customType" class="form-control" required>
 									<option value=''>--请选择--</option>
-								</select>
-							</div>
-							<label for="email" class="col-sm-2 required">客户联系方式</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text"  class="form-control"
-									name="contractWay" placeholder="请输入客户联系方式" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户基本信息</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="linkMan"
-									placeholder="请输入客户基本信息" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户公司名称</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="companyName"
-									placeholder="请输入客户公司名称" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户公司地址</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="companyAddress"
-									placeholder="请输入客户公司地址" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户账户信息</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="companyAccount"
-									placeholder="请输入客户账户信息" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="phone" class="col-sm-2 required">客户预存账号</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="companyPreAccount"
-									placeholder="请输入客户预存账号" required>
-							</div>
-						</div>
+								</select></td>
+									<td class="tbl-two-text">客户联系方式<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="contractWay"
+									placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户基本信息<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="linkMan"
+									placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户公司名称<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="companyName"
+									placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户公司地址<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="companyAddress"
+									placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户银行账户<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="companyAccount"
+									placeholder="" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">客户开户行<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="companyPreAccount"
+									placeholder="" required></td>
+							</tr>
+						</table>
+						
 					</form>
 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="btnSaveCustomInfo">保存</button>
+					<button type="button" class="btn btn-primary"
+						id="btnSaveCustomInfo">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		var buttonsPermission = "${buttons}";
+		var token="${token}";
 	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/custom/customInfo.js"></script>

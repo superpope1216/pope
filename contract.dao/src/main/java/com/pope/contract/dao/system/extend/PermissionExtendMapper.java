@@ -19,7 +19,7 @@ public interface PermissionExtendMapper {
      * @param roles
      * @return
      */
-    List<Permission> selectPermissionByRoles(List<Role> roles);
+    List<Permission> selectPermissionByRoles(@Param(value="list") List<Role> roles,@Param(value="level") String level,@Param(value="pid") String pid);
     
     List<Permission> selectAll();
     
@@ -28,4 +28,6 @@ public interface PermissionExtendMapper {
     List<Permission> selectPermissionByRoleId(@Param(value="roleId") String roleId);
     
     List<Permission> selectChildByUrl(@Param(value="url") String url,@Param(value="roleId") String roleId);
+    
+    List<Permission> selectPermissionByPid (@Param(value="pid") String pid);
 }

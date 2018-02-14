@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.pope.contract.dao.supply.SupplyInfoMapper;
 import com.pope.contract.dao.supply.SupplyTotalInfoMapper;
@@ -194,5 +195,27 @@ public class SupplyInfoServiceImpl implements SupplyInfoService{
 		}
 		supplyInfoMapper.updateByPrimaryKeySelective(oldSupplyInfo);
 		
+	}
+
+	@Override
+	public void copy(String wid) throws Exception {
+		if(StringUtils.isEmpty(wid)){
+			throw new Exception("wid不能为空！");
+		}
+		SupplyInfo supplyInfo=	supplyInfoMapper.selectByPrimaryKey(wid);
+		if(supplyInfo==null){
+			throw new Exception("该耗材已不存在，请重新确认！！");
+		}
+		
+		supplyInfo.setWid(StringUtil.getUuId());
+		Integer max=this.supplyInfoExtendMapper.selectMaxBh();
+		if(max==null){
+			max=0;
+		}
+		max++;
+		supplyInfo.setPm(supplyInfo.getPm()+"[复]");
+		supplyInfo.setDqbh(max);
+		supplyInfo.setNeedKl("0");
+		supplyInfoMapper.insertSelective(supplyInfo);
 	}
 }

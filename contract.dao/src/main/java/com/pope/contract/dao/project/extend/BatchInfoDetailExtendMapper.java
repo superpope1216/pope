@@ -15,5 +15,5 @@ public interface BatchInfoDetailExtendMapper  {
 	List<BatchInfoDetailExtend> selectDisplayByCondition(BatchInfoDetail batchInfo);
 	
 	void deleteByPcid(@Param("pcid")String pcid);
-	Integer selectMaxDqbh();
+	Integer selectMaxDqbh(@Param("pcwid") String pcwid);
 }

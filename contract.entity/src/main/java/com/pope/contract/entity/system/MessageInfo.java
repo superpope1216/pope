@@ -20,6 +20,12 @@ public class MessageInfo implements Serializable{
 
     private String taskId;
 
+    private String messageReceiveDepart;
+
+    private String messageReceiveTeam;
+
+    private String messageReceiveMan;
+
     private String content;
 
     public String getWid() {
@@ -68,6 +74,30 @@ public class MessageInfo implements Serializable{
 
     public void setTaskId(String taskId) {
         this.taskId = taskId == null ? null : taskId.trim();
+    }
+
+    public String getMessageReceiveDepart() {
+        return messageReceiveDepart;
+    }
+
+    public void setMessageReceiveDepart(String messageReceiveDepart) {
+        this.messageReceiveDepart = messageReceiveDepart == null ? null : messageReceiveDepart.trim();
+    }
+
+    public String getMessageReceiveTeam() {
+        return messageReceiveTeam;
+    }
+
+    public void setMessageReceiveTeam(String messageReceiveTeam) {
+        this.messageReceiveTeam = messageReceiveTeam == null ? null : messageReceiveTeam.trim();
+    }
+
+    public String getMessageReceiveMan() {
+        return messageReceiveMan;
+    }
+
+    public void setMessageReceiveMan(String messageReceiveMan) {
+        this.messageReceiveMan = messageReceiveMan == null ? null : messageReceiveMan.trim();
     }
 
     public String getContent() {

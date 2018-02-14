@@ -59,10 +59,10 @@
   </select>
   
   <select id="selectNotDclTask" resultType="java.lang.Integer">
-  		SELECT COUNT(0) FROM t_contract_task_detail WHERE DATASTATUS=1 AND RWZT!=1
+  		SELECT COUNT(0) FROM t_contract_task_detail WHERE DATASTATUS=1 AND RWZT!=1  AND FRWID=#{frwid}
   </select>
   <update id="deleteTaskDetailByTaskId" parameterType="java.lang.String">
-  		UPDATE t_contract_task_detail SET DATASTATUS=2 WHERE FRWID=#{frwid,jdbcType=VARCHAR}
+  		delete from t_contract_task_detail where FRWID=#{frwid,jdbcType=VARCHAR}
   </update>
   <select id="selectMinZtByPid" resultType="java.lang.Integer">
   		SELECT MIN(RWZT) FROM t_contract_task_detail WHERE FRWID=#{frwid,jdbcType=VARCHAR}  AND DATASTATUS=1

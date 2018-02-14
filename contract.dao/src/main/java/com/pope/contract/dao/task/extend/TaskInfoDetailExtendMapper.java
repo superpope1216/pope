@@ -13,7 +13,7 @@ public interface TaskInfoDetailExtendMapper {
 	Integer selectMinZtByPid(@Param("frwid")String pid,@Param("existRecords")List<String> existRecords) throws Exception;
 	List<TaskInfoDetail> selectDispalyTaskInfoByCondition(TaskInfoDetail taskInfoDetail) throws Exception;
 	
-	Integer selectNotDclTask();
+	Integer selectNotDclTask(@Param("frwid") String frwid);
 	
 	void deleteTaskDetailByTaskId(@Param("frwid") String frwid);
 }

@@ -30,23 +30,28 @@ $(document).ready(function(){
 		}
 	});
 	$("#btnNewLeave").click(function(){
+		
 		view("leaveExamineForm","");
 		$("#modelEditLeaveInfo").modal("show");
 	});
 	$("#btnNewTask").click(function(){
+		
 		view("taskExamineForm","");
 		$("#modelEditTaskInfo").modal("show");
 	});
 	$("#btnNewSupply").click(function(){
+		
 		view("taskSupplyForm","");
 		$("#modelSupplyInfo").modal("show");
 	});
 	$("#btnNewContract").click(function(){
+		
 		view("taskContractForm","");
 		$("#modelContractInfo").modal("show");
 	});
 	$("#btnNewPxgl").click(function(){
-		view("pxglContractForm","");
+		
+		view("pxglExamineForm","");
 		$("#modelPxglInfo").modal("show");
 	});
 	doGet(basePath+"/roles/list","",function(data){ 
@@ -67,11 +72,23 @@ $(document).ready(function(){
 	setSelectList("");
 	
 	function view(formName,wid){
+		if(formName=="leaveExamineForm"){
+			_validater.resetForm();
+		}else if(formName=="taskExamineForm"){
+			_task_validater.reset();
+		}else if(formName=="supplyExamineForm"){
+			_supply_validater.resetForm();
+		}else if(formName=="contractExamineForm"){
+			_contract_validater.resetForm();
+		}else if(formName=="pxglExamineForm"){
+			_pxgl_validater.resetForm();
+		}
+		$("#"+formName)[0].reset();
 		doGet(basePath+"/flowset/view","wid="+wid,function(data){
 			if(data && data.data){
 				var _d=data.data;
 				$("#"+formName+" [name='wid']").val(_d.wid);
-				$("#"+formName+" [name='type']").val(_d.type);
+				//$("#"+formName+" [name='type']").val(_d.type);
 				$("#"+formName+" [name='px']").val(_d.px);
 				$("#"+formName+" [name='shType']").val(_d.shType);
 				$("#"+formName+" [name='name']").val(_d.name);

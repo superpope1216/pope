@@ -23,7 +23,8 @@
 						<form action="#" method="post">
 							<div class="search">
 								<input type="text" class="text" name="queryCondition"
-									placeholder="请输入品名进行查询" class="queryCondition" id="queryCondition"> &nbsp;
+									placeholder="请输入品名进行查询" class="queryCondition"
+									id="queryCondition"> &nbsp;
 								<button class="btn btn-primary btnQuery" type="button"
 									id="btnQuery">查询</button>
 							</div>
@@ -32,24 +33,27 @@
 				</div>
 				<div class="panel">
 					<div class="panel-body">
-						<div class="pull-left" >
-							<button class="btn btn-primary btnQuery" style="display:none;margin-bottom:10px;" id="btnAdd">新 建</button>
+						<div class="pull-left">
+							<button class="btn btn-primary btnQuery"
+								style="display: none; margin-bottom: 10px;" id="btnAdd">新
+								建</button>
 						</div>
 						<div class="pull-right">
 							<!-- <button class="btn btn-primary" style="width: 100px; margin-left: 10px;">导入</button> -->
-							<button class="btn btn-primary btnQuery" style="display:none;margin-bottom:10px;" id="btnExport">导出</button>
+							<button class="btn btn-primary btnQuery"
+								style="display: none; margin-bottom: 10px;" id="btnExport">导出</button>
 						</div>
-						<table class="table table-bordered" id="mainTable">
+						<table class="mainTable table-bordered" id="mainTable">
 							<thead>
 								<tr>
-									<th style="width: 80px;" class="text-center"><input
-										type="checkbox" name="selAll"></th>
-									<th class="text-center">消耗品名</th>
-									<th class="text-center">类别</th>
-									<th class="text-center">有效期</th>
-									<th class="text-center">数量</th>
-									<th class="text-center">供应商</th>
-									<th class="text-center">操作</th>
+									<td style="width: 80px;" class="text-center"><input
+										type="checkbox" name="selAll"></td>
+									<td class="text-center">消耗品名</td>
+									<td class="text-center">类别</td>
+									<td class="text-center">有效期</td>
+									<td class="text-center">数量</td>
+									<td class="text-center">供应商</td>
+									<td class="text-center" style="width:160px;">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblSupplyInfo">
@@ -76,16 +80,14 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="supplyForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="name" class="col-sm-2 required">分类</label>
-							<div class="col-md-4 col-sm-4">
-								<select class="form-control" name="hcfl" required
-									placeholder="请选择分类"></select>
-							</div>
-							<label for="gh" class="col-sm-2 required">品名</label>
-							<div class="col-md-4 col-sm-4">
-								<div class="input-group">
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-two-text"><input type="hidden" name="wid"
+									value=""> 分类<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><select class="form-control"
+									name="hcfl" required placeholder="请选择分类"></select></td>
+								<td class="tbl-two-text">品名<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><div class="input-group">
 									<input type="text" class="form-control" name="pm">
 									<div class="input-group-btn">
 										<button type="button" class="btn btn-default dropdown-toggle"
@@ -97,64 +99,48 @@
 									</div>
 									<!-- /btn-group -->
 								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							
-							<label for="email" class="col-sm-2 required">消耗品录入时间</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="xhplrsj"
-									placeholder="请输入录入时间" onClick="WdatePicker()" required>
-							</div>
-							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="gys"
+								</td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">消耗品录入时间<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="xhplrsj"
+									placeholder="请输入录入时间" onClick="WdatePicker()" required></td>
+								<td class="tbl-two-text">供应商<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="gys"
 									placeholder="请输入供应商" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="team" class="col-sm-2 required">库存</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="kc"
-									placeholder="请输入库存" required>
-							</div>
-							<label for="birthday" class="col-sm-2 required">数量单位</label>
-							<div class="col-md-4 col-sm-4">
-								<select class="form-control" name="sldw" required
+								</td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">库存<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="kc"
+									placeholder="请输入库存" required></td>
+								<td class="tbl-two-text">数量单位<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><select class="form-control" name="sldw" required
 									placeholder="请选择数量单位"></select>
-							</div>
-
-						</div>
-						<div class="form-group">
-							<label for="degree" class="col-sm-2 required">单价</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="dj"
-									placeholder="请输入单价" required>
-							</div>
-							<label for="jobcategory" class="col-sm-2 required">货币单位</label>
-							<div class="col-md-4 col-sm-4">
-								<select class="form-control" name="hbdw" required
+								</td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">单价<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="dj"
+									placeholder="请输入单价" required></td>
+								<td class="tbl-two-text">货币单位<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><select class="form-control" name="hbdw" required
 									placeholder="请选择货币单位"></select>
-							</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">有效期(天)<span class="myrequrire">*</span></td>
+								<td class="tbl-two-edit-value"><input type="text" class="form-control" name="yxq"
+									placeholder="请输入有效期" required></td>
+								<td class="tbl-two-text" colspan="2">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">备注</td>
+								<td class="tbl-two-edit-value" colspan="3"><input type="text" class="form-control" name="bz"
+									placeholder="请输入备注"></td>
+							</tr>
+						</table>
 
-
-						</div>
-						<div class="form-group">
-							<label for="department" class="col-sm-2 required">有效期（天）</label>
-							<div class="col-md-4 col-sm-4">
-								<input type="text" class="form-control" name="yxq"
-									placeholder="请输入有效期" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="contractvalidity" class="col-sm-2">备注</label>
-							<div class="col-md-10 col-sm-10">
-								<input type="text" class="form-control" name="bz"
-									placeholder="请输入备注" >
-							</div>
-						</div>
 
 					</form>
 
@@ -179,68 +165,47 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="supplyViewForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="name" class="col-sm-2 required">分类</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="hcfl"></p>
-							</div>
-							<label for="gh" class="col-sm-2 required">品名</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="pm"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="email" class="col-sm-2 required">消耗品录入时间</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="xhplrsj"></p>
-							</div>
-							<label for="contractvalidity" class="col-sm-2 required">供应商</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="gys"></p>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-two-text"><input type="hidden" name="wid"
+									value="">分类</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="hcfl"></p></td>
+								<td class="tbl-two-text">品名</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="pm"></p></td>
+							</tr>
+							
+									
+						<tr>
+								<td class="tbl-two-text">消耗品录入时间</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="xhplrsj"></p></td>
+								<td class="tbl-two-text">供应商</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="gys"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">库存</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="kc"></p></td>
+								<td class="tbl-two-text">数量单位</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="sldw"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">单价</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="dj"></p></td>
+								<td class="tbl-two-text">货币单位</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="hbdw"></p></td>
+							</tr>
 
-						<div class="form-group">
-							<label for="team" class="col-sm-2 required">库存</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="kc"></p>
-							</div>
-							<label for="birthday" class="col-sm-2 required">数量单位</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="sldw"></p>
-							</div>
+							<tr>
+								<td class="tbl-two-text">有效期(天)</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="yxq"></p></td>
+								<td class="tbl-two-text">预警数量</td>
+								<td class="tbl-two-edit-value"><p class="form-control-static" name="yjsl"></p></td>
+							</tr>
+							<tr>
+								<td class="tbl-two-text">备注</td>
+								<td class="tbl-two-edit-value" colspan="3"><p class="form-control-static" name="bz"></p></td>
+							</tr>
+							</table>
 
-						</div>
-						<div class="form-group">
-							<label for="degree" class="col-sm-2 required">单价</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="dj"></p>
-							</div>
-							<label for="jobcategory" class="col-sm-2 required">货币单位</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="hbdw"></p>
-							</div>
-
-
-						</div>
-						<div class="form-group">
-							<label for="department" class="col-sm-2 required">有效期</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="yxq"></p>
-							</div>
-							<label for="job" class="col-sm-2 required">预警数量</label>
-							<div class="col-md-4 col-sm-4">
-								<p class="form-control-static" name="yjsl"></p>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="contractvalidity" class="col-sm-2">备注</label>
-							<div class="col-md-10 col-sm-10">
-								<p class="form-control-static" name="bz"></p>
-							</div>
-						</div>
 
 					</form>
 
@@ -252,9 +217,9 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" >
-    	var buttonsPermission="${buttons}";
-    </script>
+	<script type="text/javascript">
+		var buttonsPermission = "${buttons}";
+	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static/pageJs/supply/supplyInfo.js"></script>
 </body>

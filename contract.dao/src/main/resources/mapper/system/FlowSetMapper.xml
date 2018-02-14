@@ -130,4 +130,18 @@
        SHTYPE = #{shType,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
+  <select id="selectSingleByCondition" parameterType="com.pope.contract.entity.system.FlowSet" resultMap="BaseResultMap">
+  	SELECT 
+  		<include refid="Base_Column_List"/>
+  	  FROM t_contract_sys_flowset
+  	  <where>
+  	  	<if test="px!=null">
+  	  		AND PX=#{px}
+  	  	</if>
+  	  	<if test="type!=null and type!=''">
+  	  		AND TYPE=#{type}
+  	  	</if>
+  	  </where> 
+  	  LIMIT 1
+  </select>
 </mapper>

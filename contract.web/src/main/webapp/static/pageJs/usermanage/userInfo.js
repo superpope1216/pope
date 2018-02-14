@@ -17,6 +17,12 @@ $(document).ready(function(){
 			email:{
 				required:true,
 				email:true
+			},
+			contractvalidity:{
+				required:true,
+				number:true,
+				min:0,
+				max:10000
 			}
 		}
 	});
@@ -84,6 +90,9 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnModify']","click",function(){
 				$("#userForm")[0].reset();
+				_validater.resetForm();
+				  $("#userForm [name='userInfoRole']").multiselect('deselectAll', false);
+		          $("#userForm [name='userInfoRole']").multiselect('updateButtonText');
 				var key=$(this).attr("data-key");
 				doGet(basePath+"/users/select","wid="+key,function(data){
 					if(data && data.data ){
@@ -135,7 +144,7 @@ $(document).ready(function(){
 					
 				}
 				$("#userInfoRole").append(str);
-				$("#userInfoRole").multiselect();
+				$("#userInfoRole").multiselect({includeSelectAllOption:true,selectAllText:"全选"});
 			}
 		})
 	}
@@ -144,9 +153,12 @@ $(document).ready(function(){
 		window.open(basePath+"/users/export");
 	});
 	$("#btnNew").click(function(){
-		$("#userForm")[0].reset();
-		doGetSelect2("T_CONTRACT_SJZD_ZWLB","#userForm [name='jobcategory']");
-		$("#modelEdithUserInfo").modal("show");
+		  $("#userForm")[0].reset();
+		  _validater.resetForm();
+		  $("#userForm [name='userInfoRole']").multiselect('deselectAll', false);
+          $("#userForm [name='userInfoRole']").multiselect('updateButtonText');
+          doGetSelect2("T_CONTRACT_SJZD_ZWLB","#userForm [name='jobcategory']");
+		  $("#modelEdithUserInfo").modal("show");
 		
 	})
 	
@@ -160,9 +172,7 @@ $(document).ready(function(){
 		
 	});
 	$("#btnQuery").click(function(){
-		
-			queryList(0,$.trim($("#queryCondition").val()));
-		
+		queryList(0,$.trim($("#queryCondition").val()));
 		return false;
 	});
 	function setTree(){

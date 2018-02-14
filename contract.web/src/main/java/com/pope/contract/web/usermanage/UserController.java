@@ -51,6 +51,7 @@ public class UserController extends BaseController{
 		}
 		UserInfoExtend queryInfo=new UserInfoExtend();
 		if(!StringUtils.isEmpty(queryName)){
+			queryName=queryName.trim();
 			queryInfo.setQueryCondition(queryName);
 		}
 		PageParam<UserInfoExtend> pageParam = new PageParam<UserInfoExtend>();

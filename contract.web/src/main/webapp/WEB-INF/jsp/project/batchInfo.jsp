@@ -45,24 +45,24 @@
 						</div>
 						
 						<br> <br>
-						<table class="table table-bordered"
+						<table class="mainTable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-									<th style="width:80px;" class="text-center">
+									<td style="width:80px;" class="text-center">
 										<input type="checkbox" name="selAll">
-									</th>
-									<th class="text-center">样品批次</th>
-									<th class="text-center">样品名称</th>
-									<th class="text-center">类别</th>
-									<th class="text-center">送样人</th>
-									<th class="text-center">数量</th>
-									<th class="text-center">单位</th>
-									<th class="text-center">存放地</th>
-									<th class="text-center">对方单位</th>
-									<th class="text-center">批次状态</th>
-									<th class="text-center">送样时间</th>
-									<th style="width:160px;" class="text-center">操作</th>
+									</td>
+									<td class="text-center">样品批次</td>
+									<td class="text-center">批次名称</td>
+									<td class="text-center">类别</td>
+									<td class="text-center">送样人</td>
+									<td class="text-center">数量</td>
+									<td class="text-center">单位</td>
+									<td class="text-center">存放地</td>
+									<td class="text-center">对方单位</td>
+									<td class="text-center">批次状态</td>
+									<td class="text-center">送样时间</td>
+									<td style="width:160px;" class="text-center">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">

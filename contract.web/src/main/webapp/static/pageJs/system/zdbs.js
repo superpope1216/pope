@@ -51,6 +51,7 @@ $(document).ready(function(){
 			$("#mainTable").delegate("[data-option='editZdbs']","click",function(){
 				var key=$(this).attr("data-key");
 				$("#zdbsForm")[0].reset();
+				_validater.resetForm();
 				$("#zdbsForm [name='wid']").val(key);
 				doGet(basePath+"/zdbs/select","wid="+key,function(data){
 					$("#zdbsForm [name='code']").val(data.data.code);
@@ -92,6 +93,7 @@ $(document).ready(function(){
 	});
 	$("#btnNew").click(function(){
 		$("#zdbsForm")[0].reset();
+		_validater.resetForm();
 		$("#zdbsForm [name='wid']").val("");
 		$("#modelEditZdbsInfo").modal("show");
 	});

@@ -3,16 +3,18 @@ package com.pope.contract.entity.custom;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CustomUpdateLog  implements Serializable{
+public class CustomUpdateLog implements Serializable{
+	
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-    private String wid;
+
+	private String wid;
 
     private String customId;
 
-    private String accountNumber;
+    private String accountId;
 
     private String bankAccount;
 
@@ -23,6 +25,8 @@ public class CustomUpdateLog  implements Serializable{
     private String createMan;
 
     private Integer updateType;
+
+    private BigDecimal bdMoney;
 
     public String getWid() {
         return wid;
@@ -40,12 +44,12 @@ public class CustomUpdateLog  implements Serializable{
         this.customId = customId == null ? null : customId.trim();
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber == null ? null : accountNumber.trim();
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     public String getBankAccount() {
@@ -86,5 +90,13 @@ public class CustomUpdateLog  implements Serializable{
 
     public void setUpdateType(Integer updateType) {
         this.updateType = updateType;
+    }
+
+    public BigDecimal getBdMoney() {
+        return bdMoney;
+    }
+
+    public void setBdMoney(BigDecimal bdMoney) {
+        this.bdMoney = bdMoney;
     }
 }

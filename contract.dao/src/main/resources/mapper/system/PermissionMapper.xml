@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pope.contract.dao.system.PermissionMapper" >
   <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.Permission" >
-    <result column="WID" property="wid" jdbcType="VARCHAR" />
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
     <result column="PID" property="pid" jdbcType="VARCHAR" />
-    <result column="URL" property="url" jdbcType="VARCHAR" />
     <result column="LEVEL" property="level" jdbcType="INTEGER" />
     <result column="CODE" property="code" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
@@ -14,22 +13,35 @@
     <result column="CreateBy" property="createby" jdbcType="VARCHAR" />
     <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="UpdateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
     <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
-    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="ICON" property="icon" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="BaseColumnList">
-  	WID,NAME,DESCRIPTION,PID,LEVEL,CODE,STATUS,CreateTime,CreateBy,UpdateTime,UpdateBy,OrderBy,URL,icon
+  <sql id="Base_Column_List" >
+    WID, NAME, DESCRIPTION, PID, LEVEL, CODE, STATUS, CreateTime, CreateBy, UpdateTime, 
+    UpdateBy, URL, OrderBy, ICON
   </sql>
-  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_permission
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sys_permission
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.pope.contract.entity.system.Permission" >
     insert into t_contract_sys_permission (WID, NAME, DESCRIPTION, 
       PID, LEVEL, CODE, STATUS, 
       CreateTime, CreateBy, UpdateTime, 
-      UpdateBy, OrderBy,URL)
+      UpdateBy, URL, OrderBy, 
+      ICON)
     values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{pid,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
-      #{updateby,jdbcType=VARCHAR}, #{orderby,jdbcType=INTEGER},#{url,jdbcType=VARCHAR})
+      #{updateby,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{orderby,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.system.Permission" >
     insert into t_contract_sys_permission
@@ -67,11 +79,14 @@
       <if test="updateby != null" >
         UpdateBy,
       </if>
+      <if test="url != null" >
+        URL,
+      </if>
       <if test="orderby != null" >
         OrderBy,
       </if>
-      <if test="url != null" >
-        URL,
+      <if test="icon != null" >
+        ICON,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -108,12 +123,77 @@
       <if test="updateby != null" >
         #{updateby,jdbcType=VARCHAR},
       </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
       <if test="orderby != null" >
         #{orderby,jdbcType=INTEGER},
       </if>
-        <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.Permission" >
+    update t_contract_sys_permission
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        LEVEL = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        CreateBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        UpdateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        ICON = #{icon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.Permission" >
+    update t_contract_sys_permission
+    set NAME = #{name,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      PID = #{pid,jdbcType=VARCHAR},
+      LEVEL = #{level,jdbcType=INTEGER},
+      CODE = #{code,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateBy = #{createby,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateBy = #{updateby,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      ICON = #{icon,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
 </mapper>

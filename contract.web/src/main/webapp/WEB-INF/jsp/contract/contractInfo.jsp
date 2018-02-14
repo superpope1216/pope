@@ -20,36 +20,45 @@
 				<div class="panel">
 					<div class="panel-body">
 						<form class="form-horizontal" id="queryContractForm">
-							<div class="form-group">
-								<label for="phone" class="col-sm-1 ">送样人</label>
-								<div class="col-md-3 col-sm-3">
-
-									<input type="text" class="form-control " name="querySyr" id="querySyr"
-										placeholder="" class="queryCondition">
-								</div>
-								<label for="phone" class="col-sm-1 ">合同编号</label>
-								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="queryHtb" id="queryHtb"
-										placeholder="" class="queryCondition">
-								</div>
-								<label for="phone" class="col-sm-1 ">样品批次号</label>
-								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control " name="queryYppch" id="queryYppch"
-										placeholder="" class="queryCondition">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="phone" class="col-sm-1 ">分析项</label>
-								<div class="col-md-3 col-sm-3">
+							<table class="mainQueryTable">
+								<tr>
+									<td class="tbl-three-text">
+										送样人
+									</td>
+									<td class="tbl-three-edit-value">
+										<input type="text" class="form-control " name="querySyr" id="querySyr"
+										placeholder="请输入送样人">
+									</td>
+										<td class="tbl-three-text">
+										合同编号
+									</td>
+									<td class="tbl-three-edit-value">
+										<input type="text" class="form-control " name="queryHtb" id="queryHtb"
+										placeholder="请输入合同编号" >
+									</td>
+										<td class="tbl-three-text">
+										样品批次号
+									</td>
+									<td class="tbl-three-edit-value">
+										<input type="text" class="form-control " name="queryYppch" id="queryYppch"
+										placeholder="请输入样品批次号" >
+									</td>
+								</tr>
+								<tr>
+									<td class="tbl-three-text">
+										分析项
+									</td>
+									<td class="tbl-three-edit-value">
 									<select name="pclb" class="form-control" id="queryFxxm">
 													<option value=''>--请选择--</option>
 												</select>
-								</div>
-								<div class="col-md-3 col-sm-3">
-									<button class="btn btn-primary btnQuery" type="button"
+								
+									<td class="tbl-three-edit-value" colspan="4">
+										<button class="btn btn-primary btnQuery" type="button"
 										id="btnQuery">查询</button>
-								</div>
-							</div>
+									</td>
+								</tr>
+							</table>
 						</form>
 					</div>
 				</div>
@@ -63,20 +72,20 @@
 								<button class="btn btn-primary btnQuery" id="btnExport"
 								style="display: none;margin-bottom:15px;">导出</button>
 						</div>
-						<table class="table table-bordered datatable table-hover"
+						<table class="mainTable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center" style="width: 80px;"><input type="checkbox" name="selAll" /></th>
-									<th class="text-center">时间</th>
-									<th class="text-center">合同名称</th>
-									<th class="text-center">合同编号</th>
-									<th class="text-center">合同类型</th>
-									<th class="text-center">对方名称</th>
-									<th class="text-center">对方账号</th>
-									<th class="text-center">金额</th>
-									<th class="text-center">合同状态</th>
-									<th data-width="80px" class="text-center">操作</th>
+									<td class="text-center" style="width: 80px;"><input type="checkbox" name="selAll" /></td>
+									<td class="text-center">时间</td>
+									<td class="text-center">合同名称</td>
+									<td class="text-center">合同编号</td>
+									<td class="text-center">合同类型</td>
+									<td class="text-center">对方名称</td>
+									<td class="text-center">对方账号</td>
+									<td class="text-center">金额</td>
+									<td class="text-center">合同状态</td>
+									<td data-width="80px" class="text-center">操作</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">

@@ -58,10 +58,18 @@ public class PxglInfoServiceImpl extends BaseService implements PxglInfoService{
 		if(flag.equals("1")){//保存草稿
 			record.setRwzt(StringUtil.toInt(FlowStateCode.CG.getCode()));
 		}else{//提交审核
+			
 			FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.PXGL.getCode(), 0);
-			record.setCurrentstep(flowSet.getPx());
-			record.setRwzt(StringUtil.toInt(FlowStateCode.DSH.getCode()));
-			saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.PXGL, record.getBy1(),FlowStateCode.DSH.getMsg());
+			String currentStep="0",taskStatus=FlowStateCode.YJS.getCode();
+			if(flowSet!=null){
+				currentStep=flowSet.getPx().toString();
+				taskStatus=FlowStateCode.DSH.getCode();
+			}
+			record.setCurrentstep(StringUtil.toInt(currentStep));
+			record.setRwzt(StringUtil.toInt(taskStatus));
+			if(flowSet!=null){
+				saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.PXGL, record.getBy1(),FlowStateCode.DSH.getMsg());
+			}
 		}
 		return pxglInfoMapper.insertSelective(record);
 	}
@@ -82,9 +90,16 @@ public class PxglInfoServiceImpl extends BaseService implements PxglInfoService{
 				throw new ServiceException("任务状态错误，请重新确认！");
 			}
 			FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.PXGL.getCode(), 0);
-			record.setCurrentstep(flowSet.getPx());
-			record.setRwzt(StringUtil.toInt(FlowStateCode.DSH.getCode()));
-			saveFlowSetData(flowSet.getPx(), record.getWid(), FlowStateCode.DSH, FlowSetCode.PXGL, record.getBy1(),FlowStateCode.DSH.getMsg());
+			String currentStep="0",taskStatus=FlowStateCode.YJS.getCode();
+			if(flowSet!=null){
+				currentStep=flowSet.getPx().toString();
+				taskStatus=FlowStateCode.DSH.getCode();
+			}
+			record.setCurrentstep(StringUtil.toInt(currentStep));
+			record.setRwzt(StringUtil.toInt(taskStatus));
+			if(flowSet!=null){
+				saveFlowSetData(flowSet.getPx(), record.getWid(), FlowStateCode.DSH, FlowSetCode.PXGL, record.getBy1(),FlowStateCode.DSH.getMsg());
+			}
 		}
 		return pxglInfoMapper.updateByPrimaryKeySelective(record);
 	}

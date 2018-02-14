@@ -257,8 +257,12 @@ public class BatchController extends BaseController{
 		return Result.success();
 	}
 	@RequestMapping("export")
-	public void export(HttpServletResponse response) throws Exception{
-		List<BatchInfoExtend> users=batchInfoService.selectDisplayByCondition(null);
+	public void export(String condition,HttpServletResponse response) throws Exception{
+		BatchInfoExtend batchInfoExtend=new BatchInfoExtend();
+		if(!StringUtils.isEmpty(condition)){
+			batchInfoExtend.setQueryCondition(condition.trim());
+		}
+		List<BatchInfoExtend> users=batchInfoService.selectDisplayByCondition(batchInfoExtend);
 		String[] headers=new String[20];
 		headers[0]="类别";
 		headers[1]="二级分类";

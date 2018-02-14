@@ -74,10 +74,17 @@ public class LqbInfoServiceImpl extends BaseService implements LqbInfoService {
 		record.setUserid(userId);
 		record.setWid(wid);
 		FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.SUPPLY.getCode(), 0);
+		String taskStatus=FlowStateCode.YJS.getCode(),currentStep="0";
+		if(flowSet!=null){
+			taskStatus=FlowStateCode.DSH.getCode();
+			currentStep=flowSet.getPx().toString();
+		}
 		record.setSqsj(DateUtil.getCurrentDateStr());
-		record.setRwzt(StringUtil.toStr(FlowStateCode.DSH.getCode()));
-		record.setCurentstep(flowSet.getPx());
-		saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		record.setRwzt(taskStatus);
+		record.setCurentstep(StringUtil.toInt(currentStep));
+		if(flowSet!=null){
+			saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		}
 		return lqbInfoMapper.insert(record);
 	}
 

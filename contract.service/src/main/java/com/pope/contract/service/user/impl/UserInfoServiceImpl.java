@@ -63,8 +63,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(oldUserInfo!=null){
 			throw new ServiceException("该工号已存在，请重新确认！");
 		}
-		
-		userInfo.setWid(StringUtil.getUuId());
+		String wid=StringUtil.getUuId();
+		userInfo.setWid(wid);
 		userInfo.setUpdatetime(DateUtil.getCurrentDate());
 		userInfo.setCreateby(userId);
 		userInfo.setCreatetime(DateUtil.getCurrentDate());
@@ -72,14 +72,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setDatastatus(DataStatus.normal.getCode());
 		userInfo.setPassword(StringEncrypt.encrypt(ConstantUtil.DEFAULT_PASSWORD));
 		int insertCount = userInfoMapper.insert(userInfo);
-		userInfoRoleMapper.deleteByUserId(userId);
+		//userInfoRoleMapper.deleteByUserId(userId);
 		List<UserInfoRole> listUserInfoRoles = new ArrayList<UserInfoRole>();
 		if (StringUtils.isNotEmpty(userInfoRoles)) {
 			String[] roles = userInfoRoles.split(",");
 			for (int i = 0; i < roles.length; i++) {
 				UserInfoRole userInfoRole = new UserInfoRole();
 				userInfoRole.setWid(StringUtil.getUuId());
-				userInfoRole.setUserid(userId);
+				userInfoRole.setUserid(wid);
 				userInfoRole.setRoleid(roles[i]);
 				listUserInfoRoles.add(userInfoRole);
 			}
@@ -105,27 +105,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 		List<Role> roles = roleService.selectRolesByUserId(userInfo.getWid());
 		if (CommonUtil.isNotEmptyList(roles)) {
 			for (Role role : roles) {
-				List<Permission> permissions = permissionService
-						.selectPermissionByRoles(Collections.singletonList(role));
+				List<Permission> permissions = permissionService.selectPermissionByRoles(Collections.singletonList(role),StringUtil.toStr(MenuLevel.SECOND.getCode()),"");
 				List<Permission> newPermission = new ArrayList<Permission>();
 				if (CommonUtil.isNotEmptyList(permissions)) {
-					List<Permission> threePermission=null;
-					List<Permission> fourPermission=null;
 					for (Permission per : permissions) {
-
-						if (per.getLevel() == MenuLevel.SECOND.getCode()) {
-							threePermission = new ArrayList<Permission>();
-							per.setList(threePermission);
-							newPermission.add(per);
-						} else if (per.getLevel() == MenuLevel.THREE.getCode()) {
-							fourPermission=new ArrayList<Permission>();
-							per.setList(fourPermission);
-							if (threePermission != null) {
-								threePermission.add(per);
-							}
-						}else if(per.getLevel()==MenuLevel.FOUR.getCode()){
-							if(fourPermission!=null){
-								fourPermission.add(per);
+						newPermission.add(per);
+						List<Permission> threePermission = permissionService.selectPermissionByRoles(Collections.singletonList(role),StringUtil.toStr(MenuLevel.THREE.getCode()),per.getWid());
+						per.setList(threePermission);
+						if(CommonUtil.isNotEmptyList(threePermission)){
+							for(Permission threeP:threePermission){
+								List<Permission> fourPermission = permissionService.selectPermissionByRoles(Collections.singletonList(role),StringUtil.toStr(MenuLevel.FOUR.getCode()),threeP.getWid());
+								threeP.setList(fourPermission);
 							}
 						}
 					}
@@ -149,14 +139,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setUpdatetime(DateUtil.getCurrentDate());
 		userInfo.setUpdateby(userId);
 		userInfo.setDatastatus(DataStatus.normal.getCode());
-		userInfoRoleMapper.deleteByUserId(userId);
+		userInfoRoleMapper.deleteByUserId(userInfo.getWid());
 		List<UserInfoRole> listUserInfoRoles = new ArrayList<UserInfoRole>();
 		if (StringUtils.isNotEmpty(userInfoRoles)) {
 			String[] roles = userInfoRoles.split(",");
 			for (int i = 0; i < roles.length; i++) {
 				UserInfoRole userInfoRole = new UserInfoRole();
 				userInfoRole.setWid(StringUtil.getUuId());
-				userInfoRole.setUserid(userId);
+				userInfoRole.setUserid(userInfo.getWid());
 				userInfoRole.setRoleid(roles[i]);
 				listUserInfoRoles.add(userInfoRole);
 			}
@@ -207,5 +197,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public UserInfo selectSingleByCondition(UserInfoExtend user) throws Exception {
 		return userInfoExtendMapper.selectSingleByCondition(user);
+	}
+	
+	public void savePassword(String userId,String oldPassword,String newPassword) throws Exception{
+		
+		UserInfo userInfo=this.userInfoMapper.selectByPrimaryKey(userId);
+		if(!userInfo.getPassword().equals(StringEncrypt.encrypt(oldPassword))){
+			throw new ServiceException("输入的原，密码不正确，请重新确认！");
+		}
+		UserInfo saveUserInfo=new UserInfo();
+		saveUserInfo.setWid(userId);
+		saveUserInfo.setPassword(StringEncrypt.encrypt(newPassword));
+		this.userInfoMapper.updateByPrimaryKeySelective(saveUserInfo);
 	}
 }

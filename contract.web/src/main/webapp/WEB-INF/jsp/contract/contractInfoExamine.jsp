@@ -29,18 +29,18 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="dshContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="mainTable">
 									<thead>
 										<tr>
-											<th class="text-center">时间</th>
-											<th class="text-center">合同名称</th>
-											<th class="text-center">合同编号</th>
-											<th class="text-center">合同类型</th>
-											<th class="text-center">对方名称</th>
-											<th class="text-center">对方账号</th>
-											<th class="text-center">金额</th>
-											<th data-width="80px" class="text-center">操作</th>
+											<td class="text-center">时间</td>
+											<td class="text-center">合同名称</td>
+											<td class="text-center">合同编号</td>
+											<td class="text-center">合同类型</td>
+											<td class="text-center">对方名称</td>
+											<td class="text-center">对方账号</td>
+											<td class="text-center">金额</td>
+											<td data-width="80px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblTaskInfo">
@@ -52,18 +52,18 @@
 							</div>
 							<div class="tab-pane" id="jxzContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="jxzTable">
 									<thead>
 										<tr>
-											<th class="text-center">时间</th>
-											<th class="text-center">合同名称</th>
-											<th class="text-center">合同编号</th>
-											<th class="text-center">合同类型</th>
-											<th class="text-center">对方名称</th>
-											<th class="text-center">对方账号</th>
-											<th class="text-center">金额</th>
-											<th data-width="80px" class="text-center">操作</th>
+											<td class="text-center">时间</td>
+											<td class="text-center">合同名称</td>
+											<td class="text-center">合同编号</td>
+											<td class="text-center">合同类型</td>
+											<td class="text-center">对方名称</td>
+											<td class="text-center">对方账号</td>
+											<td class="text-center">金额</td>
+											<td data-width="80px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblJxzTaskInfo">
@@ -75,18 +75,18 @@
 							</div>
 							<div class="tab-pane" id="ywcContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="ywcTable">
 									<thead>
 										<tr>
-											<th class="text-center">时间</th>
-											<th class="text-center">合同名称</th>
-											<th class="text-center">合同编号</th>
-											<th class="text-center">合同类型</th>
-											<th class="text-center">对方名称</th>
-											<th class="text-center">对方账号</th>
-											<th class="text-center">金额</th>
-											<th data-width="80px" class="text-center">操作</th>
+											<td class="text-center">时间</td>
+											<td class="text-center">合同名称</td>
+											<td class="text-center">合同编号</td>
+											<td class="text-center">合同类型</td>
+											<td class="text-center">对方名称</td>
+											<td class="text-center">对方账号</td>
+											<td class="text-center">金额</td>
+											<td data-width="80px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblYwcTaskInfo">
@@ -98,18 +98,18 @@
 							</div>
 							<div class="tab-pane" id="shbtgContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="btgTable">
 									<thead>
 										<tr>
-											<th class="text-center">时间</th>
-											<th class="text-center">合同名称</th>
-											<th class="text-center">合同编号</th>
-											<th class="text-center">合同类型</th>
-											<th class="text-center">对方名称</th>
-											<th class="text-center">对方账号</th>
-											<th class="text-center">金额</th>
-											<th data-width="80px" class="text-center">操作</th>
+											<td class="text-center">时间</td>
+											<td class="text-center">合同名称</td>
+											<td class="text-center">合同编号</td>
+											<td class="text-center">合同类型</td>
+											<td class="text-center">对方名称</td>
+											<td class="text-center">对方账号</td>
+											<td class="text-center">金额</td>
+											<td data-width="80px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblBtgTaskInfo">

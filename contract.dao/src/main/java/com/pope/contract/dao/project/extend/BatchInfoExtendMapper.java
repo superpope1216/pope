@@ -19,6 +19,9 @@ public interface BatchInfoExtendMapper {
 	List<BatchInfo> selectByCondition(BatchInfoExtend batchInfo);
 	
 	List<BatchInfoExtend> selectByWids(@Param("wids") List<String> wids);
+	
+	List<BatchInfoExtend> selectFxxmByWids(@Param("wids") List<String> wids,@Param("htid")String htid);
+	
 	List<BatchInfoExtend> selectDisplayByCondition(BatchInfoExtend batchInfo);
 	Integer selectMaxDqbh();
 }

@@ -30,4 +30,7 @@ public interface SupplyInfoService {
 	
 	void kl(String wid) throws Exception;
 	
+	
+	void copy (String wid) throws Exception;
+	
 }

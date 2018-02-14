@@ -22,10 +22,14 @@
     <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
     <result column="DATASTATUS" property="datastatus" jdbcType="VARCHAR" />
     <result column="CurrentStep" property="currentstep" jdbcType="INTEGER" />
+    <result column="JCWCSJ" property="jcwcsj" jdbcType="VARCHAR" />
+    <result column="FXRY" property="fxry" jdbcType="VARCHAR" />
+    <result column="SHRY" property="shry" jdbcType="VARCHAR" />
+    <result column="cjsj" property="cjsj" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     WID, RWLX, RWMC, RWBH, YPPH, FXXM, RWFPR, JHKSSJ, JHJSSJ, SJKSSJ, SJJSSJ, RWSHR, 
-    SHWCSJ, RWZT, FJ, BZ, DQBH, PCWID, DATASTATUS, CurrentStep
+    SHWCSJ, RWZT, FJ, BZ, DQBH, PCWID, DATASTATUS, CurrentStep, JCWCSJ, FXRY, SHRY,CJSJ
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,15 +47,15 @@
       JHKSSJ, JHJSSJ, SJKSSJ, 
       SJJSSJ, RWSHR, SHWCSJ, 
       RWZT, FJ, BZ, DQBH, 
-      PCWID, DATASTATUS, CurrentStep
-      )
+      PCWID, DATASTATUS, CurrentStep, 
+      JCWCSJ, FXRY, SHRY,CJSJ)
     values (#{wid,jdbcType=VARCHAR}, #{rwlx,jdbcType=VARCHAR}, #{rwmc,jdbcType=VARCHAR}, 
       #{rwbh,jdbcType=VARCHAR}, #{ypph,jdbcType=VARCHAR}, #{fxxm,jdbcType=VARCHAR}, #{rwfpr,jdbcType=VARCHAR}, 
       #{jhkssj,jdbcType=VARCHAR}, #{jhjssj,jdbcType=VARCHAR}, #{sjkssj,jdbcType=VARCHAR}, 
       #{sjjssj,jdbcType=VARCHAR}, #{rwshr,jdbcType=VARCHAR}, #{shwcsj,jdbcType=VARCHAR}, 
       #{rwzt,jdbcType=INTEGER}, #{fj,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{dqbh,jdbcType=INTEGER}, 
-      #{pcwid,jdbcType=VARCHAR}, #{datastatus,jdbcType=VARCHAR}, #{currentstep,jdbcType=INTEGER}
-      )
+      #{pcwid,jdbcType=VARCHAR}, #{datastatus,jdbcType=VARCHAR}, #{currentstep,jdbcType=INTEGER}, 
+      #{jcwcsj,jdbcType=VARCHAR}, #{fxry,jdbcType=VARCHAR}, #{shry,jdbcType=VARCHAR},#{cjsj,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.task.TaskInfo" >
     insert into t_contract_task_main
@@ -116,6 +120,18 @@
       <if test="currentstep != null" >
         CurrentStep,
       </if>
+      <if test="jcwcsj != null" >
+        JCWCSJ,
+      </if>
+      <if test="fxry != null" >
+        FXRY,
+      </if>
+      <if test="shry != null" >
+        SHRY,
+      </if>
+      <if test="cjsj != null" >
+        CJSJ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wid != null" >
@@ -177,6 +193,18 @@
       </if>
       <if test="currentstep != null" >
         #{currentstep,jdbcType=INTEGER},
+      </if>
+      <if test="jcwcsj != null" >
+        #{jcwcsj,jdbcType=VARCHAR},
+      </if>
+      <if test="fxry != null" >
+        #{fxry,jdbcType=VARCHAR},
+      </if>
+      <if test="shry != null" >
+        #{shry,jdbcType=VARCHAR},
+      </if>
+       <if test="cjsj != null" >
+        #{cjsj,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -240,6 +268,18 @@
       <if test="currentstep != null" >
         CurrentStep = #{currentstep,jdbcType=INTEGER},
       </if>
+      <if test="jcwcsj != null" >
+        JCWCSJ = #{jcwcsj,jdbcType=VARCHAR},
+      </if>
+      <if test="fxry != null" >
+        FXRY = #{fxry,jdbcType=VARCHAR},
+      </if>
+      <if test="shry != null" >
+        SHRY = #{shry,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        CJSJ=#{cjsj,jdbcType=VARCHAR},
+      </if>
     </set>
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -263,7 +303,11 @@
       DQBH = #{dqbh,jdbcType=INTEGER},
       PCWID = #{pcwid,jdbcType=VARCHAR},
       DATASTATUS = #{datastatus,jdbcType=VARCHAR},
-      CurrentStep = #{currentstep,jdbcType=INTEGER}
+      CurrentStep = #{currentstep,jdbcType=INTEGER},
+      JCWCSJ = #{jcwcsj,jdbcType=VARCHAR},
+      FXRY = #{fxry,jdbcType=VARCHAR},
+      SHRY = #{shry,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

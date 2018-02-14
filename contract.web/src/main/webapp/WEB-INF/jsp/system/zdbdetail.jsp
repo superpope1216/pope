@@ -39,14 +39,14 @@
 									建</button>
 							</div>
 							<br> <br>
-							<table class="table table-bordered datatable table-hover"
+							<table class="mainTable table-hover"
 								id="mainTable">
 								<thead>
 									<tr>
-										<th class="text-center">类别代码</th>
-										<th class="text-center">类别名称</th>
-										<th class="text-center">排序</th>
-										<th data-width="130px" class="text-center">操作</th>
+										<td class="text-center">类别代码</td>
+										<td class="text-center">类别名称</td>
+										<td class="text-center">排序</td>
+										<td data-width="130px" class="text-center">操作</td>
 									</tr>
 								</thead>
 								<tbody id="tblSjzdInfo">
@@ -70,30 +70,25 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="zdbsForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> 
-							<input type="hidden" name="tableName" value="">
-							<label
-								for="lbdm" class="col-sm-2 required">类别编码</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="lbdm"
-									placeholder="请输入字典表编码" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="lbmc" class="col-sm-2 required">类别名称</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="lbmc"
-									placeholder="请输入字典表名称" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="orderby" class="col-sm-2 required">排序</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="orderby"
-									placeholder="请输入排序信息" required>
-							</div>
-						</div>
+					
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> 
+							<input type="hidden" name="tableName" value="">类别编码<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="lbdm"
+									placeholder="请输入字典表编码" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">类别名称<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="lbmc"
+									placeholder="请输入字典表名称" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">排序<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="orderby"
+									placeholder="请输入排序信息" required></td>
+							</tr>
+							</table>
 					</form>
 				</div>
 				<div class="modal-footer">

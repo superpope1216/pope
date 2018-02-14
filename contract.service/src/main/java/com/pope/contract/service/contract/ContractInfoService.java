@@ -29,7 +29,7 @@ public interface ContractInfoService {
 	
 	Integer selectMaxDqbh() throws Exception;
 	
-	void addFxxm(String htid,String pcid,String fxxms,String userId) throws Exception;
+	void addFxxm(String htid,String fxxms,String userId) throws Exception;
 	
 	void submitContract(String wids,String userId) throws Exception;
 	

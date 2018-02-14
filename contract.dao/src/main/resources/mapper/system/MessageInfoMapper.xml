@@ -8,12 +8,16 @@
     <result column="CREATE_MAN" property="createMan" jdbcType="VARCHAR" />
     <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
     <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_DEPART" property="messageReceiveDepart" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_TEAM" property="messageReceiveTeam" jdbcType="VARCHAR" />
+    <result column="MESSAGE_RECEIVE_MAN" property="messageReceiveMan" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pope.contract.entity.system.MessageInfo" extends="BaseResultMap" >
     <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    WID, NAME, CREATE_TIME, CREATE_MAN, MESSAGE_TYPE, TASK_ID
+    WID, NAME, CREATE_TIME, CREATE_MAN, MESSAGE_TYPE, TASK_ID, MESSAGE_RECEIVE_DEPART, 
+    MESSAGE_RECEIVE_TEAM, MESSAGE_RECEIVE_MAN
   </sql>
   <sql id="Blob_Column_List" >
     CONTENT
@@ -33,10 +37,12 @@
   <insert id="insert" parameterType="com.pope.contract.entity.system.MessageInfo" >
     insert into t_contract_sys_messages (WID, NAME, CREATE_TIME, 
       CREATE_MAN, MESSAGE_TYPE, TASK_ID, 
-      CONTENT)
+      MESSAGE_RECEIVE_DEPART, MESSAGE_RECEIVE_TEAM, 
+      MESSAGE_RECEIVE_MAN, CONTENT)
     values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
       #{createMan,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{messageReceiveDepart,jdbcType=VARCHAR}, #{messageReceiveTeam,jdbcType=VARCHAR}, 
+      #{messageReceiveMan,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pope.contract.entity.system.MessageInfo" >
     insert into t_contract_sys_messages
@@ -58,6 +64,15 @@
       </if>
       <if test="taskId != null" >
         TASK_ID,
+      </if>
+      <if test="messageReceiveDepart != null" >
+        MESSAGE_RECEIVE_DEPART,
+      </if>
+      <if test="messageReceiveTeam != null" >
+        MESSAGE_RECEIVE_TEAM,
+      </if>
+      <if test="messageReceiveMan != null" >
+        MESSAGE_RECEIVE_MAN,
       </if>
       <if test="content != null" >
         CONTENT,
@@ -82,6 +97,15 @@
       <if test="taskId != null" >
         #{taskId,jdbcType=VARCHAR},
       </if>
+      <if test="messageReceiveDepart != null" >
+        #{messageReceiveDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiveTeam != null" >
+        #{messageReceiveTeam,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiveMan != null" >
+        #{messageReceiveMan,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -105,6 +129,15 @@
       <if test="taskId != null" >
         TASK_ID = #{taskId,jdbcType=VARCHAR},
       </if>
+      <if test="messageReceiveDepart != null" >
+        MESSAGE_RECEIVE_DEPART = #{messageReceiveDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiveTeam != null" >
+        MESSAGE_RECEIVE_TEAM = #{messageReceiveTeam,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiveMan != null" >
+        MESSAGE_RECEIVE_MAN = #{messageReceiveMan,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         CONTENT = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -118,6 +151,9 @@
       CREATE_MAN = #{createMan,jdbcType=VARCHAR},
       MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
       TASK_ID = #{taskId,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_DEPART = #{messageReceiveDepart,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_TEAM = #{messageReceiveTeam,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_MAN = #{messageReceiveMan,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=LONGVARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
@@ -127,7 +163,10 @@
       CREATE_TIME = #{createTime,jdbcType=VARCHAR},
       CREATE_MAN = #{createMan,jdbcType=VARCHAR},
       MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
-      TASK_ID = #{taskId,jdbcType=VARCHAR}
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_DEPART = #{messageReceiveDepart,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_TEAM = #{messageReceiveTeam,jdbcType=VARCHAR},
+      MESSAGE_RECEIVE_MAN = #{messageReceiveMan,jdbcType=VARCHAR}
     where WID = #{wid,jdbcType=VARCHAR}
   </update>
 </mapper>

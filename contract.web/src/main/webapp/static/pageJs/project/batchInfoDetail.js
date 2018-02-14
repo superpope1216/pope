@@ -4,14 +4,20 @@
 $(document).ready(
 		function() {
 			if(wid){
+				$("#btnEdit").show();
+				$("#btnSave").hide();
 				$("#userForm").hide();
 				$("#userFormView").show();
 			}else{
+				$("#btnEdit").hide();
+				$("#btnSave").show();
 				$("#userForm").show();
 				$("#userFormView").hide();
 			}
 			$("#btnEdit").click(function(){
 				$("#userForm").show();
+				$("#btnSave").show();
+				$("#btnEdit").hide();
 				$("#userFormView").hide();
 			});
 			var _validater = $("#userForm").validate({
@@ -104,8 +110,23 @@ $(document).ready(
 
 						$("#userForm [name='cfd']").val(_details.cfd);
 						$("#userForm [name='dj']").val(_details.dj);
-						doGetSelect2("T_CONTRACT_SJZD_HBDW", "#userForm [name='hbdw']", _details.hbdw);
-
+						 doGet(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_HBDW",function(data3){
+							 $("#userForm [name='hbdw']").empty();
+							 var str="<option value=''>--请选择--</option>";
+							 if(data3.data && data3.data.length>0){
+								 for(var i=0;i<data3.data.length;i++){
+									 var checked="";
+									if(_details.hbdw && _details.hbdw==data3.data[i].lbdm){
+										checked=" selected='selected' ";
+									}
+									 str+="<option "+checked+" value='"+data3.data[i].lbdm+"'>"+data3.data[i].lbmc+"</option>"
+								 }
+							 }
+							 $("#userForm [name='hbdw']").append(str);
+							 if(!_details.wid){
+								 $("#userForm [name='hbdw']").prop('selectedIndex', 1);
+							 }
+						 });
 						$("#userForm [name='kzsjd']").val(_details.kzsjd);
 						$("#userForm [name='sysj']").val(_details.sysj);
 						$("#userForm [name='gys']").val(_details.gys);
@@ -131,18 +152,35 @@ $(document).ready(
 						$("#userForm [name='syxmfzr']").val(_details.syxmfzr);
 						$("#userForm [name='shsj']").val(_details.shsj);
 						//doGetSelect2("T_CONTRACT_SJZD_PCZT", "#userForm [name='pczt']", _details.pczt);
-						doGetSelect2("T_CONTRACT_SJZD_FXXM", "#userForm [name='fxxm']", "",function(){
-							$("#userForm [name='fxxm']").multiselect();
-							if(_details.fxxm){
-								var aFxxm=_details.fxxm.split(",");
-								$("#userForm [name='fxxm']").multiselect("select",aFxxm);
+						doGet(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_FXXM",function(data){
+							if(data && data.data){
+								var _d=data.data;
+								var str="";
+								for(var i=0;i<_d.length;i++){
+									str+="<option value='"+_d[i].lbdm+"'>"+_d[i].lbmc+"</option>";
+								}
+								$("#userForm [name='fxxm']").html(str);
+								$("#userForm [name='fxxm']").multiselect({includeSelectAllOption:true,selectAllText:"全选"});
+								if(_details.fxxm){
+									var aFxxm=_details.fxxm.split(",");
+									$("#userForm [name='fxxm']").multiselect("select",aFxxm);
+								}
 								
-							}else{
-								$("#userForm [name='fxxm']").multiselect();
 							}
-							
-							
-						});
+						})
+						
+//						doGetSelect2("T_CONTRACT_SJZD_FXXM", "#userForm [name='fxxm']", "",function(){
+//							$("#userForm [name='fxxm']").multiselect();
+//							if(_details.fxxm){
+//								var aFxxm=_details.fxxm.split(",");
+//								$("#userForm [name='fxxm']").multiselect("select",aFxxm);
+//								
+//							}else{
+//								$("#userForm [name='fxxm']").multiselect();
+//							}
+//							
+//							
+//						});
 						//$("#userForm [name='hth']").val(_details.hth);
 						$("#userForm [name='bz']").val(_details.bz);
 					}
@@ -192,6 +230,7 @@ $(document).ready(
 						if (_validater.form()) {
 							var url = basePath + "/batch/saveBatchInfo";
 							var datas = $("#userForm").serializeArray();
+							$("#btnSave").attr("disabled",true);
 							doPost(url, datas, function(data) {
 								if (data && data.data) {
 									alert(data.msg);
@@ -222,16 +261,30 @@ $(document).ready(
 						$("#batchDetailForm [name='ypbh']").val(_details.ypbh);
 						$("#batchDetailForm [name='ypph']").val(_details.ypph);
 						$("#batchDetailForm [name='dqbh']").val(_details.dqbh);
-						doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_FXXM&lbdms="+toStr(_details.fxxm),
-								"#batchDetailForm [name='fxxm']","",function(){
-							if(_details.fxxm){
-								var aFxxm=_details.fxxm.split(",");
-								$("#batchDetailForm [name='fxxm']").multiselect("select",aFxxm);
+						doGet(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_FXXM&lbdms="+toStr(_details.fxxm),function(data){
+
+							if(data && data.data){
+								var str="";
+								for(var i=0;i<data.data.length;i++){
+									str+="<option value='"+data.data[i].lbdm+"'>"+data.data[i].lbmc+"</option>";
+								}
+								$("#batchDetailForm [name='fxxm']").html(str);
+								$("#batchDetailForm [name='fxxm']").multiselect({includeSelectAllOption:true,selectAllText:"全选"});
 								
-							}else{
-								$("#batchDetailForm [name='fxxm']").multiselect();
-							}
-						});
+								if(_details.fxxm){
+									var aFxxm=_details.fxxm.split(",");
+									$("#batchDetailForm [name='fxxm']").multiselect("select",aFxxm);
+									
+								}else{
+									$("#batchDetailForm [name='fxxm']").multiselect();
+								}
+							};
+						})
+//						doGetSelect(basePath+"/zdbdetail/list","tableName=T_CONTRACT_SJZD_FXXM&lbdms="+toStr(_details.fxxm),
+//								"#batchDetailForm [name='fxxm']","",function(){
+//							$("#batchDetailForm [name='fxxm']").multiselect({includeSelectAllOption:true,selectAllText:"全选"});
+//							
+//						});
 						$("#batchDetailForm [name='pcwid']").val(_details.pcwid);
 						
 					}

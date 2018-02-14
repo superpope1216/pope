@@ -51,6 +51,7 @@ public class CustomAccountController extends BaseController{
 		CustomAccountExtend customAccountExtend=new CustomAccountExtend();
 		customAccountExtend.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		if(!StringUtils.isEmpty(queryCondition)){
+			queryCondition=queryCondition.trim();
 			customAccountExtend.setQueryCondition(queryCondition);
 		}
 		

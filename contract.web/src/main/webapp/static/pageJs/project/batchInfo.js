@@ -234,7 +234,8 @@ $(document).ready(function(){
 	});
 	
 	$("#btnExport").click(function(){
-		window.open(basePath+"/batch/export");
+		var queryCondition=$.trim($("#queryCondition").val());
+		window.open(basePath+"/batch/export?condition="+queryCondition);
 	});
 	function setTree(){
 		doGet(basePath+"/departments/selectDepartment","",function(data){

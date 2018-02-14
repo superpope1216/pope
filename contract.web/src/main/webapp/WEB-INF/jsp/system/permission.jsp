@@ -27,12 +27,12 @@
 									建</button>
 							</div>
 							<br>
-							<table class="table table-bordered table-hover" id="mainRole">
+							<table class="mainTable table-hover" id="mainRole">
 								<thead>
 									<tr>
-										<th class="text-center">名称</th>
-										<th class="text-center">排序</th>
-										<th class="text-center" width="80px">操作</th>
+										<td class="text-center">名称</td>
+										<td class="text-center">排序</td>
+										<td class="text-center" width="80px">操作</td>
 									</tr>
 								</thead>
 								<tbody id="tblRoleInfo">
@@ -72,29 +72,24 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="roleForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <label
-								for="name" class="col-sm-3 required">角色名</label>
-							<div class="col-md-6 col-sm-9">
-								<input type="text" class="form-control" name="name"
-									placeholder="请输入角色名称" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="description" class="col-sm-3 required">排序</label>
-							<div class="col-md-6 col-sm-9">
-								<input type="text" class="form-control" name="orderby"
-									placeholder="请输入排序" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="description" class="col-sm-3">描述</label>
-							<div class="col-md-6 col-sm-9">
-								<textarea rows="3" class="form-control" name="description"
-									placeholder="请输入描述"></textarea>
-							</div>
-						</div>
-
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> 角色名<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text"
+									class="form-control" name="name" placeholder="请输入角色名称" required></td>
+							</tr>
+							
+							<tr>
+								<td class="tbl-one-text">排序<span class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><input type="text" class="form-control" name="orderby"
+										placeholder="请输入排序" required></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">描述</td>
+								<td class="tbl-one-edit-value"><textarea rows="3" class="form-control" name="description"
+										placeholder="请输入描述"></textarea></td>
+							</tr>
+							</table>
 					</form>
 				</div>
 				<div class="modal-footer">

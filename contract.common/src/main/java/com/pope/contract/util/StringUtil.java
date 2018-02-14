@@ -515,6 +515,29 @@ public class StringUtil {
 		}
 	}
 	
+	
+	/**
+	 * 将可转换的数据转换成int类型
+	 * @param o
+	 * @return
+	 */
+	public static long toLong(Object o){
+		return toLong(o, 0L);
+	}
+	/**
+	 * 将可转换的数据转换成int类型
+	 * @param o
+	 * @return
+	 */
+	public static long toLong(Object o, long defaultValue){
+		try{
+			return Long.parseLong(o.toString());
+		}catch(Exception e){
+			LOGGER.error(StringUtil.class, e);
+			return defaultValue;
+		}
+	}
+	
 	/**
 	 * 将可转换的数据转换成String类型
 	 * @param o
@@ -732,5 +755,15 @@ public class StringUtil {
             }
         }
         return result.toString().toLowerCase();
+    }
+    
+    public static String  getErweima(){
+    	long data=System.currentTimeMillis();
+    	String value=StringUtil.toStr(data);
+    	if(data>9999999999999L){
+    		value=value.substring(0, 13);
+    	}
+    	value = String.format("%013d", StringUtil.toLong(value));
+    	return value;
     }
 }

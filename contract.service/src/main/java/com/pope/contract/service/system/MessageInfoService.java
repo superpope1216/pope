@@ -2,6 +2,8 @@ package com.pope.contract.service.system;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.entity.system.MessageInfo;
 import com.pope.contract.entity.system.extend.MessageInfoExtend;
 
@@ -27,4 +29,18 @@ public interface MessageInfoService {
 	MessageInfo selectSingleByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
 
 	Integer selectCountByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
+	
+	Integer selectPersonCountByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
+	
+	List<MessageInfo>  selectPersonByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
+	
+	List<MessageInfo>  selectAllPersonByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
+	
+	MessageInfo  selectAllByPrimaryKey(String wid) throws Exception;
+	
+	 MessageInfoExtend selectDisplayByCondition(@Param(value="wid") String wid)  throws Exception;
+	 
+	 Integer selectAllPersonCountByCondition(MessageInfoExtend newsInfoExtend) throws Exception;
+	  MessageInfo readMessages(String yhid,String messageId) throws Exception;
+	
 }

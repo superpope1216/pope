@@ -3,15 +3,15 @@
 	pageEncoding="UTF-8"%>
 <header class="header" style="background: #0288d1;">
 	<div class="header-left">
-		<div class="sidebar-toggle">
+		<!-- <div class="sidebar-toggle">
 			<i class="icon icon-bars" style="color: white;"></i>
-		</div>
-		<div class="logo" style="color: white;">
-			z-<span class="text-primary" style="color: white;">admin</span>
+		</div> -->
+		<div class="logo" style="color: white; height: 30px;">
+			<img src="${pageContext.request.contextPath}/static/img/logo.png" style="height:30px;">
 		</div>
 	</div>
 	<div style="float: left; color: white;">
-		<div class="logo" style="color: white;">
+		<div class="logo" style="color: white;margin-top:15px;">
 			<span class="text-primary" style="color: white;">实验室管理系统</span>
 		</div>
 
@@ -40,7 +40,7 @@
 					}
 					}
 				%>
-				<li ><a href='${pageContext.request.contextPath}/login/logout'>退出系统</a></li>
+				<li><a href='${pageContext.request.contextPath}/login/logout'>退出系统</a></li>
 			</ul>
 		</div>
 	</div>

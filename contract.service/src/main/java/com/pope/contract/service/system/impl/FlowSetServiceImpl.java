@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pope.contract.code.FlowSetCode;
 import com.pope.contract.dao.system.FlowSetMapper;
 import com.pope.contract.entity.system.FlowSet;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.StringUtil;
@@ -25,17 +26,32 @@ public class FlowSetServiceImpl implements FlowSetService{
 	private FlowSetMapper flowSetMapper;
 	@Override
 	public int deleteByPrimaryKey(String wid) throws Exception {
+		
 		return flowSetMapper.deleteByPrimaryKey(wid);
 	}
 
 	@Override
 	public int insert(FlowSet record) throws Exception {
 		record.setWid(StringUtil.getUuId());
+		FlowSet queryFlowSet=new FlowSet();
+		queryFlowSet.setPx(record.getPx());
+		queryFlowSet.setType(record.getType());
+		FlowSet oldFlowSet=flowSetMapper.selectSingleByCondition(queryFlowSet);
+		if(oldFlowSet!=null){
+			throw new ServiceException("该步骤已存在，请重新选择！");
+		}
 		return flowSetMapper.insert(record);
 	}
 
 	@Override
 	public int insertSelective(FlowSet record) throws Exception {
+		FlowSet queryFlowSet=new FlowSet();
+		queryFlowSet.setPx(record.getPx());
+		queryFlowSet.setType(record.getType());
+		FlowSet oldFlowSet=flowSetMapper.selectSingleByCondition(queryFlowSet);
+		if(oldFlowSet!=null){
+			throw new ServiceException("该步骤已存在，请重新选择！");
+		}
 		return flowSetMapper.insertSelective(record);
 	}
 
@@ -50,6 +66,13 @@ public class FlowSetServiceImpl implements FlowSetService{
 	}
 	@Override
 	public int updateByPrimaryKeySelective(FlowSet record) throws Exception {
+		FlowSet queryFlowSet=new FlowSet();
+		queryFlowSet.setPx(record.getPx());
+		queryFlowSet.setType(record.getType());
+		FlowSet oldFlowSet=flowSetMapper.selectSingleByCondition(queryFlowSet);
+		if(oldFlowSet!=null &&!oldFlowSet.getWid().equals(record.getWid())){
+			throw new ServiceException("该步骤已存在，请重新选择！");
+		}
 		return flowSetMapper.updateByPrimaryKeySelective(record);
 	}
 

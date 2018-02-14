@@ -26,7 +26,11 @@ $(document).ready(function(){
 			_select_url="";
 		}
 		if(_select_url){
-			_select_url=_select_url+"?open="+_open+"&select="+_select_wid;
+			if(_select_url.indexOf("?")<0){
+				_select_url=_select_url+"?open="+_open+"&select="+_select_wid;
+			}else{
+				_select_url=_select_url+"&open="+_open+"&select="+_select_wid;
+			}
 			window.location.href=basePath+_select_url;
 		}
 	});

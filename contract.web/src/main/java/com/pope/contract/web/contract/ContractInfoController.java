@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pope.contract.code.ContractStateEnum;
 import com.pope.contract.code.DataStatus;
 import com.pope.contract.code.Result;
 import com.pope.contract.dto.PageParam;
@@ -53,6 +55,15 @@ public class ContractInfoController extends BaseController{
 		return mv;
 	}
 	
+	@RequestMapping("guidang")
+	@ResponseBody
+	public Result guidang(String wid) throws Exception{
+		ContractInfo contractInfo=new ContractInfo();
+		contractInfo.setWid(wid);
+		contractInfo.setRwzt(ContractStateEnum.YGD.getCode());
+		contractInfoService.updateByPrimaryKeySelective(contractInfo);
+		return Result.success();
+	}
 	@RequestMapping("add")
 	public ModelAndView add(String pcids){
 		ModelAndView mv=new ModelAndView();
@@ -65,6 +76,18 @@ public class ContractInfoController extends BaseController{
 		PageUtil<ContractInfoExtend> pageUtil = new PageUtil<ContractInfoExtend>(startPage);
 		ContractInfoExtend contractInfo=new ContractInfoExtend();
 		contractInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		if(!StringUtils.isEmpty(querySyr)){
+			querySyr=querySyr.trim();
+		}
+		if(!StringUtils.isEmpty(queryHtb)){
+			queryHtb=queryHtb.trim();
+		}
+		if(!StringUtils.isEmpty(queryYppch)){
+			queryYppch=queryYppch.trim();
+		}
+		if(!StringUtils.isEmpty(queryFxxm)){
+			queryFxxm=queryFxxm.trim();
+		}
 		contractInfo.setQueryFxxh(queryFxxm);
 		contractInfo.setQueryHth(queryHtb);
 		contractInfo.setQuerySyr(querySyr);
@@ -89,8 +112,14 @@ public class ContractInfoController extends BaseController{
 	
 
 	@RequestMapping("export")
-	public void export(HttpServletResponse response) throws Exception{
-		List<ContractInfoExtend> datas =contractInfoService.selectDisplayByCondition(null);
+	public void export(String querySyr,String queryHtb,String queryYppch,String queryFxxm,HttpServletResponse response) throws Exception{
+		ContractInfoExtend contractInfo=new ContractInfoExtend();
+		contractInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
+		contractInfo.setQueryFxxh(queryFxxm);
+		contractInfo.setQueryHth(queryHtb);
+		contractInfo.setQuerySyr(querySyr);
+		contractInfo.setQueryYppch(queryYppch);
+		List<ContractInfoExtend> datas =contractInfoService.selectDisplayByCondition(contractInfo);
 		String[] headers=new String[12];
 		headers[0]="合同类型";
 		headers[1]="合同名称";

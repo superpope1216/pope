@@ -75,9 +75,10 @@
 		DELETE FROM
 		t_contract_pcgl_detail WHERE PCWID=#{pcid,jdbcType=VARCHAR}
 	</delete>
-	<select id="selectMaxDqbh" resultType="java.lang.Integer">
+	<select id="selectMaxDqbh" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT MAX(DQBH) FROM
 		t_contract_pcgl_detail
+		WHERE pcwid=#{pcwid}
 	</select>
 
 </mapper>

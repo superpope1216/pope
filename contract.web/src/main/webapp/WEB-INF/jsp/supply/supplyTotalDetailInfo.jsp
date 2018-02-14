@@ -13,7 +13,7 @@
 			<div class="position">
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="icon icon-home"></i> 位置</a></li>
-					<li><a href="#">耗材管理</a></li>
+					<li><a href="${pageContext.request.contextPath}/supplyTotal/index?open=200&select=210">耗材管理</a></li>
 					<li class="active">耗材领用详情</li>
 				</ol>
 			</div>
@@ -29,17 +29,17 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="lydContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="lydMainTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">领用数量</th>
-											<th class="text-center">领用人</th>
-											<th class="text-center">领用时间</th>
-											<th class="text-center">归还数量</th>
-											<th class="text-center">状态</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">领用数量</td>
+											<td class="text-center">领用人</td>
+											<td class="text-center">领用时间</td>
+											<td class="text-center">归还数量</td>
+											<td class="text-center">状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblLydInfo">
@@ -52,16 +52,16 @@
 							
 							<div class="tab-pane " id="sgdContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="sgdMainTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">购买数量</th>
-											<th class="text-center">购买人</th>
-											<th class="text-center">购买时间</th>
-											<th class="text-center">状态</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">购买数量</td>
+											<td class="text-center">购买人</td>
+											<td class="text-center">购买时间</td>
+											<td class="text-center">状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblSgdInfo">
@@ -74,16 +74,16 @@
 							
 							<div class="tab-pane " id="shdContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="shdMainTable">
 									<thead>
 										<tr>
-											<th class="text-center">耗材分类</th>
-											<th class="text-center">品名</th>
-											<th class="text-center">损坏数量</th>
-											<th class="text-center">损坏人</th>
-											<th class="text-center">损坏时间</th>
-												<th class="text-center">状态</th>
+											<td class="text-center">耗材分类</td>
+											<td class="text-center">品名</td>
+											<td class="text-center">损坏数量</td>
+											<td class="text-center">损坏人</td>
+											<td class="text-center">损坏时间</td>
+											<td class="text-center">状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblShdInfo">

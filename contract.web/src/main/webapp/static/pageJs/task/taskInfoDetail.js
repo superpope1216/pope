@@ -11,7 +11,30 @@ $(document).ready(function(){
 		selRwzt=data.data;
 	});
 	setQueryRwzt();
+	queryTaskInfo();
 	queryList();
+	
+	function queryTaskInfo(){
+		doGet(basePath+"/task/selectTaskInfo","wid="+pwid,function(data){
+			if(data && data.data){
+				var _data=data.data;
+				$("#queryTaskForm [name='rwmc']").html(toStr(_data.rwmc));
+				$("#queryTaskForm [name='rwbh']").html(toStr(_data.rwbh));
+				$("#queryTaskForm [name='ypph']").html(toStr(_data.ypph));
+				$("#queryTaskForm [name='rwzt_display']").html(toStr(_data.rwzt_display));
+				$("#queryTaskForm [name='jhkssj']").html(toStr(_data.jhkssj));
+				$("#queryTaskForm [name='jhjssj']").html(toStr(_data.jhjssj));
+				$("#queryTaskForm [name='sjkssj']").html(toStr(_data.sjkssj));
+				$("#queryTaskForm [name='sjjssj']").html(toStr(_data.sjjssj));
+				$("#queryTaskForm [name='rwfpr_display']").html(toStr(_data.rwfpr_display));
+				$("#queryTaskForm [name='jcwcsj']").html(toStr(_data.jcwcsj));
+				$("#queryTaskForm [name='rwshr_display']").html(toStr(_data.rwshr_display));
+				$("#queryTaskForm [name='shwcsj']").html(toStr(_data.shwcsj));
+				$("#queryTaskForm [name='fxxm_display']").html(toStr(_data.fxxm_display));
+				$("#queryTaskForm [name='bz']").html(toStr(_data.bz));
+			}
+		});
+	}
 	function setQueryRwzt(){
 		if(selRwzt){
 			var str="";
@@ -53,7 +76,7 @@ $(document).ready(function(){
 						tbl+='<td class="text-center"><input type="hidden" data-rwzt="hidRwzt'+d.wid+'" value="'+d.rwzt+'"><input type="checkbox" name="chkSingle" value="'+d.wid+'"/></td>';
 					}
 					tbl+='<td class="text-center">'+toStr(d.ypbh)+'</td>';
-					tbl+='<td class="text-center">'+toStr(d.ypph)+'</td>';
+					//tbl+='<td class="text-center">'+toStr(d.ypph)+'</td>';
 					tbl+='<td class="text-left">'+toStr(d.ypyybh)+'</td>';
 					tbl+='<td class="text-left">'+toStr(d.ypxz)+'</td>';
 					tbl+='<td class="text-left">'+toStr(d.ypewm)+'</td>';
@@ -114,6 +137,9 @@ $(document).ready(function(){
 			});
 		})
 	}
+	$("#btnPrint").click(function(){
+		window.open(basePath+"/taskPrint/index?wid="+pwid);
+	});
 	
 	$("#btnSave").click(function(){
 		var selectData=$("#mainTable [name='chkSingle']:checked");

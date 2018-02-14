@@ -66,7 +66,7 @@ public class StringEncrypt {
 	}
 
 	public static void main(String args[]) {
-		String s = StringEncrypt.encrypt("888888");
+		String s = StringEncrypt.encrypt("1");
 		System.out.println(s);
 	}
 }

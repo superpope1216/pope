@@ -83,7 +83,7 @@ $(document).ready(function(){
 			}
 			$("#mainTable").delegate("[data-option='examineLeave']","click",function(){
 				var key=$(this).attr("data-key");
-				confirm("您确认审核不通过吗？",function(){
+				confirm("您确认审核通过吗？",function(){
 					doPost(basePath+"/userleavesexamine/examinePass","wid="+key,function(data){
 						alert("审核通过成功！");
 						window.location.reload();

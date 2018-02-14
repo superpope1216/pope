@@ -46,6 +46,7 @@ import com.pope.contract.service.system.SjzdService;
 import com.pope.contract.util.CommonUtil;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.StringUtil;
+import com.pope.contract.util.ZxingEAN13EncoderHandler;
 
 /**
  * @author zhanglingyun E-mail:
@@ -210,6 +211,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	@Override
 	@Transactional
 	public void insertBatchInfoDetail(BatchInfoDetail batchInfoDetail) throws Exception {
+		
 		BatchInfoDetail query = new BatchInfoDetail();
 		query.setYpbh(batchInfoDetail.getYpbh());
 		List<BatchInfoDetail> list = batchInfoDetailExtendMapper.selectByCondition(query);
@@ -218,6 +220,9 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		}
 		String wid = StringUtil.getUuId();
 		batchInfoDetail.setWid(wid);
+		String erwema=StringUtil.getErweima();
+		batchInfoDetail.setYpewm(erwema);
+		ZxingEAN13EncoderHandler.encode(erwema, 100, 50, "/crowd/erweima/"+erwema+".png");
 		batchInfoDetailMapper.insert(batchInfoDetail);
 		String fxxm = batchInfoDetail.getFxxm();
 		if (!StringUtils.isEmpty(fxxm)) {
@@ -323,10 +328,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 			batchInfoDetail.setPcwid(wid);
 			List<BatchInfoDetail> listBatchInfoDetail=batchInfoDetailExtendMapper.selectByCondition(batchInfoDetail);
 			if(CommonUtil.isNotEmptyList(listBatchInfoDetail)){
-				Integer maxDetail=batchInfoDetailExtendMapper.selectMaxDqbh();
-				if(maxDetail==null){
-					maxDetail=1;
-				}
+				Integer maxDetail=1;
 				for(BatchInfoDetail detail:listBatchInfoDetail){
 					detail.setWid(StringUtil.getUuId());
 					detail.setYpbh(GenernalKey.getBatchDetailKey(maxDetail, batchInfo.getYpph()));
@@ -428,7 +430,7 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 	
 	public BatchInfoDetail getNewBatchInfoDetail(String batchId) throws Exception{
 		BatchInfo batchInfo=batchInfoMapper.selectByPrimaryKey(batchId);
-		Integer max=batchInfoDetailExtendMapper.selectMaxDqbh();
+		Integer max=batchInfoDetailExtendMapper.selectMaxDqbh(batchId);
 		if(max==null){
 			max=1;
 		}else{
@@ -442,5 +444,10 @@ public class BatchInfoServiceImpl implements BatchInfoService {
 		batchInfoDetail.setPcwid(batchInfo.getWid());
 		batchInfoDetail.setYpbh(GenernalKey.getBatchDetailKey(max, batchInfo.getYpph()));
 		return batchInfoDetail;
+	}
+
+	@Override
+	public List<BatchInfoExtend> selectFxxmByWids(String wids,String htid) throws Exception {
+		return this.batchInfoExtendMapper.selectFxxmByWids(StringUtil.str2List(wids),htid);
 	}
 }

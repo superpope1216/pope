@@ -4,12 +4,36 @@
 $(document).ready(
 		function() {
 			queryDetail();
-			queryDetailList();
+			queryDetailList(0);
+			queryUpdateLog(0);
+			function queryUpdateLog(pageId){
+				if(pageId==undefined){
+					pageId=0;
+				}
+				doGet(basePath+"/customInfoDetail/selectCustomAccountUpdataLog","startPage="+pageId+"&accountId="+wid,function(data){
+					if(data.data.data){
+						var _data=data.data.data;
+						var _tr="";;
+						for(var i=0;i<_data.length;i++){
+							_tr+='<tr>';
+							_tr+='<td class="text-center">'+toStr(_data[i].createTime)+'</td>';
+							_tr+='<td class="text-center">'+toStr(_data[i].bdMoney)+'</td>';
+							_tr+='<td class="text-center">'+toStr(_data[i].accountMoney)+'</td>';;
+							_tr+='</tr>';
+						}
+						$('#tblCkjlDetailInfo').html(_tr);
+					}
+					pageHelper("#pageCkjlInfo",data.data.page-1,data.data.total,function(pageId){
+						queryUpdateLog(pageId);
+					});
+				});
+				selectCustomAccountUpdataLog
+			}
 			function queryDetailList(pageId){
 				if(pageId==undefined){
 					pageId=0;
 				}
-				doGet(basePath+"/customInfoDetail/contractInfoList","startPage="+pageId+"&customId="+wid,function(data){
+				doGet(basePath+"/customInfoDetail/selectCustomAccountMoneyLog","startPage="+pageId+"&accountId="+wid,function(data){
 					if(data.data.data){
 						var _data=data.data.data;
 						var _tr="";;

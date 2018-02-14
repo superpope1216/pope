@@ -2,6 +2,8 @@ package com.pope.contract.service.project;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.pope.contract.entity.project.BatchInfo;
 import com.pope.contract.entity.project.BatchInfoDetail;
 import com.pope.contract.entity.project.extend.BatchInfoDetailExtend;
@@ -62,4 +64,6 @@ public interface BatchInfoService {
 	 * @throws Exception
 	 */
 	void guidang(String wid) throws Exception;
+	
+	List<BatchInfoExtend> selectFxxmByWids(String wids,String htid) throws Exception;
 }

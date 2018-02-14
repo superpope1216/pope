@@ -10,8 +10,10 @@ import com.github.pagehelper.StringUtil;
 import com.pope.contract.code.Result;
 import com.pope.contract.entity.system.MessageInfo;
 import com.pope.contract.entity.system.NewsInfo;
+import com.pope.contract.entity.user.extend.UserInfoExtend;
 import com.pope.contract.service.system.MessageInfoService;
 import com.pope.contract.service.system.NewsInfoService;
+import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.web.BaseController;
 
 /**
@@ -25,6 +27,9 @@ public class MessagesEditController extends BaseController{
 
 	@Autowired
 	private  MessageInfoService messageInfoService;
+	
+	@Autowired
+	private  UserInfoService userInfoService;
 	@RequestMapping("index")
 	public ModelAndView index(String wid){
 		ModelAndView mv=new ModelAndView();
@@ -39,7 +44,7 @@ public class MessagesEditController extends BaseController{
 		if(StringUtil.isEmpty(wid)){
 			newsInfo=new MessageInfo();
 		}else{
-			newsInfo=messageInfoService.selectByPrimaryKey(wid);
+			newsInfo=messageInfoService.selectDisplayByCondition(wid);
 		}
 		return Result.success(newsInfo);
 	}
@@ -54,5 +59,12 @@ public class MessagesEditController extends BaseController{
 			messageInfoService.updateByPrimaryKeySelective(newsInfo);
 		}
 		return Result.success();
+	}
+	
+	@RequestMapping("selectUsers")
+	@ResponseBody
+	public Result selectUsers() throws Exception{
+		UserInfoExtend queryUserInfoExtend=new UserInfoExtend();
+		return Result.success(userInfoService.selectByCondition(queryUserInfoExtend));
 	}
 }

@@ -28,7 +28,27 @@ public class BatchInfoExtend extends BatchInfo implements Serializable{
 	
 	private String queryCondition;
 	
+	private String fxxmbh;
 	
+	private String ypsl;
+	
+	
+	public String getYpsl() {
+		return ypsl;
+	}
+
+	public void setYpsl(String ypsl) {
+		this.ypsl = ypsl;
+	}
+
+	public String getFxxmbh() {
+		return fxxmbh;
+	}
+
+	public void setFxxmbh(String fxxmbh) {
+		this.fxxmbh = fxxmbh;
+	}
+
 	public String getQueryCondition() {
 		return queryCondition;
 	}

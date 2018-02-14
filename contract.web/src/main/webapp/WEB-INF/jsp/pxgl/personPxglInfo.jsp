@@ -21,17 +21,17 @@
 				<div class="panel">
 					<div class="panel-body">
 						&nbsp;&nbsp;
-						<table class="table table-bordered datatable table-hover"
+						<table class="mainTable table-hover"
 							id="mainTable">
 							<thead>
 								<tr>
-									<th class="text-center">培训类型</th>
-									<th class="text-center">培训名称</th>
-									<th class="text-center">培训人</th>
-									<th class="text-center">开始时间</th>
-									<th class="text-center">结束时间</th>
-									<th class="text-center">培训费用</th>
-									<th class="text-center">任务状态</th>
+									<td class="text-center">培训类型</td>
+									<td class="text-center">培训名称</td>
+									<td class="text-center">培训人</td>
+									<td class="text-center">开始时间</td>
+									<td class="text-center">结束时间</td>
+									<td class="text-center">培训费用</td>
+									<td class="text-center">任务状态</td>
 								</tr>
 							</thead>
 							<tbody id="tblUserInfo">

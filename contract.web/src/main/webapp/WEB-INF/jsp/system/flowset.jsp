@@ -25,7 +25,7 @@
 					<li><a data-tab href="#tabContent3">耗材管理</a></li>
 					<li><a data-tab href="#tabContractContent">合同审核流程</a></li>
 					<li><a data-tab href="#tabPxglContent">进修培训流程</a></li>
-					
+
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="leaveFlowSet">
@@ -36,14 +36,13 @@
 										建</button>
 								</div>
 								<br> <br>
-								<table class="table table-bordered datatable table-hover"
-									id="userLeaveTable">
+								<table class="mainTable table-hover" id="userLeaveTable">
 									<thead>
 										<tr>
-											<th class="text-center">步骤</th>
-											<th class="text-center">审核角色</th>
-											<th class="text-center">审核类型</th>
-											<th data-width="130px" class="text-center">操作</th>
+											<td class="text-center">步骤</td>
+											<td class="text-center">审核角色</td>
+											<td class="text-center">审核类型</td>
+											<td data-width="130px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblUserLeaveTable">
@@ -64,13 +63,12 @@
 											建</button>
 									</div>
 									<br> <br>
-									<table class="table table-bordered datatable table-hover"
-										id="userLeaveTable">
+									<table class="mainTable table-hover" id="userLeaveTable">
 										<thead>
 											<tr>
-												<th class="text-center">步骤</th>
-												<th class="text-center">审核角色</th>
-												<th data-width="130px" class="text-center">操作</th>
+												<td class="text-center">步骤</td>
+												<td class="text-center">审核角色</td>
+												<td data-width="130px" class="text-center">操作</td>
 											</tr>
 										</thead>
 										<tbody id="tblUserTaskTable">
@@ -92,13 +90,12 @@
 											建</button>
 									</div>
 									<br> <br>
-									<table class="table table-bordered datatable table-hover"
-										id="supplyTable">
+									<table class="mainTable table-hover" id="supplyTable">
 										<thead>
 											<tr>
-												<th class="text-center">步骤</th>
-												<th class="text-center">审核角色</th>
-												<th data-width="130px" class="text-center">操作</th>
+												<td class="text-center">步骤</td>
+												<td class="text-center">审核角色</td>
+												<td data-width="130px" class="text-center">操作</td>
 											</tr>
 										</thead>
 										<tbody id="tblSupplyTable">
@@ -120,13 +117,12 @@
 											建</button>
 									</div>
 									<br> <br>
-									<table class="table table-bordered datatable table-hover"
-										id="contractTable">
+									<table class="mainTable table-hover" id="contractTable">
 										<thead>
 											<tr>
-												<th class="text-center">步骤</th>
-												<th class="text-center">审核角色</th>
-												<th data-width="130px" class="text-center">操作</th>
+												<td class="text-center">步骤</td>
+												<td class="text-center">审核角色</td>
+												<td data-width="130px" class="text-center">操作</td>
 											</tr>
 										</thead>
 										<tbody id="tblContractTable">
@@ -139,7 +135,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="tab-pane" id="tabPxglContent">
 						<div class="tab-pane active" id="pxglFlowSet">
 							<div class="panel">
@@ -149,13 +145,12 @@
 											建</button>
 									</div>
 									<br> <br>
-									<table class="table table-bordered datatable table-hover"
-										id="contractTable">
+									<table class="mainTable table-hover" id="contractTable">
 										<thead>
 											<tr>
-												<th class="text-center">步骤</th>
-												<th class="text-center">审核角色</th>
-												<th data-width="130px" class="text-center">操作</th>
+												<td class="text-center">步骤</td>
+												<td class="text-center">审核角色</td>
+												<td data-width="130px" class="text-center">操作</td>
 											</tr>
 										</thead>
 										<tbody id="tblPxglTable">
@@ -186,30 +181,39 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="leaveExamineForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="type" value="01"> <label for="code"
-								class="col-sm-2 required">步骤</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="px"
-									placeholder="请输入步骤" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="shtype" class="col-sm-2 required">类型</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="shType" class="form-control">
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="name" class="form-control">
-								</select>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid"
+									value=""> <input type="hidden" name="type" value="01">步骤<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="px"
+									class="form-control" required>
+										<option value="">请选择...</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">类型<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="shType" class="form-control" required>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="name" class="form-control" required>
+								</select></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -231,23 +235,33 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="taskExamineForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="type" value="02"> <label for="code"
-								class="col-sm-2 required">步骤</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="px"
-									placeholder="请输入步骤" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="name" class="form-control">
-								</select>
-							</div>
-						</div>
+					<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> <input
+								type="hidden" name="type" value="02">步骤<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="px"
+									class="form-control" required>
+										<option value="">请选择...</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="name" class="form-control" required>
+								</select></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -270,23 +284,33 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="supplyExamineForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="type" value="03"> <label for="code"
-								class="col-sm-2 required">步骤</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="px"
-									placeholder="请输入步骤" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="name" class="form-control">
-								</select>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> <input
+								type="hidden" name="type" value="03">步骤<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="px"
+									class="form-control" required>
+										<option value="">请选择...</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="name" class="form-control" required>
+								</select></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -309,23 +333,33 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="contractExamineForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="type" value="04"> <label for="code"
-								class="col-sm-2 required">步骤</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="px"
-									placeholder="请输入步骤" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="name" class="form-control">
-								</select>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> <input
+								type="hidden" name="type" value="04">步骤<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="px"
+									class="form-control" required>
+										<option value="">请选择...</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="name" class="form-control" required>
+								</select></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -337,7 +371,7 @@
 		</div>
 	</div>
 
-<div class="modal fade" id="modelPxglInfo">
+	<div class="modal fade" id="modelPxglInfo">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -348,29 +382,38 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="pxglExamineForm">
-						<div class="form-group">
-							<input type="hidden" name="wid" value=""> <input
-								type="hidden" name="type" value="05"> <label for="code"
-								class="col-sm-2 required">步骤</label>
-							<div class="col-md-8 col-sm-8">
-								<input type="text" class="form-control" name="px"
-									placeholder="请输入步骤" required>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="name" class="col-sm-2 required">审核人员</label>
-							<div class="col-md-8 col-sm-8">
-								<select name="name" class="form-control">
-								</select>
-							</div>
-						</div>
+						<table style="width: 100%" class="mainTable">
+							<tr>
+								<td class="tbl-one-text"><input type="hidden" name="wid" value=""> <input
+								type="hidden" name="type" value="05">步骤<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="px"
+									class="form-control" required>
+										<option value="">请选择...</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="tbl-one-text">审核人员<span
+									class="myrequrire">*</span></td>
+								<td class="tbl-one-edit-value"><select name="name" class="form-control" required>
+								</select></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary"
-						id="btnSavePxglInfo">保存</button>
+					<button type="button" class="btn btn-primary" id="btnSavePxglInfo">保存</button>
 				</div>
 			</div>
 		</div>

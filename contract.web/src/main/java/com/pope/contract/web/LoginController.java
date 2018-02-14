@@ -80,8 +80,8 @@ public class LoginController extends BaseController {
 		}
 
 		LOG.debug("登录成功");
-		// if(user.getPassword().equals(StringEncrypt.encrypt(password))){
-		if (user.getPassword().equals(password)) {
+		 if(user.getPassword().equals(StringEncrypt.encrypt(password))){
+		//if (user.getPassword().equals(password)) {
 			LoginInfo loginInfo = userInfoService.login(user);
 			request.getSession(true).setAttribute(ConstantUtil.USER_SESSION_NAME, loginInfo);
 			if (loginInfo != null) {
@@ -90,10 +90,9 @@ public class LoginController extends BaseController {
 				}
 			}
 			loginInfo.getRoles().get(0);
-
 			return Result.success(getFirstUrl(loginInfo.getRoles().get(0)));
 		} else {
-			return Result.error();
+			return Result.error("用户名或者密码错误，请重新确认！");
 		}
 	}
 

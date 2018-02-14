@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/ueditor/themes/default/css/ueditor.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zui-1.6.0-dist/dist/lib/datatable/zui.datatable.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/style.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/mainCss.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/zTree_v3-master/css/zTreeStyle/zTreeStyle.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/js/plugins/jquery-paginator/pagination.css">

@@ -49,6 +49,7 @@
 				    alert('请先填写新闻内容!');
 			 }
 			 $("#zdbsForm [name='content']").val(UE.getEditor('txtcontent').getContent());
+			 $("#btnSave").attr("disabled",true);
 			 doPost(basePath+"/newsEdit/save",$("#zdbsForm").serializeArray(),function(data){
 					window.location.href=basePath+"/news/index";
 				});

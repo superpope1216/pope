@@ -65,21 +65,27 @@ public class ContractEditInfoController extends BaseController{
 	
 	
 	@RequestMapping("index")
-	public ModelAndView index(String pcids,String firstPcid,String wid){
+	public ModelAndView index(String pcids,String firstPcid,String wid) throws Exception{
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("pcids",pcids);
 		mv.addObject("firstPcid",firstPcid);
+		
 		mv.addObject("wid",wid);
+		mv.addObject("currentDate", DateUtil.getCurrentDateStr());
 		mv.setViewName("contract/contractEditInfo");
 		return mv;
 	}
 	
 	@RequestMapping("viewIndex")
-	public ModelAndView viewIndex(String wid){
+	public ModelAndView viewIndex(String wid) throws Exception{
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("pcids","");
 		mv.addObject("firstPcid","");
 		mv.addObject("wid",wid);
+		ContractInfoExtend contractInfo=new ContractInfoExtend();
+		contractInfo.setWid(wid);
+		ContractInfoExtend contractInfoExtend=contractInfoService.selectSingleDisplayByCondition(contractInfo);
+		mv.addObject("currentRwzt",contractInfoExtend.getRwzt());
 		mv.setViewName("contract/contractViewInfo");
 		return mv;
 	}
@@ -101,6 +107,7 @@ public class ContractEditInfoController extends BaseController{
 	@ResponseBody
 	public Result queryBatchInfo(String pcids,String wid) throws Exception{
 		if(!StringUtils.isEmpty(wid)){
+			pcids="";
 			ContractInfoRel contractInfoRel=new ContractInfoRel();
 			contractInfoRel.setHtid(wid);
 			List<ContractInfoRel> lstRel=contractInfoRelService.selectByCondition(contractInfoRel);
@@ -109,11 +116,12 @@ public class ContractEditInfoController extends BaseController{
 					pcids+=","+rel.getPcid();
 				}
 			}
-			if(StringUtils.isEmpty(pcids)){
+			if(!StringUtils.isEmpty(pcids)){
 				pcids=pcids.substring(1);
 			}
 		}
-		List<BatchInfoExtend> datas = batchInfoService.selectByWids(pcids);
+		//List<BatchInfoExtend> datas = batchInfoService.selectByWids(pcids);
+		List<BatchInfoExtend> datas = batchInfoService.selectFxxmByWids(pcids,null);
 		return Result.success(datas);
 	}
 	
@@ -137,10 +145,23 @@ public class ContractEditInfoController extends BaseController{
 		return Result.success(wid);
 	}
 	
+	@RequestMapping("submitContractInfo")
+	@ResponseBody
+	public Result submitContractInfo(ContractInfo contractInfo,String pcids) throws Exception{
+		String wid=contractInfo.getWid();
+		if(StringUtils.isEmpty(contractInfo.getWid())){
+			wid=contractInfoService.insert(contractInfo,pcids, this.getUserId());
+		}else{
+			contractInfoService.updateByPrimaryKeySelective(contractInfo);
+		}
+		contractInfoService.submitContract(wid, this.getUserId());
+		return Result.success(wid);
+	}
+	
 	@RequestMapping("addFxxm")
 	@ResponseBody
-	public Result addFxxm(String htid,String pcid,String fxxms) throws Exception{
-		contractInfoService.addFxxm(htid, pcid, fxxms, this.getUserId());
+	public Result addFxxm(String htid,String fxxms) throws Exception{
+		contractInfoService.addFxxm(htid, fxxms, this.getUserId());
 		return Result.success();
 	}
 	

@@ -55,7 +55,7 @@ ul,li{
 }
 .header-left{
 	float: left;
-	width: 180px;
+	width: 210px;
 }
 .sidebar-toggle{
 	float: left;
@@ -70,7 +70,7 @@ ul,li{
 .logo {
     font-size: 21px;
     color: #2e2e2e;
-    margin-top: 15px;
+    margin-top: 8px;
     text-transform: uppercase;
 }
 

@@ -1,5 +1,6 @@
 package com.pope.contract.web.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.pope.contract.entity.system.Role;
 import com.pope.contract.service.system.PermissionService;
 import com.pope.contract.service.system.RolePermissionService;
 import com.pope.contract.service.system.RoleService;
+import com.pope.contract.util.CommonUtil;
 import com.pope.contract.web.BaseController;
 
 /**
@@ -42,6 +44,23 @@ public class PermissionController extends BaseController{
 	@ResponseBody
 	public Result permission(@RequestParam String roleId){
 		List<Permission> perms=permissionService.selectPermissionByRoleId(roleId);
+		boolean findFirst=false;
+		if(CommonUtil.isNotEmptyList(perms)){
+			for(Permission perm:perms){
+				if(perm.getWid().equals("1")){
+					findFirst=true;
+				}
+			}
+		}
+		if(!findFirst){
+			Permission perm=permissionService.selectByPrimaryKey("1");
+			if(perm!=null){
+				if(perms==null){
+					perms=new ArrayList<Permission>();
+				}
+				perms.add(perm);
+			}
+		}
 		return Result.success(perms);
 	}
 	@RequestMapping("updateRolePerms")

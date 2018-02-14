@@ -11,12 +11,14 @@ public interface PermissionService {
 
 	    int insertSelective(Permission record);
 	    
+	    Permission selectByPrimaryKey(String wid);
+	    
 	    /**
 	     * 根据角色获取权限
 	     * @param roles
 	     * @return
 	     */
-	    List<Permission> selectPermissionByRoles(List<Role> roles);
+	    List<Permission> selectPermissionByRoles(List<Role> roles,String level,String pid);
 	    
 	    List<Permission> selectAll();
 	    
@@ -25,4 +27,8 @@ public interface PermissionService {
 	    List<Permission> selectPermissionByRoleId(  String roleId);
 	    
 	    List<Permission> selectChildByUrl( String url,String roleId);
+	    
+	    void updateMenuSort(List<String> wids) throws Exception;
+	    
+	    int updateByPrimaryKeySelective(Permission record);
 }

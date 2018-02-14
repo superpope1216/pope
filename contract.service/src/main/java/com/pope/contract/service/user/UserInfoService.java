@@ -36,5 +36,5 @@ public interface UserInfoService {
 	List<UserInfo> selectByCondition(UserInfoExtend user) throws Exception;
 
 	UserInfo selectSingleByCondition(UserInfoExtend user) throws Exception;
-
+	void savePassword(String userId,String oldPassword,String newPassword) throws Exception;
 }

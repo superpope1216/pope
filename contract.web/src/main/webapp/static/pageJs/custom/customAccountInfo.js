@@ -36,7 +36,7 @@ $(document).ready(function(){
 				for(var i=0;i<_data.length;i++){
 					_tr+='<tr>';
 					
-					_tr+='<td class="text-center">'+toStr(_data[i].customNumber)+'</td>';
+					//_tr+='<td class="text-center">'+toStr(_data[i].customNumber)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].customName)+'</td>';
 					_tr+='<td class="text-center">'+toStr(_data[i].accountNumber)+'</td>';
 					_tr+='<td class="text-left">'+toStr(_data[i].bankAccount)+'</td>';
@@ -121,7 +121,7 @@ $(document).ready(function(){
 			$("#customAccountForm [name='accountNumber']").val(data.data.accountNumber);
 			$("#customAccountForm [name='customId']").val(data.data.customId);
 			$("#customAccountForm [name='bankAccount']").val(data.data.bankAccount);
-			$("#customAccountForm [name='accountMoney']").val(data.data.accountMoney);
+			//$("#customAccountForm [name='accountMoney']").val(data.data.accountMoney);
 			$("#modelAddCustomAccountInfo").modal("show");
 		})
 	}

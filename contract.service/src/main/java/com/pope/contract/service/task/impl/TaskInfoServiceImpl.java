@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.pope.contract.code.BatchStateEnum;
 import com.pope.contract.code.DataStatus;
@@ -75,28 +76,42 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 	@Override
 	@Transactional
 	public void insertTaskInfo(TaskInfo taskInfo,String userId) throws Exception {
-		Integer max=taskInfoExtendMapper.selectMaxXh();
 		BatchInfo batchInfo=batchInfoMapper.selectByPrimaryKey(taskInfo.getPcwid());
-		FxxmInfo queryFxxmInfo=new FxxmInfo();
-		queryFxxmInfo.setWid(taskInfo.getFxxm());
+		String wid=taskInfo.getWid();
+		String sMax=taskInfo.getRwbh();
 		FxxmInfo fxxmInfo=fxxmInfoMapper.selectByPrimaryKey(taskInfo.getFxxm());
+		taskInfo.setRwmc(batchInfo.getPcmc()+fxxmInfo.getLbmc());
+		if(StringUtils.isEmpty(wid)){
+		Integer max=taskInfoExtendMapper.selectMaxXh();
+		
+		//FxxmInfo queryFxxmInfo=new FxxmInfo();
+		//queryFxxmInfo.setWid(taskInfo.getFxxm());
+		
 		if(max==null)max=0;
 		max++;
-		String sMax=String.format("%05d",max);
-		String wid=StringUtil.getUuId();
+		 sMax=String.format("%05d",max);
+		wid=StringUtil.getUuId();
 		taskInfo.setWid(wid);
-		taskInfo.setRwmc(batchInfo.getPcmc()+fxxmInfo.getLbmc());
-		taskInfo.setRwfpr(fxxmInfo.getFxry());
-		taskInfo.setRwshr(fxxmInfo.getShry());
+		
+		//taskInfo.setRwfpr(fxxmInfo.getFxry());
+		//taskInfo.setRwshr(fxxmInfo.getShry());
 		taskInfo.setRwbh(sMax);
 		taskInfo.setDatastatus(StringUtil.toStr(DataStatus.normal.getCode()));
 		taskInfo.setDqbh(max);
+		taskInfo.setCjsj(DateUtil.getCurrentDateStr());
 		taskInfo.setRwbh(sMax);
 		taskInfo.setRwzt(TaskStatusEnum.QCL.getCode());
+		
+		taskInfoMapper.insert(taskInfo);
+		}else{
+			taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+			taskInfoDetailExtendMapper.deleteTaskDetailByTaskId(taskInfo.getWid());
+		}
 		//FlowSet flowSet=flowSetService.selectNextStep(FlowSetCode.LEAVE.getCode(), 0);
 		//taskInfo.setCurrentstep(flowSet.getPx());
 		BatchInfoDetail batchInfoDetail=new BatchInfoDetail();
 		batchInfoDetail.setPcwid(taskInfo.getPcwid());
+	
 		List<BatchInfoDetail> listBatchInfoDetail=batchInfoDetailExtendMapper.selectByCondition(batchInfoDetail);
 		if(CommonUtil.isNotEmptyList(listBatchInfoDetail)){
 			for(BatchInfoDetail detail:listBatchInfoDetail){
@@ -134,7 +149,7 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 				
 			}
 		}
-		taskInfoMapper.insert(taskInfo);
+		
 //		FlowSetData flowSetData=new FlowSetData();
 //		flowSetData.setWid(StringUtil.getUuId());
 //		flowSetData.setCjsj(DateUtil.getCurrentDateTimeStr());
@@ -194,8 +209,6 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 		}
 		if(minValue==TaskStatusEnum.QCL.getCode()){
 			taskInfo.setSjkssj(DateUtil.getCurrentDateStr());
-		}else if(minValue==TaskStatusEnum.SJBG.getCode()){
-			taskInfo.setSjjssj(DateUtil.getCurrentDateStr());
 		}
 		taskInfoMapper.updateByPrimaryKeySelective(taskInfo); 
 		if(minValue==TaskStatusEnum.JC.getCode() ||minValue==TaskStatusEnum.SJCL.getCode() ||minValue==TaskStatusEnum.SJBG.getCode()){
@@ -297,11 +310,15 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 		}
 		if(ConstantUtil.FXRY_ROLE_NAME.equals(roleName)){
 			taskInfoExtend.setRwfpr(userId);
-			taskInfoExtend.setRwzt(taskStatus.getCode());
+			if(taskStatus!=null){
+				taskInfoExtend.setRwzt(taskStatus.getCode());
+			}
 			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(taskInfoExtend);
 		}else if(ConstantUtil.SHRY_ROLE_NAME.equals(roleName)){
 			taskInfoExtend.setRwshr(userId);
+			if(taskStatus!=null){
 			taskInfoExtend.setRwzt(taskStatus.getCode());
+			}
 			return taskInfoExtendMapper.selectDispalyTaskInfoByPermission(taskInfoExtend);
 		}else{
 			return taskInfoExtendMapper.selectDispalyTaskInfoByCondition(taskInfoExtend);
@@ -314,12 +331,13 @@ public class TaskInfoServiceImpl extends BaseService implements TaskInfoService{
 		if(taskInfo.getRwzt()!=TaskStatusEnum.QCL.getCode()){
 			throw new ServiceException("该任务已进入检测或检测后环节，无法删除，请重新确认！");
 		}
-		Integer notDclTaskDetailCount=taskInfoDetailExtendMapper.selectNotDclTask();
+		Integer notDclTaskDetailCount=taskInfoDetailExtendMapper.selectNotDclTask(wid);
 		if(notDclTaskDetailCount!=null && notDclTaskDetailCount>0){
 			throw new ServiceException("该任务的子任务中存在已进入检测或检测后环节，无法删除，请重新确认！");
 		}
 		taskInfo.setDatastatus(StringUtil.toStr(DataStatus.delete.getCode()));
-		taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+		//taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+		taskInfoMapper.deleteByPrimaryKey(wid);
 		taskInfoDetailExtendMapper.deleteTaskDetailByTaskId(wid);
 		
 	}

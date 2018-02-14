@@ -44,7 +44,7 @@
 		FXRY.WID
 		AND FXRY.DATASTATUS=1
 		LEFT JOIN t_contract_user_userinfo SHRY ON
-		t_contract_sjzd_fxxm.FXRY=
+		t_contract_sjzd_fxxm.SHRY=
 		SHRY.WID AND SHRY.DATASTATUS=1
 	</sql>
 	<sql id="sqlWhere">

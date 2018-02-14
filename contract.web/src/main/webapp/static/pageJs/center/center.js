@@ -20,7 +20,7 @@ $(document).ready(function(){
 						_tr+='<div class="item">';
 						_tr+='<div class="item-heading">';
 						_tr+='	<div class="pull-right">';
-						_tr+='<span class="text-muted">'+toStr(_data[i].createTime)+'</span> &nbsp;';
+						_tr+='<span class="text-muted">'+toStr(_data[i].beginTime)+'</span> &nbsp;';
 						_tr+='	</div>';
 						_tr+='	<h4>';
 						_tr+='		<a href="'+basePath+'/newsDetail/index?wid='+_data[i].wid+'">'+toStr(_data[i].name)+'</a>';

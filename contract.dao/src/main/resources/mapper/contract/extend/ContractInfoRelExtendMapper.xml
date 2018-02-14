@@ -21,7 +21,7 @@
   		</if>
   </sql>
   <delete id="deleteByCondition" parameterType="com.pope.contract.entity.contract.ContractInfoRel" >
-  	DELETE FROM t_contract_contract_batch_rel t_contract_contract_batch_rel
+  	DELETE FROM t_contract_contract_batch_rel 
   	<where>
   		<include refid="sqlWhere"/>
   	</where>

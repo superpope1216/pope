@@ -28,7 +28,9 @@ import com.pope.contract.dao.custom.CustomInfoMapper;
 import com.pope.contract.dao.custom.CustomMoneyLogMapper;
 import com.pope.contract.dao.custom.extend.CustomAccountExtendMapper;
 import com.pope.contract.dao.custom.extend.CustomInfoExtendMapper;
+import com.pope.contract.dao.project.BatchInfoDetailMapper;
 import com.pope.contract.dao.project.BatchInfoMapper;
+import com.pope.contract.dao.project.extend.BatchInfoDetailExtendMapper;
 import com.pope.contract.dao.project.extend.BatchInfoDetailFxxmExtendMapper;
 import com.pope.contract.dao.project.extend.BatchInfoExtendMapper;
 import com.pope.contract.dao.system.FxxmInfoMapper;
@@ -37,6 +39,7 @@ import com.pope.contract.entity.contract.ContractAdd;
 import com.pope.contract.entity.contract.ContractInfo;
 import com.pope.contract.entity.contract.ContractInfoRel;
 import com.pope.contract.entity.contract.ContractMoney;
+import com.pope.contract.entity.contract.MoneyBatchInfo;
 import com.pope.contract.entity.contract.extend.ContractInfoExtend;
 import com.pope.contract.entity.custom.CustomAccount;
 import com.pope.contract.entity.custom.CustomInfo;
@@ -44,7 +47,10 @@ import com.pope.contract.entity.custom.CustomMoneyLog;
 import com.pope.contract.entity.custom.extend.CustomAccountExtend;
 import com.pope.contract.entity.custom.extend.CustomInfoExtend;
 import com.pope.contract.entity.project.BatchInfo;
+import com.pope.contract.entity.project.BatchInfoDetail;
+import com.pope.contract.entity.project.extend.BatchInfoDetailFxxmExtend;
 import com.pope.contract.entity.project.extend.BatchInfoExtend;
+import com.pope.contract.entity.pxgl.PxglInfo;
 import com.pope.contract.entity.supply.GmbInfo;
 import com.pope.contract.entity.supply.SupplyTotalInfo;
 import com.pope.contract.entity.system.FlowSet;
@@ -57,6 +63,7 @@ import com.pope.contract.service.contract.ContractInfoService;
 import com.pope.contract.service.system.FlowSetDataService;
 import com.pope.contract.service.system.FlowSetService;
 import com.pope.contract.util.CommonUtil;
+import com.pope.contract.util.ConstantUtil;
 import com.pope.contract.util.DateUtil;
 import com.pope.contract.util.DecimalUtil;
 import com.pope.contract.util.StringUtil;
@@ -80,6 +87,9 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	
 	@Autowired
 	private ContractInfoRelExtendMapper contractInfoRelExtendMapper; 
+	
+	@Autowired
+	private BatchInfoDetailMapper batchInfoDetailMapper;
 	
 	@Autowired
 	private BatchInfoMapper batchInfoMappper;
@@ -111,6 +121,9 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	private FlowSetDataService flowSetDataService;
 	@Autowired
 	private FlowSetService flowSetService;
+	
+	@Autowired
+	private com.pope.contract.dao.contract.MoneyBatchInfoMapper moneyBatchInfoMapper;
 	@Override
 	public int deleteByPrimaryKey(String wid) throws Exception{
 		return contractInfoMapper.deleteByPrimaryKey(wid);
@@ -190,7 +203,8 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	}
 	
 	@Override
-	public void addFxxm(String htid,String pcid,String fxxms,String userId) throws Exception{
+	@Transactional
+	public void addFxxm(String htid,String fxxms,String userId) throws Exception{
 		if(StringUtils.isEmpty(fxxms)){
 			throw new ServiceException("请至少选择一个分析项目");
 		}
@@ -209,9 +223,11 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 		if(customAccount==null){
 			throw new ServiceException("合同的客户还没有账户信息，请重新确认！");
 		}
-		List<String> listFxxmId=StringUtil.str2List(fxxms);
+		List<String> listFxxmId=StringUtil.str2List(fxxms,";");
 		BigDecimal totalJe=contractInfo.getHtje();
-		for(String fxxm:listFxxmId){
+		for(String fxxmData:listFxxmId){
+			String fxxm=fxxmData.split(",")[1];
+			String pcid=fxxmData.split(",")[0];
 			//查询分析项目
 			FxxmInfo queryFxxmInfo=new FxxmInfo();
 			queryFxxmInfo.setLbdm(fxxm);
@@ -219,7 +235,21 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 			FxxmInfo fxxmInfo=fxxmInfoExtendMapper.selectSingleDisplayByCondition(queryFxxmInfo);
 			BigDecimal fxdj=fxxmInfo.getFxdj()==null?new BigDecimal("0"):fxxmInfo.getFxdj();
 			//查询批次对应的分析项个数
-			Integer fxxmCount=batchInfoDetailFxxmExtendMapper.selectFxxmCountByPcid(pcid, fxxm);
+			List<BatchInfoDetailFxxmExtend> fxxmListData=batchInfoDetailFxxmExtendMapper.selectFxxmDisplayByPcid(pcid, fxxm);
+			Integer fxxmCount=0;
+			if(CommonUtil.isNotEmptyList(fxxmListData)){
+				fxxmCount=fxxmListData.size();
+				for(BatchInfoDetailFxxmExtend batchInfoDetailFxxmExtend:fxxmListData){
+					//BatchInfoDetail batchInfoDetail=batchInfoDetailMapper.selectByPrimaryKey(batchInfoDetailFxxmExtend.getPwid());
+					MoneyBatchInfo moneyBatchInfo=new MoneyBatchInfo();
+					moneyBatchInfo.setWid(StringUtil.getUuId());
+					moneyBatchInfo.setHtId(htid);
+					moneyBatchInfo.setPcwid(pcid);
+					moneyBatchInfo.setDetailId(batchInfoDetailFxxmExtend.getPwid());
+					moneyBatchInfo.setDetailFxxmId(batchInfoDetailFxxmExtend.getWid());
+					moneyBatchInfoMapper.insertSelective(moneyBatchInfo);
+				}
+			}
 			fxxmCount=fxxmCount==null?0:fxxmCount;
 			//查询合同分析项信息
 			ContractMoney queryContractMoney=new ContractMoney();
@@ -344,15 +374,25 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 					
 					queryCustomAccountExtend.setCustomId(customInfo.getWid());
 					CustomAccount customAccount=customAccountExtendMapper.selectSingleByCondition(queryCustomAccountExtend);
-					customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),taskInfo.getHtje()));
+					if(taskInfo.getHtlx().equals(ConstantUtil.HTLX_WB)){
+						customAccount.setAccountMoney(DecimalUtil.add(customAccount.getAccountMoney(),taskInfo.getHtje()));
+					}else{
+						customAccount.setAccountMoney(DecimalUtil.sub(customAccount.getAccountMoney(),taskInfo.getHtje()));
+					}
+					
 					customAccountInfoMapper.updateByPrimaryKeySelective(customAccount);
 					
 					CustomMoneyLog customMoneyLog=new CustomMoneyLog();
 					customMoneyLog.setWid(StringUtil.getUuId());
-					customMoneyLog.setAccountNumber(customAccount.getAccountNumber());
+					customMoneyLog.setAccountId(customAccount.getWid());
 					customMoneyLog.setBankAccount(customAccount.getBankAccount());
 					customMoneyLog.setAccountMoney(customAccount.getAccountMoney());
-					customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),taskInfo.getHtje()));
+					if(taskInfo.getHtlx().equals(ConstantUtil.HTLX_WB)){
+						customMoneyLog.setBdMoney(taskInfo.getHtje());
+					}else{
+						customMoneyLog.setBdMoney(DecimalUtil.sub(DecimalUtil.toDecimal("0"),taskInfo.getHtje()));
+					}
+					
 					customMoneyLog.setCreateMan(userid);
 					customMoneyLog.setCreateTime(DateUtil.getCurrentDateTimeStr());
 					customMoneyLog.setCustomId(customInfo.getWid());
@@ -370,7 +410,12 @@ public class ContractInfoServiceImpl extends BaseService implements ContractInfo
 	@Override
 	public void examineNotPass(String wid, String userid) throws Exception {
 		// TODO Auto-generated method stub
-		
+		ContractInfo taskInfo=this.contractInfoMapper.selectByPrimaryKey(wid);
+		Integer currentStep=taskInfo.getCurrentstep();
+		taskInfo.setCurrentstep(-1);
+		taskInfo.setRwzt(StringUtil.toInt(FlowStateCode.BTG.getCode()));
+		saveFlowSetData(currentStep, wid, FlowStateCode.BTG, FlowSetCode.CONTRACT, userid,FlowStateCode.BTG.getMsg());
+		this.contractInfoMapper.updateByPrimaryKeySelective(taskInfo);
 	}
 
 	@Override

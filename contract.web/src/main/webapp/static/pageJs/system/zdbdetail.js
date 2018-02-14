@@ -64,6 +64,7 @@ $(document).ready(function(){
 			alert("请选择一个字典表！");
 			return;
 		} 
+		_validater.resetForm();
 		$("#zdbsForm")[0].reset();
 		$("#zdbsForm [name='wid']").val("");
 		$("#zdbsForm [name='tableName']").val(selectNodes[0].code);
@@ -109,6 +110,7 @@ $(document).ready(function(){
 			$("#mainTable").delegate("[data-option='editSjzd']","click",function(){
 				var key=$(this).attr("data-key");
 				$("#zdbsForm")[0].reset();
+				_validater.resetForm();
 				$("#zdbsForm [name='wid']").val(key);
 				doGet(basePath+"/zdbdetail/select","wid="+key+"&tableName="+tblName,function(data){
 					$("#zdbsForm [name='lbdm']").val(data.data.lbdm);

@@ -46,6 +46,9 @@
 		<result column="HBDW_DISPLAY" jdbcType="VARCHAR" property="hbdw_display" />
 		<result column="PCZT_DISPLAY" jdbcType="VARCHAR" property="pczt_display" />
 		<result column="SYDW_DISPLAY" jdbcType="VARCHAR" property="sydw_display" />
+		<result column="FXXMBH" jdbcType="VARCHAR" property="fxxmbh" />
+		<result column="YPSL" jdbcType="VARCHAR" property="ypsl" />
+		<result column="FXXM_DISPLAY" jdbcType="VARCHAR" property="fxxm_display" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		t_contract_pcgl_main.WID, t_contract_pcgl_main.PCLB,
@@ -84,7 +87,7 @@
 		T_CONTRACT_SJZD_PCZT ON
 		t_contract_pcgl_main.PCZT=T_CONTRACT_SJZD_PCZT.LBDM and
 		T_CONTRACT_SJZD_PCZT.status=1
-		
+
 		left join T_CONTRACT_CUSTOM_MAIN on
 		t_contract_pcgl_main.sydw=T_CONTRACT_CUSTOM_MAIN.CUSTOM_NUMBER and
 		T_CONTRACT_CUSTOM_MAIN.DATASTATUS=1
@@ -98,9 +101,10 @@
 				AND t_contract_pcgl_main.ypph=#{ypph,jdbcType=VARCHAR}
 			</if>
 			<if test="queryCondition!=null and queryCondition!=''">
-				AND ((syr LIKE CONCAT('%', #{queryCondition}, '%')) or 
+				AND ((syr LIKE CONCAT('%', #{queryCondition}, '%')) or
 				(YPPH LIKE CONCAT('%', #{queryCondition}, '%'))
-				or (PCMC LIKE CONCAT('%', #{queryCondition}, '%')))
+				or (PCMC LIKE
+				CONCAT('%', #{queryCondition}, '%')))
 			</if>
 		</where>
 	</sql>
@@ -123,12 +127,48 @@
 		<include refid="sqlWhere" />
 		<include refid="sqlOrder" />
 	</select>
+	<select id="selectFxxmByWids" resultMap="BaseResultDisplayMap">
+		SELECT t_contract_pcgl_main.*,D.LBMC as FXXM_DISPLAY,d.OrderBy FROM (
+		select t_contract_pcgl_main.*,C.FXXMBH,C.YPSL from
+		t_contract_pcgl_main
+		t_contract_pcgl_main,( select
+		e.pcwid,e.FXXMBH,count(0) AS YPSL FROM (SELECT A.PCWID,B.FXXMBH FROM
+		t_contract_pcgl_detail A LEFT JOIN t_contract_pcgl_detail_fxxm B
+		ON
+		A.WID=B.PWID WHERE B.WID NOT IN (SELECT DETAIL_FXXM_ID FROM t_contract_contract_money_batch)) E GROUP BY e.pcwid,e.fxxmbh) C WHERE
+		t_contract_pcgl_main.WID=C.PCWID
+		) t_contract_pcgl_main
+		LEFT JOIN t_contract_sjzd_fxxm D ON
+		t_contract_pcgl_main.FXXMBH=D.LBDM AND
+		D.STATUS='1'
+		WHERE 1=1
+		<if test="htid!=null and htid!=''">
+			and t_contract_pcgl_main.FXXMBH NOT IN (
+			SELECT T_CONTRACT_CONTRACT_ADD.FXXM FROM T_CONTRACT_CONTRACT_ADD
+			T_CONTRACT_CONTRACT_ADD
+			WHERE T_CONTRACT_CONTRACT_ADD.HTID=#{htid,jdbcType=VARCHAR})
+		</if>
+
+		<if test="wids!=null">
+			AND t_contract_pcgl_main.WID IN
+			<foreach collection="wids" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+
+		order by orderby,t_contract_pcgl_main.SYSJ
+	</select>
 	<select id="selectByWids" resultMap="BaseResultDisplayMap">
 		select
-		<include refid="Base_Column_List" />,
+		<include refid="Base_Column_List" />
+		,
 		T_CONTRACT_CUSTOM_MAIN.CUSTOM_NAME as SYDW_DISPLAY
-		from t_contract_pcgl_main t_contract_pcgl_main
-		left join T_CONTRACT_CUSTOM_MAIN on
+		from
+		t_contract_pcgl_main t_contract_pcgl_main
+		left join
+		T_CONTRACT_CUSTOM_MAIN on
 		t_contract_pcgl_main.sydw=T_CONTRACT_CUSTOM_MAIN.CUSTOM_NUMBER and
 		T_CONTRACT_CUSTOM_MAIN.DATASTATUS=1
 		<where>

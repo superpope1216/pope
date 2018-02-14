@@ -2,11 +2,11 @@ package com.pope.contract.entity.task;
 
 import java.io.Serializable;
 
-public class TaskInfo implements Serializable {
-	 /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+public class TaskInfo implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String wid;
 
@@ -48,7 +48,23 @@ public class TaskInfo implements Serializable {
 
     private Integer currentstep;
 
-    public String getWid() {
+    private String jcwcsj;
+
+    private String fxry;
+
+    private String shry;
+    
+    private String cjsj;
+
+    public String getCjsj() {
+		return cjsj;
+	}
+
+	public void setCjsj(String cjsj) {
+		this.cjsj = cjsj;
+	}
+
+	public String getWid() {
         return wid;
     }
 
@@ -206,5 +222,29 @@ public class TaskInfo implements Serializable {
 
     public void setCurrentstep(Integer currentstep) {
         this.currentstep = currentstep;
+    }
+
+    public String getJcwcsj() {
+        return jcwcsj;
+    }
+
+    public void setJcwcsj(String jcwcsj) {
+        this.jcwcsj = jcwcsj == null ? null : jcwcsj.trim();
+    }
+
+    public String getFxry() {
+        return fxry;
+    }
+
+    public void setFxry(String fxry) {
+        this.fxry = fxry == null ? null : fxry.trim();
+    }
+
+    public String getShry() {
+        return shry;
+    }
+
+    public void setShry(String shry) {
+        this.shry = shry == null ? null : shry.trim();
     }
 }

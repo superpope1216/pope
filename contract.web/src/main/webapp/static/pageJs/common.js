@@ -135,7 +135,7 @@ function confirm(msg,callBackFunc,yes,no){
  	        return false; 
  	    } 
  	  return true;
- 	}, "请填写正确的密码格式"); 
+ 	}, "请填写正确的密码格式(8到16位字符之间，必须包含大写或者小写字符)"); 
  
  
  

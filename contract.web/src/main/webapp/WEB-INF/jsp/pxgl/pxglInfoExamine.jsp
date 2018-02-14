@@ -29,18 +29,18 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="dshContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="mainTable">
 									<thead>
 										<tr>
-											<th class="text-center">培训类型</th>
-											<th class="text-center">培训名称</th>
-											<th class="text-center">培训人</th>
-											<th class="text-center">开始时间</th>
-											<th class="text-center">结束时间</th>
-											<th class="text-center">培训费用</th>
-											<th class="text-center">任务状态</th>
-											<th data-width="130px" class="text-center">操作</th>
+											<td class="text-center">培训类型</td>
+											<td class="text-center">培训名称</td>
+											<td class="text-center">培训人</td>
+											<td class="text-center">开始时间</td>
+											<td class="text-center">结束时间</td>
+											<td class="text-center">培训费用</td>
+											<td class="text-center">任务状态</td>
+											<td data-width="130px" class="text-center">操作</td>
 										</tr>
 									</thead>
 									<tbody id="tblTaskInfo">
@@ -52,17 +52,17 @@
 							</div>
 							<div class="tab-pane" id="jxzContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="jxzTable">
 									<thead>
 										<tr>
-											<th class="text-center">培训类型</th>
-											<th class="text-center">培训名称</th>
-											<th class="text-center">培训人</th>
-											<th class="text-center">开始时间</th>
-											<th class="text-center">结束时间</th>
-											<th class="text-center">培训费用</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">培训类型</td>
+											<td class="text-center">培训名称</td>
+											<td class="text-center">培训人</td>
+											<td class="text-center">开始时间</td>
+											<td class="text-center">结束时间</td>
+											<td class="text-center">培训费用</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblJxzTaskInfo">
@@ -74,17 +74,17 @@
 							</div>
 							<div class="tab-pane" id="ywcContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="ywcTable">
 									<thead>
 										<tr>
-											<th class="text-center">培训类型</th>
-											<th class="text-center">培训名称</th>
-											<th class="text-center">培训人</th>
-											<th class="text-center">开始时间</th>
-											<th class="text-center">结束时间</th>
-											<th class="text-center">培训费用</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">培训类型</td>
+											<td class="text-center">培训名称</td>
+											<td class="text-center">培训人</td>
+											<td class="text-center">开始时间</td>
+											<td class="text-center">结束时间</td>
+											<td class="text-center">培训费用</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblYwcTaskInfo">
@@ -96,17 +96,17 @@
 							</div>
 							<div class="tab-pane" id="shbtgContent">
 								<br>
-								<table class="table table-bordered datatable table-hover"
+								<table class="mainTable table-hover"
 									id="btgTable">
 									<thead>
 										<tr>
-											<th class="text-center">培训类型</th>
-											<th class="text-center">培训名称</th>
-											<th class="text-center">培训人</th>
-											<th class="text-center">开始时间</th>
-											<th class="text-center">结束时间</th>
-											<th class="text-center">培训费用</th>
-											<th class="text-center">任务状态</th>
+											<td class="text-center">培训类型</td>
+											<td class="text-center">培训名称</td>
+											<td class="text-center">培训人</td>
+											<td class="text-center">开始时间</td>
+											<td class="text-center">结束时间</td>
+											<td class="text-center">培训费用</td>
+											<td class="text-center">任务状态</td>
 										</tr>
 									</thead>
 									<tbody id="tblBtgTaskInfo">

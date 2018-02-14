@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pope.contract.code.Result;
 import com.pope.contract.entity.user.UserInfo;
 import com.pope.contract.entity.user.extend.UserInfoExtend;
+import com.pope.contract.exception.ServiceException;
 import com.pope.contract.service.user.UserInfoService;
 import com.pope.contract.web.BaseController;
 
@@ -42,6 +43,15 @@ public class PersonUserInfoController extends BaseController{
 		userInfo.setWid(this.getUserId());
 		userInfo.setGh(null);
 		userInfoService.updateByPrimaryKeySelective(userInfo);
+		return Result.success();
+	}
+	@RequestMapping("savePassword")
+	@ResponseBody
+	public Result savePassword(String oldPassword,String newPassword,String relPassword) throws Exception{
+		if(!newPassword.equals(relPassword)){
+			throw new ServiceException("新密码和确认密码不一致，请重新输入");
+		}
+		this.userInfoService.savePassword(this.getUserId(), oldPassword, newPassword);
 		return Result.success();
 	}
 	

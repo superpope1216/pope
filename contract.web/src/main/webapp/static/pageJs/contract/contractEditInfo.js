@@ -89,29 +89,30 @@ $(document).ready(function(){
 				var str="";
 				for(var i=0;i<_d.length;i++){
 					str+="<tr>";
-					str+='<td class="text-center"><input type="radio" data-option="radBatch" name="radBatch" value="'+_d[i].wid+'"></td>';
+					str+='<td class="text-center"><input type="checkbox" data-option="checkFxxd" name="checkFxxd" value="'+_d[i].wid+','+_d[i].fxxmbh+'"></td>';
 					str+='<td class="text-center">'+toStr(_d[i].ypph)+'</td>';
-					str+='<td class="text-center">'+toStr(_d[i].syr)+'</td>';
-					str+='<td class="text-center">'+toStr(_d[i].sydw_display)+'</td>';
+					str+='<td class="text-center">'+toStr(_d[i].ypsl)+'</td>';
+					str+='<td class="text-center">'+toStr(_d[i].fxxm_display)+'</td>';
 					str+="</tr>";
 				}
 				$("#tblBatchInfo").html(str);
 			}
-			$("#mainBatchTable").delegate("[data-option='radBatch']","click",function(){
-				var _key=$(this).val();
-				doGet(basePath+"/contractEditInfo/queryFxxmByBatchId","pcid="+_key+"&htid="+wid,function(data){
-					var str2="";
-					if(data && data){
-						for(var j=0;j<data.data.length;j++){
-						str2+="<tr>";
-						str2+='<td class="text-center"><input type="checkbox" data-option="checkFxxd"  value="'+data.data[j].lbdm+'"></td>';
-						str2+='<td class="text-center">'+data.data[j].lbmc+'</td>';
-						str2+="</tr>";
-						}
-					}
-					$("#tblFxxmDetailInfo").html(str2);
-				});
-			});
+//			
+//			$("#mainBatchTable").delegate("[data-option='radBatch']","click",function(){
+//				var _key=$(this).val();
+//				doGet(basePath+"/contractEditInfo/queryFxxmByBatchId","pcid="+_key+"&htid="+wid,function(data){
+//					var str2="";
+//					if(data && data){
+//						for(var j=0;j<data.data.length;j++){
+//						str2+="<tr>";
+//						str2+='<td class="text-center"><input type="checkbox" data-option="checkFxxd"  value="'+data.data[j].lbdm+'"></td>';
+//						str2+='<td class="text-center">'+data.data[j].lbmc+'</td>';
+//						str2+="</tr>";
+//						}
+//					}
+//					$("#tblFxxmDetailInfo").html(str2);
+//				});
+//			});
 		});
 	}
 	function queryFxxm(){
@@ -132,8 +133,8 @@ $(document).ready(function(){
 		$("#userForm [name='p_xmfzr']").html(toStr(data.xmfzr));
 		$("#userForm [name='htje']").val(toStr(data.htje));
 		$("#userForm [name='p_htje']").html(toStr(data.htje));
-		$("#userForm [name='htzk']").val(toStr(data.htzk));
-		//doGetSelect2("T_CONTRACT_SJZD_HTZK","#userForm [name='htzk']",data.htzk);
+		//$("#userForm [name='htzk']").val(toStr(data.htzk));
+		doGetSelect2("T_CONTRACT_SJZD_HTZK","#userForm [name='htzk']",data.htzk);
 		$("#userForm [name='htsj']").val(toStr(data.htsj));
 		$("#userForm [name='p_htsj']").html(toStr(data.htsj));
 		$("#userForm [name='htzxsj']").val(toStr(data.htzxsj));
@@ -145,13 +146,32 @@ $(document).ready(function(){
 	
 	$("#btnSave").click(function(){
 		if (_validater.form()) {
-			var url = basePath + "/contractEditInfo/saveContractInfo?pcids="+pcids;
+			
+				var url = basePath + "/contractEditInfo/saveContractInfo?pcids="+pcids;
+				var datas = $("#userForm").serializeArray();
+				doPost(url, datas, function(data) {
+					if (data && data.data) {
+						alert(data.msg);
+						window.location.href=basePath+"/contractEditInfo/index?wid="+data.data;
+					}
+				
+			});
+			
+		}pcids
+		
+	});
+	
+	$("#btnTish").click(function(){
+		if (_validater.form()) {
+			confirm("您确认该合同提交审核吗？",function(){
+			var url = basePath + "/contractEditInfo/submitContractInfo?pcids="+pcids;
 			var datas = $("#userForm").serializeArray();
 			doPost(url, datas, function(data) {
 				if (data && data.data) {
 					alert(data.msg);
-					window.location.href=basePath+"/contractEditInfo/index?wid="+data.data;
+					window.location.href=basePath+"/contractEditInfo/viewIndex?wid="+data.data;
 				}
+			});
 			});
 		}
 	});
@@ -161,26 +181,30 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var chkPc=$("#tblBatchInfo [name='radBatch']:checked");//选中的批次
-		var chkFxxm=$("#tblFxxmDetailInfo [data-option='checkFxxd']:checked");//选中的分析项目
+		var chkFxxm=$("#tblBatchInfo [name='checkFxxd']:checked");//选中的批次
+		//var chkFxxm=$("#tblFxxmDetailInfo [data-option='checkFxxd']:checked");//选中的分析项目
 		
 		if(chkFxxm.length<=0){
 			alert("请至少选择一个分析项目！");
 			return ;
 		}
-		var _selectPcId=chkPc[0].value;
+		$("#btnAddFxxm").attr("disabled",true);
+		//var _selectPcId=chkPc[0].value;
 		var _selectFxxmBh="";
 		for(var i=0;i<chkFxxm.length;i++){
-			_selectFxxmBh+=","+chkFxxm[i].value;
+			_selectFxxmBh+=";"+chkFxxm[i].value;
 		}
 		if(_selectFxxmBh){
 			_selectFxxmBh=_selectFxxmBh.substr(1);
 		}
 		
 		var url = basePath + "/contractEditInfo/addFxxm";
-		var datas ="htid="+wid+"&pcid="+_selectPcId+"&fxxms="+_selectFxxmBh;
+		var datas ="htid="+wid+"&fxxms="+_selectFxxmBh;
 		doPost(url, datas, function(data) {
-				window.location.reload();
+			$("#btnAddFxxm").attr("disabled",false);
+				//window.location.reload();
+			queryBatchInfo();
+			queryContractFxxm();
 		});
 	});
 	

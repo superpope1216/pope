@@ -29,6 +29,7 @@ $(document).ready(function(){
 			},
 		}
 	});
+	var _currentCustomId="";
 	setButtonsDisplay(buttonsPermission);
 	queryList();
 	$("#btnQuery").click(function(){
@@ -74,14 +75,17 @@ $(document).ready(function(){
 			});
 			$("#mainTable").delegate("[data-option='btnModify']","click",function(){
 				var key=$(this).attr("data-key");
+				_currentCustomId=key;
 				setForm(key);
 				$("#modelEdidCustomInfo").modal("show");
 			});
 			$("#mainTable").delegate("[data-option='btnDetail']","click",function(){
 				var key=$(this).attr("data-key");
-				//setForm(key);
-				//$("#modelEdidCustomInfo").modal("show");
-				window.location=basePath+"/customInfoDetail/index?wid="+key;
+				_currentCustomId=key;
+				setViewForm(key);
+				queryAccountList(key);
+				$("#modelViewCustomInfo").modal("show");
+				//window.location=basePath+"/customInfoDetail/index?wid="+key;
 			});
 			$("#mainTable").delegate("[data-option='btnDelete']","click",function(){
 				var key=$(this).attr("data-key");
@@ -96,22 +100,78 @@ $(document).ready(function(){
 		})
 	}
 	
+	function setAccountForm(_wid){
+		doGet(basePath+"/customAccount/edit","wid="+_wid,function(data){
+			$("#customAccountForm [name='wid']").val(data.data.wid);
+			$("#customAccountForm [name='dqbh']").val(data.data.dqbh);
+			$("#customAccountForm [name='accountNumber']").val(data.data.accountNumber);
+			$("#customAccountForm [name='customId']").val(data.data.customId);
+			$("#customAccountForm [name='bankAccount']").val(data.data.bankAccount);
+			$("#customAccountForm [name='accountMoney']").val(data.data.accountMoney);
+			$("#modelAddCustomAccountInfo").modal("show");
+		})
+	}
+	
 	$("#btnAdd").click(function(){
 		setForm("");
 		$("#modelEdidCustomInfo").modal("show");
 	});
 	
+	function queryAccountList(customId){
+		doGet(basePath+"/custom/accountList","customId="+customId,function(data){
+			if(data.data){
+				var _data=data.data;
+				var _tr="";;
+				for(var i=0;i<_data.length;i++){
+					_tr+='<tr>';
+					_tr+='<td class="text-center">'+toStr(_data[i].accountNumber)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].bankAccount)+'</td>';
+					_tr+='<td class="text-left">'+toStr(_data[i].accountMoney)+'</td>';
+					_tr+='<td class="text-center">';
+					_tr+='<div class="btn-group">';
+					if(buttonsPermission){
+						//if(buttonsPermission.indexOf(",btnDetail,")>=0){
+							_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnDetail" data-key="'+_data[i].wid+'">详</button>';
+						//}
+						//if(buttonsPermission.indexOf(",btnModify,")>=0){
+						_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-primary" data-option="btnModify" data-key="'+_data[i].wid+'">录</button>';
+						//}
+						//if(buttonsPermission.indexOf(",btnDelete,")>=0){
+						_tr+='<button type="button" style="margin-left:4px;" class="btn btn-xs btn-danger" data-option="btnDelete" data-key="'+_data[i].wid+'"><i class="icon icon-times"></i></button>';
+						//}
+					}
+					_tr+='</div>';
+					_tr+='</td>';
+					_tr+='</tr>';
+				}
+				$('#tblAccountInfo').html(_tr);
+			}
+//			pageHelper("#pageInfo",data.data.page-1,data.data.total,function(pageId){
+//				queryList(pageId);
+//			});
+			$("#mainAccountTable").delegate("[data-option='btnModify']","click",function(){
+				var key=$(this).attr("data-key");
+				setAccountForm(key);
+			});
+			$("#mainAccountTable").delegate("[data-option='btnDetail']","click",function(){
+				var key=$(this).attr("data-key");
+				window.location.href=basePath+"/customInfoDetail/index?wid="+key;
+			});
+			$("#mainAccountTable").delegate("[data-option='btnDelete']","click",function(){
+				var key=$(this).attr("data-key");
+				confirm("您确认删除该账户信息吗？",function(e){
+					doPost(basePath+"/customInfoDetail/deleteAccount","wid="+key,function(data){
+						alert("账户删除成功！");
+						queryAccountList(customId);
+						//window.location.reload();
+					});
+				});
+			});
+		})
+	}
+	
 	$("#btnAddAccount").click(function(){
-		var selectCustom=$("#tblUserInfo [name='chkSingle']:checked");
-		if(selectCustom.length<=0){
-			alert("请选择一条客户记录");
-			return false;	
-		}
-		if(selectCustom.length>1){
-			alert("每次只能创建一个客户账户");
-			return false;	
-		}
-		doGet(basePath+"/custom/addCustomAccount","customId="+selectCustom[0].value,function(data){
+		doGet(basePath+"/custom/addCustomAccount","customId="+$("#customViewForm [name='wid']").val(),function(data){
 			$("#customAccountForm [name='dqbh']").val(data.data.dqbh);
 			$("#customAccountForm [name='accountNumber']").val(data.data.accountNumber);
 			$("#customAccountForm [name='customId']").val(data.data.customId);
@@ -124,11 +184,29 @@ $(document).ready(function(){
 	$("#btnSaveCustomAccountInfo").click(function(){
 		if (_validater2.form()) {
 			doPost(basePath+"/custom/saveCustomAccount", $("#customAccountForm").serializeArray(),function(data){
-				window.location.href=basePath+"/customAccount/index";
+				//window.location.href=basePath+"/customAccount/index";
+				$("#modelAddCustomAccountInfo").modal("hide");
+				queryAccountList(_currentCustomId);
+				
 			});
 		}
 	})
 	
+	function setViewForm(_wid){
+		doGet(basePath+"/custom/view","wid="+_wid,function(data){
+			var _d=data.data;
+			$("#customViewForm [name='wid']").val(_d.wid);
+			$("#customViewForm [name='customName']").html(_d.customName);
+			$("#customViewForm [name='customNumber']").html(_d.customNumber);
+			$("#customViewForm [name='customType']").html(_d.customType_display);
+			$("#customViewForm [name='contractWay']").html(_d.contractWay);
+			$("#customViewForm [name='linkMan']").html(_d.linkMan);
+			$("#customViewForm [name='companyName']").html(_d.companyName);
+			$("#customViewForm [name='companyAddress']").html(_d.companyAddress);
+			$("#customViewForm [name='companyAccount']").html(_d.companyAccount);
+			$("#customViewForm [name='companyPreAccount']").html(_d.companyPreAccount);
+		})
+	}
 	function setForm(_wid){
 		doGet(basePath+"/custom/edit","wid="+_wid,function(data){
 			var _d=data.data;
@@ -148,6 +226,7 @@ $(document).ready(function(){
 	
 	$("#btnSaveCustomInfo").click(function(){
 		if (_validater.form()) {
+			$("#btnSaveCustomInfo").attr("disabled",true);
 			doPost(basePath+"/custom/save", $("#customForm").serializeArray(),function(data){
 				window.location.reload();
 			});

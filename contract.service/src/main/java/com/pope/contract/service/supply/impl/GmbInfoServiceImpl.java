@@ -68,13 +68,21 @@ public class GmbInfoServiceImpl extends BaseService implements GmbInfoService {
 	@Transactional
 	public int insert(GmbInfo record,String userId) throws Exception {
 		String wid = StringUtil.getUuId();
+		String currentStep="0",taskStatus=FlowStateCode.YJS.getCode();
+		
 		record.setUserid(userId);
 		record.setWid(wid);
 		FlowSet flowSet = flowSetService.selectNextStep(FlowSetCode.SUPPLY.getCode(), 0);
+		if(flowSet!=null){
+			currentStep=flowSet.getPx().toString();
+			taskStatus=FlowStateCode.DSH.getCode();
+		}
 		record.setSqsj(DateUtil.getCurrentDateStr());
-		record.setRwzt(StringUtil.toStr(FlowStateCode.DSH.getCode()));
-		record.setCurentstep(flowSet.getPx());
-		saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		record.setRwzt(taskStatus);
+		record.setCurentstep(StringUtil.toInt(currentStep));
+		if(flowSet!=null){
+			saveFlowSetData(flowSet.getPx(), wid, FlowStateCode.DSH, FlowSetCode.SUPPLY, userId,FlowStateCode.DSH.getMsg());
+		}
 		return gmbInfoMapper.insert(record);
 	}
 
