@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.MessageUserRelExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.MessageUserRel" 
+  extends="com.pope.contract.dao.system.MessageUserRelMapper.BaseResultMap">
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_contract_sys_messages_user.WID, t_contract_sys_messages_user.MESSAGE_ID, 
+    t_contract_sys_messages_user.USER_ID, t_contract_sys_messages_user.CREATE_TIME, 
+    t_contract_sys_messages_user.CREATE_MAN
+  </sql>
+  <sql id="sqlWhere">
+  	 	<if test='wid!=null and wid!=""'>
+  	 		AND t_contract_sys_messages_user.WID=#{wid,jdbcType=VARCHAR}
+  	 	</if>
+  	 	<if test='messageId!=null and messageId!=""'>
+  	 		AND t_contract_sys_messages_user.MESSAGE_ID=#{messageId,jdbcType=VARCHAR}
+  	 	</if>
+  	 	<if test='userId!=null and userId!=""'>
+  	 		AND t_contract_sys_messages_user.USER_ID=#{userId,jdbcType=VARCHAR}
+  	 	</if>
+  </sql>
+  <select id="selectByCondition"  parameterType="com.pope.contract.entity.system.MessageUserRel"  resultMap="BaseResultMap">
+  	SELECT
+  	<include refid="Base_Column_List"/>
+  	FROM t_contract_sys_messages_user
+  	<where>
+  		<include refid="sqlWhere"></include>
+  	</where>
+  </select>
+</mapper>

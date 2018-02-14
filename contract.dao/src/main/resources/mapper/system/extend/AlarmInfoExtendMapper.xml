@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.AlarmInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.AlarmInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="PERMISSION_ID" property="permissionId" jdbcType="VARCHAR" />
+    <result column="CUSTOM_ACCOUNT" property="customAccount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, PERMISSION_ID, CUSTOM_ACCOUNT
+  </sql>
+  <sql id="sqlWhere">
+  	<if test="wid!=null and wid!=''">
+  		AND WID=#{wid,jdbcType=VARCHAR}
+  	</if>
+  	<if test="permissionId!=null and permissionId!=''">
+  		AND PERMISSION_ID=#{permissionId,jdbcType=VARCHAR}
+  	</if>
+  </sql>
+  <select id="selectSingleByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_alarm
+    <where>
+    	<include refid="sqlWhere"/>
+    </where>
+    LIMIT 1
+  </select>
+  
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_alarm
+    <where>
+    	<include refid="sqlWhere"/>
+    </where>
+   
+  </select>
+   <select id="selectByRoles" resultMap="BaseResultMap" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_alarm
+   	where 1=1
+   	<if test="roles!=null">
+   		AND PERMISSION_ID IN
+   		<foreach collection="roles" index="index" item="item" close=")" open="(" separator=",">
+				#{item}
+		</foreach>
+   	</if>
+   
+  </select>
+  
+</mapper>

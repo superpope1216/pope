@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.AlarmInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.AlarmInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="PERMISSION_ID" property="permissionId" jdbcType="VARCHAR" />
+    <result column="CUSTOM_ACCOUNT" property="customAccount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, PERMISSION_ID, CUSTOM_ACCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_sys_alarm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_sys_alarm
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    insert into t_contract_sys_alarm (WID, PERMISSION_ID, CUSTOM_ACCOUNT
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}, #{customAccount,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    insert into t_contract_sys_alarm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="permissionId != null" >
+        PERMISSION_ID,
+      </if>
+      <if test="customAccount != null" >
+        CUSTOM_ACCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="customAccount != null" >
+        #{customAccount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    update t_contract_sys_alarm
+    <set >
+      <if test="permissionId != null" >
+        PERMISSION_ID = #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="customAccount != null" >
+        CUSTOM_ACCOUNT = #{customAccount,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.system.AlarmInfo" >
+    update t_contract_sys_alarm
+    set PERMISSION_ID = #{permissionId,jdbcType=VARCHAR},
+      CUSTOM_ACCOUNT = #{customAccount,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

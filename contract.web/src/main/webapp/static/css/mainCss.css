@@ -1,0 +1,148 @@
+@CHARSET "UTF-8";
+.mainTable{
+margin-left:-10px;
+margin-right:-10px;
+width:100%;
+}
+.mainTable{border-right:#D8DCF0 solid 1px;border-bottom:#D8DCF0 solid 1px} 
+.mainTable td{border-left:#D8DCF0 solid 1px;border-top:#D8DCF0 solid 1px;height:33px;} 
+.mainQueryTable{
+margin-left:-10px;
+margin-right:-10px;
+width:100%;
+}
+
+.mainQueryTable td{height:33px;} 
+
+
+.mainQueryTable select{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+.mainQueryTable textarea{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+.mainQueryTable input[type=text]{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+.mainTable thead tr td{
+	background: #F7F8FC;
+	font-size:13px;
+	font-weight: bold;
+}
+.mainTable select{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+.mainTable textarea{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+.mainTable input[type=text]{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+	border-radius:0px;
+	line-height:1.53846154;
+	display:block;	
+	background-color:#fff; 
+}
+
+.myrequrire{
+	color:red;
+}
+
+.tbl-four-edit-value{
+	font-size:12px;
+	width:15%;
+	
+}
+.td-left{
+	
+	text-align:left;
+}
+.span-left-border{
+	border-left:4px solid #3E50B4;
+	padding-left:3px;
+}
+.tbl-two-edit-value{
+	font-size:12px;
+	width:35%;
+}
+
+.tbl-two-text{
+	font-size:13px;
+	text-align: right;
+	font-weight: bold;
+	width:15%;
+	padding-right:5px;
+}
+
+
+.tbl-one-edit-value{
+	font-size:12px;
+	width:70%;
+}
+
+.tbl-one-text{
+	font-size:13px;
+	text-align: right;
+	font-weight: bold;
+	width:30%;
+	padding-right:5px;
+}
+
+.tbl-three-edit-value{
+	font-size:12px;
+	width:23%;
+}
+
+.tbl-three-text{
+	font-size:13px;
+	text-align: right;
+	font-weight: bold;
+	width:10%;
+	padding-right:5px;
+}
+
+
+.tbl-text{
+	font-size:13px;
+	text-align: right;
+	font-weight: bold;
+	width:10%;
+	padding-right:5px;
+}
+.tbl-value{
+	font-size:12px;
+	width:15%;
+	padding-left:5px;
+	
+}

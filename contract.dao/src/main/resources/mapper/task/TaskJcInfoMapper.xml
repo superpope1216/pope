@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.task.TaskJcInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.task.TaskJcInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="WTBH" property="wtbh" jdbcType="VARCHAR" />
+    <result column="JCYJ" property="jcyj" jdbcType="VARCHAR" />
+    <result column="LYR" property="lyr" jdbcType="VARCHAR" />
+    <result column="LYSJ" property="lysj" jdbcType="VARCHAR" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="TASKID" property="taskid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, WTBH, JCYJ, LYR, LYSJ, BZ, TASKID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_task_jcrwsqd
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_task_jcrwsqd
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.task.TaskJcInfo" >
+    insert into t_contract_task_jcrwsqd (WID, WTBH, JCYJ, 
+      LYR, LYSJ, BZ, TASKID
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{wtbh,jdbcType=VARCHAR}, #{jcyj,jdbcType=VARCHAR}, 
+      #{lyr,jdbcType=VARCHAR}, #{lysj,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{taskid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.task.TaskJcInfo" >
+    insert into t_contract_task_jcrwsqd
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="wtbh != null" >
+        WTBH,
+      </if>
+      <if test="jcyj != null" >
+        JCYJ,
+      </if>
+      <if test="lyr != null" >
+        LYR,
+      </if>
+      <if test="lysj != null" >
+        LYSJ,
+      </if>
+      <if test="bz != null" >
+        BZ,
+      </if>
+      <if test="taskid != null" >
+        TASKID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="wtbh != null" >
+        #{wtbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jcyj != null" >
+        #{jcyj,jdbcType=VARCHAR},
+      </if>
+      <if test="lyr != null" >
+        #{lyr,jdbcType=VARCHAR},
+      </if>
+      <if test="lysj != null" >
+        #{lysj,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.task.TaskJcInfo" >
+    update t_contract_task_jcrwsqd
+    <set >
+      <if test="wtbh != null" >
+        WTBH = #{wtbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jcyj != null" >
+        JCYJ = #{jcyj,jdbcType=VARCHAR},
+      </if>
+      <if test="lyr != null" >
+        LYR = #{lyr,jdbcType=VARCHAR},
+      </if>
+      <if test="lysj != null" >
+        LYSJ = #{lysj,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null" >
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null" >
+        TASKID = #{taskid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.task.TaskJcInfo" >
+    update t_contract_task_jcrwsqd
+    set WTBH = #{wtbh,jdbcType=VARCHAR},
+      JCYJ = #{jcyj,jdbcType=VARCHAR},
+      LYR = #{lyr,jdbcType=VARCHAR},
+      LYSJ = #{lysj,jdbcType=VARCHAR},
+      BZ = #{bz,jdbcType=VARCHAR},
+      TASKID = #{taskid,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

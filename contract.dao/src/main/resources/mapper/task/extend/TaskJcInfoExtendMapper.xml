@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.task.extend.TaskJcInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.task.TaskJcInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="WTBH" property="wtbh" jdbcType="VARCHAR" />
+    <result column="JCYJ" property="jcyj" jdbcType="VARCHAR" />
+    <result column="LYR" property="lyr" jdbcType="VARCHAR" />
+    <result column="LYSJ" property="lysj" jdbcType="VARCHAR" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="TASKID" property="taskid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, WTBH, JCYJ, LYR, LYSJ, BZ, TASKID
+  </sql>
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_task_jcrwsqd
+    where TASKID = #{taskid,jdbcType=VARCHAR}
+  </select>
+</mapper>

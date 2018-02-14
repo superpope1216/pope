@@ -1,0 +1,44 @@
+INSERT INTO `` VALUES ('103', '103', '已归档', 1, 6);
+
+DROP TABLE IF EXISTS `t_contract_sys_alarm`;
+CREATE TABLE `t_contract_sys_alarm` (
+  `WID` varchar(40) NOT NULL DEFAULT '',
+  `PERMISSION_ID` varchar(40) DEFAULT NULL,
+  `CUSTOM_ACCOUNT` varchar(4) DEFAULT NULL,
+  PRIMARY KEY (`WID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE OR REPLACE  VIEW V_CONTRACT_CUSTOM_MONEY_ALARM  AS
+SELECT '1' as type,A.WID,CONCAT(b.CUSTOM_NAME,'账户余额不足') as `NAME`,'1' AS MESSAGE_TYPE,CONCAT(b.CUSTOM_NAME,'账户',a.BANK_ACCOUNT,'余额为：', a.ACCOUNT_MONEY,'，请及时确认') as CONTENT,DATE_FORMAT(SYSDATE(),'%Y-%m-%d %H:%i:%s') as CREATE_TIME,'' AS MESSAGE_RECEIVE_DEPART,'' AS MESSAGE_RECEIVE_TEAM,'' AS MESSAGE_RECEIVE_MAN,'' as CREATE_MAN,'' as TASK_ID  FROM t_contract_custom_account A,t_contract_custom_main B WHERE A.CUSTOM_ID=B.WID and a.DATASTATUS='1' and b.DATASTATUS='1' 
+and a.ACCOUNT_MONEY<=0
+UNION ALL
+SELECT '2' as type,C.WID,C.`NAME`,C.MESSAGE_TYPE,C.CONTENT,C.CREATE_TIME,C.MESSAGE_RECEIVE_DEPART,C.MESSAGE_RECEIVE_TEAM,C.MESSAGE_RECEIVE_MAN,c.CREATE_MAN,c.TASK_ID FROM  t_contract_sys_messages C
+
+
+
+
+
+DROP TABLE IF EXISTS `t_contract_sys_alarm`;
+CREATE TABLE `t_contract_sys_alarm` (
+  `WID` varchar(40) NOT NULL DEFAULT '',
+  `PERMISSION_ID` varchar(40) DEFAULT NULL,
+  `CUSTOM_ACCOUNT` varchar(4) DEFAULT NULL,
+  PRIMARY KEY (`WID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `t_contract_sys_config`;
+CREATE TABLE `t_contract_sys_config` (
+  `WID` varchar(40) NOT NULL DEFAULT '',
+  `TYPE` varchar(40) DEFAULT NULL,
+  `CONTENT` varchar(100) DEFAULT NULL,
+  `SM` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`WID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_contract_sys_config
+-- ----------------------------
+INSERT INTO `t_contract_sys_config` VALUES ('1', '1', 'F:\\work', '检测报告路径');

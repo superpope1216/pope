@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.contract.MoneyBatchInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.contract.MoneyBatchInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="MONEY_ID" property="moneyId" jdbcType="VARCHAR" />
+    <result column="PCWID" property="pcwid" jdbcType="VARCHAR" />
+    <result column="DETAIL_ID" property="detailId" jdbcType="VARCHAR" />
+    <result column="DETAIL_FXXM_ID" property="detailFxxmId" jdbcType="VARCHAR" />
+    <result column="HT_ID" property="htId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, MONEY_ID, PCWID, DETAIL_ID, DETAIL_FXXM_ID, HT_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract_contract_money_batch
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_contract_contract_money_batch
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pope.contract.entity.contract.MoneyBatchInfo" >
+    insert into t_contract_contract_money_batch (WID, MONEY_ID, PCWID, 
+      DETAIL_ID, DETAIL_FXXM_ID, HT_ID
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{moneyId,jdbcType=VARCHAR}, #{pcwid,jdbcType=VARCHAR}, 
+      #{detailId,jdbcType=VARCHAR}, #{detailFxxmId,jdbcType=VARCHAR}, #{htId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pope.contract.entity.contract.MoneyBatchInfo" >
+    insert into t_contract_contract_money_batch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WID,
+      </if>
+      <if test="moneyId != null" >
+        MONEY_ID,
+      </if>
+      <if test="pcwid != null" >
+        PCWID,
+      </if>
+      <if test="detailId != null" >
+        DETAIL_ID,
+      </if>
+      <if test="detailFxxmId != null" >
+        DETAIL_FXXM_ID,
+      </if>
+      <if test="htId != null" >
+        HT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyId != null" >
+        #{moneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailId != null" >
+        #{detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailFxxmId != null" >
+        #{detailFxxmId,jdbcType=VARCHAR},
+      </if>
+      <if test="htId != null" >
+        #{htId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pope.contract.entity.contract.MoneyBatchInfo" >
+    update t_contract_contract_money_batch
+    <set >
+      <if test="moneyId != null" >
+        MONEY_ID = #{moneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="pcwid != null" >
+        PCWID = #{pcwid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailId != null" >
+        DETAIL_ID = #{detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailFxxmId != null" >
+        DETAIL_FXXM_ID = #{detailFxxmId,jdbcType=VARCHAR},
+      </if>
+      <if test="htId != null" >
+        HT_ID = #{htId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pope.contract.entity.contract.MoneyBatchInfo" >
+    update t_contract_contract_money_batch
+    set MONEY_ID = #{moneyId,jdbcType=VARCHAR},
+      PCWID = #{pcwid,jdbcType=VARCHAR},
+      DETAIL_ID = #{detailId,jdbcType=VARCHAR},
+      DETAIL_FXXM_ID = #{detailFxxmId,jdbcType=VARCHAR},
+      HT_ID = #{htId,jdbcType=VARCHAR}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

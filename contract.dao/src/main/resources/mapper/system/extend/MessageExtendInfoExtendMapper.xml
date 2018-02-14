@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pope.contract.dao.system.extend.MessageExtendInfoExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.pope.contract.entity.system.MessageExtendInfo" >
+    <id column="WID" property="wid" jdbcType="VARCHAR" />
+    <result column="BM" property="bm" jdbcType="VARCHAR" />
+    <result column="ME" property="me" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WID, BM, ME
+  </sql>
+  <delete id="deleteByPid">
+  		DELETE FROM t_contract_sys_message_extend where me=#{pid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertBatch" parameterType="java.util.List">
+  		insert into t_contract_sys_message_extend(wid,bm,me) values
+  	 <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.wid},#{item.bm},#{item.me})  
+    </foreach>
+  </insert>
+</mapper>
